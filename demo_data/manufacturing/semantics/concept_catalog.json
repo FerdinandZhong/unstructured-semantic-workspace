@@ -1,0 +1,139 @@
+{
+  "version": "0.1.0",
+  "scope": "demo_manufacturing",
+  "review_state": "authored_demo_candidate",
+  "concepts": [
+    {
+      "id": "urn:demo:manufacturing:concept:product_identifier",
+      "key": "product_identifier",
+      "label": "Product identifier",
+      "definition": "A product key interpreted within its source namespace.",
+      "kind": "identifier",
+      "target_definition": "Production.Product.ProductNumber",
+      "expected_relation": "identifier_binding",
+      "compatibility_rule": "Match the namespace and verified key, never name similarity alone.",
+      "review_state": "authored_demo_candidate"
+    },
+    {
+      "id": "urn:demo:manufacturing:concept:customer_identifier",
+      "key": "customer_identifier",
+      "label": "Customer account identifier",
+      "definition": "A customer account key interpreted within the source system.",
+      "kind": "identifier",
+      "target_definition": "Sales.Customer.CustomerID",
+      "expected_relation": "identifier_binding",
+      "compatibility_rule": "An organization name alone does not prove an account match.",
+      "review_state": "authored_demo_candidate"
+    },
+    {
+      "id": "urn:demo:manufacturing:concept:purchase_commitment",
+      "key": "purchase_commitment",
+      "label": "Minimum purchase commitment",
+      "definition": "A contract obligation to order at least a stated quantity of a specified product during a defined period.",
+      "kind": "obligation",
+      "target_definition": "Sales.SalesOrderDetail.OrderQty",
+      "expected_relation": "related_context",
+      "compatibility_rule": "An obligation is compared with actual ordered quantity; it is never an equivalent field.",
+      "review_state": "authored_demo_candidate"
+    },
+    {
+      "id": "urn:demo:manufacturing:concept:delivery_promise",
+      "key": "delivery_promise",
+      "label": "Promised delivery date",
+      "definition": "A date promised by a contract or amendment for delivery of a scoped order.",
+      "kind": "obligation",
+      "target_definition": "Sales.SalesOrderHeader.DueDate",
+      "expected_relation": "related_context",
+      "compatibility_rule": "An operational due date may differ; shipment does not establish delivery.",
+      "review_state": "authored_demo_candidate"
+    },
+    {
+      "id": "urn:demo:manufacturing:concept:supplier_lead_time_promise",
+      "key": "supplier_lead_time_promise",
+      "label": "Promised supplier lead time",
+      "definition": "Contractually promised elapsed days from the stated start event to receipt for a scoped supplier/product.",
+      "kind": "obligation",
+      "target_definition": "Purchasing.ProductVendor.AverageLeadTime",
+      "expected_relation": "related_context",
+      "compatibility_rule": "Promised duration is not the source historical average. Start/end events and calendar matter.",
+      "review_state": "authored_demo_candidate"
+    },
+    {
+      "id": "urn:demo:manufacturing:concept:scrap_quality_context",
+      "key": "scrap_quality_context",
+      "label": "Reported production scrap",
+      "definition": "A source reports scrapped quantity for a product/work order.",
+      "kind": "observation",
+      "target_definition": "Production.WorkOrder.ScrappedQty",
+      "expected_relation": "related_context",
+      "compatibility_rule": "No inference of defect rate, root cause or contractual acceptance without evidence.",
+      "review_state": "authored_demo_candidate"
+    },
+    {
+      "id": "urn:demo:manufacturing:concept:inventory_position",
+      "key": "inventory_position",
+      "label": "Reported inventory quantity",
+      "definition": "A source reports quantity at a product/location snapshot.",
+      "kind": "observation",
+      "target_definition": "Production.ProductInventory.Quantity",
+      "expected_relation": "related_context",
+      "compatibility_rule": "Confirm the same snapshot and location; do not equate with available-to-promise.",
+      "review_state": "authored_demo_candidate"
+    },
+    {
+      "id": "urn:demo:manufacturing:concept:warranty_duration",
+      "key": "warranty_duration",
+      "label": "Warranty duration",
+      "definition": "A promised warranty interval with a specified start event and exclusions.",
+      "kind": "obligation",
+      "target_definition": null,
+      "expected_relation": "unmapped",
+      "compatibility_rule": "No native warranty-duration field is established in this package.",
+      "review_state": "authored_demo_candidate"
+    },
+    {
+      "id": "urn:demo:manufacturing:concept:governing_law",
+      "key": "governing_law",
+      "label": "Governing law",
+      "definition": "The legal jurisdiction named by a contract clause.",
+      "kind": "contract_metadata",
+      "target_definition": null,
+      "expected_relation": "unmapped",
+      "compatibility_rule": "Do not force a geographic-address mapping.",
+      "review_state": "authored_demo_candidate"
+    },
+    {
+      "id": "urn:demo:manufacturing:concept:contract_effective_date",
+      "key": "contract_effective_date",
+      "label": "Contract effective date",
+      "definition": "Date from which a specified contract version applies.",
+      "kind": "contract_metadata",
+      "target_definition": null,
+      "expected_relation": "unmapped",
+      "compatibility_rule": "Do not equate with order date or a generic ModifiedDate.",
+      "review_state": "authored_demo_candidate"
+    },
+    {
+      "id": "urn:demo:manufacturing:concept:inspection_acceptance",
+      "key": "inspection_acceptance",
+      "label": "Inspection and acceptance condition",
+      "definition": "Conditions and evidence required for accepting supplied goods.",
+      "kind": "obligation",
+      "target_definition": null,
+      "expected_relation": "unmapped",
+      "compatibility_rule": "Scrap outcomes provide context only, not evidence of customer acceptance.",
+      "review_state": "authored_demo_candidate"
+    },
+    {
+      "id": "urn:demo:manufacturing:concept:supplier_identifier",
+      "key": "supplier_identifier",
+      "label": "Supplier identifier",
+      "definition": "An AdventureWorks vendor business-entity key in its declared source namespace.",
+      "kind": "identifier",
+      "target_definition": "Purchasing.Vendor.BusinessEntityID",
+      "expected_relation": "identifier_binding",
+      "compatibility_rule": "Supplier and customer roles stay distinct even when labels match.",
+      "review_state": "authored_demo_candidate"
+    }
+  ]
+}

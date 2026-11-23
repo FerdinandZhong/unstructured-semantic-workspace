@@ -1,0 +1,3 @@
+# Documentation site build only. The application has its own requirements.
+mkdocs-material==9.6.14
+jieba==0.42.1

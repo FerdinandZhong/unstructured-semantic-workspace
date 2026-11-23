@@ -1,0 +1,97 @@
+{
+  "documents": [
+    {
+      "id": "MFG-001",
+      "scope": "adventureworks_demo",
+      "entity_scope": "customer:29641",
+      "synthetic": true,
+      "revision": 1,
+      "effective_from": "2024-01-01",
+      "supersedes": null,
+      "primary_path": "documents/markdown/MFG-001.md",
+      "alternative_path": "documents/docx/MFG-001.docx",
+      "ingestion_rule": "Choose one representation per document ID; do not ingest both as separate sources.",
+      "sha256": "84c8ff19b4e1e8209fb2cee7aca1c37984273725c8087031d552db241f68b69f"
+    },
+    {
+      "id": "MFG-002",
+      "scope": "adventureworks_demo",
+      "entity_scope": "customer:29641",
+      "synthetic": true,
+      "revision": 1,
+      "effective_from": "2024-05-29",
+      "supersedes": null,
+      "primary_path": "documents/markdown/MFG-002.md",
+      "alternative_path": "documents/docx/MFG-002.docx",
+      "ingestion_rule": "Choose one representation per document ID; do not ingest both as separate sources.",
+      "sha256": "fe3e0908fad325d57bd41d717ba221255f6e97d053399963ff990768483a64d0"
+    },
+    {
+      "id": "MFG-003",
+      "scope": "adventureworks_demo",
+      "entity_scope": "customer:29641",
+      "synthetic": true,
+      "revision": 2,
+      "effective_from": "2024-05-30",
+      "supersedes": "MFG-002:delivery_promise",
+      "primary_path": "documents/markdown/MFG-003.md",
+      "alternative_path": "documents/docx/MFG-003.docx",
+      "ingestion_rule": "Choose one representation per document ID; do not ingest both as separate sources.",
+      "sha256": "aaf650fd425dc1042ff3a1f23bea34aaa7f2998271d8191a055581d5b38be758"
+    },
+    {
+      "id": "MFG-004",
+      "scope": "adventureworks_demo",
+      "entity_scope": "customer:29641",
+      "synthetic": true,
+      "revision": 1,
+      "effective_from": "2024-01-01",
+      "supersedes": null,
+      "primary_path": "documents/markdown/MFG-004.md",
+      "alternative_path": "documents/docx/MFG-004.docx",
+      "ingestion_rule": "Choose one representation per document ID; do not ingest both as separate sources.",
+      "sha256": "4c323e759505d3c7a8f8ff1402706c18f4ce9621a146f63fae59e6b62e5fd201"
+    },
+    {
+      "id": "MFG-005",
+      "scope": "adventureworks_demo",
+      "entity_scope": "customer:29641",
+      "synthetic": true,
+      "revision": 1,
+      "effective_from": "2024-01-01",
+      "supersedes": null,
+      "primary_path": "documents/markdown/MFG-005.md",
+      "alternative_path": "documents/docx/MFG-005.docx",
+      "ingestion_rule": "Choose one representation per document ID; do not ingest both as separate sources.",
+      "sha256": "f1b3f5b771161c1ee71db48154666f876312de54e64cb6acff8ce719e8e368f9"
+    },
+    {
+      "id": "MFG-006",
+      "scope": "adventureworks_demo",
+      "entity_scope": "vendor:1518",
+      "synthetic": true,
+      "revision": 1,
+      "effective_from": "2024-01-01",
+      "supersedes": null,
+      "primary_path": "documents/markdown/MFG-006.md",
+      "alternative_path": "documents/docx/MFG-006.docx",
+      "ingestion_rule": "Choose one representation per document ID; do not ingest both as separate sources.",
+      "sha256": "0713243443b326e86a03d95f5a92549a7c7b0cfca4a0b56a84224ece3354e820"
+    },
+    {
+      "id": "MFG-007",
+      "scope": "adventureworks_demo",
+      "entity_scope": "customer:29629",
+      "synthetic": true,
+      "revision": 1,
+      "effective_from": "2024-01-01",
+      "supersedes": null,
+      "primary_path": "documents/markdown/MFG-007.md",
+      "alternative_path": "documents/docx/MFG-007.docx",
+      "ingestion_rule": "Choose one representation per document ID; do not ingest both as separate sources.",
+      "sha256": "3845ac98e93a11e941d18b02f00fa37e3c7fa3ddd68189c442ad60b766171c8e"
+    }
+  ],
+  "rights": "New synthetic demo text authored for this project; source entity labels and keys derive from MIT-licensed Microsoft sample.",
+  "ingestion": "One format per document ID. No app upload performed."
+}

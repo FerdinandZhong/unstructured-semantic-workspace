@@ -1,0 +1,10 @@
+{
+ "model": "mistral-embed",
+ "dimension": 1024,
+ "recorded": "2026-11-22",
+ "count": 2403,
+ "spaces": [
+  "83b99054dd444ba93b36bb02c8c89c61b3268fa11f5c66baf48c7a85b1136422"
+ ],
+ "note": "Synthetic or public-licence demo text and Ossie definition text only."
+}

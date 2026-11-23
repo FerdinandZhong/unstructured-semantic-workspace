@@ -1,0 +1,16 @@
+.semantic-workspace-export
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv*/
+.DS_Store
+.env
+.env.*
+site/
+# Downloaded and rebuilt by cai/setup_environment.py (scripts/prepare_data.py, pinned Microsoft sample)
+demo_data/manufacturing/raw/
+demo_data/manufacturing/data/*
+!demo_data/manufacturing/data/native-documents/
+demo_data/manufacturing/data/native-documents/*.doc
+demo_data/manufacturing/documents/docx/
+docs/design/v2-workspace/app/node_modules/

@@ -1,0 +1,413 @@
+{
+  "financial-services": [
+    {
+      "key": "FIN-001",
+      "path": "demo_data/finance/documents/markdown/FIN-001.md",
+      "sha256": "e7b794bde23868d6c92ea24f84c1c46546ef5b8086b64e9340410a1d40c28942",
+      "kind": "synthetic-document",
+      "title": "Banking facility letter",
+      "label": "Synthetic",
+      "scope": "synthetic finance document pack",
+      "description": "Synthetic facility letter generated from workbook rows."
+    },
+    {
+      "key": "FIN-002",
+      "path": "demo_data/finance/documents/markdown/FIN-002.md",
+      "sha256": "ddd3fbe245c54165a72712d4a9eca6a01cf1e59cf89a4e0e451806c054fc16c0",
+      "kind": "synthetic-document",
+      "title": "Amendment to banking facility letter FIN-001",
+      "label": "Synthetic",
+      "scope": "synthetic finance document pack",
+      "description": "Synthetic facility letter amendment generated from workbook rows."
+    },
+    {
+      "key": "FIN-003",
+      "path": "demo_data/finance/documents/markdown/FIN-003.md",
+      "sha256": "e7f8427d074255c1b0583ec506c19a369fc5a22e1516305fa93609505e6c282e",
+      "kind": "synthetic-document",
+      "title": "Customer due-diligence review memo",
+      "label": "Synthetic",
+      "scope": "synthetic finance document pack",
+      "description": "Synthetic KYC review memo generated from workbook rows."
+    },
+    {
+      "key": "FIN-004",
+      "path": "demo_data/finance/documents/markdown/FIN-004.md",
+      "sha256": "2389e774d28436e851d8848c2528287476e48d996782248c51d71b84ab066214",
+      "kind": "synthetic-document",
+      "title": "Foreign exchange hedging term sheet",
+      "label": "Synthetic",
+      "scope": "synthetic finance document pack",
+      "description": "Synthetic FX hedging term sheet generated from workbook rows."
+    },
+    {
+      "key": "FIN-005",
+      "path": "demo_data/finance/documents/markdown/FIN-005.md",
+      "sha256": "d1f5ba4984989ee4352d7d82b2b560303e0b76cace565f4500c5daa8096b15d2",
+      "kind": "synthetic-document",
+      "title": "Relationship manager call note",
+      "label": "Synthetic",
+      "scope": "synthetic finance document pack",
+      "description": "Synthetic RM call note generated from workbook rows."
+    },
+    {
+      "key": "FIN-006",
+      "path": "demo_data/finance/documents/markdown/FIN-006.md",
+      "sha256": "3e5bab4d7fd3e9dc926e9851680afedf4a727d21fb765e3325d56015dd255700",
+      "kind": "synthetic-document",
+      "title": "Account-opening summary",
+      "label": "Synthetic",
+      "scope": "synthetic finance document pack",
+      "description": "Synthetic account-opening summary generated from workbook rows."
+    },
+    {
+      "key": "FIN-007",
+      "path": "demo_data/finance/documents/markdown/FIN-007.md",
+      "sha256": "38abc6b01c8758f00fcd5cc5b4b771eff34f5f74cebbab4af18cd227aec9d174",
+      "kind": "synthetic-document",
+      "title": "Corporate credit card programme agreement",
+      "label": "Synthetic",
+      "scope": "synthetic finance document pack",
+      "description": "Synthetic credit card programme agreement generated from workbook rows."
+    },
+    {
+      "key": "FIN-008",
+      "path": "demo_data/finance/documents/markdown/FIN-008.md",
+      "sha256": "7a6ba883a9488bc2e463a6ed2432c454c93f83dd2a73bfbd3d218a43538a30fe",
+      "kind": "synthetic-document",
+      "title": "Customer due-diligence review memo",
+      "label": "Synthetic",
+      "scope": "synthetic finance document pack",
+      "description": "Synthetic KYC review memo generated from workbook rows."
+    },
+    {
+      "key": "FIN-009",
+      "path": "demo_data/finance/documents/markdown/FIN-009.md",
+      "sha256": "f335cf2eb7c45d7faca62e4864f1d3516eb6973ffcf65de561034ca5dddf978a",
+      "kind": "synthetic-document",
+      "title": "Transaction-monitoring alert review memo",
+      "label": "Synthetic",
+      "scope": "synthetic finance document pack",
+      "description": "Synthetic alert review memo generated from workbook rows."
+    },
+    {
+      "key": "FIN-010",
+      "path": "demo_data/finance/documents/markdown/FIN-010.md",
+      "sha256": "fb6b3ee24d8bafc7b84d6e07028d5413c38c5710788ca5eb4f04a9b45ce21290",
+      "kind": "synthetic-document",
+      "title": "Covenant compliance certificate",
+      "label": "Synthetic",
+      "scope": "synthetic finance document pack",
+      "description": "Synthetic covenant compliance certificate generated from workbook rows."
+    },
+    {
+      "key": "FIN-011",
+      "path": "demo_data/finance/documents/markdown/FIN-011.md",
+      "sha256": "aa4b5cccd70340f767779164ce1aa124f130eb8cb1eb586027c510e8d15de728",
+      "kind": "synthetic-document",
+      "title": "Fee schedule letter",
+      "label": "Synthetic",
+      "scope": "synthetic finance document pack",
+      "description": "Synthetic fee schedule letter generated from workbook rows."
+    },
+    {
+      "key": "FIN-012",
+      "path": "demo_data/finance/documents/markdown/FIN-012.md",
+      "sha256": "ba7ad5ba760b7c8909794d13fb248320b76d1830d94648f7a2a56631d36134e2",
+      "kind": "synthetic-document",
+      "title": "Loan repayment schedule notice",
+      "label": "Synthetic",
+      "scope": "synthetic finance document pack",
+      "description": "Synthetic loan repayment notice generated from workbook rows."
+    },
+    {
+      "key": "sar-ahmad-bin-osman",
+      "path": "demo_data/preload/sar1536_SAR-AML202311000007_ahmad-bin-osman.md",
+      "sha256": "5536ee1fcc2d3812f5a785fbe478e79fce63d687ac5523da357bb5f3b9f948f5",
+      "kind": "synthetic-document",
+      "title": "Suspicious transaction report: AHMAD BIN OSMAN",
+      "label": "Synthetic",
+      "scope": "synthetic preload set",
+      "description": "Synthetic demonstration document exported from the V1 corpus."
+    },
+    {
+      "key": "adverse-raffles-holdings",
+      "path": "demo_data/preload/adverse1536_NEWS-CORP0001127_raffles-holdings-pte-ltd.md",
+      "sha256": "8ce6c990c5253f4b143b6a75089f75cc17349cca1ee62eb6546a28cba08ebd41",
+      "kind": "adverse-media",
+      "title": "RAFFLES HOLDINGS PTE LTD adverse-media report",
+      "label": "Synthetic",
+      "scope": "synthetic preload set",
+      "description": "Synthetic demonstration document exported from the V1 corpus."
+    },
+    {
+      "key": "adverse-pacific-foods",
+      "path": "demo_data/preload/adverse1536_NEWS-CORP0004965_pacific-foods-pte-ltd.md",
+      "sha256": "4091a641adb4aaa3efd3b3a7e2757cbe1d7b40f6eaa2d001947a05d20c73e330",
+      "kind": "adverse-media",
+      "title": "PACIFIC FOODS PTE LTD adverse-media report",
+      "label": "Synthetic",
+      "scope": "synthetic preload set",
+      "description": "Synthetic demonstration document exported from the V1 corpus."
+    },
+    {
+      "key": "adverse-straits-chemicals",
+      "path": "demo_data/preload/adverse1536_NEWS-CORP0005917_straits-chemicals-pte-ltd.md",
+      "sha256": "acd5252c586740a04d32cd53dc137578d967e4610fa568c0b2f104ecafa74b3f",
+      "kind": "adverse-media",
+      "title": "STRAITS CHEMICALS PTE LTD adverse-media report",
+      "label": "Synthetic",
+      "scope": "synthetic preload set",
+      "description": "Synthetic demonstration document exported from the V1 corpus."
+    },
+    {
+      "key": "public-singapore-export-review",
+      "path": "demo_data/public/docx_singapore_export_review.source.md",
+      "sha256": "e3e75a9849be28f5737b5b5c0112a5a51c0b123ab69ba4371e5bb5de748815ca",
+      "kind": "public-document",
+      "title": "Singapore export destinations review, 2010–2014",
+      "label": "Public",
+      "scope": "extraction_only",
+      "description": "Markdown source of a Word extraction demo built from a Wikimedia Commons chart. Not a customer record.",
+      "attribution": "Singapore exports 2010-2014 chart, Wikimedia Commons, CC BY-SA 4.0 (demo_data/SOURCES.md)"
+    }
+  ],
+  "manufacturing": [
+    {
+      "key": "MFG-101",
+      "path": "demo_data/manufacturing/documents/pack2/markdown/MFG-101.md",
+      "sha256": "f68a6a80d575e31d5488cdc5978ee307e15f4e076a26c2197835271c16be3477",
+      "kind": "synthetic-document",
+      "title": "Customer supply agreement",
+      "label": "Synthetic",
+      "scope": "synthetic manufacturing document pack",
+      "description": "Synthetic customer supply agreement generated from AdventureWorks rows."
+    },
+    {
+      "key": "MFG-102",
+      "path": "demo_data/manufacturing/documents/pack2/markdown/MFG-102.md",
+      "sha256": "94cf8dc6706a0672d917b1b56a4c40ddd66aa5f9536f7017f5c9757950ba51c3",
+      "kind": "synthetic-document",
+      "title": "Amendment to customer supply agreement MFG-101",
+      "label": "Synthetic",
+      "scope": "synthetic manufacturing document pack",
+      "description": "Synthetic supply agreement amendment generated from AdventureWorks rows."
+    },
+    {
+      "key": "MFG-103",
+      "path": "demo_data/manufacturing/documents/pack2/markdown/MFG-103.md",
+      "sha256": "3fd97ba200d1fdb508bc505379178579c78b0f9af4d8f05cec91f9ceede546c7",
+      "kind": "synthetic-document",
+      "title": "Purchase order confirmation",
+      "label": "Synthetic",
+      "scope": "synthetic manufacturing document pack",
+      "description": "Synthetic purchase order confirmation generated from AdventureWorks rows."
+    },
+    {
+      "key": "MFG-104",
+      "path": "demo_data/manufacturing/documents/pack2/markdown/MFG-104.md",
+      "sha256": "d4746e1b1e8751e5b4b875dd1f51f1609370e075eada7914f09a920731452716",
+      "kind": "synthetic-document",
+      "title": "Supplier performance scorecard",
+      "label": "Synthetic",
+      "scope": "synthetic manufacturing document pack",
+      "description": "Synthetic supplier scorecard generated from AdventureWorks rows."
+    },
+    {
+      "key": "MFG-105",
+      "path": "demo_data/manufacturing/documents/pack2/markdown/MFG-105.md",
+      "sha256": "924f97006d61ea193ba825768feac42bedb2fa43d3207b21a0658c42c45307e5",
+      "kind": "synthetic-document",
+      "title": "Vendor lead-time and minimum-order agreement",
+      "label": "Synthetic",
+      "scope": "synthetic manufacturing document pack",
+      "description": "Synthetic lead-time and minimum-order agreement generated from AdventureWorks rows."
+    },
+    {
+      "key": "MFG-106",
+      "path": "demo_data/manufacturing/documents/pack2/markdown/MFG-106.md",
+      "sha256": "ebb032fbf71e132be43d2cbff376481ffe090f73e2492bc67a7bca864bf122af",
+      "kind": "synthetic-document",
+      "title": "Production work-order summary with scrap",
+      "label": "Synthetic",
+      "scope": "synthetic manufacturing document pack",
+      "description": "Synthetic work-order summary generated from AdventureWorks rows."
+    },
+    {
+      "key": "MFG-107",
+      "path": "demo_data/manufacturing/documents/pack2/markdown/MFG-107.md",
+      "sha256": "f4d3cbecb22906b22cb179ecf61794d4474cb1e296104152f51b52799a189718",
+      "kind": "synthetic-document",
+      "title": "Quality inspection report",
+      "label": "Synthetic",
+      "scope": "synthetic manufacturing document pack",
+      "description": "Synthetic quality inspection report generated from AdventureWorks rows."
+    },
+    {
+      "key": "MFG-108",
+      "path": "demo_data/manufacturing/documents/pack2/markdown/MFG-108.md",
+      "sha256": "de3776016d5343fa00fb84ca690f9909abe5e978e56dd6f40f460d5947eba4d8",
+      "kind": "synthetic-document",
+      "title": "Bill-of-materials change notice",
+      "label": "Synthetic",
+      "scope": "synthetic manufacturing document pack",
+      "description": "Synthetic bill-of-materials change notice generated from AdventureWorks rows."
+    },
+    {
+      "key": "MFG-109",
+      "path": "demo_data/manufacturing/documents/pack2/markdown/MFG-109.md",
+      "sha256": "8480b13fc7c7f9dbc9258ee7d33bef9b9ca1ae69ec103633c791dfb1dde5e3a7",
+      "kind": "synthetic-document",
+      "title": "Product specification sheet",
+      "label": "Synthetic",
+      "scope": "synthetic manufacturing document pack",
+      "description": "Synthetic product specification sheet generated from AdventureWorks rows."
+    },
+    {
+      "key": "MFG-110",
+      "path": "demo_data/manufacturing/documents/pack2/markdown/MFG-110.md",
+      "sha256": "8bb6a1699bcb127d1037795f24649efd8d39cb6d6579e995c6ff4823d705ba9c",
+      "kind": "synthetic-document",
+      "title": "Shipment and delivery notice",
+      "label": "Synthetic",
+      "scope": "synthetic manufacturing document pack",
+      "description": "Synthetic shipment notice generated from AdventureWorks rows."
+    },
+    {
+      "key": "MFG-111",
+      "path": "demo_data/manufacturing/documents/pack2/markdown/MFG-111.md",
+      "sha256": "45801bc908600e5c4ebdbaa6dcf484ed19a033b04bed50f5e4ff6e16021fee63",
+      "kind": "synthetic-document",
+      "title": "Inventory count memo",
+      "label": "Synthetic",
+      "scope": "synthetic manufacturing document pack",
+      "description": "Synthetic inventory count memo generated from AdventureWorks rows."
+    },
+    {
+      "key": "MFG-112",
+      "path": "demo_data/manufacturing/documents/pack2/markdown/MFG-112.md",
+      "sha256": "e7c7b1cf1d9dd8157bcdd7d04fac1c3a183fcd446c65f181948c6ceefb70b9cf",
+      "kind": "synthetic-document",
+      "title": "Sales quotation",
+      "label": "Synthetic",
+      "scope": "synthetic manufacturing document pack",
+      "description": "Synthetic sales quotation generated from AdventureWorks rows."
+    },
+    {
+      "key": "MFG-113",
+      "path": "demo_data/manufacturing/documents/pack2/markdown/MFG-113.md",
+      "sha256": "325f1761e4513b0e8e92c30c962c3e1fd00c6aa37e3c94322c82e1db5c3131e0",
+      "kind": "synthetic-document",
+      "title": "Warranty claim note",
+      "label": "Synthetic",
+      "scope": "synthetic manufacturing document pack",
+      "description": "Synthetic warranty claim note generated from AdventureWorks rows."
+    },
+    {
+      "key": "MFG-114",
+      "path": "demo_data/manufacturing/documents/pack2/markdown/MFG-114.md",
+      "sha256": "9b8c35eaf4af5c127767279c5cb1f304758259350a4bb13cce5bf4ec2c106484",
+      "kind": "synthetic-document",
+      "title": "Sales quotation",
+      "label": "Synthetic",
+      "scope": "synthetic manufacturing document pack",
+      "description": "Synthetic sales quotation generated from AdventureWorks rows."
+    },
+    {
+      "key": "doc-5AC0",
+      "path": "demo_data/manufacturing/data/native-documents/5AC0.txt",
+      "sha256": "211832fb22f809cb282485f823b75301914374d4745bb5a9a64e5fe4dd2adfaa",
+      "kind": "public-document",
+      "title": "Introduction 1",
+      "label": "Public sample",
+      "scope": "extraction_only",
+      "local_only": true,
+      "description": "Text converted from a public AdventureWorks sample document. Not human reviewed.",
+      "attribution": "Microsoft AdventureWorks sample, MIT licence (demo_data/manufacturing/LICENSE-MICROSOFT.txt)"
+    },
+    {
+      "key": "doc-5B40",
+      "path": "demo_data/manufacturing/data/native-documents/5B40.txt",
+      "sha256": "fe871db6a3464322189e36b66b86088562a5681fe7b7b21d49c4d292f33f9597",
+      "kind": "public-document",
+      "title": "Repair and Service Guidelines",
+      "label": "Public sample",
+      "scope": "extraction_only",
+      "local_only": true,
+      "description": "Text converted from a public AdventureWorks sample document. Not human reviewed.",
+      "attribution": "Microsoft AdventureWorks sample, MIT licence (demo_data/manufacturing/LICENSE-MICROSOFT.txt)"
+    },
+    {
+      "key": "doc-6AC0",
+      "path": "demo_data/manufacturing/data/native-documents/6AC0.txt",
+      "sha256": "e8c477821d2a60e19f4d795baf1890cb4c803d0f9e597dd8200fe01818cccac3",
+      "kind": "public-document",
+      "title": "Crank Arm and Tire Maintenance",
+      "label": "Public sample",
+      "scope": "extraction_only",
+      "local_only": true,
+      "description": "Text converted from a public AdventureWorks sample document. Not human reviewed.",
+      "attribution": "Microsoft AdventureWorks sample, MIT licence (demo_data/manufacturing/LICENSE-MICROSOFT.txt)"
+    },
+    {
+      "key": "doc-6B40",
+      "path": "demo_data/manufacturing/data/native-documents/6B40.txt",
+      "sha256": "d05c3b19f31b21f3d7ef761e5eb3ce1aac1f22dfc67348b5065563e7ace6f4b4",
+      "kind": "public-document",
+      "title": "Lubrication Maintenance",
+      "label": "Public sample",
+      "scope": "extraction_only",
+      "local_only": true,
+      "description": "Text converted from a public AdventureWorks sample document. Not human reviewed.",
+      "attribution": "Microsoft AdventureWorks sample, MIT licence (demo_data/manufacturing/LICENSE-MICROSOFT.txt)"
+    },
+    {
+      "key": "doc-7AC0",
+      "path": "demo_data/manufacturing/data/native-documents/7AC0.txt",
+      "sha256": "53500953c4a6c4baf7acbd587efee573e83b223e29a1152556fd0e8312214dbb",
+      "kind": "public-document",
+      "title": "Front Reflector Bracket and Reflector Assembly 3",
+      "label": "Public sample",
+      "scope": "extraction_only",
+      "local_only": true,
+      "description": "Text converted from a public AdventureWorks sample document. Not human reviewed.",
+      "attribution": "Microsoft AdventureWorks sample, MIT licence (demo_data/manufacturing/LICENSE-MICROSOFT.txt)"
+    },
+    {
+      "key": "doc-7B40",
+      "path": "demo_data/manufacturing/data/native-documents/7B40.txt",
+      "sha256": "836d293997d80b1c4de0474e301b448d04062dca4618f25fc5491df285087eb8",
+      "kind": "public-document",
+      "title": "Front Reflector Bracket Installation",
+      "label": "Public sample",
+      "scope": "extraction_only",
+      "local_only": true,
+      "description": "Text converted from a public AdventureWorks sample document. Not human reviewed.",
+      "attribution": "Microsoft AdventureWorks sample, MIT licence (demo_data/manufacturing/LICENSE-MICROSOFT.txt)"
+    },
+    {
+      "key": "doc-7BC0",
+      "path": "demo_data/manufacturing/data/native-documents/7BC0.txt",
+      "sha256": "f763716f9c3b63079e0b6031dd4b85d6a121169a56fcb3b488b905e76126f15f",
+      "kind": "public-document",
+      "title": "Installing Replacement Pedals",
+      "label": "Public sample",
+      "scope": "extraction_only",
+      "local_only": true,
+      "description": "Text converted from a public AdventureWorks sample document. Not human reviewed.",
+      "attribution": "Microsoft AdventureWorks sample, MIT licence (demo_data/manufacturing/LICENSE-MICROSOFT.txt)"
+    },
+    {
+      "key": "doc-7C20",
+      "path": "demo_data/manufacturing/data/native-documents/7C20.txt",
+      "sha256": "b9fbde372b1e94695ad75fe7f84f7390b9ca8d163d90080ad003195f0f832d6c",
+      "kind": "public-document",
+      "title": "Seat Assembly",
+      "label": "Public sample",
+      "scope": "extraction_only",
+      "local_only": true,
+      "description": "Text converted from a public AdventureWorks sample document. Not human reviewed.",
+      "attribution": "Microsoft AdventureWorks sample, MIT licence (demo_data/manufacturing/LICENSE-MICROSOFT.txt)"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+% Sources: P2i (controller pack check, 2026-11-22) and qualification/outputA-v4-2026-11-22/*.json.
+% Default row: E24 / qualification/search-verification-2026-11-21 (as recorded in P2i).
+% Note: the manufacturing "+5 candidates" precision is 0.819 in e2e_pack_manufacturing_two_step_x5.json; P2i records 0.83 (canonical 0.829). The file value is used.
+\begin{table}[H]
+\centering\small
+\caption{Output A switches tried and rejected. Synthetic packs, second use (development data). Precision / recall / false-link rate. \texttt{interp-v4} adds two rules for commitment wording; ``+5 candidates'' widens the shortlist by five retrieval candidates.}
+\label{tab:outputA-switches}
+\begin{tabular}{lcc}
+\toprule
+Setting & Finance pack & Manufacturing pack\\\midrule
+Default (\texttt{interp-v3}, shortlist only) & \textbf{0.73} / \textbf{0.59} / \textbf{0.03} & \textbf{0.90} / 0.62 / \textbf{0.015}\\
+\texttt{interp-v4} & 0.62 / 0.57 / 0.10 & 0.83 / \textbf{0.63} / 0.04\\
+Shortlist + 5 candidates & 0.62 / 0.53 / 0.10 & 0.82 / 0.60 / 0.07\\
+\bottomrule
+\end{tabular}
+\end{table}

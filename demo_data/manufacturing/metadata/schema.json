@@ -1,0 +1,2544 @@
+{
+  "source_commit": "8fe3fd0c9a825fef3ae6d601e97537b612d7b214",
+  "source_type_aliases": {
+    "Name": "nvarchar(50)",
+    "Flag": "bit",
+    "AccountNumber": "nvarchar(15)",
+    "OrderNumber": "nvarchar(25)",
+    "Phone": "nvarchar(25)"
+  },
+  "tables": [
+    {
+      "name": "Person.Address",
+      "sqlite_name": "Person_Address",
+      "columns": [
+        {
+          "name": "AddressID",
+          "source_type": "int",
+          "nullable": false,
+          "description": "Primary key for Address records.",
+          "sqlite_type": "INTEGER"
+        },
+        {
+          "name": "AddressLine1",
+          "source_type": "nvarchar(60)",
+          "nullable": false,
+          "description": "First street address line.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "AddressLine2",
+          "source_type": "nvarchar(60)",
+          "nullable": true,
+          "description": "Second street address line.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "City",
+          "source_type": "nvarchar(30)",
+          "nullable": false,
+          "description": "Name of the city.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "StateProvinceID",
+          "source_type": "int",
+          "nullable": false,
+          "description": "Unique identification number for the state or province. Foreign key to StateProvince table.",
+          "sqlite_type": "INTEGER"
+        },
+        {
+          "name": "PostalCode",
+          "source_type": "nvarchar(15)",
+          "nullable": false,
+          "description": "Postal code for the street address.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "SpatialLocation",
+          "source_type": "geography",
+          "nullable": true,
+          "description": "Latitude and longitude of this address.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "rowguid",
+          "source_type": "uniqueidentifier",
+          "nullable": false,
+          "description": "ROWGUIDCOL number uniquely identifying the record. Used to support a merge replication sample.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "ModifiedDate",
+          "source_type": "datetime",
+          "nullable": false,
+          "description": "Date and time the record was last updated.",
+          "sqlite_type": "TEXT"
+        }
+      ],
+      "computed_columns_snapshotted": [],
+      "primary_key": [
+        "AddressID"
+      ],
+      "field_delimiter": "\t",
+      "record_delimiter": "\n",
+      "description": "Street address information for customers, employees, and vendors."
+    },
+    {
+      "name": "Production.BillOfMaterials",
+      "sqlite_name": "Production_BillOfMaterials",
+      "columns": [
+        {
+          "name": "BillOfMaterialsID",
+          "source_type": "int",
+          "nullable": false,
+          "description": "Primary key for BillOfMaterials records.",
+          "sqlite_type": "INTEGER"
+        },
+        {
+          "name": "ProductAssemblyID",
+          "source_type": "int",
+          "nullable": true,
+          "description": "Parent product identification number. Foreign key to Product.ProductID.",
+          "sqlite_type": "INTEGER"
+        },
+        {
+          "name": "ComponentID",
+          "source_type": "int",
+          "nullable": false,
+          "description": "Component identification number. Foreign key to Product.ProductID.",
+          "sqlite_type": "INTEGER"
+        },
+        {
+          "name": "StartDate",
+          "source_type": "datetime",
+          "nullable": false,
+          "description": "Date the component started being used in the assembly item.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "EndDate",
+          "source_type": "datetime",
+          "nullable": true,
+          "description": "Date the component stopped being used in the assembly item.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "UnitMeasureCode",
+          "source_type": "nchar(3)",
+          "nullable": false,
+          "description": "Standard code identifying the unit of measure for the quantity.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "BOMLevel",
+          "source_type": "smallint",
+          "nullable": false,
+          "description": "Indicates the depth the component is from its parent (AssemblyID).",
+          "sqlite_type": "INTEGER"
+        },
+        {
+          "name": "PerAssemblyQty",
+          "source_type": "decimal(8, 2)",
+          "nullable": false,
+          "description": "Quantity of the component needed to create the assembly.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "ModifiedDate",
+          "source_type": "datetime",
+          "nullable": false,
+          "description": "Date and time the record was last updated.",
+          "sqlite_type": "TEXT"
+        }
+      ],
+      "computed_columns_snapshotted": [],
+      "primary_key": [
+        "BillOfMaterialsID"
+      ],
+      "field_delimiter": "\t",
+      "record_delimiter": "\n",
+      "description": "Items required to make bicycles and bicycle subassemblies. It identifies the heirarchical relationship between a parent product and its components."
+    },
+    {
+      "name": "Person.BusinessEntity",
+      "sqlite_name": "Person_BusinessEntity",
+      "columns": [
+        {
+          "name": "BusinessEntityID",
+          "source_type": "int",
+          "nullable": false,
+          "description": "Primary key for all customers, vendors, and employees.",
+          "sqlite_type": "INTEGER"
+        },
+        {
+          "name": "rowguid",
+          "source_type": "uniqueidentifier",
+          "nullable": false,
+          "description": "ROWGUIDCOL number uniquely identifying the record. Used to support a merge replication sample.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "ModifiedDate",
+          "source_type": "datetime",
+          "nullable": false,
+          "description": "Date and time the record was last updated.",
+          "sqlite_type": "TEXT"
+        }
+      ],
+      "computed_columns_snapshotted": [],
+      "primary_key": [
+        "BusinessEntityID"
+      ],
+      "field_delimiter": "+|",
+      "record_delimiter": "&|\n",
+      "description": "Source of the ID that connects vendors, customers, and employees with address and contact information."
+    },
+    {
+      "name": "Sales.Customer",
+      "sqlite_name": "Sales_Customer",
+      "columns": [
+        {
+          "name": "CustomerID",
+          "source_type": "int",
+          "nullable": false,
+          "description": "Primary key.",
+          "sqlite_type": "INTEGER"
+        },
+        {
+          "name": "PersonID",
+          "source_type": "int",
+          "nullable": true,
+          "description": "Foreign key to Person.BusinessEntityID",
+          "sqlite_type": "INTEGER"
+        },
+        {
+          "name": "StoreID",
+          "source_type": "int",
+          "nullable": true,
+          "description": "Foreign key to Store.BusinessEntityID",
+          "sqlite_type": "INTEGER"
+        },
+        {
+          "name": "TerritoryID",
+          "source_type": "int",
+          "nullable": true,
+          "description": "ID of the territory in which the customer is located. Foreign key to SalesTerritory.SalesTerritoryID.",
+          "sqlite_type": "INTEGER"
+        },
+        {
+          "name": "AccountNumber",
+          "source_type": "nvarchar",
+          "nullable": true,
+          "description": "Unique number identifying the customer assigned by the accounting system.",
+          "source_computed_expression": "AS ISNULL('AW' + [dbo].[ufnLeadingZeros](CustomerID), '')",
+          "projection": "source export snapshot; not recomputed",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "rowguid",
+          "source_type": "uniqueidentifier",
+          "nullable": false,
+          "description": "ROWGUIDCOL number uniquely identifying the record. Used to support a merge replication sample.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "ModifiedDate",
+          "source_type": "datetime",
+          "nullable": false,
+          "description": "Date and time the record was last updated.",
+          "sqlite_type": "TEXT"
+        }
+      ],
+      "computed_columns_snapshotted": [
+        {
+          "name": "AccountNumber",
+          "expression": "AS ISNULL('AW' + [dbo].[ufnLeadingZeros](CustomerID), '')"
+        }
+      ],
+      "primary_key": [
+        "CustomerID"
+      ],
+      "field_delimiter": "\t",
+      "record_delimiter": "\n",
+      "description": "Current customer information. Also see the Person and Store tables."
+    },
+    {
+      "name": "Production.Document",
+      "sqlite_name": "Production_Document",
+      "columns": [
+        {
+          "name": "DocumentNode",
+          "source_type": "hierarchyid",
+          "nullable": false,
+          "description": "Primary key for Document records.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "DocumentLevel",
+          "source_type": "int",
+          "nullable": true,
+          "description": "Depth in the document hierarchy.",
+          "source_computed_expression": "AS DocumentNode.GetLevel()",
+          "projection": "source export snapshot; not recomputed",
+          "sqlite_type": "INTEGER"
+        },
+        {
+          "name": "Title",
+          "source_type": "nvarchar(50)",
+          "nullable": false,
+          "description": "Title of the document.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "Owner",
+          "source_type": "int",
+          "nullable": false,
+          "description": "Employee who controls the document.  Foreign key to Employee.BusinessEntityID",
+          "sqlite_type": "INTEGER"
+        },
+        {
+          "name": "FolderFlag",
+          "source_type": "bit",
+          "nullable": false,
+          "description": "0 = This is a folder, 1 = This is a document.",
+          "sqlite_type": "INTEGER"
+        },
+        {
+          "name": "FileName",
+          "source_type": "nvarchar(400)",
+          "nullable": false,
+          "description": "File name of the document",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "FileExtension",
+          "source_type": "nvarchar(8)",
+          "nullable": false,
+          "description": "File extension indicating the document type. For example, .doc or .txt.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "Revision",
+          "source_type": "nchar(5)",
+          "nullable": false,
+          "description": "Revision number of the document. ",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "ChangeNumber",
+          "source_type": "int",
+          "nullable": false,
+          "description": "Engineering change approval number.",
+          "sqlite_type": "INTEGER"
+        },
+        {
+          "name": "Status",
+          "source_type": "tinyint",
+          "nullable": false,
+          "description": "1 = Pending approval, 2 = Approved, 3 = Obsolete",
+          "sqlite_type": "INTEGER"
+        },
+        {
+          "name": "DocumentSummary",
+          "source_type": "nvarchar(max)",
+          "nullable": true,
+          "description": "Document abstract.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "Document",
+          "source_type": "varbinary(max)",
+          "nullable": true,
+          "description": "Complete document.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "rowguid",
+          "source_type": "uniqueidentifier",
+          "nullable": false,
+          "description": "ROWGUIDCOL number uniquely identifying the record. Required for FileStream.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "ModifiedDate",
+          "source_type": "datetime",
+          "nullable": false,
+          "description": "Date and time the record was last updated.",
+          "sqlite_type": "TEXT"
+        }
+      ],
+      "computed_columns_snapshotted": [
+        {
+          "name": "DocumentLevel",
+          "expression": "AS DocumentNode.GetLevel()"
+        }
+      ],
+      "primary_key": [
+        "DocumentNode"
+      ],
+      "field_delimiter": "+|",
+      "record_delimiter": "&|\n",
+      "description": "Product maintenance documents."
+    },
+    {
+      "name": "Production.Location",
+      "sqlite_name": "Production_Location",
+      "columns": [
+        {
+          "name": "LocationID",
+          "source_type": "smallint",
+          "nullable": false,
+          "description": "Primary key for Location records.",
+          "sqlite_type": "INTEGER"
+        },
+        {
+          "name": "Name",
+          "source_type": "Name",
+          "nullable": false,
+          "description": "Location description.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "CostRate",
+          "source_type": "smallmoney",
+          "nullable": false,
+          "description": "Standard hourly cost of the manufacturing location.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "Availability",
+          "source_type": "decimal(8, 2)",
+          "nullable": false,
+          "description": "Work capacity (in hours) of the manufacturing location.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "ModifiedDate",
+          "source_type": "datetime",
+          "nullable": false,
+          "description": "Date and time the record was last updated.",
+          "sqlite_type": "TEXT"
+        }
+      ],
+      "computed_columns_snapshotted": [],
+      "primary_key": [
+        "LocationID"
+      ],
+      "field_delimiter": "\t",
+      "record_delimiter": "\n",
+      "description": "Product inventory and manufacturing locations."
+    },
+    {
+      "name": "Person.Person",
+      "sqlite_name": "Person_Person",
+      "columns": [
+        {
+          "name": "BusinessEntityID",
+          "source_type": "int",
+          "nullable": false,
+          "description": "Primary key for Person records.",
+          "sqlite_type": "INTEGER"
+        },
+        {
+          "name": "PersonType",
+          "source_type": "nchar(2)",
+          "nullable": false,
+          "description": "Primary type of person: SC = Store Contact, IN = Individual (retail) customer, SP = Sales person, EM = Employee (non-sales), VC = Vendor contact, GC = General contact",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "NameStyle",
+          "source_type": "NameStyle",
+          "nullable": false,
+          "description": "0 = The data in FirstName and LastName are stored in western style (first name, last name) order.  1 = Eastern style (last name, first name) order.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "Title",
+          "source_type": "nvarchar(8)",
+          "nullable": true,
+          "description": "A courtesy title. For example, Mr. or Ms.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "FirstName",
+          "source_type": "Name",
+          "nullable": false,
+          "description": "First name of the person.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "MiddleName",
+          "source_type": "Name",
+          "nullable": true,
+          "description": "Middle name or middle initial of the person.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "LastName",
+          "source_type": "Name",
+          "nullable": false,
+          "description": "Last name of the person.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "Suffix",
+          "source_type": "nvarchar(10)",
+          "nullable": true,
+          "description": "Surname suffix. For example, Sr. or Jr.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "EmailPromotion",
+          "source_type": "int",
+          "nullable": false,
+          "description": "0 = Contact does not wish to receive e-mail promotions, 1 = Contact does wish to receive e-mail promotions from AdventureWorks, 2 = Contact does wish to receive e-mail promotions from AdventureWorks and selected partners. ",
+          "sqlite_type": "INTEGER"
+        },
+        {
+          "name": "AdditionalContactInfo",
+          "source_type": "XML([Person].[AdditionalContactInfoSchemaCollection])",
+          "nullable": true,
+          "description": "Additional contact information about the person stored in xml format. ",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "Demographics",
+          "source_type": "XML([Person].[IndividualSurveySchemaCollection])",
+          "nullable": true,
+          "description": "Personal information such as hobbies, and income collected from online shoppers. Used for sales analysis.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "rowguid",
+          "source_type": "uniqueidentifier",
+          "nullable": false,
+          "description": "ROWGUIDCOL number uniquely identifying the record. Used to support a merge replication sample.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "ModifiedDate",
+          "source_type": "datetime",
+          "nullable": false,
+          "description": "Date and time the record was last updated.",
+          "sqlite_type": "TEXT"
+        }
+      ],
+      "computed_columns_snapshotted": [],
+      "primary_key": [
+        "BusinessEntityID"
+      ],
+      "field_delimiter": "+|",
+      "record_delimiter": "&|\n",
+      "description": "Human beings involved with AdventureWorks: employees, customer contacts, and vendor contacts."
+    },
+    {
+      "name": "Production.Product",
+      "sqlite_name": "Production_Product",
+      "columns": [
+        {
+          "name": "ProductID",
+          "source_type": "int",
+          "nullable": false,
+          "description": "Primary key for Product records.",
+          "sqlite_type": "INTEGER"
+        },
+        {
+          "name": "Name",
+          "source_type": "Name",
+          "nullable": false,
+          "description": "Name of the product.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "ProductNumber",
+          "source_type": "nvarchar(25)",
+          "nullable": false,
+          "description": "Unique product identification number.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "MakeFlag",
+          "source_type": "Flag",
+          "nullable": false,
+          "description": "0 = Product is purchased, 1 = Product is manufactured in-house.",
+          "sqlite_type": "INTEGER"
+        },
+        {
+          "name": "FinishedGoodsFlag",
+          "source_type": "Flag",
+          "nullable": false,
+          "description": "0 = Product is not a salable item. 1 = Product is salable.",
+          "sqlite_type": "INTEGER"
+        },
+        {
+          "name": "Color",
+          "source_type": "nvarchar(15)",
+          "nullable": true,
+          "description": "Product color.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "SafetyStockLevel",
+          "source_type": "smallint",
+          "nullable": false,
+          "description": "Minimum inventory quantity. ",
+          "sqlite_type": "INTEGER"
+        },
+        {
+          "name": "ReorderPoint",
+          "source_type": "smallint",
+          "nullable": false,
+          "description": "Inventory level that triggers a purchase order or work order. ",
+          "sqlite_type": "INTEGER"
+        },
+        {
+          "name": "StandardCost",
+          "source_type": "money",
+          "nullable": false,
+          "description": "Standard cost of the product.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "ListPrice",
+          "source_type": "money",
+          "nullable": false,
+          "description": "Selling price.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "Size",
+          "source_type": "nvarchar(5)",
+          "nullable": true,
+          "description": "Product size.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "SizeUnitMeasureCode",
+          "source_type": "nchar(3)",
+          "nullable": true,
+          "description": "Unit of measure for Size column.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "WeightUnitMeasureCode",
+          "source_type": "nchar(3)",
+          "nullable": true,
+          "description": "Unit of measure for Weight column.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "Weight",
+          "source_type": "decimal(8, 2)",
+          "nullable": true,
+          "description": "Product weight.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "DaysToManufacture",
+          "source_type": "int",
+          "nullable": false,
+          "description": "Number of days required to manufacture the product.",
+          "sqlite_type": "INTEGER"
+        },
+        {
+          "name": "ProductLine",
+          "source_type": "nchar(2)",
+          "nullable": true,
+          "description": "R = Road, M = Mountain, T = Touring, S = Standard",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "Class",
+          "source_type": "nchar(2)",
+          "nullable": true,
+          "description": "H = High, M = Medium, L = Low",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "Style",
+          "source_type": "nchar(2)",
+          "nullable": true,
+          "description": "W = Womens, M = Mens, U = Universal",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "ProductSubcategoryID",
+          "source_type": "int",
+          "nullable": true,
+          "description": "Product is a member of this product subcategory. Foreign key to ProductSubCategory.ProductSubCategoryID. ",
+          "sqlite_type": "INTEGER"
+        },
+        {
+          "name": "ProductModelID",
+          "source_type": "int",
+          "nullable": true,
+          "description": "Product is a member of this product model. Foreign key to ProductModel.ProductModelID.",
+          "sqlite_type": "INTEGER"
+        },
+        {
+          "name": "SellStartDate",
+          "source_type": "datetime",
+          "nullable": false,
+          "description": "Date the product was available for sale.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "SellEndDate",
+          "source_type": "datetime",
+          "nullable": true,
+          "description": "Date the product was no longer available for sale.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "DiscontinuedDate",
+          "source_type": "datetime",
+          "nullable": true,
+          "description": "Date the product was discontinued.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "rowguid",
+          "source_type": "uniqueidentifier",
+          "nullable": false,
+          "description": "ROWGUIDCOL number uniquely identifying the record. Used to support a merge replication sample.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "ModifiedDate",
+          "source_type": "datetime",
+          "nullable": false,
+          "description": "Date and time the record was last updated.",
+          "sqlite_type": "TEXT"
+        }
+      ],
+      "computed_columns_snapshotted": [],
+      "primary_key": [
+        "ProductID"
+      ],
+      "field_delimiter": "\t",
+      "record_delimiter": "\n",
+      "description": "Products sold or used in the manfacturing of sold products."
+    },
+    {
+      "name": "Production.ProductCategory",
+      "sqlite_name": "Production_ProductCategory",
+      "columns": [
+        {
+          "name": "ProductCategoryID",
+          "source_type": "int",
+          "nullable": false,
+          "description": "Primary key for ProductCategory records.",
+          "sqlite_type": "INTEGER"
+        },
+        {
+          "name": "Name",
+          "source_type": "Name",
+          "nullable": false,
+          "description": "Category description.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "rowguid",
+          "source_type": "uniqueidentifier",
+          "nullable": false,
+          "description": "ROWGUIDCOL number uniquely identifying the record. Used to support a merge replication sample.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "ModifiedDate",
+          "source_type": "datetime",
+          "nullable": false,
+          "description": "Date and time the record was last updated.",
+          "sqlite_type": "TEXT"
+        }
+      ],
+      "computed_columns_snapshotted": [],
+      "primary_key": [
+        "ProductCategoryID"
+      ],
+      "field_delimiter": "\t",
+      "record_delimiter": "\n",
+      "description": "High-level product categorization."
+    },
+    {
+      "name": "Production.ProductDocument",
+      "sqlite_name": "Production_ProductDocument",
+      "columns": [
+        {
+          "name": "ProductID",
+          "source_type": "int",
+          "nullable": false,
+          "description": "Product identification number. Foreign key to Product.ProductID.",
+          "sqlite_type": "INTEGER"
+        },
+        {
+          "name": "DocumentNode",
+          "source_type": "hierarchyid",
+          "nullable": false,
+          "description": "Document identification number. Foreign key to Document.DocumentNode.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "ModifiedDate",
+          "source_type": "datetime",
+          "nullable": false,
+          "description": "Date and time the record was last updated.",
+          "sqlite_type": "TEXT"
+        }
+      ],
+      "computed_columns_snapshotted": [],
+      "primary_key": [
+        "ProductID",
+        "DocumentNode"
+      ],
+      "field_delimiter": "\t",
+      "record_delimiter": "\n",
+      "description": "Cross-reference table mapping products to related product documents."
+    },
+    {
+      "name": "Production.ProductInventory",
+      "sqlite_name": "Production_ProductInventory",
+      "columns": [
+        {
+          "name": "ProductID",
+          "source_type": "int",
+          "nullable": false,
+          "description": "Product identification number. Foreign key to Product.ProductID.",
+          "sqlite_type": "INTEGER"
+        },
+        {
+          "name": "LocationID",
+          "source_type": "smallint",
+          "nullable": false,
+          "description": "Inventory location identification number. Foreign key to Location.LocationID. ",
+          "sqlite_type": "INTEGER"
+        },
+        {
+          "name": "Shelf",
+          "source_type": "nvarchar(10)",
+          "nullable": false,
+          "description": "Storage compartment within an inventory location.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "Bin",
+          "source_type": "tinyint",
+          "nullable": false,
+          "description": "Storage container on a shelf in an inventory location.",
+          "sqlite_type": "INTEGER"
+        },
+        {
+          "name": "Quantity",
+          "source_type": "smallint",
+          "nullable": false,
+          "description": "Quantity of products in the inventory location.",
+          "sqlite_type": "INTEGER"
+        },
+        {
+          "name": "rowguid",
+          "source_type": "uniqueidentifier",
+          "nullable": false,
+          "description": "ROWGUIDCOL number uniquely identifying the record. Used to support a merge replication sample.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "ModifiedDate",
+          "source_type": "datetime",
+          "nullable": false,
+          "description": "Date and time the record was last updated.",
+          "sqlite_type": "TEXT"
+        }
+      ],
+      "computed_columns_snapshotted": [],
+      "primary_key": [
+        "ProductID",
+        "LocationID"
+      ],
+      "field_delimiter": "\t",
+      "record_delimiter": "\n",
+      "description": "Product inventory information."
+    },
+    {
+      "name": "Production.ProductModel",
+      "sqlite_name": "Production_ProductModel",
+      "columns": [
+        {
+          "name": "ProductModelID",
+          "source_type": "int",
+          "nullable": false,
+          "description": "Primary key for ProductModel records.",
+          "sqlite_type": "INTEGER"
+        },
+        {
+          "name": "Name",
+          "source_type": "Name",
+          "nullable": false,
+          "description": "Product model description.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "CatalogDescription",
+          "source_type": "XML([Production].[ProductDescriptionSchemaCollection])",
+          "nullable": true,
+          "description": "Detailed product catalog information in xml format.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "Instructions",
+          "source_type": "XML([Production].[ManuInstructionsSchemaCollection])",
+          "nullable": true,
+          "description": "Manufacturing instructions in xml format.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "rowguid",
+          "source_type": "uniqueidentifier",
+          "nullable": false,
+          "description": "ROWGUIDCOL number uniquely identifying the record. Used to support a merge replication sample.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "ModifiedDate",
+          "source_type": "datetime",
+          "nullable": false,
+          "description": "Date and time the record was last updated.",
+          "sqlite_type": "TEXT"
+        }
+      ],
+      "computed_columns_snapshotted": [],
+      "primary_key": [
+        "ProductModelID"
+      ],
+      "field_delimiter": "+|",
+      "record_delimiter": "&|\n",
+      "description": "Product model classification."
+    },
+    {
+      "name": "Production.ProductSubcategory",
+      "sqlite_name": "Production_ProductSubcategory",
+      "columns": [
+        {
+          "name": "ProductSubcategoryID",
+          "source_type": "int",
+          "nullable": false,
+          "description": "Primary key for ProductSubcategory records.",
+          "sqlite_type": "INTEGER"
+        },
+        {
+          "name": "ProductCategoryID",
+          "source_type": "int",
+          "nullable": false,
+          "description": "Product category identification number. Foreign key to ProductCategory.ProductCategoryID.",
+          "sqlite_type": "INTEGER"
+        },
+        {
+          "name": "Name",
+          "source_type": "Name",
+          "nullable": false,
+          "description": "Subcategory description.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "rowguid",
+          "source_type": "uniqueidentifier",
+          "nullable": false,
+          "description": "ROWGUIDCOL number uniquely identifying the record. Used to support a merge replication sample.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "ModifiedDate",
+          "source_type": "datetime",
+          "nullable": false,
+          "description": "Date and time the record was last updated.",
+          "sqlite_type": "TEXT"
+        }
+      ],
+      "computed_columns_snapshotted": [],
+      "primary_key": [
+        "ProductSubcategoryID"
+      ],
+      "field_delimiter": "\t",
+      "record_delimiter": "\n",
+      "description": "Product subcategories. See ProductCategory table."
+    },
+    {
+      "name": "Purchasing.ProductVendor",
+      "sqlite_name": "Purchasing_ProductVendor",
+      "columns": [
+        {
+          "name": "ProductID",
+          "source_type": "int",
+          "nullable": false,
+          "description": "Primary key. Foreign key to Product.ProductID.",
+          "sqlite_type": "INTEGER"
+        },
+        {
+          "name": "BusinessEntityID",
+          "source_type": "int",
+          "nullable": false,
+          "description": "Primary key. Foreign key to Vendor.BusinessEntityID.",
+          "sqlite_type": "INTEGER"
+        },
+        {
+          "name": "AverageLeadTime",
+          "source_type": "int",
+          "nullable": false,
+          "description": "The average span of time (in days) between placing an order with the vendor and receiving the purchased product.",
+          "sqlite_type": "INTEGER"
+        },
+        {
+          "name": "StandardPrice",
+          "source_type": "money",
+          "nullable": false,
+          "description": "The vendor's usual selling price.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "LastReceiptCost",
+          "source_type": "money",
+          "nullable": true,
+          "description": "The selling price when last purchased.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "LastReceiptDate",
+          "source_type": "datetime",
+          "nullable": true,
+          "description": "Date the product was last received by the vendor.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "MinOrderQty",
+          "source_type": "int",
+          "nullable": false,
+          "description": "The maximum quantity that should be ordered.",
+          "sqlite_type": "INTEGER"
+        },
+        {
+          "name": "MaxOrderQty",
+          "source_type": "int",
+          "nullable": false,
+          "description": "The minimum quantity that should be ordered.",
+          "sqlite_type": "INTEGER"
+        },
+        {
+          "name": "OnOrderQty",
+          "source_type": "int",
+          "nullable": true,
+          "description": "The quantity currently on order.",
+          "sqlite_type": "INTEGER"
+        },
+        {
+          "name": "UnitMeasureCode",
+          "source_type": "nchar(3)",
+          "nullable": false,
+          "description": "The product's unit of measure.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "ModifiedDate",
+          "source_type": "datetime",
+          "nullable": false,
+          "description": "Date and time the record was last updated.",
+          "sqlite_type": "TEXT"
+        }
+      ],
+      "computed_columns_snapshotted": [],
+      "primary_key": [
+        "ProductID",
+        "BusinessEntityID"
+      ],
+      "field_delimiter": "\t",
+      "record_delimiter": "\n",
+      "description": "Cross-reference table mapping vendors with the products they supply."
+    },
+    {
+      "name": "Purchasing.PurchaseOrderDetail",
+      "sqlite_name": "Purchasing_PurchaseOrderDetail",
+      "columns": [
+        {
+          "name": "PurchaseOrderID",
+          "source_type": "int",
+          "nullable": false,
+          "description": "Primary key. Foreign key to PurchaseOrderHeader.PurchaseOrderID.",
+          "sqlite_type": "INTEGER"
+        },
+        {
+          "name": "PurchaseOrderDetailID",
+          "source_type": "int",
+          "nullable": false,
+          "description": "Primary key. One line number per purchased product.",
+          "sqlite_type": "INTEGER"
+        },
+        {
+          "name": "DueDate",
+          "source_type": "datetime",
+          "nullable": false,
+          "description": "Date the product is expected to be received.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "OrderQty",
+          "source_type": "smallint",
+          "nullable": false,
+          "description": "Quantity ordered.",
+          "sqlite_type": "INTEGER"
+        },
+        {
+          "name": "ProductID",
+          "source_type": "int",
+          "nullable": false,
+          "description": "Product identification number. Foreign key to Product.ProductID.",
+          "sqlite_type": "INTEGER"
+        },
+        {
+          "name": "UnitPrice",
+          "source_type": "money",
+          "nullable": false,
+          "description": "Vendor's selling price of a single product.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "LineTotal",
+          "source_type": "decimal",
+          "nullable": true,
+          "description": "Per product subtotal. Computed as OrderQty * UnitPrice.",
+          "source_computed_expression": "AS ISNULL([OrderQty] * [UnitPrice], 0.00)",
+          "projection": "source export snapshot; not recomputed",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "ReceivedQty",
+          "source_type": "decimal(8, 2)",
+          "nullable": false,
+          "description": "Quantity actually received from the vendor.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "RejectedQty",
+          "source_type": "decimal(8, 2)",
+          "nullable": false,
+          "description": "Quantity rejected during inspection.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "StockedQty",
+          "source_type": "decimal",
+          "nullable": true,
+          "description": "Quantity accepted into inventory. Computed as ReceivedQty - RejectedQty.",
+          "source_computed_expression": "AS ISNULL([ReceivedQty] - [RejectedQty], 0.00)",
+          "projection": "source export snapshot; not recomputed",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "ModifiedDate",
+          "source_type": "datetime",
+          "nullable": false,
+          "description": "Date and time the record was last updated.",
+          "sqlite_type": "TEXT"
+        }
+      ],
+      "computed_columns_snapshotted": [
+        {
+          "name": "LineTotal",
+          "expression": "AS ISNULL([OrderQty] * [UnitPrice], 0.00)"
+        },
+        {
+          "name": "StockedQty",
+          "expression": "AS ISNULL([ReceivedQty] - [RejectedQty], 0.00)"
+        }
+      ],
+      "primary_key": [
+        "PurchaseOrderID",
+        "PurchaseOrderDetailID"
+      ],
+      "field_delimiter": "\t",
+      "record_delimiter": "\n",
+      "description": "Individual products associated with a specific purchase order. See PurchaseOrderHeader."
+    },
+    {
+      "name": "Purchasing.PurchaseOrderHeader",
+      "sqlite_name": "Purchasing_PurchaseOrderHeader",
+      "columns": [
+        {
+          "name": "PurchaseOrderID",
+          "source_type": "int",
+          "nullable": false,
+          "description": "Primary key.",
+          "sqlite_type": "INTEGER"
+        },
+        {
+          "name": "RevisionNumber",
+          "source_type": "tinyint",
+          "nullable": false,
+          "description": "Incremental number to track changes to the purchase order over time.",
+          "sqlite_type": "INTEGER"
+        },
+        {
+          "name": "Status",
+          "source_type": "tinyint",
+          "nullable": false,
+          "description": "Order current status. 1 = Pending; 2 = Approved; 3 = Rejected; 4 = Complete",
+          "sqlite_type": "INTEGER"
+        },
+        {
+          "name": "EmployeeID",
+          "source_type": "int",
+          "nullable": false,
+          "description": "Employee who created the purchase order. Foreign key to Employee.BusinessEntityID.",
+          "sqlite_type": "INTEGER"
+        },
+        {
+          "name": "VendorID",
+          "source_type": "int",
+          "nullable": false,
+          "description": "Vendor with whom the purchase order is placed. Foreign key to Vendor.BusinessEntityID.",
+          "sqlite_type": "INTEGER"
+        },
+        {
+          "name": "ShipMethodID",
+          "source_type": "int",
+          "nullable": false,
+          "description": "Shipping method. Foreign key to ShipMethod.ShipMethodID.",
+          "sqlite_type": "INTEGER"
+        },
+        {
+          "name": "OrderDate",
+          "source_type": "datetime",
+          "nullable": false,
+          "description": "Purchase order creation date.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "ShipDate",
+          "source_type": "datetime",
+          "nullable": true,
+          "description": "Estimated shipment date from the vendor.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "SubTotal",
+          "source_type": "money",
+          "nullable": false,
+          "description": "Purchase order subtotal. Computed as SUM(PurchaseOrderDetail.LineTotal)for the appropriate PurchaseOrderID.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "TaxAmt",
+          "source_type": "money",
+          "nullable": false,
+          "description": "Tax amount.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "Freight",
+          "source_type": "money",
+          "nullable": false,
+          "description": "Shipping cost.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "TotalDue",
+          "source_type": "decimal",
+          "nullable": true,
+          "description": "Total due to vendor. Computed as Subtotal + TaxAmt + Freight.",
+          "source_computed_expression": "AS ISNULL([SubTotal] + [TaxAmt] + [Freight], 0) PERSISTED NOT NULL",
+          "projection": "source export snapshot; not recomputed",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "ModifiedDate",
+          "source_type": "datetime",
+          "nullable": false,
+          "description": "Date and time the record was last updated.",
+          "sqlite_type": "TEXT"
+        }
+      ],
+      "computed_columns_snapshotted": [
+        {
+          "name": "TotalDue",
+          "expression": "AS ISNULL([SubTotal] + [TaxAmt] + [Freight], 0) PERSISTED NOT NULL"
+        }
+      ],
+      "primary_key": [
+        "PurchaseOrderID"
+      ],
+      "field_delimiter": "\t",
+      "record_delimiter": "\n",
+      "description": "General purchase order information. See PurchaseOrderDetail."
+    },
+    {
+      "name": "Sales.SalesOrderDetail",
+      "sqlite_name": "Sales_SalesOrderDetail",
+      "columns": [
+        {
+          "name": "SalesOrderID",
+          "source_type": "int",
+          "nullable": false,
+          "description": "Primary key. Foreign key to SalesOrderHeader.SalesOrderID.",
+          "sqlite_type": "INTEGER"
+        },
+        {
+          "name": "SalesOrderDetailID",
+          "source_type": "int",
+          "nullable": false,
+          "description": "Primary key. One incremental unique number per product sold.",
+          "sqlite_type": "INTEGER"
+        },
+        {
+          "name": "CarrierTrackingNumber",
+          "source_type": "nvarchar(25)",
+          "nullable": true,
+          "description": "Shipment tracking number supplied by the shipper.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "OrderQty",
+          "source_type": "smallint",
+          "nullable": false,
+          "description": "Quantity ordered per product.",
+          "sqlite_type": "INTEGER"
+        },
+        {
+          "name": "ProductID",
+          "source_type": "int",
+          "nullable": false,
+          "description": "Product sold to customer. Foreign key to Product.ProductID.",
+          "sqlite_type": "INTEGER"
+        },
+        {
+          "name": "SpecialOfferID",
+          "source_type": "int",
+          "nullable": false,
+          "description": "Promotional code. Foreign key to SpecialOffer.SpecialOfferID.",
+          "sqlite_type": "INTEGER"
+        },
+        {
+          "name": "UnitPrice",
+          "source_type": "money",
+          "nullable": false,
+          "description": "Selling price of a single product.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "UnitPriceDiscount",
+          "source_type": "money",
+          "nullable": false,
+          "description": "Discount amount.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "LineTotal",
+          "source_type": "decimal",
+          "nullable": true,
+          "description": "Per product subtotal. Computed as UnitPrice * (1 - UnitPriceDiscount) * OrderQty.",
+          "source_computed_expression": "AS ISNULL([UnitPrice] * (1.0 - [UnitPriceDiscount]) * [OrderQty], 0.0)",
+          "projection": "source export snapshot; not recomputed",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "rowguid",
+          "source_type": "uniqueidentifier",
+          "nullable": false,
+          "description": "ROWGUIDCOL number uniquely identifying the record. Used to support a merge replication sample.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "ModifiedDate",
+          "source_type": "datetime",
+          "nullable": false,
+          "description": "Date and time the record was last updated.",
+          "sqlite_type": "TEXT"
+        }
+      ],
+      "computed_columns_snapshotted": [
+        {
+          "name": "LineTotal",
+          "expression": "AS ISNULL([UnitPrice] * (1.0 - [UnitPriceDiscount]) * [OrderQty], 0.0)"
+        }
+      ],
+      "primary_key": [
+        "SalesOrderID",
+        "SalesOrderDetailID"
+      ],
+      "field_delimiter": "\t",
+      "record_delimiter": "\n",
+      "description": "Individual products associated with a specific sales order. See SalesOrderHeader."
+    },
+    {
+      "name": "Sales.SalesOrderHeader",
+      "sqlite_name": "Sales_SalesOrderHeader",
+      "columns": [
+        {
+          "name": "SalesOrderID",
+          "source_type": "int",
+          "nullable": false,
+          "description": "Primary key.",
+          "sqlite_type": "INTEGER"
+        },
+        {
+          "name": "RevisionNumber",
+          "source_type": "tinyint",
+          "nullable": false,
+          "description": "Incremental number to track changes to the sales order over time.",
+          "sqlite_type": "INTEGER"
+        },
+        {
+          "name": "OrderDate",
+          "source_type": "datetime",
+          "nullable": false,
+          "description": "Dates the sales order was created.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "DueDate",
+          "source_type": "datetime",
+          "nullable": false,
+          "description": "Date the order is due to the customer.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "ShipDate",
+          "source_type": "datetime",
+          "nullable": true,
+          "description": "Date the order was shipped to the customer.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "Status",
+          "source_type": "tinyint",
+          "nullable": false,
+          "description": "Order current status. 1 = In process; 2 = Approved; 3 = Backordered; 4 = Rejected; 5 = Shipped; 6 = Cancelled",
+          "sqlite_type": "INTEGER"
+        },
+        {
+          "name": "OnlineOrderFlag",
+          "source_type": "Flag",
+          "nullable": false,
+          "description": "0 = Order placed by sales person. 1 = Order placed online by customer.",
+          "sqlite_type": "INTEGER"
+        },
+        {
+          "name": "SalesOrderNumber",
+          "source_type": "nvarchar",
+          "nullable": true,
+          "description": "Unique sales order identification number.",
+          "source_computed_expression": "AS ISNULL(N'SO' + CONVERT(nvarchar(23), [SalesOrderID]), N'*** ERROR ***')",
+          "projection": "source export snapshot; not recomputed",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "PurchaseOrderNumber",
+          "source_type": "OrderNumber",
+          "nullable": true,
+          "description": "Customer purchase order number reference. ",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "AccountNumber",
+          "source_type": "AccountNumber",
+          "nullable": true,
+          "description": "Financial accounting number reference.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "CustomerID",
+          "source_type": "int",
+          "nullable": false,
+          "description": "Customer identification number. Foreign key to Customer.BusinessEntityID.",
+          "sqlite_type": "INTEGER"
+        },
+        {
+          "name": "SalesPersonID",
+          "source_type": "int",
+          "nullable": true,
+          "description": "Sales person who created the sales order. Foreign key to SalesPerson.BusinessEntityID.",
+          "sqlite_type": "INTEGER"
+        },
+        {
+          "name": "TerritoryID",
+          "source_type": "int",
+          "nullable": true,
+          "description": "Territory in which the sale was made. Foreign key to SalesTerritory.SalesTerritoryID.",
+          "sqlite_type": "INTEGER"
+        },
+        {
+          "name": "BillToAddressID",
+          "source_type": "int",
+          "nullable": false,
+          "description": "Customer billing address. Foreign key to Address.AddressID.",
+          "sqlite_type": "INTEGER"
+        },
+        {
+          "name": "ShipToAddressID",
+          "source_type": "int",
+          "nullable": false,
+          "description": "Customer shipping address. Foreign key to Address.AddressID.",
+          "sqlite_type": "INTEGER"
+        },
+        {
+          "name": "ShipMethodID",
+          "source_type": "int",
+          "nullable": false,
+          "description": "Shipping method. Foreign key to ShipMethod.ShipMethodID.",
+          "sqlite_type": "INTEGER"
+        },
+        {
+          "name": "CreditCardID",
+          "source_type": "int",
+          "nullable": true,
+          "description": "Credit card identification number. Foreign key to CreditCard.CreditCardID.",
+          "sqlite_type": "INTEGER"
+        },
+        {
+          "name": "CreditCardApprovalCode",
+          "source_type": "varchar(15)",
+          "nullable": true,
+          "description": "Approval code provided by the credit card company.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "CurrencyRateID",
+          "source_type": "int",
+          "nullable": true,
+          "description": "Currency exchange rate used. Foreign key to CurrencyRate.CurrencyRateID.",
+          "sqlite_type": "INTEGER"
+        },
+        {
+          "name": "SubTotal",
+          "source_type": "money",
+          "nullable": false,
+          "description": "Sales subtotal. Computed as SUM(SalesOrderDetail.LineTotal)for the appropriate SalesOrderID.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "TaxAmt",
+          "source_type": "money",
+          "nullable": false,
+          "description": "Tax amount.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "Freight",
+          "source_type": "money",
+          "nullable": false,
+          "description": "Shipping cost.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "TotalDue",
+          "source_type": "decimal",
+          "nullable": true,
+          "description": "Total due from customer. Computed as Subtotal + TaxAmt + Freight.",
+          "source_computed_expression": "AS ISNULL([SubTotal] + [TaxAmt] + [Freight], 0)",
+          "projection": "source export snapshot; not recomputed",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "Comment",
+          "source_type": "nvarchar(128)",
+          "nullable": true,
+          "description": "Sales representative comments.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "rowguid",
+          "source_type": "uniqueidentifier",
+          "nullable": false,
+          "description": "ROWGUIDCOL number uniquely identifying the record. Used to support a merge replication sample.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "ModifiedDate",
+          "source_type": "datetime",
+          "nullable": false,
+          "description": "Date and time the record was last updated.",
+          "sqlite_type": "TEXT"
+        }
+      ],
+      "computed_columns_snapshotted": [
+        {
+          "name": "SalesOrderNumber",
+          "expression": "AS ISNULL(N'SO' + CONVERT(nvarchar(23), [SalesOrderID]), N'*** ERROR ***')"
+        },
+        {
+          "name": "TotalDue",
+          "expression": "AS ISNULL([SubTotal] + [TaxAmt] + [Freight], 0)"
+        }
+      ],
+      "primary_key": [
+        "SalesOrderID"
+      ],
+      "field_delimiter": "\t",
+      "record_delimiter": "\n",
+      "description": "General sales order information."
+    },
+    {
+      "name": "Production.ScrapReason",
+      "sqlite_name": "Production_ScrapReason",
+      "columns": [
+        {
+          "name": "ScrapReasonID",
+          "source_type": "smallint",
+          "nullable": false,
+          "description": "Primary key for ScrapReason records.",
+          "sqlite_type": "INTEGER"
+        },
+        {
+          "name": "Name",
+          "source_type": "Name",
+          "nullable": false,
+          "description": "Failure description.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "ModifiedDate",
+          "source_type": "datetime",
+          "nullable": false,
+          "description": "Date and time the record was last updated.",
+          "sqlite_type": "TEXT"
+        }
+      ],
+      "computed_columns_snapshotted": [],
+      "primary_key": [
+        "ScrapReasonID"
+      ],
+      "field_delimiter": "\t",
+      "record_delimiter": "\n",
+      "description": "Manufacturing failure reasons lookup table."
+    },
+    {
+      "name": "Purchasing.ShipMethod",
+      "sqlite_name": "Purchasing_ShipMethod",
+      "columns": [
+        {
+          "name": "ShipMethodID",
+          "source_type": "int",
+          "nullable": false,
+          "description": "Primary key for ShipMethod records.",
+          "sqlite_type": "INTEGER"
+        },
+        {
+          "name": "Name",
+          "source_type": "Name",
+          "nullable": false,
+          "description": "Shipping company name.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "ShipBase",
+          "source_type": "money",
+          "nullable": false,
+          "description": "Minimum shipping charge.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "ShipRate",
+          "source_type": "money",
+          "nullable": false,
+          "description": "Shipping charge per pound.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "rowguid",
+          "source_type": "uniqueidentifier",
+          "nullable": false,
+          "description": "ROWGUIDCOL number uniquely identifying the record. Used to support a merge replication sample.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "ModifiedDate",
+          "source_type": "datetime",
+          "nullable": false,
+          "description": "Date and time the record was last updated.",
+          "sqlite_type": "TEXT"
+        }
+      ],
+      "computed_columns_snapshotted": [],
+      "primary_key": [
+        "ShipMethodID"
+      ],
+      "field_delimiter": "\t",
+      "record_delimiter": "\n",
+      "description": "Shipping company lookup table."
+    },
+    {
+      "name": "Sales.Store",
+      "sqlite_name": "Sales_Store",
+      "columns": [
+        {
+          "name": "BusinessEntityID",
+          "source_type": "int",
+          "nullable": false,
+          "description": "Primary key. Foreign key to Customer.BusinessEntityID.",
+          "sqlite_type": "INTEGER"
+        },
+        {
+          "name": "Name",
+          "source_type": "Name",
+          "nullable": false,
+          "description": "Name of the store.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "SalesPersonID",
+          "source_type": "int",
+          "nullable": true,
+          "description": "ID of the sales person assigned to the customer. Foreign key to SalesPerson.BusinessEntityID.",
+          "sqlite_type": "INTEGER"
+        },
+        {
+          "name": "Demographics",
+          "source_type": "XML([Sales].[StoreSurveySchemaCollection])",
+          "nullable": true,
+          "description": "Demographic informationg about the store such as the number of employees, annual sales and store type.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "rowguid",
+          "source_type": "uniqueidentifier",
+          "nullable": false,
+          "description": "ROWGUIDCOL number uniquely identifying the record. Used to support a merge replication sample.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "ModifiedDate",
+          "source_type": "datetime",
+          "nullable": false,
+          "description": "Date and time the record was last updated.",
+          "sqlite_type": "TEXT"
+        }
+      ],
+      "computed_columns_snapshotted": [],
+      "primary_key": [
+        "BusinessEntityID"
+      ],
+      "field_delimiter": "+|",
+      "record_delimiter": "&|\n",
+      "description": "Customers (resellers) of Adventure Works products."
+    },
+    {
+      "name": "Production.UnitMeasure",
+      "sqlite_name": "Production_UnitMeasure",
+      "columns": [
+        {
+          "name": "UnitMeasureCode",
+          "source_type": "nchar(3)",
+          "nullable": false,
+          "description": "Primary key.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "Name",
+          "source_type": "Name",
+          "nullable": false,
+          "description": "Unit of measure description.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "ModifiedDate",
+          "source_type": "datetime",
+          "nullable": false,
+          "description": "Date and time the record was last updated.",
+          "sqlite_type": "TEXT"
+        }
+      ],
+      "computed_columns_snapshotted": [],
+      "primary_key": [
+        "UnitMeasureCode"
+      ],
+      "field_delimiter": "\t",
+      "record_delimiter": "\n",
+      "description": "Unit of measure lookup table."
+    },
+    {
+      "name": "Purchasing.Vendor",
+      "sqlite_name": "Purchasing_Vendor",
+      "columns": [
+        {
+          "name": "BusinessEntityID",
+          "source_type": "int",
+          "nullable": false,
+          "description": "Primary key for Vendor records.  Foreign key to BusinessEntity.BusinessEntityID",
+          "sqlite_type": "INTEGER"
+        },
+        {
+          "name": "AccountNumber",
+          "source_type": "AccountNumber",
+          "nullable": false,
+          "description": "Vendor account (identification) number.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "Name",
+          "source_type": "Name",
+          "nullable": false,
+          "description": "Company name.",
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "CreditRating",
+          "source_type": "tinyint",
+          "nullable": false,
+          "description": "1 = Superior, 2 = Excellent, 3 = Above average, 4 = Average, 5 = Below average",
+          "sqlite_type": "INTEGER"
+        },
+        {
+          "name": "PreferredVendorStatus",
+          "source_type": "Flag",
+          "nullable": false,
+          "description": "0 = Do not use if another vendor is available. 1 = Preferred over other vendors supplying the same product.",
+          "sqlite_type": "INTEGER"
+        },
+        {
+          "name": "ActiveFlag",
+          "source_type": "Flag",
+          "nullable": false,
+          "description": "0 = Vendor no longer used. 1 = Vendor is actively used.",
+          "sqlite_type": "INTEGER"
+        },
+        {
+          "name": "PurchasingWebServiceURL",
+          "source_type": "nvarchar(1024)",
+          "nullable": true,
+          "description": null,
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "ModifiedDate",
+          "source_type": "datetime",
+          "nullable": false,
+          "description": null,
+          "sqlite_type": "TEXT"
+        }
+      ],
+      "computed_columns_snapshotted": [],
+      "primary_key": [
+        "BusinessEntityID"
+      ],
+      "field_delimiter": "\t",
+      "record_delimiter": "\n",
+      "description": "Companies from whom Adventure Works Cycles purchases parts or other goods."
+    },
+    {
+      "name": "Production.WorkOrder",
+      "sqlite_name": "Production_WorkOrder",
+      "columns": [
+        {
+          "name": "WorkOrderID",
+          "source_type": "int",
+          "nullable": false,
+          "description": null,
+          "sqlite_type": "INTEGER"
+        },
+        {
+          "name": "ProductID",
+          "source_type": "int",
+          "nullable": false,
+          "description": null,
+          "sqlite_type": "INTEGER"
+        },
+        {
+          "name": "OrderQty",
+          "source_type": "int",
+          "nullable": false,
+          "description": null,
+          "sqlite_type": "INTEGER"
+        },
+        {
+          "name": "StockedQty",
+          "source_type": "int",
+          "nullable": true,
+          "description": null,
+          "source_computed_expression": "AS ISNULL([OrderQty] - [ScrappedQty], 0)",
+          "projection": "source export snapshot; not recomputed",
+          "sqlite_type": "INTEGER"
+        },
+        {
+          "name": "ScrappedQty",
+          "source_type": "smallint",
+          "nullable": false,
+          "description": null,
+          "sqlite_type": "INTEGER"
+        },
+        {
+          "name": "StartDate",
+          "source_type": "datetime",
+          "nullable": false,
+          "description": null,
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "EndDate",
+          "source_type": "datetime",
+          "nullable": true,
+          "description": null,
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "DueDate",
+          "source_type": "datetime",
+          "nullable": false,
+          "description": null,
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "ScrapReasonID",
+          "source_type": "smallint",
+          "nullable": true,
+          "description": null,
+          "sqlite_type": "INTEGER"
+        },
+        {
+          "name": "ModifiedDate",
+          "source_type": "datetime",
+          "nullable": false,
+          "description": null,
+          "sqlite_type": "TEXT"
+        }
+      ],
+      "computed_columns_snapshotted": [
+        {
+          "name": "StockedQty",
+          "expression": "AS ISNULL([OrderQty] - [ScrappedQty], 0)"
+        }
+      ],
+      "primary_key": [
+        "WorkOrderID"
+      ],
+      "field_delimiter": "\t",
+      "record_delimiter": "\n"
+    },
+    {
+      "name": "Production.WorkOrderRouting",
+      "sqlite_name": "Production_WorkOrderRouting",
+      "columns": [
+        {
+          "name": "WorkOrderID",
+          "source_type": "int",
+          "nullable": false,
+          "description": null,
+          "sqlite_type": "INTEGER"
+        },
+        {
+          "name": "ProductID",
+          "source_type": "int",
+          "nullable": false,
+          "description": null,
+          "sqlite_type": "INTEGER"
+        },
+        {
+          "name": "OperationSequence",
+          "source_type": "smallint",
+          "nullable": false,
+          "description": null,
+          "sqlite_type": "INTEGER"
+        },
+        {
+          "name": "LocationID",
+          "source_type": "smallint",
+          "nullable": false,
+          "description": null,
+          "sqlite_type": "INTEGER"
+        },
+        {
+          "name": "ScheduledStartDate",
+          "source_type": "datetime",
+          "nullable": false,
+          "description": null,
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "ScheduledEndDate",
+          "source_type": "datetime",
+          "nullable": false,
+          "description": null,
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "ActualStartDate",
+          "source_type": "datetime",
+          "nullable": true,
+          "description": null,
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "ActualEndDate",
+          "source_type": "datetime",
+          "nullable": true,
+          "description": null,
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "ActualResourceHrs",
+          "source_type": "decimal(9, 4)",
+          "nullable": true,
+          "description": null,
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "PlannedCost",
+          "source_type": "money",
+          "nullable": false,
+          "description": null,
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "ActualCost",
+          "source_type": "money",
+          "nullable": true,
+          "description": null,
+          "sqlite_type": "TEXT"
+        },
+        {
+          "name": "ModifiedDate",
+          "source_type": "datetime",
+          "nullable": false,
+          "description": null,
+          "sqlite_type": "TEXT"
+        }
+      ],
+      "computed_columns_snapshotted": [],
+      "primary_key": [
+        "WorkOrderID",
+        "ProductID",
+        "OperationSequence"
+      ],
+      "field_delimiter": "\t",
+      "record_delimiter": "\n"
+    }
+  ],
+  "foreign_keys": [
+    {
+      "name": "FK_Address_StateProvince_StateProvinceID",
+      "from_table": "Person.Address",
+      "to_table": "Person.StateProvince",
+      "from_columns": [
+        "StateProvinceID"
+      ],
+      "to_columns": [
+        "StateProvinceID"
+      ],
+      "in_scope": false
+    },
+    {
+      "name": "FK_BillOfMaterials_Product_ProductAssemblyID",
+      "from_table": "Production.BillOfMaterials",
+      "to_table": "Production.Product",
+      "from_columns": [
+        "ProductAssemblyID"
+      ],
+      "to_columns": [
+        "ProductID"
+      ],
+      "in_scope": true
+    },
+    {
+      "name": "FK_BillOfMaterials_Product_ComponentID",
+      "from_table": "Production.BillOfMaterials",
+      "to_table": "Production.Product",
+      "from_columns": [
+        "ComponentID"
+      ],
+      "to_columns": [
+        "ProductID"
+      ],
+      "in_scope": true
+    },
+    {
+      "name": "FK_BillOfMaterials_UnitMeasure_UnitMeasureCode",
+      "from_table": "Production.BillOfMaterials",
+      "to_table": "Production.UnitMeasure",
+      "from_columns": [
+        "UnitMeasureCode"
+      ],
+      "to_columns": [
+        "UnitMeasureCode"
+      ],
+      "in_scope": true
+    },
+    {
+      "name": "FK_Customer_Person_PersonID",
+      "from_table": "Sales.Customer",
+      "to_table": "Person.Person",
+      "from_columns": [
+        "PersonID"
+      ],
+      "to_columns": [
+        "BusinessEntityID"
+      ],
+      "in_scope": true
+    },
+    {
+      "name": "FK_Customer_Store_StoreID",
+      "from_table": "Sales.Customer",
+      "to_table": "Sales.Store",
+      "from_columns": [
+        "StoreID"
+      ],
+      "to_columns": [
+        "BusinessEntityID"
+      ],
+      "in_scope": true
+    },
+    {
+      "name": "FK_Customer_SalesTerritory_TerritoryID",
+      "from_table": "Sales.Customer",
+      "to_table": "Sales.SalesTerritory",
+      "from_columns": [
+        "TerritoryID"
+      ],
+      "to_columns": [
+        "TerritoryID"
+      ],
+      "in_scope": false
+    },
+    {
+      "name": "FK_Document_Employee_Owner",
+      "from_table": "Production.Document",
+      "to_table": "HumanResources.Employee",
+      "from_columns": [
+        "Owner"
+      ],
+      "to_columns": [
+        "BusinessEntityID"
+      ],
+      "in_scope": false
+    },
+    {
+      "name": "FK_Person_BusinessEntity_BusinessEntityID",
+      "from_table": "Person.Person",
+      "to_table": "Person.BusinessEntity",
+      "from_columns": [
+        "BusinessEntityID"
+      ],
+      "to_columns": [
+        "BusinessEntityID"
+      ],
+      "in_scope": true
+    },
+    {
+      "name": "FK_Product_UnitMeasure_SizeUnitMeasureCode",
+      "from_table": "Production.Product",
+      "to_table": "Production.UnitMeasure",
+      "from_columns": [
+        "SizeUnitMeasureCode"
+      ],
+      "to_columns": [
+        "UnitMeasureCode"
+      ],
+      "in_scope": true
+    },
+    {
+      "name": "FK_Product_UnitMeasure_WeightUnitMeasureCode",
+      "from_table": "Production.Product",
+      "to_table": "Production.UnitMeasure",
+      "from_columns": [
+        "WeightUnitMeasureCode"
+      ],
+      "to_columns": [
+        "UnitMeasureCode"
+      ],
+      "in_scope": true
+    },
+    {
+      "name": "FK_Product_ProductModel_ProductModelID",
+      "from_table": "Production.Product",
+      "to_table": "Production.ProductModel",
+      "from_columns": [
+        "ProductModelID"
+      ],
+      "to_columns": [
+        "ProductModelID"
+      ],
+      "in_scope": true
+    },
+    {
+      "name": "FK_Product_ProductSubcategory_ProductSubcategoryID",
+      "from_table": "Production.Product",
+      "to_table": "Production.ProductSubcategory",
+      "from_columns": [
+        "ProductSubcategoryID"
+      ],
+      "to_columns": [
+        "ProductSubcategoryID"
+      ],
+      "in_scope": true
+    },
+    {
+      "name": "FK_ProductDocument_Product_ProductID",
+      "from_table": "Production.ProductDocument",
+      "to_table": "Production.Product",
+      "from_columns": [
+        "ProductID"
+      ],
+      "to_columns": [
+        "ProductID"
+      ],
+      "in_scope": true
+    },
+    {
+      "name": "FK_ProductDocument_Document_DocumentNode",
+      "from_table": "Production.ProductDocument",
+      "to_table": "Production.Document",
+      "from_columns": [
+        "DocumentNode"
+      ],
+      "to_columns": [
+        "DocumentNode"
+      ],
+      "in_scope": true
+    },
+    {
+      "name": "FK_ProductInventory_Location_LocationID",
+      "from_table": "Production.ProductInventory",
+      "to_table": "Production.Location",
+      "from_columns": [
+        "LocationID"
+      ],
+      "to_columns": [
+        "LocationID"
+      ],
+      "in_scope": true
+    },
+    {
+      "name": "FK_ProductInventory_Product_ProductID",
+      "from_table": "Production.ProductInventory",
+      "to_table": "Production.Product",
+      "from_columns": [
+        "ProductID"
+      ],
+      "to_columns": [
+        "ProductID"
+      ],
+      "in_scope": true
+    },
+    {
+      "name": "FK_ProductSubcategory_ProductCategory_ProductCategoryID",
+      "from_table": "Production.ProductSubcategory",
+      "to_table": "Production.ProductCategory",
+      "from_columns": [
+        "ProductCategoryID"
+      ],
+      "to_columns": [
+        "ProductCategoryID"
+      ],
+      "in_scope": true
+    },
+    {
+      "name": "FK_ProductVendor_Product_ProductID",
+      "from_table": "Purchasing.ProductVendor",
+      "to_table": "Production.Product",
+      "from_columns": [
+        "ProductID"
+      ],
+      "to_columns": [
+        "ProductID"
+      ],
+      "in_scope": true
+    },
+    {
+      "name": "FK_ProductVendor_UnitMeasure_UnitMeasureCode",
+      "from_table": "Purchasing.ProductVendor",
+      "to_table": "Production.UnitMeasure",
+      "from_columns": [
+        "UnitMeasureCode"
+      ],
+      "to_columns": [
+        "UnitMeasureCode"
+      ],
+      "in_scope": true
+    },
+    {
+      "name": "FK_ProductVendor_Vendor_BusinessEntityID",
+      "from_table": "Purchasing.ProductVendor",
+      "to_table": "Purchasing.Vendor",
+      "from_columns": [
+        "BusinessEntityID"
+      ],
+      "to_columns": [
+        "BusinessEntityID"
+      ],
+      "in_scope": true
+    },
+    {
+      "name": "FK_PurchaseOrderDetail_Product_ProductID",
+      "from_table": "Purchasing.PurchaseOrderDetail",
+      "to_table": "Production.Product",
+      "from_columns": [
+        "ProductID"
+      ],
+      "to_columns": [
+        "ProductID"
+      ],
+      "in_scope": true
+    },
+    {
+      "name": "FK_PurchaseOrderDetail_PurchaseOrderHeader_PurchaseOrderID",
+      "from_table": "Purchasing.PurchaseOrderDetail",
+      "to_table": "Purchasing.PurchaseOrderHeader",
+      "from_columns": [
+        "PurchaseOrderID"
+      ],
+      "to_columns": [
+        "PurchaseOrderID"
+      ],
+      "in_scope": true
+    },
+    {
+      "name": "FK_PurchaseOrderHeader_Employee_EmployeeID",
+      "from_table": "Purchasing.PurchaseOrderHeader",
+      "to_table": "HumanResources.Employee",
+      "from_columns": [
+        "EmployeeID"
+      ],
+      "to_columns": [
+        "BusinessEntityID"
+      ],
+      "in_scope": false
+    },
+    {
+      "name": "FK_PurchaseOrderHeader_Vendor_VendorID",
+      "from_table": "Purchasing.PurchaseOrderHeader",
+      "to_table": "Purchasing.Vendor",
+      "from_columns": [
+        "VendorID"
+      ],
+      "to_columns": [
+        "BusinessEntityID"
+      ],
+      "in_scope": true
+    },
+    {
+      "name": "FK_PurchaseOrderHeader_ShipMethod_ShipMethodID",
+      "from_table": "Purchasing.PurchaseOrderHeader",
+      "to_table": "Purchasing.ShipMethod",
+      "from_columns": [
+        "ShipMethodID"
+      ],
+      "to_columns": [
+        "ShipMethodID"
+      ],
+      "in_scope": true
+    },
+    {
+      "name": "FK_SalesOrderDetail_SalesOrderHeader_SalesOrderID",
+      "from_table": "Sales.SalesOrderDetail",
+      "to_table": "Sales.SalesOrderHeader",
+      "from_columns": [
+        "SalesOrderID"
+      ],
+      "to_columns": [
+        "SalesOrderID"
+      ],
+      "in_scope": true
+    },
+    {
+      "name": "FK_SalesOrderDetail_SpecialOfferProduct_SpecialOfferIDProductID",
+      "from_table": "Sales.SalesOrderDetail",
+      "to_table": "Sales.SpecialOfferProduct",
+      "from_columns": [
+        "SpecialOfferID",
+        "ProductID"
+      ],
+      "to_columns": [
+        "SpecialOfferID",
+        "ProductID"
+      ],
+      "in_scope": false
+    },
+    {
+      "name": "FK_SalesOrderHeader_Address_BillToAddressID",
+      "from_table": "Sales.SalesOrderHeader",
+      "to_table": "Person.Address",
+      "from_columns": [
+        "BillToAddressID"
+      ],
+      "to_columns": [
+        "AddressID"
+      ],
+      "in_scope": true
+    },
+    {
+      "name": "FK_SalesOrderHeader_Address_ShipToAddressID",
+      "from_table": "Sales.SalesOrderHeader",
+      "to_table": "Person.Address",
+      "from_columns": [
+        "ShipToAddressID"
+      ],
+      "to_columns": [
+        "AddressID"
+      ],
+      "in_scope": true
+    },
+    {
+      "name": "FK_SalesOrderHeader_CreditCard_CreditCardID",
+      "from_table": "Sales.SalesOrderHeader",
+      "to_table": "Sales.CreditCard",
+      "from_columns": [
+        "CreditCardID"
+      ],
+      "to_columns": [
+        "CreditCardID"
+      ],
+      "in_scope": false
+    },
+    {
+      "name": "FK_SalesOrderHeader_CurrencyRate_CurrencyRateID",
+      "from_table": "Sales.SalesOrderHeader",
+      "to_table": "Sales.CurrencyRate",
+      "from_columns": [
+        "CurrencyRateID"
+      ],
+      "to_columns": [
+        "CurrencyRateID"
+      ],
+      "in_scope": false
+    },
+    {
+      "name": "FK_SalesOrderHeader_Customer_CustomerID",
+      "from_table": "Sales.SalesOrderHeader",
+      "to_table": "Sales.Customer",
+      "from_columns": [
+        "CustomerID"
+      ],
+      "to_columns": [
+        "CustomerID"
+      ],
+      "in_scope": true
+    },
+    {
+      "name": "FK_SalesOrderHeader_SalesPerson_SalesPersonID",
+      "from_table": "Sales.SalesOrderHeader",
+      "to_table": "Sales.SalesPerson",
+      "from_columns": [
+        "SalesPersonID"
+      ],
+      "to_columns": [
+        "BusinessEntityID"
+      ],
+      "in_scope": false
+    },
+    {
+      "name": "FK_SalesOrderHeader_ShipMethod_ShipMethodID",
+      "from_table": "Sales.SalesOrderHeader",
+      "to_table": "Purchasing.ShipMethod",
+      "from_columns": [
+        "ShipMethodID"
+      ],
+      "to_columns": [
+        "ShipMethodID"
+      ],
+      "in_scope": true
+    },
+    {
+      "name": "FK_SalesOrderHeader_SalesTerritory_TerritoryID",
+      "from_table": "Sales.SalesOrderHeader",
+      "to_table": "Sales.SalesTerritory",
+      "from_columns": [
+        "TerritoryID"
+      ],
+      "to_columns": [
+        "TerritoryID"
+      ],
+      "in_scope": false
+    },
+    {
+      "name": "FK_Store_BusinessEntity_BusinessEntityID",
+      "from_table": "Sales.Store",
+      "to_table": "Person.BusinessEntity",
+      "from_columns": [
+        "BusinessEntityID"
+      ],
+      "to_columns": [
+        "BusinessEntityID"
+      ],
+      "in_scope": true
+    },
+    {
+      "name": "FK_Store_SalesPerson_SalesPersonID",
+      "from_table": "Sales.Store",
+      "to_table": "Sales.SalesPerson",
+      "from_columns": [
+        "SalesPersonID"
+      ],
+      "to_columns": [
+        "BusinessEntityID"
+      ],
+      "in_scope": false
+    },
+    {
+      "name": "FK_Vendor_BusinessEntity_BusinessEntityID",
+      "from_table": "Purchasing.Vendor",
+      "to_table": "Person.BusinessEntity",
+      "from_columns": [
+        "BusinessEntityID"
+      ],
+      "to_columns": [
+        "BusinessEntityID"
+      ],
+      "in_scope": true
+    },
+    {
+      "name": "FK_WorkOrder_Product_ProductID",
+      "from_table": "Production.WorkOrder",
+      "to_table": "Production.Product",
+      "from_columns": [
+        "ProductID"
+      ],
+      "to_columns": [
+        "ProductID"
+      ],
+      "in_scope": true
+    },
+    {
+      "name": "FK_WorkOrder_ScrapReason_ScrapReasonID",
+      "from_table": "Production.WorkOrder",
+      "to_table": "Production.ScrapReason",
+      "from_columns": [
+        "ScrapReasonID"
+      ],
+      "to_columns": [
+        "ScrapReasonID"
+      ],
+      "in_scope": true
+    },
+    {
+      "name": "FK_WorkOrderRouting_Location_LocationID",
+      "from_table": "Production.WorkOrderRouting",
+      "to_table": "Production.Location",
+      "from_columns": [
+        "LocationID"
+      ],
+      "to_columns": [
+        "LocationID"
+      ],
+      "in_scope": true
+    },
+    {
+      "name": "FK_WorkOrderRouting_WorkOrder_WorkOrderID",
+      "from_table": "Production.WorkOrderRouting",
+      "to_table": "Production.WorkOrder",
+      "from_columns": [
+        "WorkOrderID"
+      ],
+      "to_columns": [
+        "WorkOrderID"
+      ],
+      "in_scope": true
+    }
+  ],
+  "scope": "25-table projection, not full SQL Server installation",
+  "projection_rules": {
+    "computed_columns": "source-export snapshots retained; expressions recorded; not dynamically recomputed",
+    "decimal_money": "canonical exact decimal strings in CSV and SQLite TEXT; exact arithmetic uses Python Decimal; CAST to REAL is approximate",
+    "datetime": "validated ISO text; SQLite date functions supported",
+    "hierarchyid": "opaque source text; no SQL Server methods",
+    "xml": "opaque UTF-8 text; no XML query support",
+    "varbinary": "opaque source hex text, preserved original bytes; no document rendering",
+    "spatial": "opaque source text; no spatial methods",
+    "constraints": "source PK/FK checked separately; SQL Server check/default/trigger/index behavior not recreated"
+  }
+}

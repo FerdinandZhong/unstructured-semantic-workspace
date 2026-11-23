@@ -1,0 +1,113 @@
+# =============================================================================
+# AMP project metadata (exported as .project-metadata.yaml)
+#
+#   Job 1  setup_environment  venv /home/cdsw/.venv-semantic-workspace, app copy, manufacturing tables, checks
+#   Job 2  prepare_demo       demo state in /home/cdsw/.semantic-workspace-state (live Mistral calls, ~15 min)
+#   App    Semantic Workspace  cai/start_app.py on CDSW_APP_PORT
+#
+# Workbench-injected variables (CDSW_APP_PORT, CDSW_DOMAIN) are read at run time and not declared here.
+# All data is synthetic or public-licence. Not yet run on a real Cloudera AI workspace.
+# =============================================================================
+
+name: Semantic Workspace for Unstructured Data
+description: >-
+  Maps unstructured documents onto a governed semantic layer: evidence links from passages to model definitions,
+  an anchored concept catalog, review and publish, and questions answered from SQL facts with cited evidence.
+  Ships two synthetic data sources, financial services and manufacturing (Microsoft AdventureWorks, MIT).
+author: Cloudera
+specification_version: 1.0
+prototype_version: 1.0
+date: "2026-11-23"
+
+environment_variables:
+  MISTRAL_API_KEY:
+    default: ""
+    description: >-
+      REQUIRED SECRET. Mistral API key. The prepare_demo job and the application send document text to Mistral
+      for OCR, embeddings, link interpretation and answers. Never printed.
+    required: true
+  MISTRAL_OCR_MODEL:
+    default: "mistral-ocr-latest"
+    description: "OPTIONAL. OCR model."
+    required: false
+  MISTRAL_AUDIO_MODEL:
+    default: "voxtral-mini-transcribe-3"
+    description: "OPTIONAL. Transcription model for audio uploads."
+    required: false
+  DEMO_HOLD_OUT:
+    default: "MFG-114"
+    description: >-
+      OPTIONAL. Comma-separated source keys the prepare_demo job leaves new, for the live ingest part of the demo.
+      Empty prepares every source.
+    required: false
+  V2_ICEBERG_ROUTE:
+    default: ""
+    description: "OPTIONAL. Set to trino to write confirmed rows to Iceberg through Cloudera Lakehouse Engine (Trino). Empty disables it."
+    required: false
+  V2_TRINO_URL:
+    default: ""
+    description: "OPTIONAL. HTTPS URL of the Trino endpoint, used only with V2_ICEBERG_ROUTE=trino."
+    required: false
+  V2_TRINO_CA:
+    default: ""
+    description: "OPTIONAL. Path to a CA bundle for the Trino endpoint, inside the project."
+    required: false
+  CDE_TOKEN:
+    default: ""
+    description: "OPTIONAL SECRET. Workload token (JWT) for the Trino route. Never printed."
+    required: false
+
+runtimes:
+  - editor: Workbench
+    kernel: Python 3.12
+    edition: Standard
+
+tasks:
+  - type: create_job
+    name: setup_environment
+    entity_label: setup_environment
+    script: cai/setup_environment.py
+    short_summary: Create the venv, the app copy and the manufacturing tables.
+    long_summary: >-
+      Installs requirements-v2.lock and pgserver into /home/cdsw/.venv-semantic-workspace, copies the code to
+      /home/cdsw/.semantic-workspace-app, downloads the pinned AdventureWorks sample and builds its tables, checks
+      the PostgreSQL tools and the imports. No provider call. Safe to rerun; rerun after a git pull.
+    kernel: python3
+    cpu: 2
+    memory: 8
+    timeout: 45
+  - type: run_job
+    entity_label: setup_environment
+    short_summary: Run the environment setup.
+    long_summary: Waits until the venv, the app copy and the checks are ready.
+    wait_for: true
+
+  - type: create_job
+    name: prepare_demo
+    entity_label: prepare_demo
+    script: cai/prepare_demo.py
+    short_summary: Build the demo state with live Mistral calls.
+    long_summary: >-
+      Ingests the registered sources of both data sources and builds each concept catalog into
+      /home/cdsw/.semantic-workspace-state. Needs MISTRAL_API_KEY. Resumable. Stop the application before a rerun.
+    kernel: python3
+    cpu: 2
+    memory: 8
+    timeout: 90
+  - type: run_job
+    entity_label: prepare_demo
+    short_summary: Prepare the demo state.
+    long_summary: Waits until the demo state is built.
+    wait_for: true
+
+  - type: start_application
+    name: Semantic Workspace
+    subdomain: semantic-workspace
+    script: cai/start_app.py
+    short_summary: Start the Semantic Workspace.
+    long_summary: >-
+      Runs cai/start_app.py. Serves the workspace on CDSW_APP_PORT with the private PostgreSQL of the demo state.
+      Demo accounts are simulated; keep the application private to the project.
+    kernel: python3
+    cpu: 2
+    memory: 8

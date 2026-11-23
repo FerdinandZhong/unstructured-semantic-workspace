@@ -1,0 +1,118 @@
+site_name: Semantic Workspace
+site_description: Map unstructured documents, forms and recorded calls onto a given semantic layer.
+site_url: https://ferdinandzhong.github.io/unstructured-semantic-workspace/
+repo_url: https://github.com/FerdinandZhong/unstructured-semantic-workspace
+repo_name: unstructured-semantic-workspace
+edit_uri: ""
+docs_dir: docs
+
+# The paper sources (docs/paper/) and the app's static files (docs/design/) sit under docs/ in the published
+# repository. They are not pages.
+exclude_docs: |
+  paper/
+  design/
+
+theme:
+  name: material
+  language: en
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - navigation.footer
+    - search.highlight
+    - search.suggest
+    - content.code.copy
+    - content.tabs.link
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+
+plugins:
+  - search:
+      lang:
+        - en
+        - zh
+
+extra:
+  # Language selector. English sits at the site root, Chinese under /zh/. It links to each home page.
+  alternate:
+    - name: English
+      link: ./
+      lang: en
+    - name: 简体中文
+      link: zh/
+      lang: zh
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.details
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+
+nav:
+  - Home: index.md
+  - Design:
+      - Concepts: concepts.md
+      - Architecture: architecture.md
+      - Ingestion: ingestion.md
+      - "Pipeline A: evidence links": pipeline-a.md
+      - "Pipeline B: concept catalog": pipeline-b.md
+      - Review and release: review-and-release.md
+  - Use:
+      - Ask: ask.md
+      - "Table rows": output-c.md
+      - Access and masking: access-and-masking.md
+      - Localization: localization.md
+  - Results:
+      - Evaluation: evaluation.md
+      - Data: data.md
+  - Deploy:
+      - Deployment: deployment.md
+  - 中文:
+      - 首页: zh/index.md
+      - 设计:
+          - 概念: zh/concepts.md
+          - 架构: zh/architecture.md
+          - 摄取: zh/ingestion.md
+          - "管线 A：证据链接": zh/pipeline-a.md
+          - "管线 B：概念目录": zh/pipeline-b.md
+          - 审核与发布: zh/review-and-release.md
+      - 使用:
+          - 提问: zh/ask.md
+          - "表行": zh/output-c.md
+          - 访问与掩码: zh/access-and-masking.md
+          - 本地化: zh/localization.md
+      - 结果:
+          - 评估: zh/evaluation.md
+          - 数据: zh/data.md
+      - 部署:
+          - 部署: zh/deployment.md

@@ -1,0 +1,31 @@
+{
+  "observed": "2026-11-16T10:34:26.821384+00:00",
+  "checks": {
+    "ossie_schema": "passed",
+    "helios_model_load_and_references": "passed",
+    "source_flag_alias_semantics": "passed",
+    "synthetic_labels_hashes_and_docx_xml": "passed",
+    "quotes_concepts_and_target_bindings": "passed",
+    "expected_answer_sql": "passed",
+    "customer_and_amendment_boundaries": "passed",
+    "invalid_model_version_rejected": "passed",
+    "evaluation_fixture_integrity": "passed (authored expectations only; AI and policy evaluation not run)",
+    "metric_sql_execution": "passed"
+  },
+  "counts": {
+    "datasets": 25,
+    "fields": 230,
+    "relationships": 33,
+    "metrics": 4,
+    "concepts": 12,
+    "documents": 7,
+    "positive_and_unmapped_cases": 10,
+    "negative_cases": 8
+  },
+  "helios_schema_sha256": "37b3f00caad5b97cf896057887677313eb1ccbe0ac1073f41f58f5e5e085a5ac",
+  "limitations": [
+    "Helios schema and reader only; no Helios proposal/model call or publication",
+    "No embeddings, model extraction accuracy, app integration, access-policy execution, or enterprise acceptance tested",
+    "Authored labels are not independently human-adjudicated"
+  ]
+}

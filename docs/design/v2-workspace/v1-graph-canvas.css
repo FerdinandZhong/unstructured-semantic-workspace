@@ -1,0 +1,148 @@
+/* Semantic Hub look for both canvases (Knowledge and Customer 360), loaded after the vendor canvas.css.
+   Written against helios-canvas copied 8 Nov 2026: svg 2 is the minimap, the View options button is hidden by GraphCanvas.mount. Recheck after a vendor update. */
+.graph-canvas { --gc-kyc:#2563eb; --gc-adverse:#d97706; --gc-doc:#64748b; --gc-party:#16a34a; --gc-person:#7c3aed; --gc-sar:#e11d48; --gc-risk:#ea580c; --gc-record:#0891b2; --gc-fact:#0d9488; --gc-semantic:#b45309; }
+.graph-canvas .canvas-stage { min-height:0; }
+.graph-canvas .canvas-modes,.graph-canvas .canvas-toolbar>button[hidden] { display:none; }
+.graph-canvas .canvas-toolbar input[type=search] { width:100%; max-width:240px; }
+
+/* Legend as pills */
+.graph-canvas .canvas-legend { gap:6px 8px; padding:8px 12px; border-bottom:1px solid var(--line); }
+.graph-key { display:inline-flex; align-items:center; gap:6px; padding:2px 10px 2px 6px; border:1px solid #e2e8f0; border-radius:999px; background:#f8fafc; font-size:11px; color:#475569; }
+.graph-key i { width:10px; height:10px; border-radius:3px; background:#94a3b8; }
+.graph-key i.k-kyc { background:var(--gc-kyc); } .graph-key i.k-adverse { background:var(--gc-adverse); } .graph-key i.k-doc { background:var(--gc-doc); }
+.graph-key i.k-party { background:var(--gc-party); } .graph-key i.k-person { background:var(--gc-person); } .graph-key i.k-sar { background:var(--gc-sar); }
+.graph-key i.k-semantic { background:var(--gc-semantic); }
+.graph-key i.k-risk { background:var(--gc-risk); } .graph-key i.k-record { background:var(--gc-record); } .graph-key i.k-fact { background:var(--gc-fact); }
+
+/* Cards: white, rounded, with a coloured type chip, bold title, grey subtitle and pill tags (added by GraphCanvas.mount) */
+.graph-canvas .canvas-node rect:first-child { fill:#fff; stroke:#dbe3ec; stroke-width:1.5; rx:12; filter:drop-shadow(0 2px 6px #0f172a14); }
+.graph-canvas .canvas-node:hover rect:first-child { stroke:#94a3b8; }
+.graph-canvas .canvas-node text { font-size:13px; font-weight:700; fill:#0f172a; }
+.graph-canvas .canvas-node .canvas-node-type { display:none; }
+.graph-canvas .canvas-node .canvas-node-detail { font-size:11px; font-weight:400; fill:#64748b; }
+.graph-canvas .canvas-node .gc-chip { fill:#64748b; }
+.graph-canvas .canvas-node .gc-glyph { fill:#fff; font-size:13px; font-weight:700; }
+.graph-canvas .canvas-node .gc-tag { fill:#f1f5f9; stroke:none; filter:none; }
+.graph-canvas .canvas-node .gc-tag-text { fill:#475569; font-size:10px; font-weight:500; }
+.graph-canvas .canvas-node .gc-tag.sql { fill:#cffafe; } .graph-canvas .canvas-node .gc-tag.sql+.gc-tag-text { fill:#155e75; }
+.graph-canvas .canvas-node .gc-tag.proposed { fill:#ede9fe; } .graph-canvas .canvas-node .gc-tag.proposed+.gc-tag-text { fill:#5b21b6; }
+.graph-canvas .canvas-node.kyc .gc-chip { fill:var(--gc-kyc); } .graph-canvas .canvas-node.adverse .gc-chip { fill:var(--gc-adverse); }
+.graph-canvas .canvas-node.doc .gc-chip { fill:var(--gc-doc); } .graph-canvas .canvas-node.party .gc-chip { fill:var(--gc-party); }
+.graph-canvas .canvas-node.person .gc-chip { fill:var(--gc-person); } .graph-canvas .canvas-node.sar .gc-chip { fill:var(--gc-sar); }
+.graph-canvas .canvas-node.risk .gc-chip { fill:var(--gc-risk); } .graph-canvas .canvas-node.record .gc-chip { fill:var(--gc-record); }
+.graph-canvas .canvas-node.fact .gc-chip { fill:var(--gc-fact); }
+.graph-canvas .canvas-node.semantic .gc-chip,.graph-canvas .canvas-node.view .gc-chip { fill:var(--gc-semantic); }
+.graph-canvas .canvas-node .gc-tag.warn { fill:#fef3c7; } .graph-canvas .canvas-node .gc-tag.warn+.gc-tag-text { fill:#92400e; }
+.graph-canvas .gc-column-heading { fill:#92400e; font-size:13px; font-weight:700; }
+.graph-canvas .canvas-node.selected rect:first-child,.graph-canvas .canvas-node.path rect:first-child { stroke:var(--accent); stroke-width:3; }
+.graph-canvas.has-path .canvas-node:not(.path) { opacity:.35; }
+.graph-canvas.has-path .canvas-edge:not(.path),.graph-canvas.has-path .gc-edge-pill,.graph-canvas.has-path .canvas-edge-label { opacity:.25; }
+
+/* Edges: curved grey lines, small white pill labels; proposed links dashed purple, SQL links dotted teal */
+.graph-canvas .canvas-edge { stroke:#94a3b8; stroke-width:1.6; }
+.graph-canvas .canvas-edge.edge-kind-mentions { stroke:#cbd5e1; stroke-width:1.3; }
+.graph-canvas .canvas-edge.edge-kind-director_of,.graph-canvas .canvas-edge.edge-kind-employed_by { stroke:#7c3aed; }
+.graph-canvas .canvas-edge.edge-kind-beneficiary_of,.graph-canvas .canvas-edge.edge-kind-holds_product,.graph-canvas .canvas-edge.edge-kind-governed_by { stroke:#16a34a; }
+.graph-canvas .canvas-edge.edge-kind-subject_of_risk { stroke:#ea580c; }
+.graph-canvas .canvas-edge.edge-kind-matched_record,.graph-canvas .canvas-edge.edge-kind-has_fact { stroke:var(--gc-record); stroke-dasharray:2 5; stroke-linecap:round; }
+.graph-canvas .canvas-edge.edge-kind-defined_by { stroke:var(--gc-semantic); stroke-width:2; }
+.graph-canvas .canvas-edge.edge-kind-defined_by.similar { stroke:#d97706; stroke-dasharray:7 5; }
+.graph-canvas .canvas-edge.edge-kind-in_view { stroke:#cbd5e1; stroke-width:1.3; }
+.graph-canvas .canvas-edge.proposed { stroke:#8b5cf6; stroke-dasharray:7 5; }
+.graph-canvas .canvas-edge.path { stroke:var(--accent); stroke-width:3.5; stroke-dasharray:none; opacity:1; }
+.graph-canvas .canvas-edge.edge-kind-defined_by.similar.path { stroke-dasharray:7 5; }
+.graph-canvas .gc-edge-pill { fill:#fff; stroke:#e2e8f0; stroke-width:1; pointer-events:none; }
+.graph-canvas .canvas-edge-label { fill:#475569; font-size:10px; font-weight:500; text-anchor:middle; stroke:none; }
+
+/* Navigation and status have their own space outside the drawable graph. */
+.graph-canvas .mini-node { fill:#cbd5e1; stroke:none; }
+.graph-canvas .mini-node.selected { fill:var(--accent); }
+.graph-canvas .canvas-zoom button { border-radius:8px; min-width:32px; min-height:32px; box-shadow:0 1px 3px #0f172a14; }
+.graph-canvas>.canvas-status { position:static; flex-shrink:0; border-top:1px solid #e2e8f0; padding:7px 12px; }
+@media (max-width:700px) {
+  .graph-canvas .canvas-legend { flex-wrap:nowrap; overflow-x:auto; flex-shrink:0; }
+  .graph-canvas .graph-key { flex-shrink:0; }
+  .graph-canvas .canvas-zoom button { min-width:40px; min-height:40px; }
+  .graph-canvas .canvas-stage>svg:nth-of-type(2) { display:none; }
+  .graph-canvas .canvas-zoom { right:12px; }
+}
+
+.graph-canvas .canvas-node.mapping>rect { fill:#f0fdfa; stroke:#0f766e; }
+.graph-canvas .canvas-edge.edge-kind-maps_attribute { stroke:#0f766e; stroke-dasharray:3 4; }
+#semantic-model-controls { flex-wrap:wrap; }
+#semantic-model-controls input[type=text], #semantic-model-controls input:not([type]) { max-width:100%; min-width:0; }
+
+.graph-canvas .graph-key .k-mapping { background:#0f766e; }
+
+#semantic-model-controls { display:flex; align-items:end; gap:12px; padding:16px; margin:12px 0; background:var(--surface,#f8fafc); border:1px solid #dbe3ec; border-radius:10px; }
+#semantic-model-controls[hidden] { display:none; }
+#semantic-model-controls .field { flex:1 1 180px; min-width:0; display:flex; flex-direction:column; gap:6px; font-size:12px; font-weight:600; }
+#semantic-model-controls select,#semantic-model-controls input:not([type=checkbox]) { width:100%; min-height:40px; padding:9px 11px; font:inherit; color:inherit; border:1px solid #cbd5e1; border-radius:8px; background:#fff; box-sizing:border-box; }
+#semantic-model-controls>label:not(.field) { min-height:40px; display:flex; align-items:center; gap:8px; font-size:13px; }
+#semantic-model-controls>p { flex-basis:100%; margin:0; line-height:1.5; }
+@media(max-width:600px) { #semantic-model-controls .field { flex-basis:100%; } #semantic-model-controls>button { width:100%; } }
+/* The Knowledge workspace puts evidence and meaning beside one shared drawing surface. */
+#knowledge-workspace-tools { display:flex; align-items:center; gap:12px; margin:0 0 12px; }
+.knowledge-scope { display:flex; align-items:center; gap:8px; font-size:13px; font-weight:600; }
+.knowledge-scope select { width:270px; min-height:36px; margin:0; padding:6px 10px; }
+#graph-stage { grid-template-columns:minmax(0,1fr) 330px; gap:16px; align-items:start; }
+.knowledge-rail { display:flex; flex-direction:column; height:660px; min-width:0; border:1px solid var(--line); border-radius:10px; overflow:hidden; background:#fff; }
+.definition-catalog { padding:16px 16px 8px; border-bottom:1px solid var(--line); }
+.definition-catalog h3 { font-size:16px; margin:0 0 4px; }
+.definition-catalog>p { margin:0 0 12px; }
+#graph-definitions { display:flex; flex-direction:column; }
+.definition-entry { display:flex; flex-direction:column; align-items:flex-start; gap:3px; padding:9px 0; margin:0; background:transparent; border:0; border-radius:0; border-top:1px solid #e8edf2; color:#203047; text-align:left; width:100%; }
+.definition-entry strong { font-size:13px; line-height:1.4; }
+.definition-entry small { font-size:11px; color:#596878; }
+.definition-entry:hover,.definition-entry[aria-pressed=true] { color:var(--accent); background:#f3f7fa; }
+.definition-entry:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
+#graph-detail { flex:1; border:0; border-radius:0; padding:16px; max-height:none; overflow:auto; }
+#graph-detail p { font-size:13px; line-height:1.6; }
+#graph-detail .quote { border-left-width:1px; }
+#graph-canvas .canvas-toolbar { flex-wrap:nowrap; height:48px; box-sizing:border-box; padding:8px 12px; }
+#graph-canvas .canvas-toolbar input[type=search] { flex:1; max-width:none; min-width:120px; width:180px; }
+.graph-canvas .canvas-toolbar .canvas-zoom { position:static; display:flex; gap:4px; margin-left:auto; }
+.graph-canvas .canvas-toolbar .canvas-zoom button { min-width:30px; min-height:30px; font-size:16px; padding:2px 6px; }
+#graph-canvas .canvas-legend { padding:7px 12px; min-height:30px; box-sizing:border-box; gap:4px 8px; }
+#graph-canvas .graph-key { border:0; background:transparent; padding:0; }
+#semantic-model-controls { margin:0 0 12px; padding:10px 0; background:transparent; border:0; border-radius:0; gap:10px; }
+#semantic-model-controls .field { flex:1 1 140px; }
+#semantic-model-controls .field select,#semantic-model-controls .field input { min-height:34px; padding:6px 8px; }
+#semantic-model-controls>p { font-size:12px; }
+#graph-sem-note { margin:0 0 10px; }
+#graph-form { display:flex; align-items:center; gap:12px; border-top:1px solid var(--line); padding-top:16px; }
+#graph-form>label { margin:0; white-space:nowrap; }
+#graph-form>input { flex:1; margin:0; }
+#graph-form .action-row { margin:0; }
+
+/* Desktop workspace rhythm: compact controls, readable evidence, one detail dock. */
+#knowledge-workspace-tools { min-height:36px; gap:16px; }
+#knowledge-workspace-tools #graph-sem-toggle { margin:0; white-space:nowrap; }
+#graph-expand-model { margin-left:auto; }
+#graph-canvas .canvas-stage { min-height:480px; }
+#graph-canvas .canvas-node text:not(.gc-tag-text):not(.gc-glyph):not(.canvas-node-detail) { font-size:15px; }
+.definition-catalog { flex:0 1 auto; max-height:390px; overflow:auto; }
+.definition-meaning { color:#475569; font-size:12px; line-height:1.45; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+#graph-detail { min-height:180px; }
+#graph-detail h3 { margin:0 0 10px; font-size:16px; }
+#semantic-model-controls { align-items:center; }
+#semantic-model-controls .field { flex-direction:row; align-items:center; white-space:nowrap; font-size:12px; }
+#semantic-model-controls .field select,#semantic-model-controls .field input { min-width:100px; }
+#semantic-model-controls>p { margin:0; }
+.knowledge-rail ::selection { background:#dceef3; }
+.knowledge-rail { scrollbar-color:#a4b4c1 #f3f6f8; scrollbar-width:thin; }
+
+.knowledge-rail:not(.has-selection) .definition-catalog { flex:1; max-height:none; border-bottom:0; }
+.knowledge-rail.has-selection .definition-catalog { max-height:300px; flex-shrink:0; }
+#graph-detail[hidden] { display:none; }
+
+/* Keep the drawing surface usable when the definitions dock cannot fit beside it. */
+@media(max-width:980px){#graph-stage{grid-template-columns:minmax(0,1fr)}.knowledge-rail{height:480px;width:100%}}
+@media(max-width:700px){#graph-canvas .canvas-toolbar{flex-wrap:wrap;height:auto;min-height:48px}#graph-canvas .canvas-toolbar input[type=search]{min-width:100px;width:100px}}
+
+/* Stale semantic mappings are diagnostics, never approved links. */
+.graph-canvas .canvas-edge.stale { stroke:#94a3b8; stroke-dasharray:3 6; opacity:.65; }
+.graph-canvas .canvas-node.gc-stale { opacity:.65; }
+.graph-canvas .canvas-node.gc-stale .gc-chip { fill:#e2e8f0; }
+.understanding-technical pre { white-space:pre-wrap; overflow-wrap:anywhere; font-size:11px; }
+.understanding-toolbar select { max-width:170px; border:1px solid var(--line); border-radius:8px; padding:7px 10px; font:inherit; background:#fff; color:var(--ink); }

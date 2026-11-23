@@ -1,0 +1,4245 @@
+version: 0.2.0.dev0
+name: finance_workbook_demo
+description: Authored finance workbook model candidate. Contains metadata only.
+ai_context:
+  instructions: Use only authorized accepted rows and join on the workbook batch and business date. Never
+    sum repeated snapshots, combine native currencies, derive balances or rank across unreviewed populations.
+    Require a separately reviewed identity decision for document or external-company links. Preserve recorded
+    risk separately from allegations.
+datasets:
+- name: Customers
+  source: finance_workbook.Customers
+  description: One accepted customer per workbook business snapshot. Holds the customer's type, industry
+    code, segment, recorded risk rating, country of operation and home branch. Corporate and individual
+    customers share this table. Customer names, identity numbers, dates of birth or incorporation and
+    contact details are excluded from this projection.
+  primary_key:
+  - SourceBatch
+  - BusinessDate
+  - CustomerID
+  fields:
+  - name: SourceBatch
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: SourceBatch
+    description: SHA-256 identity of the immutable source workbook batch, supplied by the projection.
+      It is provenance, not a business attribute. Every query must select one batch, and every join must
+      match on it. Never display the value.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "internal join key; never render source identifier values", "provenance": "batch
+        hash", "role": "audit"}'
+    label: Source batch
+  - name: BusinessDate
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: BusinessDate
+    description: Business snapshot date, also called the as-of date. Each row states what the bank recorded
+      on that day. It is separate from an event date or a relationship effective date. The demo workbook
+      holds daily snapshots for 4 to 6 November 2026. Never add counts or amounts across snapshot dates.
+    datatype: Date
+    dimension:
+      is_time: true
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "source-scoped metadata", "concept": "snapshot_date", "provenance": "worksheet
+        header", "role": "time"}'
+    label: Business date
+    ai_context:
+      synonyms:
+      - as-of date
+      - snapshot date
+      - reporting date
+      - position date
+      - as at date
+  - name: CustomerID
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: CustomerID
+    description: Workbook-local customer identifier. It may identify a corporate or an individual customer.
+      It is valid only inside this workbook. It is not a national or company registration number, and
+      it does not link to a document or an external company without a separately reviewed identity decision.
+      Never display the value.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "internal join key; never render source identifier values", "concept": "customer",
+        "provenance": "worksheet header", "role": "identifier"}'
+    label: Customer ID
+    ai_context:
+      synonyms:
+      - customer number
+      - client ID
+      - client number
+      - CIF number
+      - customer reference
+      examples:
+      - How many customers were on book on 6 November 2026?
+  - name: CustomerType
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: CustomerType
+    description: Source customer type for an accepted customer snapshot. It separates companies from natural
+      persons. Observed values are Corporate and Individual.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "source-scoped metadata", "concept": "customer_type", "provenance": "worksheet
+        header", "role": "dimension", "values": {"Corporate": "Recorded as a corporate customer.", "Individual":
+        "Recorded as an individual customer."}}'
+    label: Customer type
+    ai_context:
+      synonyms:
+      - client type
+      - corporate or individual
+      - entity type
+      - legal form
+      - party type
+      - company or person
+  - name: IndustryCode
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: IndustryCode
+    description: Industry code as supplied, written as a four-digit code and a short label. A governed
+      industry classification has not been established, so the code system is unconfirmed. The value also
+      appears on individual customers. Decode and compare the code system before mapping it to a sector
+      label in another model.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "source-scoped metadata", "concept": "industry", "provenance": "worksheet header",
+        "role": "dimension", "values": {"3510-Energy": "Source label Energy. Code system not recorded
+        in the source.", "4641-Trading": "Source label Trading. Code system not recorded in the source.",
+        "6201-Software": "Source label Software. Code system not recorded in the source.", "6419-Banking":
+        "Source label Banking. Code system not recorded in the source.", "6810-RealEstate": "Source label
+        RealEstate. Code system not recorded in the source.", "8610-Healthcare": "Source label Healthcare.
+        Code system not recorded in the source."}}'
+    label: Industry code
+    ai_context:
+      synonyms:
+      - industry
+      - sector
+      - industry sector
+      - line of business
+      - business activity
+      - industry classification
+  - name: RiskRating
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: RiskRating
+    description: Workbook-recorded risk rating of the customer in its own source population. Observed
+      values are Low and Medium. No customer is rated High in this demo data. The source does not record
+      the rating scale or the policy behind it. The rating is read from this column only. It is never
+      derived from adverse media, news or allegations in a document.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "source-scoped metadata", "concept": "risk_rating", "provenance": "worksheet header",
+        "role": "dimension", "values": {"Low": "Recorded as Low. Scale definition not recorded in the
+        source.", "Medium": "Recorded as Medium. Scale definition not recorded in the source."}}'
+    label: Risk rating
+    ai_context:
+      synonyms:
+      - customer risk rating
+      - risk grade
+      - risk classification
+      - risk category
+      - risk level
+      - risk profile
+      examples:
+      - How many customers have a recorded risk rating of Medium?
+  - name: CustomerSegment
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: CustomerSegment
+    description: Workbook customer segment, the bank's own grouping of the customer. Observed values mix
+      consumer and business tiers. The banking and Looker tiers require a crosswalk before segments are
+      compared across sources.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "source-scoped metadata", "concept": "customer_segment", "provenance": "worksheet
+        header", "role": "dimension", "values": {"CBK": "Observed code. Meaning not recorded in the source.",
+        "CMB": "Observed code. Meaning not recorded in the source.", "Corporate": "Recorded as Corporate.
+        Tier definition not recorded in the source.", "Premier": "Recorded as Premier. Tier definition
+        not recorded in the source.", "Priority": "Recorded as Priority. Tier definition not recorded
+        in the source.", "Private": "Recorded as Private. Tier definition not recorded in the source.",
+        "Retail": "Recorded as Retail. Tier definition not recorded in the source."}}'
+    label: Customer segment
+    ai_context:
+      synonyms:
+      - segment
+      - client segment
+      - banking segment
+      - service tier
+      - customer tier
+      - coverage segment
+  - name: CountryOfOperation
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: CountryOfOperation
+    description: Country of operation as supplied for the customer, as a two-letter country code. The
+      only observed value is SG. It is not the country of residence or of tax residence, which this projection
+      excludes.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "source-scoped metadata", "provenance": "worksheet header", "role": "dimension",
+        "values": {"SG": "Two-letter country code SG, as supplied."}}'
+    label: Country of operation
+    ai_context:
+      synonyms:
+      - operating country
+      - country
+      - market
+      - place of business
+      - where the customer operates
+      - jurisdiction
+  - name: BranchCode
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: BranchCode
+    description: Source code of the branch recorded on the customer. Observed codes are BR001 to BR005.
+      The source has no certified reference mapping from a code to a branch name or location.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "source-scoped metadata", "concept": "branch", "provenance": "worksheet header",
+        "role": "dimension"}'
+    label: Customer branch code
+    ai_context:
+      synonyms:
+      - branch
+      - home branch
+      - servicing branch
+      - branch code
+      - branch number
+  custom_extensions:
+  - vendor_name: HELIOS
+    data: '{"excluded_headers": ["CustomerName", "ID", "DOBOrIncorpDate", "CountryOfResidence", "MaritalStatus",
+      "Site ID", "TaxResidence", "CostCenter", "PhoneNumber", "Staff"], "label": "Customers", "retention":
+      "accepted only", "source_type": "logical projection", "subject_area": "customer", "worksheet": "Customers"}'
+  ai_context:
+    synonyms:
+    - customer master
+    - client master
+    - customer list
+    - customer profile
+    - client base
+    - customer static data
+- name: Accounts
+  source: finance_workbook.Accounts
+  description: One accepted account per workbook business snapshot. Each account belongs to one customer
+    and carries its product type, currency, opening date, booking country, branch and status. No balance
+    value and no maturity date are supplied. A deposit or loan balance cannot be read from this table
+    or built from transaction amounts.
+  primary_key:
+  - SourceBatch
+  - BusinessDate
+  - AccountNumber
+  fields:
+  - name: SourceBatch
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: SourceBatch
+    description: SHA-256 identity of the immutable source workbook batch, supplied by the projection.
+      It is provenance, not a business attribute. Every query must select one batch, and every join must
+      match on it. Never display the value.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "internal join key; never render source identifier values", "provenance": "batch
+        hash", "role": "audit"}'
+    label: Source batch
+  - name: BusinessDate
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: BusinessDate
+    description: Business snapshot date, also called the as-of date. Each row states what the bank recorded
+      on that day. It is separate from an event date or a relationship effective date. The demo workbook
+      holds daily snapshots for 4 to 6 November 2026. Never add counts or amounts across snapshot dates.
+    datatype: Date
+    dimension:
+      is_time: true
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "source-scoped metadata", "concept": "snapshot_date", "provenance": "worksheet
+        header", "role": "time"}'
+    label: Business date
+    ai_context:
+      synonyms:
+      - as-of date
+      - snapshot date
+      - reporting date
+      - position date
+      - as at date
+  - name: AccountNumber
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: AccountNumber
+    description: Restricted workbook-local account identifier. It is the key of the account and the join
+      key for all transaction tables. The format differs by product. Never display the value.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "internal join key; never render source identifier values", "concept": "account",
+        "provenance": "worksheet header", "role": "identifier"}'
+    label: Account number
+    ai_context:
+      synonyms:
+      - account no
+      - account ID
+      - account reference
+  - name: CustomerID
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: CustomerID
+    description: Workbook-local customer identifier. It may identify a corporate or an individual customer.
+      It is valid only inside this workbook. It is not a national or company registration number, and
+      it does not link to a document or an external company without a separately reviewed identity decision.
+      Never display the value.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "internal join key; never render source identifier values", "concept": "customer",
+        "provenance": "worksheet header", "role": "identifier"}'
+    label: Customer ID
+    ai_context:
+      synonyms:
+      - customer number
+      - client ID
+      - client number
+      - CIF number
+      - customer reference
+  - name: Currency
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: Currency
+    description: Native currency code of the account, as an ISO code. Observed values are EUR, HKD, JPY,
+      SGD and USD. This projection performs no conversion.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "source-scoped metadata", "concept": "currency", "provenance": "worksheet header",
+        "role": "dimension", "values": {"EUR": "ISO currency code EUR.", "HKD": "ISO currency code HKD.",
+        "JPY": "ISO currency code JPY.", "SGD": "ISO currency code SGD.", "USD": "ISO currency code USD."}}'
+    label: Account currency
+    ai_context:
+      synonyms:
+      - currency code
+      - CCY
+      - account CCY
+      - denomination
+      - native currency
+  - name: ProductType
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: ProductType
+    description: Source account product category. It names the business line of the account and matches
+      one transaction table each. Observed values are CASA, CreditCard, Investment, Loan, Treasury_FX
+      and Treasury_LC.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "source-scoped metadata", "concept": "product", "provenance": "worksheet header",
+        "role": "dimension", "values": {"CASA": "Current account or savings account. Transactions are
+        in CASA_Txn.", "CreditCard": "Credit card account. Transactions are in CreditCard_Txn.", "Investment":
+        "Investment account. Transactions are in Investment_Txn.", "Loan": "Loan account. Transactions
+        are in Loan_Txn.", "Treasury_FX": "Treasury foreign exchange account. Transactions are in Treasury_FX_Txn.",
+        "Treasury_LC": "Treasury letter of credit account. Transactions are in Treasury_LC_Txn."}}'
+    label: Product type
+    ai_context:
+      synonyms:
+      - product
+      - product category
+      - product line
+      - account type
+      - facility type
+      - type of account
+  - name: ProductSubType
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: ProductSubType
+    description: Source account product subcategory, one level below the product type. Observed values
+      are Current, Savings, Visa, Custody, Mortgage, FX and LC.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "source-scoped metadata", "concept": "product", "provenance": "worksheet header",
+        "role": "dimension", "values": {"Current": "Recorded as Current.", "Custody": "Recorded as Custody.",
+        "FX": "Recorded as FX.", "LC": "Recorded as LC.", "Mortgage": "Recorded as Mortgage.", "Savings":
+        "Recorded as Savings.", "Visa": "Recorded as Visa."}}'
+    label: Product subtype
+    ai_context:
+      synonyms:
+      - product subcategory
+      - sub-product
+      - product variant
+      - account subtype
+      - current or savings
+  - name: ProductCode
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: ProductCode
+    description: Source product code with no certified reference mapping. Observed codes run from P000
+      to P019. The meaning of each code is not recorded in the source, so the code must not be read as
+      a product name.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "source-scoped metadata", "concept": "product", "provenance": "worksheet header",
+        "role": "dimension"}'
+    label: Product code
+    ai_context:
+      synonyms:
+      - product ID
+      - product identifier
+      - scheme code
+      - internal product code
+  - name: OpenDate
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: OpenDate
+    description: Recorded account opening date. It dates the account, not the customer. It does not establish
+      when the customer was onboarded.
+    datatype: Date
+    dimension:
+      is_time: true
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "source-scoped metadata", "provenance": "worksheet header", "role": "time"}'
+    label: Account open date
+    ai_context:
+      synonyms:
+      - opening date
+      - account opening date
+      - date opened
+      - account start date
+      - opened on
+  - name: BookingCountry
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: BookingCountry
+    description: Source account booking country, the country where the account is booked, as a two-letter
+      code. The only observed value is SG.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "source-scoped metadata", "provenance": "worksheet header", "role": "dimension",
+        "values": {"SG": "Two-letter country code SG, as supplied."}}'
+    label: Booking country
+    ai_context:
+      synonyms:
+      - booking location
+      - booking centre
+      - booking entity country
+      - country of booking
+      - booked in
+  - name: BranchCode
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: BranchCode
+    description: Source code of the branch that holds the account. Observed codes are BR001 to BR005.
+      The source has no certified reference mapping from a code to a branch.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "source-scoped metadata", "concept": "branch", "provenance": "worksheet header",
+        "role": "dimension"}'
+    label: Account branch code
+    ai_context:
+      synonyms:
+      - branch
+      - account branch
+      - booking branch
+      - branch code
+      - branch number
+  - name: Status
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: Status
+    description: Status of the account as recorded by this worksheet. Observed values are Active and Inactive.
+      The status is source-recorded only and is not inferred from transactions. Code meanings can vary
+      across worksheets.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "source-scoped metadata", "concept": "account_status", "provenance": "worksheet
+        header", "role": "dimension", "values": {"Active": "Recorded as Active.", "Inactive": "Recorded
+        as Inactive. The reason is not recorded in the source."}}'
+    label: Account status
+    ai_context:
+      synonyms:
+      - status
+      - account state
+      - active or inactive
+      - active account
+      - inactive account
+      - account standing
+      examples:
+      - How many accounts were active on 6 November 2026?
+  custom_extensions:
+  - vendor_name: HELIOS
+    data: '{"excluded_headers": ["MaturityDate"], "label": "Accounts", "retention": "accepted only", "source_type":
+      "logical projection", "subject_area": "accounts_and_products", "worksheet": "Accounts"}'
+  ai_context:
+    synonyms:
+    - account master
+    - account list
+    - product holdings
+    - customer accounts
+    - facilities
+    - account static data
+- name: RelationshipManagers
+  source: finance_workbook.RelationshipManagers
+  description: One accepted relationship manager per workbook business snapshot. Holds the manager's title,
+    branch, region and status. Names, contact details, hire dates and the reporting manager are excluded
+    from this projection.
+  primary_key:
+  - SourceBatch
+  - BusinessDate
+  - RMID
+  fields:
+  - name: SourceBatch
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: SourceBatch
+    description: SHA-256 identity of the immutable source workbook batch, supplied by the projection.
+      It is provenance, not a business attribute. Every query must select one batch, and every join must
+      match on it. Never display the value.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "internal join key; never render source identifier values", "provenance": "batch
+        hash", "role": "audit"}'
+    label: Source batch
+  - name: BusinessDate
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: BusinessDate
+    description: Business snapshot date, also called the as-of date. Each row states what the bank recorded
+      on that day. It is separate from an event date or a relationship effective date. The demo workbook
+      holds daily snapshots for 4 to 6 November 2026. Never add counts or amounts across snapshot dates.
+    datatype: Date
+    dimension:
+      is_time: true
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "source-scoped metadata", "concept": "snapshot_date", "provenance": "worksheet
+        header", "role": "time"}'
+    label: Business date
+    ai_context:
+      synonyms:
+      - as-of date
+      - snapshot date
+      - reporting date
+      - position date
+      - as at date
+  - name: RMID
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: RMID
+    description: Workbook-local relationship manager identifier. It is valid only inside this workbook.
+      A display name alone cannot establish the same manager in another system. Never display the value.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "internal join key; never render source identifier values", "concept": "relationship_manager",
+        "provenance": "worksheet header", "role": "identifier"}'
+    label: Relationship manager ID
+    ai_context:
+      synonyms:
+      - RM ID
+      - RM code
+      - banker ID
+      - relationship manager number
+      - account officer code
+  - name: Title
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: Title
+    description: Source relationship manager title, the job title of the staff member. The only observed
+      value is Relationship Manager.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "source-scoped metadata", "provenance": "worksheet header", "role": "dimension",
+        "values": {"Relationship Manager": "Recorded job title."}}'
+    label: Job title
+    ai_context:
+      synonyms:
+      - title
+      - position
+      - designation
+      - role
+      - rank
+      - job role
+  - name: BranchCode
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: BranchCode
+    description: Source code of the branch where the relationship manager is based. Observed codes are
+      BR001 to BR005. No certified reference maps a code to a branch.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "source-scoped metadata", "concept": "branch", "provenance": "worksheet header",
+        "role": "dimension"}'
+    label: Relationship manager branch code
+    ai_context:
+      synonyms:
+      - branch
+      - RM branch
+      - home branch
+      - branch code
+      - office
+  - name: Region
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: Region
+    description: Regional assignment label of the relationship manager as supplied. The only observed
+      value is APAC.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "source-scoped metadata", "provenance": "worksheet header", "role": "dimension",
+        "values": {"APAC": "Recorded as APAC."}}'
+    label: Region
+    ai_context:
+      synonyms:
+      - coverage region
+      - geography
+      - territory
+      - market region
+      - regional team
+  - name: Status
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: Status
+    description: Status of the relationship manager as recorded by this worksheet. Observed values are
+      Active and Inactive. Code meanings can vary across worksheets.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "source-scoped metadata", "provenance": "worksheet header", "role": "dimension",
+        "values": {"Active": "Recorded as Active.", "Inactive": "Recorded as Inactive. The reason is not
+        recorded in the source."}}'
+    label: Relationship manager status
+    ai_context:
+      synonyms:
+      - status
+      - employment status
+      - active or inactive
+      - RM status
+      - staff status
+  custom_extensions:
+  - vendor_name: HELIOS
+    data: '{"excluded_headers": ["RMName", "CostCenter", "Country", "Email", "Phone", "HireDate", "ManagerRMID"],
+      "label": "Relationship managers", "retention": "accepted only", "source_type": "logical projection",
+      "subject_area": "relationship_coverage", "worksheet": "RelationshipManagers"}'
+  ai_context:
+    synonyms:
+    - RM roster
+    - RM list
+    - banker list
+    - relationship manager master
+    - account officers
+    - coverage team
+- name: Customer_RM_Relationship
+  source: finance_workbook.Customer_RM_Relationship
+  description: One accepted customer and relationship manager link of a given type per workbook business
+    snapshot. It answers who covers a customer. Confirm the assignment is active on the selected business
+    date before using it.
+  primary_key:
+  - SourceBatch
+  - BusinessDate
+  - CustomerID
+  - RMID
+  - RelationshipType
+  fields:
+  - name: SourceBatch
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: SourceBatch
+    description: SHA-256 identity of the immutable source workbook batch, supplied by the projection.
+      It is provenance, not a business attribute. Every query must select one batch, and every join must
+      match on it. Never display the value.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "internal join key; never render source identifier values", "provenance": "batch
+        hash", "role": "audit"}'
+    label: Source batch
+  - name: BusinessDate
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: BusinessDate
+    description: Business snapshot date, also called the as-of date. Each row states what the bank recorded
+      on that day. It is separate from an event date or a relationship effective date. The demo workbook
+      holds daily snapshots for 4 to 6 November 2026. Never add counts or amounts across snapshot dates.
+    datatype: Date
+    dimension:
+      is_time: true
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "source-scoped metadata", "concept": "snapshot_date", "provenance": "worksheet
+        header", "role": "time"}'
+    label: Business date
+    ai_context:
+      synonyms:
+      - as-of date
+      - snapshot date
+      - reporting date
+      - position date
+      - as at date
+  - name: CustomerID
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: CustomerID
+    description: Workbook-local customer identifier. It may identify a corporate or an individual customer.
+      It is valid only inside this workbook. It is not a national or company registration number, and
+      it does not link to a document or an external company without a separately reviewed identity decision.
+      Never display the value.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "internal join key; never render source identifier values", "concept": "customer",
+        "provenance": "worksheet header", "role": "identifier"}'
+    label: Customer ID
+    ai_context:
+      synonyms:
+      - customer number
+      - client ID
+      - client number
+      - CIF number
+      - customer reference
+  - name: RMID
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: RMID
+    description: Workbook-local relationship manager identifier. It is valid only inside this workbook.
+      A display name alone cannot establish the same manager in another system. Never display the value.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "internal join key; never render source identifier values", "concept": "relationship_manager",
+        "provenance": "worksheet header", "role": "identifier"}'
+    label: Relationship manager ID
+    ai_context:
+      synonyms:
+      - RM ID
+      - RM code
+      - banker ID
+      - relationship manager number
+      - account officer code
+      examples:
+      - Which relationship manager covers this customer?
+  - name: RelationshipType
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: RelationshipType
+    description: Source classification of the customer and relationship manager link. The only observed
+      value is Primary RM.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "source-scoped metadata", "concept": "rm_assignment", "provenance": "worksheet
+        header", "role": "dimension", "values": {"Primary RM": "Recorded as Primary RM. Other roles are
+        not present in the source."}}'
+    label: Relationship type
+    ai_context:
+      synonyms:
+      - coverage role
+      - RM role
+      - assignment type
+      - primary RM
+      - coverage type
+  - name: StartDate
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: StartDate
+    description: Effective start of the source relationship record, the date from which the manager covers
+      the customer. It is not the customer onboarding date.
+    datatype: Date
+    dimension:
+      is_time: true
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "source-scoped metadata", "provenance": "worksheet header", "role": "time"}'
+    label: Assignment start date
+    ai_context:
+      synonyms:
+      - effective from
+      - coverage start
+      - assigned since
+      - start of coverage
+      - effective date
+  - name: EndDate
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: EndDate
+    description: Optional effective end of the source relationship record. It is blank on every row in
+      this demo data. The meaning of a blank end date is not recorded in the source.
+    datatype: Date
+    dimension:
+      is_time: true
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "source-scoped metadata", "provenance": "worksheet header", "role": "time"}'
+    label: Assignment end date
+    ai_context:
+      synonyms:
+      - effective to
+      - coverage end
+      - assigned until
+      - end of coverage
+      - expiry date
+  custom_extensions:
+  - vendor_name: HELIOS
+    data: '{"excluded_headers": [], "label": "Customer coverage assignments", "retention": "accepted only",
+      "source_type": "logical projection", "subject_area": "relationship_coverage", "worksheet": "Customer_RM_Relationship"}'
+  ai_context:
+    synonyms:
+    - RM assignment
+    - customer coverage
+    - RM portfolio
+    - book of clients
+    - coverage mapping
+    - customer to RM mapping
+- name: RMHierarchy
+  source: finance_workbook.RMHierarchy
+  description: One accepted hierarchy record per workbook business snapshot. It places a relationship
+    manager at a level in a region and a department. The reporting-line columns are excluded, so it does
+    not establish who reports to whom.
+  primary_key:
+  - SourceBatch
+  - BusinessDate
+  - HierarchyID
+  fields:
+  - name: SourceBatch
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: SourceBatch
+    description: SHA-256 identity of the immutable source workbook batch, supplied by the projection.
+      It is provenance, not a business attribute. Every query must select one batch, and every join must
+      match on it. Never display the value.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "internal join key; never render source identifier values", "provenance": "batch
+        hash", "role": "audit"}'
+    label: Source batch
+  - name: BusinessDate
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: BusinessDate
+    description: Business snapshot date, also called the as-of date. Each row states what the bank recorded
+      on that day. It is separate from an event date or a relationship effective date. The demo workbook
+      holds daily snapshots for 4 to 6 November 2026. Never add counts or amounts across snapshot dates.
+    datatype: Date
+    dimension:
+      is_time: true
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "source-scoped metadata", "concept": "snapshot_date", "provenance": "worksheet
+        header", "role": "time"}'
+    label: Business date
+    ai_context:
+      synonyms:
+      - as-of date
+      - snapshot date
+      - reporting date
+      - position date
+      - as at date
+  - name: HierarchyID
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: HierarchyID
+    description: Workbook-local hierarchy record identifier. It identifies the hierarchy row, not the
+      relationship manager. Never display the value.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "internal join key; never render source identifier values", "provenance": "worksheet
+        header", "role": "identifier"}'
+    label: Hierarchy record ID
+    ai_context:
+      synonyms:
+      - hierarchy ID
+      - hierarchy record number
+      - org record ID
+  - name: RMID
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: RMID
+    description: Workbook-local relationship manager identifier. It is valid only inside this workbook.
+      A display name alone cannot establish the same manager in another system. Never display the value.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "internal join key; never render source identifier values", "concept": "relationship_manager",
+        "provenance": "worksheet header", "role": "identifier"}'
+    label: Relationship manager ID
+    ai_context:
+      synonyms:
+      - RM ID
+      - RM code
+      - banker ID
+      - relationship manager number
+      - account officer code
+  - name: Level
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: Level
+    description: Hierarchy level as supplied. This does not establish a manager-to-manager edge. Observed
+      codes are 1 and 3. The source does not record which level is senior.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "source-scoped metadata", "concept": "rm_hierarchy", "provenance": "worksheet
+        header", "role": "dimension", "values": {"1": "Observed code. Meaning not recorded in the source.",
+        "3": "Observed code. Meaning not recorded in the source."}}'
+    label: Hierarchy level
+    ai_context:
+      synonyms:
+      - organisation level
+      - grade
+      - tier
+      - seniority level
+      - reporting level
+      - rank
+  - name: Region
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: Region
+    description: Regional assignment label of the hierarchy record as supplied. The only observed value
+      is APAC.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "source-scoped metadata", "provenance": "worksheet header", "role": "dimension",
+        "values": {"APAC": "Recorded as APAC."}}'
+    label: Region
+    ai_context:
+      synonyms:
+      - coverage region
+      - geography
+      - territory
+      - market region
+      - regional team
+  - name: Department
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: Department
+    description: Department label of the hierarchy record as supplied. The only observed value is Wealth.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "source-scoped metadata", "provenance": "worksheet header", "role": "dimension",
+        "values": {"Wealth": "Recorded as Wealth."}}'
+    label: Department
+    ai_context:
+      synonyms:
+      - business unit
+      - division
+      - team
+      - desk
+      - line of business
+      - function
+  - name: StartDate
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: StartDate
+    description: Effective start of the source relationship record, here the date from which the hierarchy
+      placement applies. The end date is excluded from this projection.
+    datatype: Date
+    dimension:
+      is_time: true
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "source-scoped metadata", "provenance": "worksheet header", "role": "time"}'
+    label: Hierarchy start date
+    ai_context:
+      synonyms:
+      - effective from
+      - effective date
+      - placement start
+      - in role since
+  - name: ActiveFlag
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: ActiveFlag
+    description: Source hierarchy flag. Its codes remain in source form. The only observed code is Y.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "source-scoped metadata", "provenance": "worksheet header", "role": "dimension",
+        "values": {"Y": "Observed code. Meaning not recorded in the source."}}'
+    label: Active flag
+    ai_context:
+      synonyms:
+      - active indicator
+      - is active
+      - current flag
+      - active or inactive
+      - live record
+  custom_extensions:
+  - vendor_name: HELIOS
+    data: '{"excluded_headers": ["RMName", "ReportsToRMID", "ReportsToName", "EndDate"], "label": "Relationship
+      manager hierarchy", "retention": "accepted only", "source_type": "logical projection", "subject_area":
+      "relationship_coverage", "worksheet": "RMHierarchy"}'
+  ai_context:
+    synonyms:
+    - RM hierarchy
+    - organisation structure
+    - coverage team structure
+    - org chart
+    - reporting structure
+- name: CASA_Txn
+  source: finance_workbook.CASA_Txn
+  description: One accepted CASA event row per workbook business snapshot. CASA means current account
+    and savings account. An event can recur across snapshots. Amounts are unsigned and in source currency.
+    They are transaction flows, not deposit balances, and they cannot supply a deposit balance. The transaction
+    description and reference are excluded from this projection.
+  primary_key:
+  - SourceBatch
+  - BusinessDate
+  - TransactionID
+  fields:
+  - name: SourceBatch
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: SourceBatch
+    description: SHA-256 identity of the immutable source workbook batch, supplied by the projection.
+      It is provenance, not a business attribute. Every query must select one batch, and every join must
+      match on it. Never display the value.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "internal join key; never render source identifier values", "provenance": "batch
+        hash", "role": "audit"}'
+    label: Source batch
+  - name: BusinessDate
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: BusinessDate
+    description: Business snapshot date, also called the as-of date. Each row states what the bank recorded
+      on that day. It is separate from an event date or a relationship effective date. The demo workbook
+      holds daily snapshots for 4 to 6 November 2026. Never add counts or amounts across snapshot dates.
+    datatype: Date
+    dimension:
+      is_time: true
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "source-scoped metadata", "concept": "snapshot_date", "provenance": "worksheet
+        header", "role": "time"}'
+    label: Business date
+    ai_context:
+      synonyms:
+      - as-of date
+      - snapshot date
+      - reporting date
+      - position date
+      - as at date
+  - name: TransactionID
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: TransactionID
+    description: Workbook event identity within this transaction worksheet. It identifies one CASA transaction.
+      The same ID can appear in more than one snapshot. Never display the value.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "internal join key; never render source identifier values", "concept": "casa_transaction",
+        "provenance": "worksheet header", "role": "identifier"}'
+    label: Transaction ID
+    ai_context:
+      synonyms:
+      - transaction reference
+      - transaction number
+      - txn ID
+      - posting reference
+  - name: AccountNumber
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: AccountNumber
+    description: Restricted workbook-local account identifier of the current or savings account on which
+      the transaction was recorded. Never display the value.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "internal join key; never render source identifier values", "concept": "account",
+        "provenance": "worksheet header", "role": "identifier"}'
+    label: Account number
+    ai_context:
+      synonyms:
+      - account no
+      - account ID
+      - account reference
+  - name: CustomerID
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: CustomerID
+    description: Workbook-local customer identifier. It may identify a corporate or an individual customer.
+      It is valid only inside this workbook. It is not a national or company registration number, and
+      it does not link to a document or an external company without a separately reviewed identity decision.
+      Never display the value.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "internal join key; never render source identifier values", "concept": "customer",
+        "provenance": "worksheet header", "role": "identifier"}'
+    label: Customer ID
+    ai_context:
+      synonyms:
+      - customer number
+      - client ID
+      - client number
+      - CIF number
+      - customer reference
+  - name: TransactionDate
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: TransactionDate
+    description: Recorded event date of the CASA transaction. It is distinct from the business snapshot
+      date.
+    datatype: Date
+    dimension:
+      is_time: true
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "source-scoped metadata", "concept": "transaction", "provenance": "worksheet header",
+        "role": "time"}'
+    label: Transaction date
+    ai_context:
+      synonyms:
+      - posting date
+      - value date
+      - event date
+      - date of transaction
+      - txn date
+  - name: Currency
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: Currency
+    description: ISO currency code of the transaction amount on this row. This projection performs no
+      conversion. Amounts in different currencies must not be added together.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "source-scoped metadata", "concept": "currency", "provenance": "worksheet header",
+        "role": "dimension"}'
+    label: Transaction currency
+    ai_context:
+      synonyms:
+      - currency code
+      - CCY
+      - transaction CCY
+      - denomination
+      - native currency
+  - name: Amount
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: Amount
+    description: Unsigned exact amount of one CASA transaction in the row currency. This amount is not
+      an account balance or a deposit balance. Do not add amounts across currencies or across business
+      dates.
+    datatype: Decimal
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "source-scoped metadata", "concept": "transaction_amount", "provenance": "worksheet
+        header", "role": "measure", "unit": "source currency"}'
+    label: CASA transaction amount
+    ai_context:
+      synonyms:
+      - transaction value
+      - payment amount
+      - transfer amount
+      - deposit amount
+      - withdrawal amount
+      - remittance amount
+      examples:
+      - What was the total CASA transaction value in SGD on 6 November 2026?
+  - name: DebitCredit
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: DebitCredit
+    description: Direction code of the transaction as supplied. Observed codes are CR and DR. The model
+      does not infer a signed amount, an inflow or an outflow from this code.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "source-scoped metadata", "concept": "transaction_direction", "provenance": "worksheet
+        header", "role": "dimension", "values": {"CR": "Observed code. CR is the usual abbreviation for
+        credit. Meaning not recorded in the source.", "DR": "Observed code. DR is the usual abbreviation
+        for debit. Meaning not recorded in the source."}}'
+    label: Debit or credit indicator
+    ai_context:
+      synonyms:
+      - debit/credit indicator
+      - DR/CR
+      - Dr/Cr flag
+      - debit or credit
+      - transaction direction
+      - money in or money out
+  - name: Channel
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: Channel
+    description: Channel through which the transaction was recorded, as supplied. Observed values are
+      Branch, Mobile, Online and SWIFT. The source records no further definition of each channel.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "source-scoped metadata", "concept": "transaction_channel", "provenance": "worksheet
+        header", "role": "dimension", "values": {"Branch": "Recorded as Branch. Detailed meaning not recorded
+        in the source.", "Mobile": "Recorded as Mobile. Detailed meaning not recorded in the source.",
+        "Online": "Recorded as Online. Detailed meaning not recorded in the source.", "SWIFT": "Recorded
+        as SWIFT. Detailed meaning not recorded in the source."}}'
+    label: Transaction channel
+    ai_context:
+      synonyms:
+      - channel
+      - delivery channel
+      - origination channel
+      - how the transaction was made
+      - banking channel
+  - name: Status
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: Status
+    description: Processing status of the transaction as recorded by this worksheet. The only observed
+      value is Completed. Code meanings can vary across worksheets, so this status is not comparable with
+      an account status or a relationship manager status.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "source-scoped metadata", "provenance": "worksheet header", "role": "dimension",
+        "values": {"Completed": "Recorded as Completed. Detailed meaning not recorded in the source."}}'
+    label: Transaction status
+    ai_context:
+      synonyms:
+      - status
+      - processing status
+      - settlement status
+      - txn status
+  - name: BranchCode
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: BranchCode
+    description: Source code of the branch recorded on the transaction. Observed codes are BR001 to BR005.
+      No certified reference maps a code to a branch name or location.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "source-scoped metadata", "concept": "branch", "provenance": "worksheet header",
+        "role": "dimension"}'
+    label: Transaction branch code
+    ai_context:
+      synonyms:
+      - branch
+      - branch code
+      - booking branch
+      - processing branch
+      - branch number
+  custom_extensions:
+  - vendor_name: HELIOS
+    data: '{"excluded_headers": ["Description", "ReferenceNo", "SiteID"], "label": "CASA transactions",
+      "retention": "accepted only", "source_type": "logical projection", "subject_area": "banking_transactions",
+      "worksheet": "CASA_Txn"}'
+  ai_context:
+    synonyms:
+    - CASA
+    - current account and savings account transactions
+    - deposit account transactions
+    - account statement lines
+    - payments and transfers
+    - CASA movements
+- name: CreditCard_Txn
+  source: finance_workbook.CreditCard_Txn
+  description: One accepted credit card event row per workbook business snapshot. An event can recur across
+    snapshots. Amounts are unsigned and in source currency. They are not a card balance or a credit limit.
+    The merchant code, description and reference are excluded from this projection.
+  primary_key:
+  - SourceBatch
+  - BusinessDate
+  - TransactionID
+  fields:
+  - name: SourceBatch
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: SourceBatch
+    description: SHA-256 identity of the immutable source workbook batch, supplied by the projection.
+      It is provenance, not a business attribute. Every query must select one batch, and every join must
+      match on it. Never display the value.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "internal join key; never render source identifier values", "provenance": "batch
+        hash", "role": "audit"}'
+    label: Source batch
+  - name: BusinessDate
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: BusinessDate
+    description: Business snapshot date, also called the as-of date. Each row states what the bank recorded
+      on that day. It is separate from an event date or a relationship effective date. The demo workbook
+      holds daily snapshots for 4 to 6 November 2026. Never add counts or amounts across snapshot dates.
+    datatype: Date
+    dimension:
+      is_time: true
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "source-scoped metadata", "concept": "snapshot_date", "provenance": "worksheet
+        header", "role": "time"}'
+    label: Business date
+    ai_context:
+      synonyms:
+      - as-of date
+      - snapshot date
+      - reporting date
+      - position date
+      - as at date
+  - name: TransactionID
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: TransactionID
+    description: Workbook event identity within this transaction worksheet. It identifies one credit card
+      transaction. Never display the value.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "internal join key; never render source identifier values", "concept": "credit_card_transaction",
+        "provenance": "worksheet header", "role": "identifier"}'
+    label: Transaction ID
+    ai_context:
+      synonyms:
+      - transaction reference
+      - transaction number
+      - txn ID
+      - posting reference
+  - name: AccountNumber
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: AccountNumber
+    description: Restricted workbook-local account identifier of the credit card account. It has a card-number
+      format in this worksheet. Never display the value.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "internal join key; never render source identifier values", "concept": "account",
+        "provenance": "worksheet header", "role": "identifier"}'
+    label: Card account number
+    ai_context:
+      synonyms:
+      - card account
+      - card number
+      - credit card account number
+      - account no
+  - name: CustomerID
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: CustomerID
+    description: Workbook-local customer identifier. It may identify a corporate or an individual customer.
+      It is valid only inside this workbook. It is not a national or company registration number, and
+      it does not link to a document or an external company without a separately reviewed identity decision.
+      Never display the value.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "internal join key; never render source identifier values", "concept": "customer",
+        "provenance": "worksheet header", "role": "identifier"}'
+    label: Customer ID
+    ai_context:
+      synonyms:
+      - customer number
+      - client ID
+      - client number
+      - CIF number
+      - customer reference
+  - name: TransactionDate
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: TransactionDate
+    description: Recorded event date of the credit card transaction. It is distinct from the business
+      snapshot date.
+    datatype: Date
+    dimension:
+      is_time: true
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "source-scoped metadata", "concept": "transaction", "provenance": "worksheet header",
+        "role": "time"}'
+    label: Transaction date
+    ai_context:
+      synonyms:
+      - posting date
+      - value date
+      - event date
+      - date of transaction
+      - txn date
+  - name: Currency
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: Currency
+    description: ISO currency code of the transaction amount on this row. This projection performs no
+      conversion. Amounts in different currencies must not be added together.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "source-scoped metadata", "concept": "currency", "provenance": "worksheet header",
+        "role": "dimension"}'
+    label: Transaction currency
+    ai_context:
+      synonyms:
+      - currency code
+      - CCY
+      - transaction CCY
+      - denomination
+      - native currency
+  - name: Amount
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: Amount
+    description: Unsigned exact amount of one credit card transaction in the row currency. This amount
+      is not an account balance, an outstanding card balance or a fee.
+    datatype: Decimal
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "source-scoped metadata", "concept": "transaction_amount", "provenance": "worksheet
+        header", "role": "measure", "unit": "source currency"}'
+    label: Card transaction amount
+    ai_context:
+      synonyms:
+      - card spend
+      - purchase amount
+      - charge amount
+      - billed amount
+      - card payment amount
+  - name: DebitCredit
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: DebitCredit
+    description: Direction code of the transaction as supplied. Observed codes are CR and DR. The model
+      does not infer a signed amount, an inflow or an outflow from this code.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "source-scoped metadata", "concept": "transaction_direction", "provenance": "worksheet
+        header", "role": "dimension", "values": {"CR": "Observed code. CR is the usual abbreviation for
+        credit. Meaning not recorded in the source.", "DR": "Observed code. DR is the usual abbreviation
+        for debit. Meaning not recorded in the source."}}'
+    label: Debit or credit indicator
+    ai_context:
+      synonyms:
+      - debit/credit indicator
+      - DR/CR
+      - Dr/Cr flag
+      - debit or credit
+      - transaction direction
+      - money in or money out
+  - name: Channel
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: Channel
+    description: Channel through which the transaction was recorded, as supplied. Observed values are
+      Branch, Mobile, Online and SWIFT. The source records no further definition of each channel.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "source-scoped metadata", "concept": "transaction_channel", "provenance": "worksheet
+        header", "role": "dimension", "values": {"Branch": "Recorded as Branch. Detailed meaning not recorded
+        in the source.", "Mobile": "Recorded as Mobile. Detailed meaning not recorded in the source.",
+        "Online": "Recorded as Online. Detailed meaning not recorded in the source.", "SWIFT": "Recorded
+        as SWIFT. Detailed meaning not recorded in the source."}}'
+    label: Transaction channel
+    ai_context:
+      synonyms:
+      - channel
+      - delivery channel
+      - origination channel
+      - how the transaction was made
+      - banking channel
+  - name: Status
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: Status
+    description: Processing status of the transaction as recorded by this worksheet. The only observed
+      value is Completed. Code meanings can vary across worksheets, so this status is not comparable with
+      an account status or a relationship manager status.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "source-scoped metadata", "provenance": "worksheet header", "role": "dimension",
+        "values": {"Completed": "Recorded as Completed. Detailed meaning not recorded in the source."}}'
+    label: Transaction status
+    ai_context:
+      synonyms:
+      - status
+      - processing status
+      - settlement status
+      - txn status
+  - name: BranchCode
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: BranchCode
+    description: Source code of the branch recorded on the transaction. Observed codes are BR001 to BR005.
+      No certified reference maps a code to a branch name or location.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "source-scoped metadata", "concept": "branch", "provenance": "worksheet header",
+        "role": "dimension"}'
+    label: Transaction branch code
+    ai_context:
+      synonyms:
+      - branch
+      - branch code
+      - booking branch
+      - processing branch
+      - branch number
+  custom_extensions:
+  - vendor_name: HELIOS
+    data: '{"excluded_headers": ["Description", "ReferenceNo", "MerchantCode", "SiteID"], "label": "Credit
+      card transactions", "retention": "accepted only", "source_type": "logical projection", "subject_area":
+      "banking_transactions", "worksheet": "CreditCard_Txn"}'
+  ai_context:
+    synonyms:
+    - card transactions
+    - card spend
+    - credit card activity
+    - card purchases
+    - card statement lines
+- name: Treasury_LC_Txn
+  source: finance_workbook.Treasury_LC_Txn
+  description: One accepted treasury LC event row per workbook business snapshot. LC means letter of credit.
+    An event can recur across snapshots. The source does not record whether an event is an issuance, an
+    amendment or a settlement. A letter of credit event does not establish a settled import payment.
+  primary_key:
+  - SourceBatch
+  - BusinessDate
+  - TransactionID
+  fields:
+  - name: SourceBatch
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: SourceBatch
+    description: SHA-256 identity of the immutable source workbook batch, supplied by the projection.
+      It is provenance, not a business attribute. Every query must select one batch, and every join must
+      match on it. Never display the value.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "internal join key; never render source identifier values", "provenance": "batch
+        hash", "role": "audit"}'
+    label: Source batch
+  - name: BusinessDate
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: BusinessDate
+    description: Business snapshot date, also called the as-of date. Each row states what the bank recorded
+      on that day. It is separate from an event date or a relationship effective date. The demo workbook
+      holds daily snapshots for 4 to 6 November 2026. Never add counts or amounts across snapshot dates.
+    datatype: Date
+    dimension:
+      is_time: true
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "source-scoped metadata", "concept": "snapshot_date", "provenance": "worksheet
+        header", "role": "time"}'
+    label: Business date
+    ai_context:
+      synonyms:
+      - as-of date
+      - snapshot date
+      - reporting date
+      - position date
+      - as at date
+  - name: TransactionID
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: TransactionID
+    description: Workbook event identity within this transaction worksheet. It identifies one letter of
+      credit transaction. Never display the value.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "internal join key; never render source identifier values", "concept": "letter_of_credit_transaction",
+        "provenance": "worksheet header", "role": "identifier"}'
+    label: Transaction ID
+    ai_context:
+      synonyms:
+      - transaction reference
+      - transaction number
+      - txn ID
+      - posting reference
+  - name: AccountNumber
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: AccountNumber
+    description: Restricted workbook-local account identifier of the letter of credit account on which
+      the transaction was recorded. Never display the value.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "internal join key; never render source identifier values", "concept": "account",
+        "provenance": "worksheet header", "role": "identifier"}'
+    label: Account number
+    ai_context:
+      synonyms:
+      - account no
+      - account ID
+      - account reference
+  - name: CustomerID
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: CustomerID
+    description: Workbook-local customer identifier. It may identify a corporate or an individual customer.
+      It is valid only inside this workbook. It is not a national or company registration number, and
+      it does not link to a document or an external company without a separately reviewed identity decision.
+      Never display the value.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "internal join key; never render source identifier values", "concept": "customer",
+        "provenance": "worksheet header", "role": "identifier"}'
+    label: Customer ID
+    ai_context:
+      synonyms:
+      - customer number
+      - client ID
+      - client number
+      - CIF number
+      - customer reference
+  - name: TransactionDate
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: TransactionDate
+    description: Recorded event date of the letter of credit transaction. It is distinct from the business
+      snapshot date.
+    datatype: Date
+    dimension:
+      is_time: true
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "source-scoped metadata", "concept": "transaction", "provenance": "worksheet header",
+        "role": "time"}'
+    label: Transaction date
+    ai_context:
+      synonyms:
+      - posting date
+      - value date
+      - event date
+      - date of transaction
+      - txn date
+  - name: Currency
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: Currency
+    description: ISO currency code of the transaction amount on this row. This projection performs no
+      conversion. Amounts in different currencies must not be added together.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "source-scoped metadata", "concept": "currency", "provenance": "worksheet header",
+        "role": "dimension"}'
+    label: Transaction currency
+    ai_context:
+      synonyms:
+      - currency code
+      - CCY
+      - transaction CCY
+      - denomination
+      - native currency
+  - name: Amount
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: Amount
+    description: Unsigned exact amount of one letter of credit transaction in the row currency. This amount
+      is not an account balance, an LC limit or an outstanding exposure.
+    datatype: Decimal
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "source-scoped metadata", "concept": "transaction_amount", "provenance": "worksheet
+        header", "role": "measure", "unit": "source currency"}'
+    label: LC transaction amount
+    ai_context:
+      synonyms:
+      - LC amount
+      - letter of credit value
+      - documentary credit amount
+      - trade finance amount
+      - LC value
+  - name: DebitCredit
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: DebitCredit
+    description: Direction code of the transaction as supplied. Observed codes are CR and DR. The model
+      does not infer a signed amount, an inflow or an outflow from this code.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "source-scoped metadata", "concept": "transaction_direction", "provenance": "worksheet
+        header", "role": "dimension", "values": {"CR": "Observed code. CR is the usual abbreviation for
+        credit. Meaning not recorded in the source.", "DR": "Observed code. DR is the usual abbreviation
+        for debit. Meaning not recorded in the source."}}'
+    label: Debit or credit indicator
+    ai_context:
+      synonyms:
+      - debit/credit indicator
+      - DR/CR
+      - Dr/Cr flag
+      - debit or credit
+      - transaction direction
+      - money in or money out
+  - name: Channel
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: Channel
+    description: Channel through which the transaction was recorded, as supplied. Observed values are
+      Branch, Mobile, Online and SWIFT. The source records no further definition of each channel.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "source-scoped metadata", "concept": "transaction_channel", "provenance": "worksheet
+        header", "role": "dimension", "values": {"Branch": "Recorded as Branch. Detailed meaning not recorded
+        in the source.", "Mobile": "Recorded as Mobile. Detailed meaning not recorded in the source.",
+        "Online": "Recorded as Online. Detailed meaning not recorded in the source.", "SWIFT": "Recorded
+        as SWIFT. Detailed meaning not recorded in the source."}}'
+    label: Transaction channel
+    ai_context:
+      synonyms:
+      - channel
+      - delivery channel
+      - origination channel
+      - how the transaction was made
+      - banking channel
+  - name: Status
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: Status
+    description: Processing status of the transaction as recorded by this worksheet. The only observed
+      value is Completed. Code meanings can vary across worksheets, so this status is not comparable with
+      an account status or a relationship manager status.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "source-scoped metadata", "provenance": "worksheet header", "role": "dimension",
+        "values": {"Completed": "Recorded as Completed. Detailed meaning not recorded in the source."}}'
+    label: Transaction status
+    ai_context:
+      synonyms:
+      - status
+      - processing status
+      - settlement status
+      - txn status
+  - name: BranchCode
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: BranchCode
+    description: Source code of the branch recorded on the transaction. Observed codes are BR001 to BR005.
+      No certified reference maps a code to a branch name or location.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "source-scoped metadata", "concept": "branch", "provenance": "worksheet header",
+        "role": "dimension"}'
+    label: Transaction branch code
+    ai_context:
+      synonyms:
+      - branch
+      - branch code
+      - booking branch
+      - processing branch
+      - branch number
+  custom_extensions:
+  - vendor_name: HELIOS
+    data: '{"excluded_headers": ["Description", "ReferenceNo", "SiteID"], "label": "Letter of credit transactions",
+      "retention": "accepted only", "source_type": "logical projection", "subject_area": "treasury_and_trade",
+      "worksheet": "Treasury_LC_Txn"}'
+  ai_context:
+    synonyms:
+    - LC transactions
+    - letters of credit
+    - L/C
+    - documentary credits
+    - trade finance transactions
+    - import LC
+    - export LC
+- name: Treasury_FX_Txn
+  source: finance_workbook.Treasury_FX_Txn
+  description: One accepted treasury FX event row per workbook business snapshot. FX means foreign exchange.
+    An event can recur across snapshots. Each row holds one amount in one currency. The source records
+    no currency pair, rate or deal type. An FX event does not establish an export receipt or a hedge.
+  primary_key:
+  - SourceBatch
+  - BusinessDate
+  - TransactionID
+  fields:
+  - name: SourceBatch
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: SourceBatch
+    description: SHA-256 identity of the immutable source workbook batch, supplied by the projection.
+      It is provenance, not a business attribute. Every query must select one batch, and every join must
+      match on it. Never display the value.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "internal join key; never render source identifier values", "provenance": "batch
+        hash", "role": "audit"}'
+    label: Source batch
+  - name: BusinessDate
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: BusinessDate
+    description: Business snapshot date, also called the as-of date. Each row states what the bank recorded
+      on that day. It is separate from an event date or a relationship effective date. The demo workbook
+      holds daily snapshots for 4 to 6 November 2026. Never add counts or amounts across snapshot dates.
+    datatype: Date
+    dimension:
+      is_time: true
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "source-scoped metadata", "concept": "snapshot_date", "provenance": "worksheet
+        header", "role": "time"}'
+    label: Business date
+    ai_context:
+      synonyms:
+      - as-of date
+      - snapshot date
+      - reporting date
+      - position date
+      - as at date
+  - name: TransactionID
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: TransactionID
+    description: Workbook event identity within this transaction worksheet. It identifies one foreign
+      exchange transaction. Never display the value.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "internal join key; never render source identifier values", "concept": "fx_transaction",
+        "provenance": "worksheet header", "role": "identifier"}'
+    label: Transaction ID
+    ai_context:
+      synonyms:
+      - transaction reference
+      - transaction number
+      - txn ID
+      - posting reference
+  - name: AccountNumber
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: AccountNumber
+    description: Restricted workbook-local account identifier of the treasury foreign exchange account
+      on which the transaction was recorded. Never display the value.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "internal join key; never render source identifier values", "concept": "account",
+        "provenance": "worksheet header", "role": "identifier"}'
+    label: Account number
+    ai_context:
+      synonyms:
+      - account no
+      - account ID
+      - account reference
+  - name: CustomerID
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: CustomerID
+    description: Workbook-local customer identifier. It may identify a corporate or an individual customer.
+      It is valid only inside this workbook. It is not a national or company registration number, and
+      it does not link to a document or an external company without a separately reviewed identity decision.
+      Never display the value.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "internal join key; never render source identifier values", "concept": "customer",
+        "provenance": "worksheet header", "role": "identifier"}'
+    label: Customer ID
+    ai_context:
+      synonyms:
+      - customer number
+      - client ID
+      - client number
+      - CIF number
+      - customer reference
+  - name: TransactionDate
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: TransactionDate
+    description: Recorded event date of the foreign exchange transaction. It is distinct from the business
+      snapshot date.
+    datatype: Date
+    dimension:
+      is_time: true
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "source-scoped metadata", "concept": "transaction", "provenance": "worksheet header",
+        "role": "time"}'
+    label: Transaction date
+    ai_context:
+      synonyms:
+      - posting date
+      - value date
+      - event date
+      - date of transaction
+      - txn date
+  - name: Currency
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: Currency
+    description: ISO currency code of the transaction amount on this row. This projection performs no
+      conversion. Amounts in different currencies must not be added together.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "source-scoped metadata", "concept": "currency", "provenance": "worksheet header",
+        "role": "dimension"}'
+    label: Transaction currency
+    ai_context:
+      synonyms:
+      - currency code
+      - CCY
+      - transaction CCY
+      - denomination
+      - native currency
+  - name: Amount
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: Amount
+    description: Unsigned exact amount of one foreign exchange transaction in the row currency. This amount
+      is not an account balance. The other currency leg and the exchange rate are not recorded.
+    datatype: Decimal
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "source-scoped metadata", "concept": "transaction_amount", "provenance": "worksheet
+        header", "role": "measure", "unit": "source currency"}'
+    label: FX transaction amount
+    ai_context:
+      synonyms:
+      - FX amount
+      - deal amount
+      - notional
+      - amount exchanged
+      - FX deal size
+  - name: DebitCredit
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: DebitCredit
+    description: Direction code of the transaction as supplied. Observed codes are CR and DR. The model
+      does not infer a signed amount, an inflow or an outflow from this code.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "source-scoped metadata", "concept": "transaction_direction", "provenance": "worksheet
+        header", "role": "dimension", "values": {"CR": "Observed code. CR is the usual abbreviation for
+        credit. Meaning not recorded in the source.", "DR": "Observed code. DR is the usual abbreviation
+        for debit. Meaning not recorded in the source."}}'
+    label: Debit or credit indicator
+    ai_context:
+      synonyms:
+      - debit/credit indicator
+      - DR/CR
+      - Dr/Cr flag
+      - debit or credit
+      - transaction direction
+      - money in or money out
+  - name: Channel
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: Channel
+    description: Channel through which the transaction was recorded, as supplied. Observed values are
+      Branch, Mobile, Online and SWIFT. The source records no further definition of each channel.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "source-scoped metadata", "concept": "transaction_channel", "provenance": "worksheet
+        header", "role": "dimension", "values": {"Branch": "Recorded as Branch. Detailed meaning not recorded
+        in the source.", "Mobile": "Recorded as Mobile. Detailed meaning not recorded in the source.",
+        "Online": "Recorded as Online. Detailed meaning not recorded in the source.", "SWIFT": "Recorded
+        as SWIFT. Detailed meaning not recorded in the source."}}'
+    label: Transaction channel
+    ai_context:
+      synonyms:
+      - channel
+      - delivery channel
+      - origination channel
+      - how the transaction was made
+      - banking channel
+  - name: Status
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: Status
+    description: Processing status of the transaction as recorded by this worksheet. The only observed
+      value is Completed. Code meanings can vary across worksheets, so this status is not comparable with
+      an account status or a relationship manager status.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "source-scoped metadata", "provenance": "worksheet header", "role": "dimension",
+        "values": {"Completed": "Recorded as Completed. Detailed meaning not recorded in the source."}}'
+    label: Transaction status
+    ai_context:
+      synonyms:
+      - status
+      - processing status
+      - settlement status
+      - txn status
+  - name: BranchCode
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: BranchCode
+    description: Source code of the branch recorded on the transaction. Observed codes are BR001 to BR005.
+      No certified reference maps a code to a branch name or location.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "source-scoped metadata", "concept": "branch", "provenance": "worksheet header",
+        "role": "dimension"}'
+    label: Transaction branch code
+    ai_context:
+      synonyms:
+      - branch
+      - branch code
+      - booking branch
+      - processing branch
+      - branch number
+  custom_extensions:
+  - vendor_name: HELIOS
+    data: '{"excluded_headers": ["Description", "ReferenceNo", "SiteID"], "label": "Foreign exchange transactions",
+      "retention": "accepted only", "source_type": "logical projection", "subject_area": "treasury_and_trade",
+      "worksheet": "Treasury_FX_Txn"}'
+  ai_context:
+    synonyms:
+    - FX transactions
+    - forex trades
+    - FX deals
+    - currency exchange
+    - treasury FX
+    - foreign currency conversions
+- name: Loan_Txn
+  source: finance_workbook.Loan_Txn
+  description: One accepted loan event row per workbook business snapshot. An event can recur across snapshots.
+    The source does not record whether an event is a drawdown, a repayment, interest or a fee. Amounts
+    are transaction flows. They are not the loan outstanding, the loan limit or a late fee.
+  primary_key:
+  - SourceBatch
+  - BusinessDate
+  - TransactionID
+  fields:
+  - name: SourceBatch
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: SourceBatch
+    description: SHA-256 identity of the immutable source workbook batch, supplied by the projection.
+      It is provenance, not a business attribute. Every query must select one batch, and every join must
+      match on it. Never display the value.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "internal join key; never render source identifier values", "provenance": "batch
+        hash", "role": "audit"}'
+    label: Source batch
+  - name: BusinessDate
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: BusinessDate
+    description: Business snapshot date, also called the as-of date. Each row states what the bank recorded
+      on that day. It is separate from an event date or a relationship effective date. The demo workbook
+      holds daily snapshots for 4 to 6 November 2026. Never add counts or amounts across snapshot dates.
+    datatype: Date
+    dimension:
+      is_time: true
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "source-scoped metadata", "concept": "snapshot_date", "provenance": "worksheet
+        header", "role": "time"}'
+    label: Business date
+    ai_context:
+      synonyms:
+      - as-of date
+      - snapshot date
+      - reporting date
+      - position date
+      - as at date
+  - name: TransactionID
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: TransactionID
+    description: Workbook event identity within this transaction worksheet. It identifies one loan transaction.
+      Never display the value.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "internal join key; never render source identifier values", "concept": "loan_transaction",
+        "provenance": "worksheet header", "role": "identifier"}'
+    label: Transaction ID
+    ai_context:
+      synonyms:
+      - transaction reference
+      - transaction number
+      - txn ID
+      - posting reference
+  - name: AccountNumber
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: AccountNumber
+    description: Restricted workbook-local account identifier of the loan account on which the transaction
+      was recorded. Never display the value.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "internal join key; never render source identifier values", "concept": "account",
+        "provenance": "worksheet header", "role": "identifier"}'
+    label: Loan account number
+    ai_context:
+      synonyms:
+      - loan account
+      - loan number
+      - facility number
+      - account no
+  - name: CustomerID
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: CustomerID
+    description: Workbook-local customer identifier. It may identify a corporate or an individual customer.
+      It is valid only inside this workbook. It is not a national or company registration number, and
+      it does not link to a document or an external company without a separately reviewed identity decision.
+      Never display the value.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "internal join key; never render source identifier values", "concept": "customer",
+        "provenance": "worksheet header", "role": "identifier"}'
+    label: Customer ID
+    ai_context:
+      synonyms:
+      - customer number
+      - client ID
+      - client number
+      - CIF number
+      - customer reference
+  - name: TransactionDate
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: TransactionDate
+    description: Recorded event date of the loan transaction. It is distinct from the business snapshot
+      date.
+    datatype: Date
+    dimension:
+      is_time: true
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "source-scoped metadata", "concept": "transaction", "provenance": "worksheet header",
+        "role": "time"}'
+    label: Transaction date
+    ai_context:
+      synonyms:
+      - posting date
+      - value date
+      - event date
+      - date of transaction
+      - txn date
+  - name: Currency
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: Currency
+    description: ISO currency code of the transaction amount on this row. This projection performs no
+      conversion. Amounts in different currencies must not be added together.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "source-scoped metadata", "concept": "currency", "provenance": "worksheet header",
+        "role": "dimension"}'
+    label: Transaction currency
+    ai_context:
+      synonyms:
+      - currency code
+      - CCY
+      - transaction CCY
+      - denomination
+      - native currency
+  - name: Amount
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: Amount
+    description: Unsigned exact amount of one loan transaction in the row currency. This amount is not
+      an account balance, the outstanding principal or the facility limit.
+    datatype: Decimal
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "source-scoped metadata", "concept": "transaction_amount", "provenance": "worksheet
+        header", "role": "measure", "unit": "source currency"}'
+    label: Loan transaction amount
+    ai_context:
+      synonyms:
+      - loan posting amount
+      - instalment amount
+      - loan payment amount
+      - drawdown amount
+      - repayment amount
+  - name: DebitCredit
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: DebitCredit
+    description: Direction code of the transaction as supplied. Observed codes are CR and DR. The model
+      does not infer a signed amount, an inflow or an outflow from this code.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "source-scoped metadata", "concept": "transaction_direction", "provenance": "worksheet
+        header", "role": "dimension", "values": {"CR": "Observed code. CR is the usual abbreviation for
+        credit. Meaning not recorded in the source.", "DR": "Observed code. DR is the usual abbreviation
+        for debit. Meaning not recorded in the source."}}'
+    label: Debit or credit indicator
+    ai_context:
+      synonyms:
+      - debit/credit indicator
+      - DR/CR
+      - Dr/Cr flag
+      - debit or credit
+      - transaction direction
+      - money in or money out
+  - name: Channel
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: Channel
+    description: Channel through which the transaction was recorded, as supplied. Observed values are
+      Branch, Mobile, Online and SWIFT. The source records no further definition of each channel.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "source-scoped metadata", "concept": "transaction_channel", "provenance": "worksheet
+        header", "role": "dimension", "values": {"Branch": "Recorded as Branch. Detailed meaning not recorded
+        in the source.", "Mobile": "Recorded as Mobile. Detailed meaning not recorded in the source.",
+        "Online": "Recorded as Online. Detailed meaning not recorded in the source.", "SWIFT": "Recorded
+        as SWIFT. Detailed meaning not recorded in the source."}}'
+    label: Transaction channel
+    ai_context:
+      synonyms:
+      - channel
+      - delivery channel
+      - origination channel
+      - how the transaction was made
+      - banking channel
+  - name: Status
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: Status
+    description: Processing status of the transaction as recorded by this worksheet. The only observed
+      value is Completed. Code meanings can vary across worksheets, so this status is not comparable with
+      an account status or a relationship manager status.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "source-scoped metadata", "provenance": "worksheet header", "role": "dimension",
+        "values": {"Completed": "Recorded as Completed. Detailed meaning not recorded in the source."}}'
+    label: Transaction status
+    ai_context:
+      synonyms:
+      - status
+      - processing status
+      - settlement status
+      - txn status
+  - name: BranchCode
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: BranchCode
+    description: Source code of the branch recorded on the transaction. Observed codes are BR001 to BR005.
+      No certified reference maps a code to a branch name or location.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "source-scoped metadata", "concept": "branch", "provenance": "worksheet header",
+        "role": "dimension"}'
+    label: Transaction branch code
+    ai_context:
+      synonyms:
+      - branch
+      - branch code
+      - booking branch
+      - processing branch
+      - branch number
+  custom_extensions:
+  - vendor_name: HELIOS
+    data: '{"excluded_headers": ["Description", "ReferenceNo", "SiteID"], "label": "Loan transactions",
+      "retention": "accepted only", "source_type": "logical projection", "subject_area": "banking_transactions",
+      "worksheet": "Loan_Txn"}'
+  ai_context:
+    synonyms:
+    - loan postings
+    - loan account activity
+    - lending transactions
+    - mortgage transactions
+    - loan movements
+- name: Investment_Txn
+  source: finance_workbook.Investment_Txn
+  description: One accepted investment event row per workbook business snapshot. An event can recur across
+    snapshots. The source records no security, trade side, quantity or price. Amounts are transaction
+    flows. They are not assets under management or a portfolio value.
+  primary_key:
+  - SourceBatch
+  - BusinessDate
+  - TransactionID
+  fields:
+  - name: SourceBatch
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: SourceBatch
+    description: SHA-256 identity of the immutable source workbook batch, supplied by the projection.
+      It is provenance, not a business attribute. Every query must select one batch, and every join must
+      match on it. Never display the value.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "internal join key; never render source identifier values", "provenance": "batch
+        hash", "role": "audit"}'
+    label: Source batch
+  - name: BusinessDate
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: BusinessDate
+    description: Business snapshot date, also called the as-of date. Each row states what the bank recorded
+      on that day. It is separate from an event date or a relationship effective date. The demo workbook
+      holds daily snapshots for 4 to 6 November 2026. Never add counts or amounts across snapshot dates.
+    datatype: Date
+    dimension:
+      is_time: true
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "source-scoped metadata", "concept": "snapshot_date", "provenance": "worksheet
+        header", "role": "time"}'
+    label: Business date
+    ai_context:
+      synonyms:
+      - as-of date
+      - snapshot date
+      - reporting date
+      - position date
+      - as at date
+  - name: TransactionID
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: TransactionID
+    description: Workbook event identity within this transaction worksheet. It identifies one investment
+      transaction. Never display the value.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "internal join key; never render source identifier values", "concept": "investment_transaction",
+        "provenance": "worksheet header", "role": "identifier"}'
+    label: Transaction ID
+    ai_context:
+      synonyms:
+      - transaction reference
+      - transaction number
+      - txn ID
+      - posting reference
+  - name: AccountNumber
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: AccountNumber
+    description: Restricted workbook-local account identifier of the investment account on which the transaction
+      was recorded. Never display the value.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "internal join key; never render source identifier values", "concept": "account",
+        "provenance": "worksheet header", "role": "identifier"}'
+    label: Investment account number
+    ai_context:
+      synonyms:
+      - investment account
+      - custody account
+      - portfolio account
+      - account no
+  - name: CustomerID
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: CustomerID
+    description: Workbook-local customer identifier. It may identify a corporate or an individual customer.
+      It is valid only inside this workbook. It is not a national or company registration number, and
+      it does not link to a document or an external company without a separately reviewed identity decision.
+      Never display the value.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "internal join key; never render source identifier values", "concept": "customer",
+        "provenance": "worksheet header", "role": "identifier"}'
+    label: Customer ID
+    ai_context:
+      synonyms:
+      - customer number
+      - client ID
+      - client number
+      - CIF number
+      - customer reference
+  - name: TransactionDate
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: TransactionDate
+    description: Recorded event date of the investment transaction. It is distinct from the business snapshot
+      date.
+    datatype: Date
+    dimension:
+      is_time: true
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "source-scoped metadata", "concept": "transaction", "provenance": "worksheet header",
+        "role": "time"}'
+    label: Transaction date
+    ai_context:
+      synonyms:
+      - posting date
+      - value date
+      - event date
+      - date of transaction
+      - txn date
+  - name: Currency
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: Currency
+    description: ISO currency code of the transaction amount on this row. This projection performs no
+      conversion. Amounts in different currencies must not be added together.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "source-scoped metadata", "concept": "currency", "provenance": "worksheet header",
+        "role": "dimension"}'
+    label: Transaction currency
+    ai_context:
+      synonyms:
+      - currency code
+      - CCY
+      - transaction CCY
+      - denomination
+      - native currency
+  - name: Amount
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: Amount
+    description: Unsigned exact amount of one investment transaction in the row currency. This amount
+      is not an account balance, a holding value or assets under management.
+    datatype: Decimal
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "source-scoped metadata", "concept": "transaction_amount", "provenance": "worksheet
+        header", "role": "measure", "unit": "source currency"}'
+    label: Investment transaction amount
+    ai_context:
+      synonyms:
+      - trade amount
+      - investment amount
+      - subscription amount
+      - redemption amount
+      - settlement amount
+  - name: DebitCredit
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: DebitCredit
+    description: Direction code of the transaction as supplied. Observed codes are CR and DR. The model
+      does not infer a signed amount, an inflow or an outflow from this code.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "source-scoped metadata", "concept": "transaction_direction", "provenance": "worksheet
+        header", "role": "dimension", "values": {"CR": "Observed code. CR is the usual abbreviation for
+        credit. Meaning not recorded in the source.", "DR": "Observed code. DR is the usual abbreviation
+        for debit. Meaning not recorded in the source."}}'
+    label: Debit or credit indicator
+    ai_context:
+      synonyms:
+      - debit/credit indicator
+      - DR/CR
+      - Dr/Cr flag
+      - debit or credit
+      - transaction direction
+      - money in or money out
+  - name: Channel
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: Channel
+    description: Channel through which the transaction was recorded, as supplied. Observed values are
+      Branch, Mobile, Online and SWIFT. The source records no further definition of each channel.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "source-scoped metadata", "concept": "transaction_channel", "provenance": "worksheet
+        header", "role": "dimension", "values": {"Branch": "Recorded as Branch. Detailed meaning not recorded
+        in the source.", "Mobile": "Recorded as Mobile. Detailed meaning not recorded in the source.",
+        "Online": "Recorded as Online. Detailed meaning not recorded in the source.", "SWIFT": "Recorded
+        as SWIFT. Detailed meaning not recorded in the source."}}'
+    label: Transaction channel
+    ai_context:
+      synonyms:
+      - channel
+      - delivery channel
+      - origination channel
+      - how the transaction was made
+      - banking channel
+  - name: Status
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: Status
+    description: Processing status of the transaction as recorded by this worksheet. The only observed
+      value is Completed. Code meanings can vary across worksheets, so this status is not comparable with
+      an account status or a relationship manager status.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "source-scoped metadata", "provenance": "worksheet header", "role": "dimension",
+        "values": {"Completed": "Recorded as Completed. Detailed meaning not recorded in the source."}}'
+    label: Transaction status
+    ai_context:
+      synonyms:
+      - status
+      - processing status
+      - settlement status
+      - txn status
+  - name: BranchCode
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: BranchCode
+    description: Source code of the branch recorded on the transaction. Observed codes are BR001 to BR005.
+      No certified reference maps a code to a branch name or location.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"access": "source-scoped metadata", "concept": "branch", "provenance": "worksheet header",
+        "role": "dimension"}'
+    label: Transaction branch code
+    ai_context:
+      synonyms:
+      - branch
+      - branch code
+      - booking branch
+      - processing branch
+      - branch number
+  custom_extensions:
+  - vendor_name: HELIOS
+    data: '{"excluded_headers": ["Description", "ReferenceNo", "SiteID"], "label": "Investment transactions",
+      "retention": "accepted only", "source_type": "logical projection", "subject_area": "banking_transactions",
+      "worksheet": "Investment_Txn"}'
+  ai_context:
+    synonyms:
+    - investment trades
+    - custody transactions
+    - securities transactions
+    - wealth transactions
+    - portfolio activity
+- name: STR_Transaction
+  source: str_form.STR_Transaction
+  description: One transaction per row, read from a suspicious transaction report form. Form field names
+    are the column names. The form states the values. The rows are written only after an admin confirms
+    a preview, and every cell keeps its source span. This table holds forms, not workbook data. It is
+    template-bound physical mapping that works only for this form type.
+  primary_key:
+  - SourceRevision
+  - TransactionSeq
+  fields:
+  - name: SourceRevision
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: SourceRevision
+    description: SHA-256 identity of the form file this row was read from. It is provenance, not a business
+      attribute. It is supplied by the system, not stated in the form. Never display the value.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"concept": "suspicious_transaction", "provenance": "system: SHA-256 of the form file", "role":
+        "audit"}'
+    label: Source revision
+  - name: TransactionSeq
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: TransactionSeq
+    description: Position of the transaction in the form's repeating Transaction group, counted from 1.
+      The system supplies it. It is not a transaction reference stated by the institution.
+    datatype: Integer
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"concept": "suspicious_transaction", "provenance": "system: position of the Transaction
+        group", "role": "identifier"}'
+    label: Transaction position
+  - name: AccountNo
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: AccountNo
+    description: Account reference the form states for this transaction. It is valid only inside the form.
+      It does not link to a workbook account number. Never display the value.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"concept": "suspicious_transaction", "provenance": "form field name", "role": "identifier"}'
+    label: Form account reference
+  - name: IsActualTransaction
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: IsActualTransaction
+    description: The form's Y or N flag that states whether the reported transaction is an actual transaction.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"concept": "suspicious_transaction", "provenance": "form field name", "role": "attribute"}'
+    label: Actual transaction flag
+  - name: TransactionType
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: TransactionType
+    description: Transaction type code chosen on the form. The code list is not part of the supplied material,
+      so the meaning of a code is not stated.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"concept": "suspicious_transaction", "provenance": "form field name", "role": "dimension"}'
+    label: Reported transaction type
+    ai_context:
+      synonyms:
+      - transaction type code
+      - STR transaction type
+      - type of reported transaction
+  - name: InOutTrans
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: InOutTrans
+    description: Direction of the reported transaction as the form states it, for example OUTWARD.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"concept": "suspicious_transaction", "provenance": "form field name", "role": "dimension"}'
+    label: Reported direction
+    ai_context:
+      synonyms:
+      - inward or outward
+      - direction of transaction
+      - in or out
+  - name: AmountOriginalCurrency
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: AmountOriginalCurrency
+    description: ISO currency code of the original amount the form states. No conversion is performed.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"concept": "suspicious_transaction_amount", "provenance": "form field name", "role": "dimension"}'
+    label: Reported amount currency
+    ai_context:
+      synonyms:
+      - reported currency
+      - STR currency
+      - original currency
+      - currency of the reported amount
+  - name: AmountOriginal
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: AmountOriginal
+    description: Exact amount the form states for the reported transaction, in the original currency the
+      form states. It is not a booked amount, a balance, or a converted amount. Do not add amounts across
+      currencies.
+    datatype: Decimal
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"concept": "suspicious_transaction_amount", "currency_column": "AmountOriginalCurrency",
+        "provenance": "form field name", "role": "measure", "unit": "original currency"}'
+    label: Reported original amount
+    ai_context:
+      synonyms:
+      - reported amount
+      - suspicious amount
+      - amount reported
+      - value of reported transaction
+      examples:
+      - What is the total reported suspicious transaction value in SGD?
+  - name: OverPeriodTime
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: OverPeriodTime
+    description: The form's Y or N flag that states whether the reported activity ran over a period of
+      time rather than on one date.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"concept": "suspicious_transaction", "provenance": "form field name", "role": "attribute"}'
+    label: Over a period flag
+  - name: StartDate
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: StartDate
+    description: Date the form states for the start of the reported transaction. It is the only date held
+      for the transaction. It is not a snapshot date.
+    datatype: Date
+    dimension:
+      is_time: true
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"concept": "suspicious_transaction", "provenance": "form field name", "role": "time"}'
+    label: Reported start date
+  - name: SourceCountry
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: SourceCountry
+    description: ISO country code the form states as the country the funds came from.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"concept": "suspicious_transaction", "provenance": "form field name", "role": "dimension"}'
+    label: Reported source country
+    ai_context:
+      synonyms:
+      - country of origin
+      - originating country
+      - country funds came from
+  - name: DestinationCountry
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: DestinationCountry
+    description: ISO country code the form states as the country the funds went to.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"concept": "suspicious_transaction", "provenance": "form field name", "role": "dimension"}'
+    label: Reported destination country
+    ai_context:
+      synonyms:
+      - destination
+      - receiving country
+      - country funds went to
+  - name: CounterpartyName
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: CounterpartyName
+    description: Name of the counterparty exactly as the form states it. Names do not resolve to a customer
+      without a reviewed identity decision. Never display the value.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"concept": "suspicious_transaction", "provenance": "form field name", "role": "attribute"}'
+    label: Counterparty name
+  - name: CounterpartyBankName
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: CounterpartyBankName
+    description: Name of the counterparty's bank exactly as the form states it.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"concept": "suspicious_transaction", "provenance": "form field name", "role": "attribute"}'
+    label: Counterparty bank name
+  - name: CounterpartyAccountNo
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: CounterpartyAccountNo
+    description: Account number of the counterparty as the form states it. It is valid only inside the
+      form. Never display the value.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"concept": "suspicious_transaction", "provenance": "form field name", "role": "identifier"}'
+    label: Counterparty account number
+  - name: IsCounterpartyAddressUnknown
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: IsCounterpartyAddressUnknown
+    description: The form's Y or N flag that states the counterparty address is unknown.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"concept": "suspicious_transaction", "provenance": "form field name", "role": "attribute"}'
+    label: Counterparty address unknown flag
+  - name: IsCounterpartyAddressPartial
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: IsCounterpartyAddressPartial
+    description: The form's Y or N flag that states the counterparty address is only partly known.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"concept": "suspicious_transaction", "provenance": "form field name", "role": "attribute"}'
+    label: Counterparty address partial flag
+  custom_extensions:
+  - vendor_name: HELIOS
+    data: '{"label": "Reported suspicious transactions", "origin": "extracted", "subject_area": "suspicious_transaction_reports",
+      "template": {"match": {"xfa:data/STR[1]/Header[1]/FormType[1]": "STR"}, "row_path": "xfa:data/STR[1]/SuspiciousTransaction[1]/Transaction",
+      "type": "xfa-form"}}'
+  ai_context:
+    synonyms:
+    - suspicious transaction report
+    - STR
+    - reported suspicious transactions
+    - STR transactions
+    - suspicious activity report lines
+- name: STR_AccountEntity
+  source: str_form.STR_AccountEntity
+  description: 'One row per group position, read from the Account group of AccountInformation and the
+    Entity group of EntityProfile on a suspicious transaction report form. Form field names are the column
+    names. The form states the values. Rows are written only after an admin confirms a preview, and every
+    cell keeps its source span. Names, birth date parts, sex, email, address, contact details and identification
+    numbers are not columns: they are personal data and the identification subgroup can hold an NRIC.
+    The Account and Entity of one position share a row by position only. The form does not state that
+    they belong together. Join to STR_Transaction by SourceRevision to relate them to the reported transactions
+    of the same form. Template-bound physical mapping that works only for this form type.'
+  primary_key:
+  - SourceRevision
+  - GroupSeq
+  fields:
+  - name: SourceRevision
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: SourceRevision
+    description: SHA-256 identity of the form file this row was read from. It is provenance, not a business
+      attribute. It is supplied by the system, not stated in the form. Never display the value.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"concept": "reported_account", "provenance": "system: SHA-256 of the form file", "role":
+        "audit"}'
+    label: Source revision
+  - name: GroupSeq
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: GroupSeq
+    description: Position of the Account and Entity group rows in the form, counted from 1. The system
+      supplies it. It is not a reference stated by the institution.
+    datatype: Integer
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"concept": "reported_account", "provenance": "system: position of the Account and Entity
+        group rows", "role": "identifier"}'
+    label: Group position
+  - name: IsAccMaintainedWithRI
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: IsAccMaintainedWithRI
+    description: The form's Y or N flag that states whether the reported account is maintained with the
+      reporting institution. N means it is held elsewhere.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"concept": "reported_account", "provenance": "form field name", "role": "dimension"}'
+    label: Account maintained with the reporting institution flag
+    ai_context:
+      synonyms:
+      - account held here
+      - maintained with reporting institution
+      - own bank account flag
+  - name: IsAccHeldBankOrNonBank
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: IsAccHeldBankOrNonBank
+    description: Code the form uses to state whether the account is held with a bank or a non-bank. The
+      code list is not part of the supplied material.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"concept": "reported_account", "provenance": "form field name", "role": "dimension"}'
+    label: Account held with bank or non-bank code
+    ai_context:
+      synonyms:
+      - bank or non-bank
+      - account holder institution type
+  - name: BankName
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: BankName
+    description: Name of the institution holding the reported account, exactly as the form states it.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"concept": "reported_account", "provenance": "form field name", "role": "attribute"}'
+    label: Account bank name
+  - name: AccNum
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: AccNum
+    description: Account number the form states for the reported account. It is valid only inside the
+      form and does not link to a workbook account. Never display the value. Never display the value.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"concept": "reported_account", "provenance": "form field name", "role": "identifier"}'
+    label: Reported account number
+  - name: AccDate
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: AccDate
+    description: Date the form states for the reported account (dd/mm/yyyy on the form). It is the only
+      date of the account held here.
+    datatype: Date
+    dimension:
+      is_time: true
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"concept": "reported_account", "provenance": "form field name", "role": "time"}'
+    label: Account opening date
+  - name: AccBalDRCR
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: AccBalDRCR
+    description: Code the form uses to state whether the reported account balance is a debit or a credit.
+      The code list is not part of the supplied material.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"concept": "reported_account", "provenance": "form field name", "role": "dimension"}'
+    label: Account balance debit or credit code
+    ai_context:
+      synonyms:
+      - balance debit credit
+      - balance sign code
+  - name: AccBalCurr
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: AccBalCurr
+    description: ISO currency code of the account balance the form states. No conversion is performed.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"concept": "reported_account", "provenance": "form field name", "role": "dimension"}'
+    label: Account balance currency
+    ai_context:
+      synonyms:
+      - balance currency
+      - currency of the reported account balance
+  - name: AccBalAmount
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: AccBalAmount
+    description: Balance the form states for the reported account, in the balance currency the form states.
+      It is a form statement, not a workbook balance. Do not add balances across currencies.
+    datatype: Decimal
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"concept": "reported_account", "currency_column": "AccBalCurr", "provenance": "form field
+        name", "role": "measure", "unit": "original currency"}'
+    label: Reported account balance
+    ai_context:
+      synonyms:
+      - reported balance
+      - account balance on the form
+      - balance of the reported account
+  - name: AccOwnership
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: AccOwnership
+    description: Code the form uses for the ownership of the reported account, for example SING. The code
+      list is not part of the supplied material.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"concept": "reported_account", "provenance": "form field name", "role": "dimension"}'
+    label: Account ownership code
+    ai_context:
+      synonyms:
+      - account ownership
+      - ownership type of the reported account
+  - name: RowAccountStatus
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: RowAccountStatus
+    description: Code the form uses for the status of the reported account, for example A. The code list
+      is not part of the supplied material.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"concept": "reported_account", "provenance": "form field name", "role": "dimension"}'
+    label: Reported account status code
+    ai_context:
+      synonyms:
+      - reported account status
+      - status of the account on the form
+  - name: InfoAccurAsAT
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: InfoAccurAsAT
+    description: Date the form states that the account information was accurate (dd/mm/yyyy on the form).
+    datatype: Date
+    dimension:
+      is_time: true
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"concept": "reported_account", "provenance": "form field name", "role": "time"}'
+    label: Account information accurate as at
+  - name: IsAuthorisedSignatoryUnknown
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: IsAuthorisedSignatoryUnknown
+    description: The form's Y or N flag that states the reporting institution does not know the authorised
+      signatory of the account.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"concept": "reported_account", "provenance": "form field name", "role": "attribute"}'
+    label: Authorised signatory unknown flag
+  - name: IsBeneficialOwnerUnknown
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: IsBeneficialOwnerUnknown
+    description: The form's Y or N flag that states the reporting institution does not know the beneficial
+      owner of the account.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"concept": "reported_account", "provenance": "form field name", "role": "attribute"}'
+    label: Beneficial owner unknown flag
+  - name: IsRelatedAccount
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: IsRelatedAccount
+    description: The form's Y or N flag that states the profiled entity is related to an account.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"concept": "reported_entity", "provenance": "form field name", "role": "attribute"}'
+    label: Entity related to an account flag
+  - name: CheckEntity
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: CheckEntity
+    description: Code the form uses for the kind of entity profiled, for example P or B. The code list
+      is not part of the supplied material.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"concept": "reported_entity", "provenance": "form field name", "role": "dimension"}'
+    label: Entity kind code
+    ai_context:
+      synonyms:
+      - entity kind
+      - type of reported entity
+      - entity check code
+  - name: LegalEntityType
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: LegalEntityType
+    description: Code the form uses for the legal form of an entity that is not a natural person, for
+      example LC. The code list is not part of the supplied material.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"concept": "reported_entity", "provenance": "form field name", "role": "dimension"}'
+    label: Legal entity type code
+    ai_context:
+      synonyms:
+      - legal form
+      - company type code
+  - name: MainBusinessActivity
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: MainBusinessActivity
+    description: Code the form uses for the main business activity of an entity, for example 94920. The
+      code list is not part of the supplied material.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"concept": "reported_entity", "provenance": "form field name", "role": "dimension"}'
+    label: Main business activity code
+    ai_context:
+      synonyms:
+      - business activity
+      - industry code of the reported entity
+  - name: Nationality
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: Nationality
+    description: ISO country code the form states as the nationality of the profiled entity.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"concept": "reported_entity", "provenance": "form field name", "role": "dimension"}'
+    label: Entity nationality
+    ai_context:
+      synonyms:
+      - nationality of the reported entity
+      - entity nationality country
+  - name: StatusOfRelationsip
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: StatusOfRelationsip
+    description: Code the form uses for the status of the entity's relationship with the reporting institution,
+      for example AC. The field name is spelled as on the form.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"concept": "reported_entity", "provenance": "form field name", "role": "dimension"}'
+    label: Status of relationship code
+    ai_context:
+      synonyms:
+      - relationship status
+      - status of relationship with the institution
+  - name: EntityAccurateAsAt
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: EntityAccurateAsAt
+    description: Date the form states that the entity information was accurate (dd/mm/yyyy on the form).
+    datatype: Date
+    dimension:
+      is_time: true
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"concept": "reported_entity", "provenance": "form field name", "role": "time"}'
+    label: Entity information accurate as at
+  - name: TotalAssetsUnderMgtCurrency
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: TotalAssetsUnderMgtCurrency
+    description: ISO currency code of the total assets under management the form states for the entity.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"concept": "reported_entity", "provenance": "form field name", "role": "dimension"}'
+    label: Assets under management currency
+    ai_context:
+      synonyms:
+      - assets under management currency
+      - AUM currency
+  - name: TotalAssetsUnderMgt
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: TotalAssetsUnderMgt
+    description: Total assets under management the form states for the entity, in the currency the form
+      states. It is a form statement, not a workbook balance.
+    datatype: Decimal
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"concept": "reported_entity", "currency_column": "TotalAssetsUnderMgtCurrency", "provenance":
+        "form field name", "role": "measure", "unit": "original currency"}'
+    label: Total assets under management
+    ai_context:
+      synonyms:
+      - assets under management
+      - AUM
+      - total assets managed
+  - name: OutstandingLoansCurrency
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: OutstandingLoansCurrency
+    description: ISO currency code of the outstanding loans the form states for the entity.
+    datatype: String
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"concept": "reported_entity", "provenance": "form field name", "role": "dimension"}'
+    label: Outstanding loans currency
+    ai_context:
+      synonyms:
+      - loans currency
+      - outstanding loan currency
+  - name: OutstandingLoans
+    expression:
+      dialects:
+      - dialect: ANSI_SQL
+        expression: OutstandingLoans
+    description: Outstanding loans the form states for the entity, in the currency the form states. It
+      is a form statement, not a workbook loan balance.
+    datatype: Decimal
+    dimension:
+      is_time: false
+    custom_extensions:
+    - vendor_name: HELIOS
+      data: '{"concept": "reported_entity", "currency_column": "OutstandingLoansCurrency", "provenance":
+        "form field name", "role": "measure", "unit": "original currency"}'
+    label: Outstanding loans
+    ai_context:
+      synonyms:
+      - loans outstanding
+      - outstanding loan amount
+      - entity loans
+  custom_extensions:
+  - vendor_name: HELIOS
+    data: '{"label": "Reported accounts and entities", "origin": "extracted", "subject_area": "suspicious_transaction_reports",
+      "template": {"match": {"xfa:data/STR[1]/Header[1]/FormType[1]": "STR"}, "row_paths": ["xfa:data/STR[1]/AccountInformation[1]/Account",
+      "xfa:data/STR[1]/EntityProfile[1]/Entity"], "type": "xfa-form"}}'
+  ai_context:
+    synonyms:
+    - reported accounts
+    - STR accounts
+    - STR entity profile
+    - suspicious transaction report account
+    - reported entities
+    - account and entity profile
+relationships:
+- name: Accounts_to_Customers
+  from: Accounts
+  to: Customers
+  from_columns:
+  - SourceBatch
+  - BusinessDate
+  - CustomerID
+  to_columns:
+  - SourceBatch
+  - BusinessDate
+  - CustomerID
+  custom_extensions:
+  - vendor_name: HELIOS
+    data: '{"basis": "source snapshot validation", "cardinality": "many_to_one"}'
+- name: Customer_RM_Relationship_to_Customers
+  from: Customer_RM_Relationship
+  to: Customers
+  from_columns:
+  - SourceBatch
+  - BusinessDate
+  - CustomerID
+  to_columns:
+  - SourceBatch
+  - BusinessDate
+  - CustomerID
+  custom_extensions:
+  - vendor_name: HELIOS
+    data: '{"basis": "source snapshot validation", "cardinality": "many_to_one"}'
+- name: Customer_RM_Relationship_to_RelationshipManagers
+  from: Customer_RM_Relationship
+  to: RelationshipManagers
+  from_columns:
+  - SourceBatch
+  - BusinessDate
+  - RMID
+  to_columns:
+  - SourceBatch
+  - BusinessDate
+  - RMID
+  custom_extensions:
+  - vendor_name: HELIOS
+    data: '{"basis": "source snapshot validation", "cardinality": "many_to_one"}'
+- name: RMHierarchy_to_RelationshipManagers
+  from: RMHierarchy
+  to: RelationshipManagers
+  from_columns:
+  - SourceBatch
+  - BusinessDate
+  - RMID
+  to_columns:
+  - SourceBatch
+  - BusinessDate
+  - RMID
+  custom_extensions:
+  - vendor_name: HELIOS
+    data: '{"basis": "source snapshot validation", "cardinality": "many_to_one"}'
+- name: CASA_Txn_to_Accounts
+  from: CASA_Txn
+  to: Accounts
+  from_columns:
+  - SourceBatch
+  - BusinessDate
+  - AccountNumber
+  to_columns:
+  - SourceBatch
+  - BusinessDate
+  - AccountNumber
+  custom_extensions:
+  - vendor_name: HELIOS
+    data: '{"basis": "source snapshot validation", "cardinality": "many_to_one"}'
+- name: CASA_Txn_to_Customers
+  from: CASA_Txn
+  to: Customers
+  from_columns:
+  - SourceBatch
+  - BusinessDate
+  - CustomerID
+  to_columns:
+  - SourceBatch
+  - BusinessDate
+  - CustomerID
+  custom_extensions:
+  - vendor_name: HELIOS
+    data: '{"basis": "source snapshot validation", "cardinality": "many_to_one"}'
+- name: CreditCard_Txn_to_Accounts
+  from: CreditCard_Txn
+  to: Accounts
+  from_columns:
+  - SourceBatch
+  - BusinessDate
+  - AccountNumber
+  to_columns:
+  - SourceBatch
+  - BusinessDate
+  - AccountNumber
+  custom_extensions:
+  - vendor_name: HELIOS
+    data: '{"basis": "source snapshot validation", "cardinality": "many_to_one"}'
+- name: CreditCard_Txn_to_Customers
+  from: CreditCard_Txn
+  to: Customers
+  from_columns:
+  - SourceBatch
+  - BusinessDate
+  - CustomerID
+  to_columns:
+  - SourceBatch
+  - BusinessDate
+  - CustomerID
+  custom_extensions:
+  - vendor_name: HELIOS
+    data: '{"basis": "source snapshot validation", "cardinality": "many_to_one"}'
+- name: Treasury_LC_Txn_to_Accounts
+  from: Treasury_LC_Txn
+  to: Accounts
+  from_columns:
+  - SourceBatch
+  - BusinessDate
+  - AccountNumber
+  to_columns:
+  - SourceBatch
+  - BusinessDate
+  - AccountNumber
+  custom_extensions:
+  - vendor_name: HELIOS
+    data: '{"basis": "source snapshot validation", "cardinality": "many_to_one"}'
+- name: Treasury_LC_Txn_to_Customers
+  from: Treasury_LC_Txn
+  to: Customers
+  from_columns:
+  - SourceBatch
+  - BusinessDate
+  - CustomerID
+  to_columns:
+  - SourceBatch
+  - BusinessDate
+  - CustomerID
+  custom_extensions:
+  - vendor_name: HELIOS
+    data: '{"basis": "source snapshot validation", "cardinality": "many_to_one"}'
+- name: Treasury_FX_Txn_to_Accounts
+  from: Treasury_FX_Txn
+  to: Accounts
+  from_columns:
+  - SourceBatch
+  - BusinessDate
+  - AccountNumber
+  to_columns:
+  - SourceBatch
+  - BusinessDate
+  - AccountNumber
+  custom_extensions:
+  - vendor_name: HELIOS
+    data: '{"basis": "source snapshot validation", "cardinality": "many_to_one"}'
+- name: Treasury_FX_Txn_to_Customers
+  from: Treasury_FX_Txn
+  to: Customers
+  from_columns:
+  - SourceBatch
+  - BusinessDate
+  - CustomerID
+  to_columns:
+  - SourceBatch
+  - BusinessDate
+  - CustomerID
+  custom_extensions:
+  - vendor_name: HELIOS
+    data: '{"basis": "source snapshot validation", "cardinality": "many_to_one"}'
+- name: Loan_Txn_to_Accounts
+  from: Loan_Txn
+  to: Accounts
+  from_columns:
+  - SourceBatch
+  - BusinessDate
+  - AccountNumber
+  to_columns:
+  - SourceBatch
+  - BusinessDate
+  - AccountNumber
+  custom_extensions:
+  - vendor_name: HELIOS
+    data: '{"basis": "source snapshot validation", "cardinality": "many_to_one"}'
+- name: Loan_Txn_to_Customers
+  from: Loan_Txn
+  to: Customers
+  from_columns:
+  - SourceBatch
+  - BusinessDate
+  - CustomerID
+  to_columns:
+  - SourceBatch
+  - BusinessDate
+  - CustomerID
+  custom_extensions:
+  - vendor_name: HELIOS
+    data: '{"basis": "source snapshot validation", "cardinality": "many_to_one"}'
+- name: Investment_Txn_to_Accounts
+  from: Investment_Txn
+  to: Accounts
+  from_columns:
+  - SourceBatch
+  - BusinessDate
+  - AccountNumber
+  to_columns:
+  - SourceBatch
+  - BusinessDate
+  - AccountNumber
+  custom_extensions:
+  - vendor_name: HELIOS
+    data: '{"basis": "source snapshot validation", "cardinality": "many_to_one"}'
+- name: Investment_Txn_to_Customers
+  from: Investment_Txn
+  to: Customers
+  from_columns:
+  - SourceBatch
+  - BusinessDate
+  - CustomerID
+  to_columns:
+  - SourceBatch
+  - BusinessDate
+  - CustomerID
+  custom_extensions:
+  - vendor_name: HELIOS
+    data: '{"basis": "source snapshot validation", "cardinality": "many_to_one"}'
+- name: STR_Transaction_to_STR_AccountEntity_derived
+  from: STR_Transaction
+  to: STR_AccountEntity
+  from_columns:
+  - SourceRevision
+  to_columns:
+  - SourceRevision
+  custom_extensions:
+  - vendor_name: HELIOS
+    data: '{"derived": true, "is_default": true, "join_scope": "source_revision", "justification": "Both
+      tables are read from the same suspicious transaction report form, and each row carries the SHA-256
+      of that form as SourceRevision. The form does not state which account or entity a transaction belongs
+      to. The join relates rows of one form only. If one form holds several account or entity rows, a
+      total over the reported transactions repeats for each of them.", "source": "derived_from_source_foreign_keys"}'
+metrics:
+- name: customers_on_business_date
+  description: Count distinct customer IDs in one source batch on the selected business date.
+  datatype: Integer
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: COUNT(DISTINCT Customers.CustomerID)
+  custom_extensions:
+  - vendor_name: HELIOS
+    data: '{"additive_across_dates": false, "allowed_dimensions": ["CustomerType", "IndustryCode"], "concept":
+      "customer_count", "dataset": "Customers", "grain": "customer snapshot", "label": "Customers on business
+      date", "required_filters": {"BusinessDate": "single_value", "SourceBatch": "single_value"}, "review_state":
+      "authored_demo_candidate", "time_field": "BusinessDate", "unit": "count"}'
+  ai_context:
+    synonyms:
+    - number of customers
+    - customer count
+    - customer base
+    - total customers
+    - clients on book
+    - customer headcount
+    examples:
+    - How many customers were there on 6 November 2026?
+    - How many corporate customers were on book on 6 November 2026?
+- name: distinct_customers_in_period
+  description: Count each customer ID once in one source batch across the selected business dates, including
+    both endpoints.
+  datatype: Integer
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: COUNT(DISTINCT Customers.CustomerID)
+  custom_extensions:
+  - vendor_name: HELIOS
+    data: '{"additive_across_dates": false, "allowed_dimensions": ["CustomerType", "IndustryCode"], "concept":
+      "customer_count", "dataset": "Customers", "grain": "customer snapshot", "label": "Distinct customers
+      in period", "required_filters": {"BusinessDate": "inclusive_range", "SourceBatch": "single_value"},
+      "review_state": "authored_demo_candidate", "time_field": "BusinessDate", "unit": "count"}'
+  ai_context:
+    synonyms:
+    - unique customers
+    - unique clients over a period
+    - customers seen in period
+    - distinct client count
+    examples:
+    - How many distinct customers appeared between 4 and 6 November 2026?
+- name: active_accounts
+  description: Count of distinct accounts recorded as Active in one source batch on a business date. Counts
+    distinct AccountNumber values to avoid inflating the result across snapshot rows. Status is source-recorded
+    only; this metric does not infer activity from transactions.
+  datatype: Integer
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: COUNT(DISTINCT CASE WHEN Accounts.Status = 'Active' THEN Accounts.AccountNumber END)
+  custom_extensions:
+  - vendor_name: HELIOS
+    data: '{"allowed_dimensions": ["ProductType", "BranchCode", "Currency"], "concept": "account_status",
+      "dataset": "Accounts", "grain": "account", "label": "Active accounts", "required_filters": {"BusinessDate":
+      "single_value", "SourceBatch": "single_value"}, "review_state": "authored_demo_candidate", "time_field":
+      "BusinessDate", "unit": "count"}'
+  ai_context:
+    synonyms:
+    - number of active accounts
+    - open accounts
+    - live accounts
+    - active account count
+    - accounts in use
+    examples:
+    - How many active accounts were there on 6 November 2026?
+    - How many active accounts does each product type have on 6 November 2026?
+- name: casa_transaction_value
+  description: Sum of CASA transaction amounts in one source batch, on one business date, in one currency.
+    Each row is one transaction event. This is a transaction-volume measure, not an account balance. The
+    amount is in the source currency and no conversion is made, so one currency is required.
+  datatype: Decimal
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: SUM(CASA_Txn.Amount)
+  custom_extensions:
+  - vendor_name: HELIOS
+    data: '{"allowed_dimensions": ["AccountNumber", "CustomerID", "BranchCode"], "concept": "transaction_amount",
+      "dataset": "CASA_Txn", "grain": "CASA transaction", "label": "CASA transaction value", "required_filters":
+      {"BusinessDate": "single_value", "Currency": "single_value", "SourceBatch": "single_value"}, "review_state":
+      "authored_demo_candidate", "time_field": "BusinessDate", "unit": "source currency"}'
+  ai_context:
+    synonyms:
+    - CASA turnover
+    - CASA throughput
+    - current and savings account transaction value
+    - deposit account flows
+    - total CASA transaction amount
+    examples:
+    - What was the total CASA transaction value in SGD on 6 November 2026?
+    - What was the CASA transaction value by branch for USD transactions on 6 November 2026?
+- name: casa_transaction_count
+  description: Count of distinct CASA transaction IDs in one source batch on one business date.
+  datatype: Integer
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: COUNT(DISTINCT CASA_Txn.TransactionID)
+  custom_extensions:
+  - vendor_name: HELIOS
+    data: '{"allowed_dimensions": ["AccountNumber", "CustomerID", "Channel", "BranchCode"], "concept":
+      "transaction_volume", "dataset": "CASA_Txn", "grain": "transaction", "label": "CASA transaction
+      count", "required_filters": {"BusinessDate": "single_value", "SourceBatch": "single_value"}, "review_state":
+      "authored_demo_candidate", "time_field": "BusinessDate", "unit": "count"}'
+  ai_context:
+    synonyms:
+    - number of CASA transactions
+    - CASA transaction volume
+    - transaction frequency
+    - number of transactions
+    - account activity count
+    examples:
+    - How many CASA transactions were recorded on 6 November 2026?
+    - How many CASA transactions went through each channel on 5 November 2026?
+- name: credit_card_transaction_value
+  description: Sum of credit card transaction amounts in one source batch, on one business date, in one
+    currency. The amount is in the source currency and no conversion is made, so one currency is required.
+  datatype: Decimal
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: SUM(CreditCard_Txn.Amount)
+  custom_extensions:
+  - vendor_name: HELIOS
+    data: '{"allowed_dimensions": ["AccountNumber", "CustomerID", "BranchCode"], "concept": "transaction_amount",
+      "dataset": "CreditCard_Txn", "grain": "credit card transaction", "label": "Credit card transaction
+      value", "required_filters": {"BusinessDate": "single_value", "Currency": "single_value", "SourceBatch":
+      "single_value"}, "review_state": "authored_demo_candidate", "time_field": "BusinessDate", "unit":
+      "source currency"}'
+  ai_context:
+    synonyms:
+    - card spend
+    - credit card spend
+    - card turnover
+    - total card transaction amount
+    - card billings
+    examples:
+    - What was the total credit card transaction value in SGD on 6 November 2026?
+- name: large_casa_transaction_count
+  description: Count of CASA transaction events with Amount above 50000 in one source batch. Threshold
+    is 50000 in the transaction currency. This workbook has no dedicated STR flag; this count must not
+    be labelled a Suspicious Transaction Report.
+  datatype: Integer
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: COUNT(CASE WHEN CASA_Txn.Amount > 50000 THEN 1 END)
+  custom_extensions:
+  - vendor_name: HELIOS
+    data: '{"allowed_dimensions": ["BranchCode", "Currency"], "concept": "large_transaction", "dataset":
+      "CASA_Txn", "grain": "CASA transaction", "label": "Large CASA transaction count", "required_filters":
+      {"BusinessDate": "single_value", "SourceBatch": "single_value"}, "review_state": "authored_demo_candidate",
+      "time_field": "BusinessDate", "unit": "count"}'
+  ai_context:
+    synonyms:
+    - large transactions
+    - high-value CASA transactions
+    - transactions above 50000
+    - big-ticket transactions
+    - large-value payments
+    examples:
+    - How many CASA transactions above 50000 were recorded on 6 November 2026?
+- name: high_risk_customers
+  description: Count of customers whose recorded RiskRating is High in one source batch on a business
+    date. Filter is on the workbook RiskRating column only. Never filter on adverse media or unverified
+    allegations.
+  datatype: Integer
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: COUNT(CASE WHEN Customers.RiskRating = 'High' THEN 1 END)
+  custom_extensions:
+  - vendor_name: HELIOS
+    data: '{"allowed_dimensions": ["IndustryCode", "CustomerType", "BranchCode"], "concept": "risk_rating",
+      "constraint": "Filter must use the recorded RiskRating field. Do not derive from adverse media,
+      news, or allegations (AGENTS.md data rule).", "dataset": "Customers", "grain": "customer snapshot",
+      "label": "High-risk customers", "required_filters": {"BusinessDate": "single_value", "RiskRating":
+      "High", "SourceBatch": "single_value"}, "review_state": "authored_demo_candidate", "time_field":
+      "BusinessDate", "unit": "count"}'
+  ai_context:
+    synonyms:
+    - high risk clients
+    - customers rated High
+    - high-risk customer count
+    - number of high-risk customers
+    examples:
+    - How many customers had a recorded risk rating of High on 6 November 2026?
+    - How many high-risk customers are there in each industry on 6 November 2026?
+- name: reported_suspicious_transactions
+  description: Metric reported_suspicious_transactions.
+  datatype: Integer
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: COUNT(STR_Transaction.TransactionSeq)
+  custom_extensions:
+  - vendor_name: HELIOS
+    data: '{"allowed_dimensions": ["TransactionType", "AmountOriginalCurrency"], "concept": "suspicious_transaction",
+      "dataset": "STR_Transaction", "grain": "reported transaction", "label": "Reported suspicious transactions",
+      "required_filters": {}, "review_state": "authored_demo_candidate", "time_field": "StartDate", "unit":
+      "count"}'
+  ai_context:
+    synonyms:
+    - number of suspicious transactions
+    - STR lines
+    - reported suspicious transactions
+    examples:
+    - Count the reported suspicious transactions.
+- name: reported_suspicious_transaction_value
+  description: Metric reported_suspicious_transaction_value.
+  datatype: Decimal
+  expression:
+    dialects:
+    - dialect: ANSI_SQL
+      expression: SUM(STR_Transaction.AmountOriginal)
+  custom_extensions:
+  - vendor_name: HELIOS
+    data: '{"allowed_dimensions": ["TransactionType"], "concept": "suspicious_transaction_amount", "dataset":
+      "STR_Transaction", "grain": "reported transaction", "label": "Reported suspicious transaction value",
+      "required_filters": {"AmountOriginalCurrency": "single_value"}, "review_state": "authored_demo_candidate",
+      "time_field": "StartDate", "unit": "original currency"}'
+  ai_context:
+    synonyms:
+    - total suspicious transaction value
+    - reported suspicious amount
+    - STR amount total
+    - total reported suspicious transaction value
+    examples:
+    - What is the total reported suspicious transaction value in SGD?
+custom_extensions:
+- vendor_name: HELIOS
+  data: '{"attributions": [{"fetched": "2026-11-21", "id": "fibo", "licence": "MIT", "licence_line": "Copyright
+    (c) 2020 Enterprise Data Management Council", "licence_url": "https://github.com/edmcouncil/fibo/blob/master/LICENSE",
+    "name": "Financial Industry Business Ontology (FIBO)", "publisher": "Enterprise Data Management Council",
+    "source_url": "https://github.com/edmcouncil/fibo", "use": "Class label and skos:definition text,
+    copied unchanged, as a secondary definition of the matching concept. The model''s own description
+    is never replaced."}], "competency_questions": [{"definitions": ["customers_on_business_date", "Customers.CustomerType",
+    "Customers.BusinessDate"], "joins": [], "question": "How many customers were on book on 6 November
+    2026, split by corporate and individual?"}, {"definitions": ["high_risk_customers", "Customers.RiskRating",
+    "Customers.IndustryCode"], "joins": [], "question": "How many customers have a recorded risk rating
+    of High on a business date, by industry?"}, {"definitions": ["active_accounts", "Accounts.ProductType",
+    "Accounts.BranchCode", "Accounts.Status"], "joins": [], "question": "How many active accounts does
+    each product type hold in each branch on a business date?"}, {"definitions": ["casa_transaction_value",
+    "CASA_Txn.Currency", "CASA_Txn.BranchCode"], "joins": [], "question": "What was the total CASA transaction
+    value in one currency, by branch, on a business date?"}, {"definitions": ["casa_transaction_count",
+    "CASA_Txn.Channel"], "joins": [], "question": "How many CASA transactions went through each channel
+    on a business date?"}, {"definitions": ["large_casa_transaction_count", "CASA_Txn.BranchCode"], "joins":
+    [], "question": "How many CASA transactions above 50000 were recorded per branch on a business date?"},
+    {"definitions": ["Customer_RM_Relationship.RMID", "Customer_RM_Relationship.RelationshipType", "Customers.RiskRating",
+    "RelationshipManagers.BranchCode"], "joins": ["Customer_RM_Relationship_to_Customers", "Customer_RM_Relationship_to_RelationshipManagers"],
+    "question": "Which relationship manager is the primary RM for customers with a Medium risk rating,
+    and in which branch is the manager based?"}, {"definitions": ["CASA_Txn.Amount", "CASA_Txn.Currency",
+    "Customers.CustomerSegment"], "joins": ["CASA_Txn_to_Customers"], "question": "What CASA transaction
+    amounts did customers in each customer segment record, per currency?"}, {"definitions": ["Treasury_LC_Txn.Amount",
+    "Treasury_LC_Txn.Currency", "Customers.CustomerType", "Customers.IndustryCode"], "joins": ["Treasury_LC_Txn_to_Customers"],
+    "question": "What letter of credit transaction amounts were recorded for corporate customers in the
+    trading industry, per currency?"}, {"definitions": ["Loan_Txn.Amount", "Loan_Txn.DebitCredit", "Loan_Txn.Currency",
+    "Accounts.ProductSubType"], "joins": ["Loan_Txn_to_Accounts"], "question": "What loan transaction
+    amounts were posted on mortgage accounts, by debit or credit indicator and currency?"}, {"definitions":
+    ["RMHierarchy.Level", "RMHierarchy.Department", "RelationshipManagers.BranchCode"], "joins": ["RMHierarchy_to_RelationshipManagers"],
+    "question": "Which hierarchy level and department do the relationship managers of a branch belong
+    to?"}, {"definitions": ["CreditCard_Txn.Amount", "CreditCard_Txn.Channel", "Customers.CustomerSegment"],
+    "joins": ["CreditCard_Txn_to_Customers"], "question": "Which credit card transactions were made by
+    customers of a given customer segment, and through which channel?"}, {"definitions": ["reported_suspicious_transaction_value",
+    "STR_AccountEntity.IsAccMaintainedWithRI"], "joins": ["STR_Transaction_to_STR_AccountEntity_derived"],
+    "question": "What is the total reported suspicious transaction value, for forms whose account is maintained
+    with the reporting institution?"}], "concepts": [{"broader": "customer", "definition": "Number of
+    distinct customers present in a source batch on a business date.", "id": "customer_count", "label":
+    "Customer count", "synonyms": ["number of customers", "customer base", "client count", "customer headcount",
+    "customers on book"]}, {"broader": "account", "definition": "Whether an account is recorded as active
+    in the source workbook.", "id": "account_status", "label": "Account status", "synonyms": ["active
+    account", "inactive account", "account state", "account standing"]}, {"broader": null, "definition":
+    "Unsigned monetary value of one transaction event in its source currency. This is not an account balance.",
+    "id": "transaction_amount", "label": "Transaction amount", "synonyms": ["transaction value", "amount
+    transacted", "payment amount", "transaction size", "turnover"]}, {"broader": "transaction", "definition":
+    "Count of distinct transaction events in a source batch.", "id": "transaction_volume", "label": "Transaction
+    volume", "synonyms": ["number of transactions", "transaction count", "transaction frequency", "activity
+    level"]}, {"broader": null, "constraints": ["filter_on_recorded_field_only", "no_adverse_media"],
+    "definition": "Source-recorded customer risk classification. Never derived from adverse media or allegations.",
+    "id": "risk_rating", "label": "Risk rating", "synonyms": ["customer risk rating", "risk grade", "risk
+    classification", "risk category", "risk profile"]}, {"broader": "transaction_amount", "definition":
+    "Transaction events exceeding a monetary threshold (Amount above 50000 in source currency). Not an
+    STR flag.", "id": "large_transaction", "label": "Large transaction", "synonyms": ["large-value transaction",
+    "high-value transaction", "big-ticket transaction", "transaction above threshold"]}, {"broader": null,
+    "definition": "A corporate or individual party that holds a banking relationship in the workbook,
+    identified by a workbook-local customer ID.", "fibo": {"attribution": "Enterprise Data Management
+    Council, Financial Industry Business Ontology (FIBO)", "definition": "party that receives or consumes
+    products (goods or services) and has the ability to choose between different products and suppliers",
+    "fetched": "2026-11-21", "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/ProductsAndServices/ProductsAndServices/Customer",
+    "label": "customer", "licence": "MIT", "licence_url": "https://github.com/edmcouncil/fibo/blob/master/LICENSE",
+    "source_file": "FND/ProductsAndServices/ProductsAndServices.rdf"}, "id": "customer", "label": "Customer",
+    "synonyms": ["client", "account holder", "borrower", "counterparty", "the company", "the customer"]},
+    {"broader": "customer", "definition": "Whether the customer is recorded as a corporate or an individual
+    customer.", "id": "customer_type", "label": "Customer type", "synonyms": ["corporate or individual",
+    "legal entity type", "client type", "party type"]}, {"broader": "customer", "definition": "The line
+    of business recorded for a customer as a source industry code. A governed industry classification
+    has not been established.", "id": "industry", "label": "Industry", "synonyms": ["sector", "industry
+    sector", "line of business", "business activity", "industry classification"]}, {"broader": "customer",
+    "definition": "The bank''s own grouping of a customer for service and coverage, as recorded in the
+    workbook. Tiers in other systems require a crosswalk.", "id": "customer_segment", "label": "Customer
+    segment", "synonyms": ["segment", "client segment", "banking segment", "service tier", "coverage segment"]},
+    {"broader": null, "definition": "A product holding of one customer, identified by a workbook-local
+    account number. No balance is recorded for an account.", "fibo": {"attribution": "Enterprise Data
+    Management Council, Financial Industry Business Ontology (FIBO)", "definition": "container for records
+    associated with a business arrangement for regular transactions and services", "fetched": "2026-11-21",
+    "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/ClientsAndAccounts/Account",
+    "label": "account", "licence": "MIT", "licence_url": "https://github.com/edmcouncil/fibo/blob/master/LICENSE",
+    "source_file": "FBC/ProductsAndServices/ClientsAndAccounts.rdf"}, "id": "account", "label": "Account",
+    "synonyms": ["bank account", "facility", "product holding", "account relationship"]}, {"broader":
+    "account", "definition": "The product behind an account, recorded as a product type, a product subtype
+    and a source product code.", "fibo": {"attribution": "Enterprise Data Management Council, Financial
+    Industry Business Ontology (FIBO)", "definition": "product provided to consumers and businesses by
+    financial institutions such as banks, insurance companies, brokerage firms, consumer finance companies,
+    and investment companies", "fetched": "2026-11-21", "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/FinancialProduct",
+    "label": "financial product", "licence": "MIT", "licence_url": "https://github.com/edmcouncil/fibo/blob/master/LICENSE",
+    "source_file": "FBC/ProductsAndServices/FinancialProductsAndServices.rdf"}, "id": "product", "label":
+    "Banking product", "synonyms": ["product", "product type", "product line", "facility type", "banking
+    service", "financial product"]}, {"broader": null, "definition": "The ISO currency code in which an
+    account is held or a transaction amount is stated. No conversion is performed.", "fibo": {"attribution":
+    "Enterprise Data Management Council, Financial Industry Business Ontology (FIBO)", "definition": "medium
+    of exchange value, defined by reference to the geographical location of the monetary authorities responsible
+    for it", "fetched": "2026-11-21", "iri": "https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CurrencyAmount/Currency",
+    "label": "currency", "licence": "MIT", "licence_url": "https://github.com/edmcouncil/fibo/blob/master/LICENSE",
+    "source_file": "FND/Accounting/CurrencyAmount.rdf"}, "id": "currency", "label": "Currency", "synonyms":
+    ["CCY", "currency code", "denomination", "native currency"]}, {"broader": null, "definition": "A bank
+    branch recorded as a source branch code. No certified reference maps the code to a branch name or
+    location.", "id": "branch", "label": "Branch", "synonyms": ["branch office", "booking branch", "branch
+    code", "outlet"]}, {"broader": null, "definition": "A bank employee who manages customer relationships,
+    identified by a workbook-local relationship manager ID.", "fibo": {"attribution": "Enterprise Data
+    Management Council, Financial Industry Business Ontology (FIBO)", "definition": "responsible party
+    who manages a client''s account and oversees their relationship with the service provider", "fetched":
+    "2026-11-21", "iri": "https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/ClientsAndAccounts/RelationshipManager",
+    "label": "relationship manager", "licence": "MIT", "licence_url": "https://github.com/edmcouncil/fibo/blob/master/LICENSE",
+    "source_file": "FBC/ProductsAndServices/ClientsAndAccounts.rdf"}, "id": "relationship_manager", "label":
+    "Relationship manager", "synonyms": ["RM", "banker", "account officer", "coverage banker", "relationship
+    officer"]}, {"broader": "relationship_manager", "definition": "The recorded link between one customer
+    and one relationship manager, with a relationship type and effective dates.", "id": "rm_assignment",
+    "label": "Relationship manager assignment", "synonyms": ["RM coverage", "customer coverage", "assigned
+    RM", "primary RM", "portfolio assignment", "book of clients"]}, {"broader": "relationship_manager",
+    "definition": "The organisational placement of a relationship manager by level, region and department.
+    It does not establish who reports to whom.", "id": "rm_hierarchy", "label": "Relationship manager
+    hierarchy", "synonyms": ["RM hierarchy", "organisation level", "coverage team structure", "reporting
+    level"]}, {"broader": null, "definition": "The business date on which the workbook recorded a row.
+    It is not the date an event happened or a relationship started.", "id": "snapshot_date", "label":
+    "Business snapshot date", "synonyms": ["as-of date", "business date", "reporting date", "position
+    date"]}, {"broader": null, "definition": "One recorded money movement or product event on an account,
+    dated by its transaction date. The same event can appear in more than one business snapshot.", "id":
+    "transaction", "label": "Transaction", "synonyms": ["txn", "posting", "payment", "transfer", "account
+    movement", "account activity"]}, {"broader": "transaction", "definition": "The debit or credit indicator
+    recorded on a transaction. The model infers no signed amount from it.", "id": "transaction_direction",
+    "label": "Transaction direction", "synonyms": ["debit or credit", "DR/CR", "inflow or outflow", "money
+    in or money out"]}, {"broader": "transaction", "definition": "The channel through which a transaction
+    was recorded, such as branch, mobile, online or SWIFT.", "id": "transaction_channel", "label": "Transaction
+    channel", "synonyms": ["channel", "delivery channel", "banking channel", "origination channel"]},
+    {"broader": "transaction", "definition": "A transaction event on a current account or savings account.",
+    "id": "casa_transaction", "label": "CASA transaction", "synonyms": ["current account transaction",
+    "savings account transaction", "deposit account transaction", "CASA movement", "account transfer"]},
+    {"broader": "transaction", "definition": "A transaction event on a credit card account.", "id": "credit_card_transaction",
+    "label": "Credit card transaction", "synonyms": ["card transaction", "card spend", "card payment",
+    "card purchase", "credit card activity"]}, {"broader": "transaction", "definition": "A transaction
+    event on a loan account. The source does not record whether it is a drawdown, a repayment, interest
+    or a fee.", "id": "loan_transaction", "label": "Loan transaction", "synonyms": ["loan posting", "loan
+    movement", "lending transaction", "mortgage transaction", "loan account activity"]}, {"broader": "transaction",
+    "definition": "A transaction event on an investment account. The source does not record the security,
+    the trade side or the quantity.", "id": "investment_transaction", "label": "Investment transaction",
+    "synonyms": ["investment trade", "custody transaction", "securities transaction", "wealth transaction",
+    "portfolio transaction"]}, {"broader": "transaction", "definition": "A transaction event on a treasury
+    foreign exchange account. It does not establish an export receipt, a hedge or an exchange rate.",
+    "id": "fx_transaction", "label": "Foreign exchange transaction", "synonyms": ["FX transaction", "FX
+    deal", "forex trade", "currency exchange", "treasury FX"]}, {"broader": "transaction", "definition":
+    "A transaction event on a treasury letter of credit account. It does not establish a settled import
+    payment.", "id": "letter_of_credit_transaction", "label": "Letter of credit transaction", "synonyms":
+    ["LC transaction", "L/C", "documentary credit", "trade finance transaction", "import LC"]}, {"broader":
+    "transaction", "definition": "A transaction a reporting institution states on a suspicious transaction
+    report form. The report states a suspicion. It does not establish a crime or a booked workbook transaction.",
+    "id": "suspicious_transaction", "label": "Suspicious transaction", "synonyms": ["STR transaction",
+    "reported transaction", "suspicious transaction report line", "transaction of concern", "flagged transaction"]},
+    {"broader": "suspicious_transaction", "definition": "The amount of one transaction stated on a suspicious
+    transaction report form, in the original currency the form states. It is not a booked amount and it
+    is not a balance.", "id": "suspicious_transaction_amount", "label": "Suspicious transaction amount",
+    "synonyms": ["reported amount", "STR amount", "amount of the reported transaction", "suspicious amount"]},
+    {"broader": null, "definition": "An account a suspicious transaction report form states in its account
+    information group. The form states it. It does not link to a workbook account.", "id": "reported_account",
+    "label": "Reported account", "synonyms": ["account on a suspicious transaction report", "STR account",
+    "reported account information"]}, {"broader": null, "definition": "An individual or organisation a
+    suspicious transaction report form profiles in its entity profile group. The form states it. It does
+    not resolve to a workbook customer.", "id": "reported_entity", "label": "Reported entity", "synonyms":
+    ["entity on a suspicious transaction report", "STR entity profile", "profiled entity"]}], "execution":
+    "metadata_only; optional local CSV projection", "reference_sheets": {"Company List - External Data":
+    "External company reference with no approved banking identity link.", "Dictionary": "Source descriptions
+    and design intent, which can differ from populated columns.", "ER": "Illustrative relationship layout.",
+    "Incident File - External Data": "External reports with no approved banking identity or recorded-risk
+    mapping.", "Index": "Workbook navigation.", "Param": "Code reference with unverified key and applicability."},
+    "review_state": "authored_demo_candidate", "source_sha256": "22461ccdef508009f6f229f9cfd3ad22802a3b32316170b2254efc113d0f9b79",
+    "source_workbook": "MockUp Data.xlsx", "subject_areas": [{"datasets": ["Customers"], "description":
+    "Who the bank''s customers are on a business date. Covers customer type, industry, segment, recorded
+    risk rating, country and home branch.", "id": "customer", "label": "Customer"}, {"datasets": ["Accounts"],
+    "description": "The accounts each customer holds and the product behind each account. Covers product
+    type, currency, opening date, booking location and account status. No balance is held.", "id": "accounts_and_products",
+    "label": "Accounts and products"}, {"datasets": ["RelationshipManagers", "Customer_RM_Relationship",
+    "RMHierarchy"], "description": "Which relationship manager covers which customer, and where each manager
+    sits in the organisation. Covers the manager roster, customer assignments and hierarchy records.",
+    "id": "relationship_coverage", "label": "Relationship coverage"}, {"datasets": ["CASA_Txn", "CreditCard_Txn",
+    "Loan_Txn", "Investment_Txn"], "description": "Transaction events on deposit, card, loan and investment
+    accounts. Amounts are unsigned and in source currency. They are transaction flows, not balances.",
+    "id": "banking_transactions", "label": "Banking transactions"}, {"datasets": ["Treasury_FX_Txn", "Treasury_LC_Txn"],
+    "description": "Transaction events on treasury foreign exchange and letter of credit accounts. Amounts
+    are unsigned and in source currency. An event here does not prove a settled trade payment or an export
+    receipt.", "id": "treasury_and_trade", "label": "Treasury and trade"}, {"datasets": ["STR_Transaction",
+    "STR_AccountEntity"], "description": "Transactions stated on suspicious transaction report forms.
+    A reporting institution writes each row. A report states a suspicion. It is not a finding of wrongdoing
+    and it is not a booked workbook transaction. These rows are read from the form, not from the workbook.",
+    "id": "suspicious_transaction_reports", "label": "Suspicious transaction reports"}]}'

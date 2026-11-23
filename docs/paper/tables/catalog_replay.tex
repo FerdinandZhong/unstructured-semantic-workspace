@@ -1,0 +1,19 @@
+% Source: Output B (P10a) agent's hand-back as relayed by the controller on 2026-11-22; implementer's claim until the
+% controller's suite run is recorded. "Off" column equals the P6n replay. "No release" column: by code
+% (answer_path.published_catalog returns no concepts when no release exists), so no name is offered.
+\begin{table}[H]
+\centering\small
+\caption{Replay with and without the published catalog, default small model, recorded replies. All sets are development data. Implementer's numbers.}
+\label{tab:catalog-replay}
+\begin{tabular}{lccc}
+\toprule
+Set (questions) & Catalog off & On, no release & On, every anchored concept approved\\\midrule
+\texttt{dev\_wide} (166) & 111 & 111 & 111\\
+\texttt{exam\_dev} (10) & 7 & 7 & 7\\
+Exam 1 (30) & 23 & 23 & 23\\
+Exam 2 (30) & 17 & 17 & 17\\
+Exam 3 (30) & 18 & 18 & 18\\
+Exam 4 (30) & 23 & 23 & 23\\
+\bottomrule
+\end{tabular}
+\end{table}

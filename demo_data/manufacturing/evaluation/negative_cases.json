@@ -1,0 +1,66 @@
+[
+  {
+    "id": "N01",
+    "concept": "purchase_commitment",
+    "target": "Sales.SalesOrderDetail.OrderQty",
+    "proposed_relation": "exact",
+    "expected": "reject",
+    "reason": "Obligation is not an operational quantity."
+  },
+  {
+    "id": "N02",
+    "concept": "supplier_lead_time_promise",
+    "target": "Purchasing.ProductVendor.AverageLeadTime",
+    "proposed_relation": "exact",
+    "expected": "reject",
+    "reason": "Promise differs from average and start events differ."
+  },
+  {
+    "id": "N03",
+    "concept": "delivery_promise",
+    "target": "Sales.SalesOrderHeader.ShipDate",
+    "proposed_relation": "exact",
+    "expected": "reject",
+    "reason": "Shipment is not delivery."
+  },
+  {
+    "id": "N04",
+    "concept": "warranty_duration",
+    "target": "Production.Product.SellEndDate",
+    "proposed_relation": "exact",
+    "expected": "reject",
+    "reason": "Sales availability is not warranty duration."
+  },
+  {
+    "id": "N05",
+    "concept": "product_identifier",
+    "input": {
+      "namespace": "unrelated_supplier",
+      "product_number": "BK-T79Y-46"
+    },
+    "proposed_entity": 954,
+    "expected": "unresolved",
+    "reason": "Matching text in another namespace does not establish product identity."
+  },
+  {
+    "id": "N06",
+    "document": "MFG-007",
+    "requested_customer": 29641,
+    "expected": "exclude_evidence",
+    "reason": "Different customer evidence cannot satisfy the selected customer question."
+  },
+  {
+    "id": "N07",
+    "document": "MFG-003",
+    "as_of": "2024-05-29",
+    "expected": "use_base_promise",
+    "reason": "Amendment is not effective yet."
+  },
+  {
+    "id": "N08",
+    "concept": "minimum_supplier_order",
+    "target": "Purchasing.ProductVendor.MinOrderQty",
+    "expected": "require_domain_review",
+    "reason": "Source description contradicts column name."
+  }
+]

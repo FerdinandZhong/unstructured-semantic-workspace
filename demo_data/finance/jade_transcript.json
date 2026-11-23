@@ -1,0 +1,192 @@
+{
+  "version": 1,
+  "sourceId": "financial-services:source:jade_call",
+  "synthetic": true,
+  "audioSha256": "817cdbcbbf5e12250208b7e1bbb767039bcc54033a5d042ea77e6a7556a87e38",
+  "archive": {
+    "source": "V1 synthetic Jade audio transcript",
+    "documentId": "dd09b1d46ca67984d08f3a73ff5f0a29",
+    "matchingAudioCount": 4,
+    "matchingSpanCount": 3,
+    "textSha256": "6fb95972e919a8a40c16c89fbcda986c0fa56b35b09add4f6ab1df3175561a30"
+  },
+  "text": "This is a synthetic demonstration recording.\n\nGood morning.\n\nThis is the relationship manager calling about Jade Logistics Pte.\n\nLimited.\n\nMay I speak with the finance director, Tan Wei Ming?\n\nSpeaking.\n\nThanks for calling.\n\nOur USD export receipts have grown this quarter, and we would like to talk about FX hedging.\n\nCertainly.\n\nWe can review a forward contract against those USD export receipts.\n\nWhat tenor do you need?\n\nThree to six months.\n\nWe also have a late payment concern.\n\nOur Shanghai partner has delayed two invoices.\n\nUnderstood.\n\nLet me ask your Shanghai partner to confirm the schedule.\n\n大家好，我是上海合作伙伴。下一批货物预计下周三从上海出发。美元货款请在10月31日之前汇出。如果有变化，我们会提前通知。\n\nThank you.\n\nThat helps.\n\nPlease send us the hedging proposal this week.\n\nI will send it by Friday.\n\nThank you for your time.",
+  "spans": [
+    {
+      "start": 0,
+      "end": 44,
+      "startSeconds": 0.0,
+      "endSeconds": 2.6,
+      "speaker": "speaker_1",
+      "language": "en"
+    },
+    {
+      "start": 46,
+      "end": 59,
+      "startSeconds": 3.1,
+      "endSeconds": 3.8,
+      "speaker": "speaker_1",
+      "language": "en"
+    },
+    {
+      "start": 61,
+      "end": 127,
+      "startSeconds": 4.0,
+      "endSeconds": 7.9,
+      "speaker": "speaker_1",
+      "language": "en"
+    },
+    {
+      "start": 129,
+      "end": 137,
+      "startSeconds": 8.1,
+      "endSeconds": 8.5,
+      "speaker": "speaker_1",
+      "language": "en"
+    },
+    {
+      "start": 139,
+      "end": 191,
+      "startSeconds": 8.8,
+      "endSeconds": 11.9,
+      "speaker": "speaker_1",
+      "language": "en"
+    },
+    {
+      "start": 193,
+      "end": 202,
+      "startSeconds": 12.5,
+      "endSeconds": 13.0,
+      "speaker": "speaker_2",
+      "language": "en"
+    },
+    {
+      "start": 204,
+      "end": 223,
+      "startSeconds": 13.3,
+      "endSeconds": 14.3,
+      "speaker": "speaker_2",
+      "language": "en"
+    },
+    {
+      "start": 225,
+      "end": 317,
+      "startSeconds": 14.5,
+      "endSeconds": 19.7,
+      "speaker": "speaker_2",
+      "language": "en"
+    },
+    {
+      "start": 319,
+      "end": 329,
+      "startSeconds": 20.2,
+      "endSeconds": 20.9,
+      "speaker": "speaker_1",
+      "language": "en"
+    },
+    {
+      "start": 331,
+      "end": 398,
+      "startSeconds": 21.1,
+      "endSeconds": 25.4,
+      "speaker": "speaker_1",
+      "language": "en"
+    },
+    {
+      "start": 400,
+      "end": 423,
+      "startSeconds": 25.6,
+      "endSeconds": 26.9,
+      "speaker": "speaker_1",
+      "language": "en"
+    },
+    {
+      "start": 425,
+      "end": 445,
+      "startSeconds": 27.3,
+      "endSeconds": 28.6,
+      "speaker": "speaker_2",
+      "language": "en"
+    },
+    {
+      "start": 447,
+      "end": 483,
+      "startSeconds": 28.8,
+      "endSeconds": 30.8,
+      "speaker": "speaker_2",
+      "language": "en"
+    },
+    {
+      "start": 485,
+      "end": 531,
+      "startSeconds": 31.1,
+      "endSeconds": 33.7,
+      "speaker": "speaker_2",
+      "language": "en"
+    },
+    {
+      "start": 533,
+      "end": 544,
+      "startSeconds": 34.2,
+      "endSeconds": 34.7,
+      "speaker": "speaker_1",
+      "language": "en"
+    },
+    {
+      "start": 546,
+      "end": 603,
+      "startSeconds": 35.0,
+      "endSeconds": 38.1,
+      "speaker": "speaker_1",
+      "language": "en"
+    },
+    {
+      "start": 605,
+      "end": 665,
+      "startSeconds": 38.6,
+      "endSeconds": 53.0,
+      "speaker": "speaker_3",
+      "language": "zh"
+    },
+    {
+      "start": 667,
+      "end": 677,
+      "startSeconds": 53.7,
+      "endSeconds": 54.2,
+      "speaker": "speaker_2",
+      "language": "en"
+    },
+    {
+      "start": 679,
+      "end": 690,
+      "startSeconds": 54.5,
+      "endSeconds": 55.2,
+      "speaker": "speaker_2",
+      "language": "en"
+    },
+    {
+      "start": 692,
+      "end": 738,
+      "startSeconds": 55.4,
+      "endSeconds": 57.8,
+      "speaker": "speaker_2",
+      "language": "en"
+    },
+    {
+      "start": 740,
+      "end": 765,
+      "startSeconds": 58.2,
+      "endSeconds": 59.8,
+      "speaker": "speaker_1",
+      "language": "en"
+    },
+    {
+      "start": 767,
+      "end": 791,
+      "startSeconds": 60.1,
+      "endSeconds": 61.4,
+      "speaker": "speaker_1",
+      "language": "en"
+    }
+  ]
+}

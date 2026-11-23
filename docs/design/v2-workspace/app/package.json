@@ -1,0 +1,17 @@
+{
+  "name": "v2-workspace-pipeline",
+  "private": true,
+  "description": "React pages of the V2 workspace. Built into ../pipeline.js and ../pipeline.css; the server serves only the built files.",
+  "scripts": {
+    "build": "esbuild src/main.jsx --bundle --minify --format=iife --target=es2020 --jsx=automatic --define:process.env.NODE_ENV='\"production\"' --outfile=../pipeline.js --legal-comments=none"
+  },
+  "dependencies": {
+    "@dagrejs/dagre": "1.1.4",
+    "@xyflow/react": "12.3.6",
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
+  },
+  "devDependencies": {
+    "esbuild": "0.24.2"
+  }
+}

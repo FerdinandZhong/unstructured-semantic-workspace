@@ -1,0 +1,30 @@
+#talk-to-data { margin-top: 12px; }
+.talk-form { display: grid; gap: 7px; margin-top: 16px; }
+.talk-form label, .talk-question h3, .talk-reply h3 { font-weight: 600; }
+.talk-form textarea {
+  box-sizing: border-box;
+  width: 100%;
+  resize: vertical;
+  font: inherit;
+  line-height: 1.5;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 8px;
+}
+.talk-form .helper, .talk-status { margin: 0; }
+.talk-status:empty { display: none; }
+.talk-thread, .talk-turn, .talk-reply { display: grid; gap: 10px; }
+.talk-thread { min-width: 0; }
+.talk-turn { margin-top: 14px; min-width: 0; }
+.talk-turn h3, .talk-turn h4, .talk-turn p, .talk-turn ul { margin-top: 0; }
+.talk-turn h3, .talk-turn h4 { margin-bottom: 4px; }
+.talk-turn p:last-child { margin-bottom: 0; }
+.talk-turn p, .talk-turn dd, .talk-turn li { overflow-wrap: anywhere; }
+.talk-question, .talk-reply { border: 1px solid var(--line); border-radius: 8px; padding: 12px; min-width: 0; }
+.talk-question { background: #f7faff; }
+.talk-question p { white-space: pre-wrap; }
+.talk-reply .kv small { display: block; }
+.talk-reply .quote { margin-top: 6px; }
+.structured-answer { border: 1px solid var(--line); border-radius: 8px; padding: 12px; min-width: 0; }
+.structured-answer h5 { margin: 10px 0 4px; }
+.structured-answer .kv small { display: block; }

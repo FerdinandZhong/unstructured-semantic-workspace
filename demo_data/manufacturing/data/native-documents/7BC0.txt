@@ -1,0 +1,8 @@
+Installing Pedals
+Attaching replacement pedals to your Adventure Works Cycles bicycle is a simple procedure. You will need a standard wrench to remove the old pedals and install the replacement pedals.
+The right pedal is marked “R” and the left pedal is marked “L”. The right pedal has right-hand threads. Tighten it in a clockwise direction. The left pedal has left-hand threads. Tighten it in a counterclockwise direction.
+1. Remove the old pedals from the bicycle. For the right pedal, loosen in a counter clockwise direction.  For the left pedal, loosen in a clockwise direction. 
+2. Turn the right pedal (marked "R") into the right side of the crank and the left pedal into the left side of the crank.
+3. Tighten the pedal. Make sure the threads of each pedal are fully into the crank for tightening.
+The recommended torque (tightness) for each pedal is 23ft.-lbs.
+

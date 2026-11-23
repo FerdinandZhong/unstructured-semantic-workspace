@@ -1,0 +1,16 @@
+% Sources: P6m (replay after round 5) and P6n (replay after round 6). All rows are development data.
+\begin{table}[H]
+\centering\small
+\caption{Post-hoc replay on development data, default small model, recorded replies. These are \emph{not} unseen scores. Every set below was read and diagnosed before the fixes it measures. ``Right regardless of shape'' counts answers with the right status and figure whether or not the key's fact shape matches.}
+\label{tab:exam-posthoc}
+\begin{tabular}{lcccc}
+\toprule
+Set (questions) & Unseen run & Before round 5 & After rounds 5--6 & Right regardless of shape\\\midrule
+Exam 4 (30) & 17 & 17 & 23 & 27 (was 20)\\ % P6l; P6m; P6n
+Exam 3 (30) & 18 & 18 & 18 & 23\\ % P6i; P6m; P6n
+Exam 2 (30) & 14 & 17 & 17 & not reported\\ % P6d; P6k; P6n
+Exam 1 (30) & 11 & 23 & 23 & not reported\\ % P6; P6k; P6n
+\texttt{dev\_wide} (166) & --- & 110 & 111 & 128\\ % P6k; P6m; P6n
+\bottomrule
+\end{tabular}
+\end{table}

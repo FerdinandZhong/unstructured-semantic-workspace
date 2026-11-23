@@ -1,0 +1,23 @@
+% Sources: answer_path._match_catalog and _catalog_ambiguity (round 7, catalog names; regressions from the Output B agent's hand-back via the controller, 2026-11-22); P6f/P6h (round 3), P6k (round 4), P6m (round 5), P6n (round 6). Code: semantic_pipeline_v2/answer_path.py, periods.py.
+\begin{table}[H]
+\centering\small
+\caption{Guards added to the answer path in rounds 3 to 7. Each is a mechanism in code, not a word list for one question.}
+\label{tab:answer-guards}
+\begin{tabular}{p{5.6cm}p{6.4cm}c}
+\toprule
+Mechanism & What it prevents & Round\\\midrule
+One period parser (day, range, month, month end, quarter, half year, year) & Guessed dates; a period read in different ways by different steps & 3\\
+Named repair of an invalid plan & An accidental refusal from one malformed plan item & 3\\
+Plan-shape normalisation; one-time advice when the measure's table cannot reach an entity or filter & Refusals caused by the shape of the plan rather than its meaning & 4\\
+A record a cited clause names narrows the measure; never another party's record & An answer about a different account, deal or order & 4\\
+Declared joins of up to three many-to-one hops; a bridge table for a distinct count & Refusal of two-hop questions; double counting through a join & 4\\
+Commitment rule: wording of agreeing, committing, promising or certifying sends the question to documents & A recorded figure presented as what a party agreed & 5\\
+Withheld-source rule: when only a withheld source about the asked party holds the answer, refuse as ``source withheld'' & An answer built from the readable remainder; any text of the withheld source & 5\\
+Direction-word rule: a word such as ``credit'' or ``debit'' binds the one column value it names, or asks & A total that mixes debits and credits & 5\\
+Period outside the data: refuse before checking for a missing parameter & A request for a parameter when no parameter can help & 5\\
+A table absent from the facts schema goes back to the planner; no database message reaches the reply & A database error shown as an answer & 5\\
+Reference-token rule: a report, contract or order number that no table key holds must be stated by every cited source & A figure from a different report & 6\\
+Catalog names: a name from an approved concept is not offered when a model name at least as long covers it, when it lies inside a record name the question states, when a longer name of another concept covers it, when it links only to an identifier or a name column, or when it names several values of one table. A measure reached only through a name shared by two tables gives a clarification. & A reviewed name overriding the model's own name; an identifier reached through a word such as ``orders''; one concept linked \texttt{closeMatch} to nine fields steering the plan; a silent choice between two tables. The two middle cases were regressions of the first versions. & 7\\
+\bottomrule
+\end{tabular}
+\end{table}

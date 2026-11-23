@@ -1,0 +1,1570 @@
+{
+ "note": "Answer key: values stated in documents_zh PDFs and their AdventureWorks table counterparts. table=null means no table counterpart.",
+ "links": [
+  {
+   "document": "MFG-ZH-01",
+   "clause": "标的物表 第1项",
+   "label_zh": "名称",
+   "value_as_written": "Touring-1000 Blue, 46",
+   "table": "Production_Product",
+   "column": "Name",
+   "key": {
+    "ProductID": "966"
+   },
+   "aggregate": null,
+   "table_value": "Touring-1000 Blue, 46",
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-01",
+   "clause": "标的物表 第1项",
+   "label_zh": "规格型号",
+   "value_as_written": "BK-T79U-46",
+   "table": "Production_Product",
+   "column": "ProductNumber",
+   "key": {
+    "ProductID": "966"
+   },
+   "aggregate": null,
+   "table_value": "BK-T79U-46",
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-01",
+   "clause": "标的物表 第1项",
+   "label_zh": "数量",
+   "value_as_written": "2",
+   "table": "Sales_SalesOrderDetail",
+   "column": "OrderQty",
+   "key": {
+    "SalesOrderDetailID": "62911"
+   },
+   "aggregate": null,
+   "table_value": "2",
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-01",
+   "clause": "标的物表 第1项",
+   "label_zh": "单价（美元）",
+   "value_as_written": "1430.442",
+   "table": "Sales_SalesOrderDetail",
+   "column": "UnitPrice",
+   "key": {
+    "SalesOrderDetailID": "62911"
+   },
+   "aggregate": null,
+   "table_value": "1430.4420",
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-01",
+   "clause": "标的物表 第1项",
+   "label_zh": "金额（美元）",
+   "value_as_written": "2860.884",
+   "table": "Sales_SalesOrderDetail",
+   "column": "LineTotal",
+   "key": {
+    "SalesOrderDetailID": "62911"
+   },
+   "aggregate": null,
+   "table_value": "2860.884000",
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-01",
+   "clause": "标的物表 第1项",
+   "label_zh": "交货期限",
+   "value_as_written": "2024年10月11日",
+   "table": "Sales_SalesOrderHeader",
+   "column": "DueDate",
+   "key": {
+    "SalesOrderID": "57159"
+   },
+   "aggregate": null,
+   "table_value": "2024-10-11 00:00:00.000",
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-01",
+   "clause": "标的物表 第2项",
+   "label_zh": "名称",
+   "value_as_written": "HL Touring Frame - Yellow, 46",
+   "table": "Production_Product",
+   "column": "Name",
+   "key": {
+    "ProductID": "887"
+   },
+   "aggregate": null,
+   "table_value": "HL Touring Frame - Yellow, 46",
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-01",
+   "clause": "标的物表 第2项",
+   "label_zh": "规格型号",
+   "value_as_written": "FR-T98Y-46",
+   "table": "Production_Product",
+   "column": "ProductNumber",
+   "key": {
+    "ProductID": "887"
+   },
+   "aggregate": null,
+   "table_value": "FR-T98Y-46",
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-01",
+   "clause": "标的物表 第2项",
+   "label_zh": "数量",
+   "value_as_written": "2",
+   "table": "Sales_SalesOrderDetail",
+   "column": "OrderQty",
+   "key": {
+    "SalesOrderDetailID": "62912"
+   },
+   "aggregate": null,
+   "table_value": "2",
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-01",
+   "clause": "标的物表 第2项",
+   "label_zh": "单价（美元）",
+   "value_as_written": "602.346",
+   "table": "Sales_SalesOrderDetail",
+   "column": "UnitPrice",
+   "key": {
+    "SalesOrderDetailID": "62912"
+   },
+   "aggregate": null,
+   "table_value": "602.3460",
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-01",
+   "clause": "标的物表 第2项",
+   "label_zh": "金额（美元）",
+   "value_as_written": "1204.692",
+   "table": "Sales_SalesOrderDetail",
+   "column": "LineTotal",
+   "key": {
+    "SalesOrderDetailID": "62912"
+   },
+   "aggregate": null,
+   "table_value": "1204.692000",
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-01",
+   "clause": "标的物表 第2项",
+   "label_zh": "交货期限",
+   "value_as_written": "2024年10月11日",
+   "table": "Sales_SalesOrderHeader",
+   "column": "DueDate",
+   "key": {
+    "SalesOrderID": "57159"
+   },
+   "aggregate": null,
+   "table_value": "2024-10-11 00:00:00.000",
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-01",
+   "clause": "标的物表 第3项",
+   "label_zh": "名称",
+   "value_as_written": "HL Touring Frame - Yellow, 50",
+   "table": "Production_Product",
+   "column": "Name",
+   "key": {
+    "ProductID": "888"
+   },
+   "aggregate": null,
+   "table_value": "HL Touring Frame - Yellow, 50",
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-01",
+   "clause": "标的物表 第3项",
+   "label_zh": "规格型号",
+   "value_as_written": "FR-T98Y-50",
+   "table": "Production_Product",
+   "column": "ProductNumber",
+   "key": {
+    "ProductID": "888"
+   },
+   "aggregate": null,
+   "table_value": "FR-T98Y-50",
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-01",
+   "clause": "标的物表 第3项",
+   "label_zh": "数量",
+   "value_as_written": "3",
+   "table": "Sales_SalesOrderDetail",
+   "column": "OrderQty",
+   "key": {
+    "SalesOrderDetailID": "62913"
+   },
+   "aggregate": null,
+   "table_value": "3",
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-01",
+   "clause": "标的物表 第3项",
+   "label_zh": "单价（美元）",
+   "value_as_written": "602.346",
+   "table": "Sales_SalesOrderDetail",
+   "column": "UnitPrice",
+   "key": {
+    "SalesOrderDetailID": "62913"
+   },
+   "aggregate": null,
+   "table_value": "602.3460",
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-01",
+   "clause": "标的物表 第3项",
+   "label_zh": "金额（美元）",
+   "value_as_written": "1807.038",
+   "table": "Sales_SalesOrderDetail",
+   "column": "LineTotal",
+   "key": {
+    "SalesOrderDetailID": "62913"
+   },
+   "aggregate": null,
+   "table_value": "1807.038000",
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-01",
+   "clause": "标的物表 第3项",
+   "label_zh": "交货期限",
+   "value_as_written": "2024年10月11日",
+   "table": "Sales_SalesOrderHeader",
+   "column": "DueDate",
+   "key": {
+    "SalesOrderID": "57159"
+   },
+   "aggregate": null,
+   "table_value": "2024-10-11 00:00:00.000",
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-01",
+   "clause": "首页 买受人",
+   "label_zh": "买受人",
+   "value_as_written": "Efficient Cycling",
+   "table": "Sales_Store",
+   "column": "Name",
+   "key": {
+    "BusinessEntityID": "1130"
+   },
+   "aggregate": null,
+   "table_value": "Efficient Cycling",
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-01",
+   "clause": "首页 买受人",
+   "label_zh": "客户编号",
+   "value_as_written": "AW00029863",
+   "table": "Sales_Customer",
+   "column": "AccountNumber",
+   "key": {
+    "CustomerID": "29863"
+   },
+   "aggregate": null,
+   "table_value": "AW00029863",
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-01",
+   "clause": "首页",
+   "label_zh": "签订日期",
+   "value_as_written": "2024年9月29日",
+   "table": "Sales_SalesOrderHeader",
+   "column": "OrderDate",
+   "key": {
+    "SalesOrderID": "57159"
+   },
+   "aggregate": null,
+   "table_value": "2024-09-29 00:00:00.000",
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-01",
+   "clause": "三、费用",
+   "label_zh": "合同总额（美元）",
+   "value_as_written": "5872.614",
+   "table": "Sales_SalesOrderHeader",
+   "column": "SubTotal",
+   "key": {
+    "SalesOrderID": "57159"
+   },
+   "aggregate": null,
+   "table_value": "5872.6140",
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-01",
+   "clause": "九、交付",
+   "label_zh": "交货时间",
+   "value_as_written": "2024年10月11日",
+   "table": "Sales_SalesOrderHeader",
+   "column": "DueDate",
+   "key": {
+    "SalesOrderID": "57159"
+   },
+   "aggregate": null,
+   "table_value": "2024-10-11 00:00:00.000",
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-01",
+   "clause": "十八、其他约定事项",
+   "label_zh": "买受人采购单号",
+   "value_as_written": "PO2262133775",
+   "table": "Sales_SalesOrderHeader",
+   "column": "PurchaseOrderNumber",
+   "key": {
+    "SalesOrderID": "57159"
+   },
+   "aggregate": null,
+   "table_value": "PO2262133775",
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-01",
+   "clause": "十、检验",
+   "label_zh": "检验期限（日）",
+   "value_as_written": "10",
+   "table": null,
+   "column": null,
+   "key": null,
+   "aggregate": null,
+   "table_value": null,
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-01",
+   "clause": "十、检验",
+   "label_zh": "异议通知期限（日）",
+   "value_as_written": "3",
+   "table": null,
+   "column": null,
+   "key": null,
+   "aggregate": null,
+   "table_value": null,
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-01",
+   "clause": "十五、质量保证期",
+   "label_zh": "质量保证期（月）",
+   "value_as_written": "12",
+   "table": null,
+   "column": null,
+   "key": null,
+   "aggregate": null,
+   "table_value": null,
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-01",
+   "clause": "十五、质量保证期",
+   "label_zh": "服务响应（小时）",
+   "value_as_written": "48",
+   "table": null,
+   "column": null,
+   "key": null,
+   "aggregate": null,
+   "table_value": null,
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-01",
+   "clause": "十六、违约责任（一）1",
+   "label_zh": "逾期交货违约金（合同总额每日‰）",
+   "value_as_written": "0.5",
+   "table": null,
+   "column": null,
+   "key": null,
+   "aggregate": null,
+   "table_value": null,
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-01",
+   "clause": "十六、违约责任（一）1",
+   "label_zh": "买受人可解除合同的迟延天数",
+   "value_as_written": "15",
+   "table": null,
+   "column": null,
+   "key": null,
+   "aggregate": null,
+   "table_value": null,
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-01",
+   "clause": "十七、争议解决",
+   "label_zh": "仲裁机构",
+   "value_as_written": "示例市（合成名称）仲裁委员会",
+   "table": null,
+   "column": null,
+   "key": null,
+   "aggregate": null,
+   "table_value": null,
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-02",
+   "clause": "标的物表 第1项",
+   "label_zh": "名称",
+   "value_as_written": "Half-Finger Gloves, L",
+   "table": "Production_Product",
+   "column": "Name",
+   "key": {
+    "ProductID": "860"
+   },
+   "aggregate": null,
+   "table_value": "Half-Finger Gloves, L",
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-02",
+   "clause": "标的物表 第1项",
+   "label_zh": "规格型号",
+   "value_as_written": "GL-H102-L",
+   "table": "Production_Product",
+   "column": "ProductNumber",
+   "key": {
+    "ProductID": "860"
+   },
+   "aggregate": null,
+   "table_value": "GL-H102-L",
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-02",
+   "clause": "标的物表 第1项",
+   "label_zh": "数量",
+   "value_as_written": "3",
+   "table": "Sales_SalesOrderDetail",
+   "column": "OrderQty",
+   "key": {
+    "SalesOrderDetailID": "31758"
+   },
+   "aggregate": null,
+   "table_value": "3",
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-02",
+   "clause": "标的物表 第1项",
+   "label_zh": "单价（美元）",
+   "value_as_written": "14.1289",
+   "table": "Sales_SalesOrderDetail",
+   "column": "UnitPrice",
+   "key": {
+    "SalesOrderDetailID": "31758"
+   },
+   "aggregate": null,
+   "table_value": "14.1289",
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-02",
+   "clause": "标的物表 第1项",
+   "label_zh": "金额（美元）",
+   "value_as_written": "42.3867",
+   "table": "Sales_SalesOrderDetail",
+   "column": "LineTotal",
+   "key": {
+    "SalesOrderDetailID": "31758"
+   },
+   "aggregate": null,
+   "table_value": "42.386700",
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-02",
+   "clause": "标的物表 第1项",
+   "label_zh": "交（提）货时间",
+   "value_as_written": "2024年4月10日",
+   "table": "Sales_SalesOrderHeader",
+   "column": "DueDate",
+   "key": {
+    "SalesOrderID": "50234"
+   },
+   "aggregate": null,
+   "table_value": "2024-04-10 00:00:00.000",
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-02",
+   "clause": "标的物表 第2项",
+   "label_zh": "名称",
+   "value_as_written": "LL Fork",
+   "table": "Production_Product",
+   "column": "Name",
+   "key": {
+    "ProductID": "802"
+   },
+   "aggregate": null,
+   "table_value": "LL Fork",
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-02",
+   "clause": "标的物表 第2项",
+   "label_zh": "规格型号",
+   "value_as_written": "FK-1639",
+   "table": "Production_Product",
+   "column": "ProductNumber",
+   "key": {
+    "ProductID": "802"
+   },
+   "aggregate": null,
+   "table_value": "FK-1639",
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-02",
+   "clause": "标的物表 第2项",
+   "label_zh": "数量",
+   "value_as_written": "2",
+   "table": "Sales_SalesOrderDetail",
+   "column": "OrderQty",
+   "key": {
+    "SalesOrderDetailID": "31759"
+   },
+   "aggregate": null,
+   "table_value": "2",
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-02",
+   "clause": "标的物表 第2项",
+   "label_zh": "单价（美元）",
+   "value_as_written": "88.932",
+   "table": "Sales_SalesOrderDetail",
+   "column": "UnitPrice",
+   "key": {
+    "SalesOrderDetailID": "31759"
+   },
+   "aggregate": null,
+   "table_value": "88.9320",
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-02",
+   "clause": "标的物表 第2项",
+   "label_zh": "金额（美元）",
+   "value_as_written": "177.864",
+   "table": "Sales_SalesOrderDetail",
+   "column": "LineTotal",
+   "key": {
+    "SalesOrderDetailID": "31759"
+   },
+   "aggregate": null,
+   "table_value": "177.864000",
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-02",
+   "clause": "标的物表 第2项",
+   "label_zh": "交（提）货时间",
+   "value_as_written": "2024年4月10日",
+   "table": "Sales_SalesOrderHeader",
+   "column": "DueDate",
+   "key": {
+    "SalesOrderID": "50234"
+   },
+   "aggregate": null,
+   "table_value": "2024-04-10 00:00:00.000",
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-02",
+   "clause": "标的物表 第3项",
+   "label_zh": "名称",
+   "value_as_written": "Women's Tights, M",
+   "table": "Production_Product",
+   "column": "Name",
+   "key": {
+    "ProductID": "853"
+   },
+   "aggregate": null,
+   "table_value": "Women's Tights, M",
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-02",
+   "clause": "标的物表 第3项",
+   "label_zh": "规格型号",
+   "value_as_written": "TG-W091-M",
+   "table": "Production_Product",
+   "column": "ProductNumber",
+   "key": {
+    "ProductID": "853"
+   },
+   "aggregate": null,
+   "table_value": "TG-W091-M",
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-02",
+   "clause": "标的物表 第3项",
+   "label_zh": "数量",
+   "value_as_written": "5",
+   "table": "Sales_SalesOrderDetail",
+   "column": "OrderQty",
+   "key": {
+    "SalesOrderDetailID": "31760"
+   },
+   "aggregate": null,
+   "table_value": "5",
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-02",
+   "clause": "标的物表 第3项",
+   "label_zh": "单价（美元）",
+   "value_as_written": "44.994",
+   "table": "Sales_SalesOrderDetail",
+   "column": "UnitPrice",
+   "key": {
+    "SalesOrderDetailID": "31760"
+   },
+   "aggregate": null,
+   "table_value": "44.9940",
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-02",
+   "clause": "标的物表 第3项",
+   "label_zh": "金额（美元）",
+   "value_as_written": "224.97",
+   "table": "Sales_SalesOrderDetail",
+   "column": "LineTotal",
+   "key": {
+    "SalesOrderDetailID": "31760"
+   },
+   "aggregate": null,
+   "table_value": "224.970000",
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-02",
+   "clause": "标的物表 第3项",
+   "label_zh": "交（提）货时间",
+   "value_as_written": "2024年4月10日",
+   "table": "Sales_SalesOrderHeader",
+   "column": "DueDate",
+   "key": {
+    "SalesOrderID": "50234"
+   },
+   "aggregate": null,
+   "table_value": "2024-04-10 00:00:00.000",
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-02",
+   "clause": "标的物表 第4项",
+   "label_zh": "名称",
+   "value_as_written": "Men's Sports Shorts, L",
+   "table": "Production_Product",
+   "column": "Name",
+   "key": {
+    "ProductID": "850"
+   },
+   "aggregate": null,
+   "table_value": "Men's Sports Shorts, L",
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-02",
+   "clause": "标的物表 第4项",
+   "label_zh": "规格型号",
+   "value_as_written": "SH-M897-L",
+   "table": "Production_Product",
+   "column": "ProductNumber",
+   "key": {
+    "ProductID": "850"
+   },
+   "aggregate": null,
+   "table_value": "SH-M897-L",
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-02",
+   "clause": "标的物表 第4项",
+   "label_zh": "数量",
+   "value_as_written": "2",
+   "table": "Sales_SalesOrderDetail",
+   "column": "OrderQty",
+   "key": {
+    "SalesOrderDetailID": "31761"
+   },
+   "aggregate": null,
+   "table_value": "2",
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-02",
+   "clause": "标的物表 第4项",
+   "label_zh": "单价（美元）",
+   "value_as_written": "35.994",
+   "table": "Sales_SalesOrderDetail",
+   "column": "UnitPrice",
+   "key": {
+    "SalesOrderDetailID": "31761"
+   },
+   "aggregate": null,
+   "table_value": "35.9940",
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-02",
+   "clause": "标的物表 第4项",
+   "label_zh": "金额（美元）",
+   "value_as_written": "71.988",
+   "table": "Sales_SalesOrderDetail",
+   "column": "LineTotal",
+   "key": {
+    "SalesOrderDetailID": "31761"
+   },
+   "aggregate": null,
+   "table_value": "71.988000",
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-02",
+   "clause": "标的物表 第4项",
+   "label_zh": "交（提）货时间",
+   "value_as_written": "2024年4月10日",
+   "table": "Sales_SalesOrderHeader",
+   "column": "DueDate",
+   "key": {
+    "SalesOrderID": "50234"
+   },
+   "aggregate": null,
+   "table_value": "2024-04-10 00:00:00.000",
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-02",
+   "clause": "首页 买受人",
+   "label_zh": "买受人",
+   "value_as_written": "Tandem Bicycle Store",
+   "table": "Sales_Store",
+   "column": "Name",
+   "key": {
+    "BusinessEntityID": "620"
+   },
+   "aggregate": null,
+   "table_value": "Tandem Bicycle Store",
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-02",
+   "clause": "首页 买受人",
+   "label_zh": "客户编号",
+   "value_as_written": "AW00029626",
+   "table": "Sales_Customer",
+   "column": "AccountNumber",
+   "key": {
+    "CustomerID": "29626"
+   },
+   "aggregate": null,
+   "table_value": "AW00029626",
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-02",
+   "clause": "首页",
+   "label_zh": "签订时间",
+   "value_as_written": "2024年3月29日",
+   "table": "Sales_SalesOrderHeader",
+   "column": "OrderDate",
+   "key": {
+    "SalesOrderID": "50234"
+   },
+   "aggregate": null,
+   "table_value": "2024-03-29 00:00:00.000",
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-02",
+   "clause": "第十八条",
+   "label_zh": "合计金额（美元）",
+   "value_as_written": "517.2087",
+   "table": "Sales_SalesOrderHeader",
+   "column": "SubTotal",
+   "key": {
+    "SalesOrderID": "50234"
+   },
+   "aggregate": null,
+   "table_value": "517.2087",
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-02",
+   "clause": "第三条",
+   "label_zh": "质量负责期限（月）",
+   "value_as_written": "6",
+   "table": null,
+   "column": null,
+   "key": null,
+   "aggregate": null,
+   "table_value": null,
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-02",
+   "clause": "第十条",
+   "label_zh": "检验期限（日）",
+   "value_as_written": "7",
+   "table": null,
+   "column": null,
+   "key": null,
+   "aggregate": null,
+   "table_value": null,
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-02",
+   "clause": "第十二条",
+   "label_zh": "付款期限（日）",
+   "value_as_written": "30",
+   "table": null,
+   "column": null,
+   "key": null,
+   "aggregate": null,
+   "table_value": null,
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-02",
+   "clause": "第十五条",
+   "label_zh": "逾期交货违约金（每日‰）",
+   "value_as_written": "0.5",
+   "table": null,
+   "column": null,
+   "key": null,
+   "aggregate": null,
+   "table_value": null,
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-03",
+   "clause": "首页 定制人",
+   "label_zh": "定作人",
+   "value_as_written": "The Bicycle Accessories Company",
+   "table": "Sales_Store",
+   "column": "Name",
+   "key": {
+    "BusinessEntityID": "950"
+   },
+   "aggregate": null,
+   "table_value": "The Bicycle Accessories Company",
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-03",
+   "clause": "第一条",
+   "label_zh": "加工物名称",
+   "value_as_written": "Road-650 Red, 44",
+   "table": "Production_Product",
+   "column": "Name",
+   "key": {
+    "ProductID": "762"
+   },
+   "aggregate": null,
+   "table_value": "Road-650 Red, 44",
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-03",
+   "clause": "第一条",
+   "label_zh": "规格型号",
+   "value_as_written": "BK-R50R-44",
+   "table": "Production_Product",
+   "column": "ProductNumber",
+   "key": {
+    "ProductID": "762"
+   },
+   "aggregate": null,
+   "table_value": "BK-R50R-44",
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-03",
+   "clause": "第一条",
+   "label_zh": "数量",
+   "value_as_written": "6",
+   "table": "Sales_SalesOrderDetail",
+   "column": "OrderQty",
+   "key": {
+    "SalesOrderDetailID": "33540"
+   },
+   "aggregate": null,
+   "table_value": "6",
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-03",
+   "clause": "第一条",
+   "label_zh": "单价（美元）",
+   "value_as_written": "469.794",
+   "table": "Sales_SalesOrderDetail",
+   "column": "UnitPrice",
+   "key": {
+    "SalesOrderDetailID": "33540"
+   },
+   "aggregate": null,
+   "table_value": "469.7940",
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-03",
+   "clause": "第一条",
+   "label_zh": "金额（美元）",
+   "value_as_written": "2818.764",
+   "table": "Sales_SalesOrderDetail",
+   "column": "LineTotal",
+   "key": {
+    "SalesOrderDetailID": "33540"
+   },
+   "aggregate": null,
+   "table_value": "2818.764000",
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-03",
+   "clause": "第一条",
+   "label_zh": "交货期限",
+   "value_as_written": "2024年5月11日",
+   "table": "Sales_SalesOrderHeader",
+   "column": "DueDate",
+   "key": {
+    "SalesOrderID": "50658"
+   },
+   "aggregate": null,
+   "table_value": "2024-05-11 00:00:00.000",
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-03",
+   "clause": "第四条",
+   "label_zh": "颜色",
+   "value_as_written": "Red",
+   "table": "Production_Product",
+   "column": "Color",
+   "key": {
+    "ProductID": "762"
+   },
+   "aggregate": null,
+   "table_value": "Red",
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-03",
+   "clause": "第四条",
+   "label_zh": "车架尺寸（CM）",
+   "value_as_written": "44",
+   "table": "Production_Product",
+   "column": "Size",
+   "key": {
+    "ProductID": "762"
+   },
+   "aggregate": null,
+   "table_value": "44",
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-03",
+   "clause": "第四条",
+   "label_zh": "整车重量（LB）",
+   "value_as_written": "18.77",
+   "table": "Production_Product",
+   "column": "Weight",
+   "key": {
+    "ProductID": "762"
+   },
+   "aggregate": null,
+   "table_value": "18.77",
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-03",
+   "clause": "第四条",
+   "label_zh": "生产周期上限（日）",
+   "value_as_written": "3",
+   "table": "Production_Product",
+   "column": "DaysToManufacture",
+   "key": {
+    "ProductID": "762"
+   },
+   "aggregate": null,
+   "table_value": "4",
+   "differs": true,
+   "reason": "Contract build-time target is one day below the product record's DaysToManufacture; a promise, not the recorded manufacturing time."
+  },
+  {
+   "document": "MFG-ZH-03",
+   "clause": "第五条",
+   "label_zh": "质量负责期限（月）",
+   "value_as_written": "12",
+   "table": null,
+   "column": null,
+   "key": null,
+   "aggregate": null,
+   "table_value": null,
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-03",
+   "clause": "第十一条",
+   "label_zh": "检验期限（日）",
+   "value_as_written": "7",
+   "table": null,
+   "column": null,
+   "key": null,
+   "aggregate": null,
+   "table_value": null,
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-04",
+   "clause": "首部 甲方",
+   "label_zh": "甲方（买方）",
+   "value_as_written": "First Department Stores",
+   "table": "Sales_Store",
+   "column": "Name",
+   "key": {
+    "BusinessEntityID": "744"
+   },
+   "aggregate": null,
+   "table_value": "First Department Stores",
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-04",
+   "clause": "首部 甲方",
+   "label_zh": "客户编号",
+   "value_as_written": "AW00029683",
+   "table": "Sales_Customer",
+   "column": "AccountNumber",
+   "key": {
+    "CustomerID": "29683"
+   },
+   "aggregate": null,
+   "table_value": "AW00029683",
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-04",
+   "clause": "第二条 第1项",
+   "label_zh": "产品名称",
+   "value_as_written": "Mountain-200 Black, 38",
+   "table": "Production_Product",
+   "column": "Name",
+   "key": {
+    "ProductID": "782"
+   },
+   "aggregate": null,
+   "table_value": "Mountain-200 Black, 38",
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-04",
+   "clause": "第二条 第1项",
+   "label_zh": "规格型号",
+   "value_as_written": "BK-M68B-38",
+   "table": "Production_Product",
+   "column": "ProductNumber",
+   "key": {
+    "ProductID": "782"
+   },
+   "aggregate": null,
+   "table_value": "BK-M68B-38",
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-04",
+   "clause": "第二条 第1项",
+   "label_zh": "协议单价（美元）",
+   "value_as_written": "2294.99",
+   "table": "Production_Product",
+   "column": "ListPrice",
+   "key": {
+    "ProductID": "782"
+   },
+   "aggregate": null,
+   "table_value": "2294.9900",
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-04",
+   "clause": "第二条 第1项",
+   "label_zh": "2024年度最低采购量",
+   "value_as_written": "8",
+   "table": "Sales_SalesOrderDetail",
+   "column": "OrderQty",
+   "key": {
+    "CustomerID": "29683",
+    "ProductID": "782",
+    "OrderDate_year": "2024"
+   },
+   "aggregate": "sum_2024_qty_by_customer_product",
+   "table_value": "5",
+   "differs": true,
+   "reason": "Minimum take is a commitment, not ordered quantity; 2024 orders total 5, a shortfall of 3."
+  },
+  {
+   "document": "MFG-ZH-04",
+   "clause": "第二条 第2项",
+   "label_zh": "产品名称",
+   "value_as_written": "Women's Mountain Shorts, S",
+   "table": "Production_Product",
+   "column": "Name",
+   "key": {
+    "ProductID": "867"
+   },
+   "aggregate": null,
+   "table_value": "Women's Mountain Shorts, S",
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-04",
+   "clause": "第二条 第2项",
+   "label_zh": "规格型号",
+   "value_as_written": "SH-W890-S",
+   "table": "Production_Product",
+   "column": "ProductNumber",
+   "key": {
+    "ProductID": "867"
+   },
+   "aggregate": null,
+   "table_value": "SH-W890-S",
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-04",
+   "clause": "第二条 第2项",
+   "label_zh": "协议单价（美元）",
+   "value_as_written": "69.99",
+   "table": "Production_Product",
+   "column": "ListPrice",
+   "key": {
+    "ProductID": "867"
+   },
+   "aggregate": null,
+   "table_value": "69.9900",
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-04",
+   "clause": "第二条 第2项",
+   "label_zh": "2024年度最低采购量",
+   "value_as_written": "10",
+   "table": "Sales_SalesOrderDetail",
+   "column": "OrderQty",
+   "key": {
+    "CustomerID": "29683",
+    "ProductID": "867",
+    "OrderDate_year": "2024"
+   },
+   "aggregate": "sum_2024_qty_by_customer_product",
+   "table_value": "10",
+   "differs": false,
+   "reason": "Minimum take is a commitment, not ordered quantity; 2024 orders total 10, commitment met."
+  },
+  {
+   "document": "MFG-ZH-04",
+   "clause": "第四条",
+   "label_zh": "价格有效期",
+   "value_as_written": "2024年1月1日至2024年12月31日",
+   "table": null,
+   "column": null,
+   "key": null,
+   "aggregate": null,
+   "table_value": null,
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-04",
+   "clause": "第五条",
+   "label_zh": "解除通知期（日）",
+   "value_as_written": "90",
+   "table": null,
+   "column": null,
+   "key": null,
+   "aggregate": null,
+   "table_value": null,
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-04",
+   "clause": "第三条",
+   "label_zh": "短缺补偿（协议单价的%）",
+   "value_as_written": "10",
+   "table": null,
+   "column": null,
+   "key": null,
+   "aggregate": null,
+   "table_value": null,
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-04",
+   "clause": "第七条",
+   "label_zh": "适用法律",
+   "value_as_written": "中华人民共和国法律",
+   "table": null,
+   "column": null,
+   "key": null,
+   "aggregate": null,
+   "table_value": null,
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-05",
+   "clause": "首部",
+   "label_zh": "原合同买受人",
+   "value_as_written": "Efficient Cycling",
+   "table": "Sales_Store",
+   "column": "Name",
+   "key": {
+    "BusinessEntityID": "1130"
+   },
+   "aggregate": null,
+   "table_value": "Efficient Cycling",
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-05",
+   "clause": "第一条",
+   "label_zh": "原交货期限（第3项）",
+   "value_as_written": "2024年10月11日",
+   "table": "Sales_SalesOrderHeader",
+   "column": "DueDate",
+   "key": {
+    "SalesOrderID": "57159"
+   },
+   "aggregate": null,
+   "table_value": "2024-10-11 00:00:00.000",
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-05",
+   "clause": "第一条",
+   "label_zh": "变更后交货期限（第3项 FR-T98Y-50）",
+   "value_as_written": "2024年10月25日",
+   "table": "Sales_SalesOrderHeader",
+   "column": "DueDate",
+   "key": {
+    "SalesOrderID": "57159"
+   },
+   "aggregate": null,
+   "table_value": "2024-10-11 00:00:00.000",
+   "differs": true,
+   "reason": "The amendment changes the contractual delivery date; the operational DueDate stays 2024-10-11 (ShipDate 2024-10-06)."
+  },
+  {
+   "document": "MFG-ZH-05",
+   "clause": "第二条",
+   "label_zh": "原数量（第1项 BK-T79U-46）",
+   "value_as_written": "2",
+   "table": "Sales_SalesOrderDetail",
+   "column": "OrderQty",
+   "key": {
+    "SalesOrderDetailID": "62911"
+   },
+   "aggregate": null,
+   "table_value": "2",
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-05",
+   "clause": "第二条",
+   "label_zh": "变更后数量（第1项 BK-T79U-46）",
+   "value_as_written": "3",
+   "table": "Sales_SalesOrderDetail",
+   "column": "OrderQty",
+   "key": {
+    "SalesOrderDetailID": "62911"
+   },
+   "aggregate": null,
+   "table_value": "2",
+   "differs": true,
+   "reason": "Amended contract quantity; the sales order line still records the original quantity."
+  },
+  {
+   "document": "MFG-ZH-05",
+   "clause": "第二条",
+   "label_zh": "单价（美元，不变）",
+   "value_as_written": "1430.442",
+   "table": "Sales_SalesOrderDetail",
+   "column": "UnitPrice",
+   "key": {
+    "SalesOrderDetailID": "62911"
+   },
+   "aggregate": null,
+   "table_value": "1430.4420",
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-05",
+   "clause": "第二条",
+   "label_zh": "变更后该项总额（美元）",
+   "value_as_written": "4291.326",
+   "table": "Sales_SalesOrderDetail",
+   "column": "LineTotal",
+   "key": {
+    "SalesOrderDetailID": "62911"
+   },
+   "aggregate": null,
+   "table_value": "2860.884000",
+   "differs": true,
+   "reason": "Follows from the amended quantity."
+  },
+  {
+   "document": "MFG-ZH-05",
+   "clause": "第三条",
+   "label_zh": "原合同总额（美元）",
+   "value_as_written": "5872.614",
+   "table": "Sales_SalesOrderHeader",
+   "column": "SubTotal",
+   "key": {
+    "SalesOrderID": "57159"
+   },
+   "aggregate": null,
+   "table_value": "5872.6140",
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-05",
+   "clause": "第三条",
+   "label_zh": "变更后合同总额（美元）",
+   "value_as_written": "7303.056",
+   "table": "Sales_SalesOrderHeader",
+   "column": "SubTotal",
+   "key": {
+    "SalesOrderID": "57159"
+   },
+   "aggregate": null,
+   "table_value": "5872.6140",
+   "differs": true,
+   "reason": "Amended contract total; the order SubTotal is unchanged."
+  },
+  {
+   "document": "MFG-ZH-05",
+   "clause": "第四条",
+   "label_zh": "生效日期",
+   "value_as_written": "2024年10月1日",
+   "table": null,
+   "column": null,
+   "key": null,
+   "aggregate": null,
+   "table_value": null,
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-06",
+   "clause": "首部 乙方",
+   "label_zh": "供应方",
+   "value_as_written": "Vista Road Bikes",
+   "table": "Purchasing_Vendor",
+   "column": "Name",
+   "key": {
+    "BusinessEntityID": "1538"
+   },
+   "aggregate": null,
+   "table_value": "Vista Road Bikes",
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-06",
+   "clause": "首部 乙方",
+   "label_zh": "供应商编号",
+   "value_as_written": "VISTARO0001",
+   "table": "Purchasing_Vendor",
+   "column": "AccountNumber",
+   "key": {
+    "BusinessEntityID": "1538"
+   },
+   "aggregate": null,
+   "table_value": "VISTARO0001",
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-06",
+   "clause": "第一条 第1项",
+   "label_zh": "零部件名称",
+   "value_as_written": "LL Mountain Tire",
+   "table": "Production_Product",
+   "column": "Name",
+   "key": {
+    "ProductID": "928"
+   },
+   "aggregate": null,
+   "table_value": "LL Mountain Tire",
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-06",
+   "clause": "第一条 第1项",
+   "label_zh": "规格型号",
+   "value_as_written": "TI-M267",
+   "table": "Production_Product",
+   "column": "ProductNumber",
+   "key": {
+    "ProductID": "928"
+   },
+   "aggregate": null,
+   "table_value": "TI-M267",
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-06",
+   "clause": "第一条 第1项",
+   "label_zh": "标准交货周期（日）",
+   "value_as_written": "19",
+   "table": "Purchasing_ProductVendor",
+   "column": "AverageLeadTime",
+   "key": {
+    "ProductID": "928",
+    "BusinessEntityID": "1538"
+   },
+   "aggregate": null,
+   "table_value": "19",
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-06",
+   "clause": "第一条 第2项",
+   "label_zh": "零部件名称",
+   "value_as_written": "ML Mountain Tire",
+   "table": "Production_Product",
+   "column": "Name",
+   "key": {
+    "ProductID": "929"
+   },
+   "aggregate": null,
+   "table_value": "ML Mountain Tire",
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-06",
+   "clause": "第一条 第2项",
+   "label_zh": "规格型号",
+   "value_as_written": "TI-M602",
+   "table": "Production_Product",
+   "column": "ProductNumber",
+   "key": {
+    "ProductID": "929"
+   },
+   "aggregate": null,
+   "table_value": "TI-M602",
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-06",
+   "clause": "第一条 第2项",
+   "label_zh": "标准交货周期（日）",
+   "value_as_written": "19",
+   "table": "Purchasing_ProductVendor",
+   "column": "AverageLeadTime",
+   "key": {
+    "ProductID": "929",
+    "BusinessEntityID": "1538"
+   },
+   "aggregate": null,
+   "table_value": "19",
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-06",
+   "clause": "第四条",
+   "label_zh": "年度不合格率上限",
+   "value_as_written": "2.00%",
+   "table": "Purchasing_PurchaseOrderDetail",
+   "column": "RejectedQty/ReceivedQty",
+   "key": {
+    "VendorID": "1538",
+    "OrderDate_year": "2024"
+   },
+   "aggregate": "reject_rate_2024_by_vendor",
+   "table_value": "2.20%",
+   "differs": true,
+   "reason": "Threshold versus the recorded 2024 rejection rate (sum RejectedQty / sum ReceivedQty over the vendor's 2024 purchase orders); the vendor exceeded the threshold."
+  },
+  {
+   "document": "MFG-ZH-06",
+   "clause": "第三条",
+   "label_zh": "到货检验期限（日）",
+   "value_as_written": "5",
+   "table": null,
+   "column": null,
+   "key": null,
+   "aggregate": null,
+   "table_value": null,
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-06",
+   "clause": "第三条",
+   "label_zh": "性能抽检时的检验期限（日）",
+   "value_as_written": "10",
+   "table": null,
+   "column": null,
+   "key": null,
+   "aggregate": null,
+   "table_value": null,
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-06",
+   "clause": "第五条",
+   "label_zh": "取回不合格货物期限（日）",
+   "value_as_written": "10",
+   "table": null,
+   "column": null,
+   "key": null,
+   "aggregate": null,
+   "table_value": null,
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-06",
+   "clause": "第五条",
+   "label_zh": "补交合格货物期限（日）",
+   "value_as_written": "15",
+   "table": null,
+   "column": null,
+   "key": null,
+   "aggregate": null,
+   "table_value": null,
+   "differs": false
+  },
+  {
+   "document": "MFG-ZH-06",
+   "clause": "第六条",
+   "label_zh": "质量保证期（月）",
+   "value_as_written": "12",
+   "table": null,
+   "column": null,
+   "key": null,
+   "aggregate": null,
+   "table_value": null,
+   "differs": false
+  }
+ ]
+}

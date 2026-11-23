@@ -1,0 +1,74 @@
+[
+  {
+    "id": "Q1",
+    "question": "How do the selected customer orders compare with the illustrative annual commitment?",
+    "sql": "SELECT SUM(d.OrderQty) AS ordered_units FROM Sales_SalesOrderHeader h JOIN Sales_SalesOrderDetail d ON d.SalesOrderID=h.SalesOrderID WHERE h.CustomerID=? AND d.ProductID=? AND h.OrderDate>=? AND h.OrderDate<?",
+    "parameters": [
+      29641,
+      954,
+      "2024-01-01",
+      "2025-01-01"
+    ],
+    "expected_sql_result": {
+      "ordered_units": 51
+    },
+    "document": "MFG-001",
+    "authored_commitment": 71,
+    "computed_gap_units": 20,
+    "interpretation": "Comparison of this sample snapshot only; no legal breach or fulfillment claim."
+  },
+  {
+    "id": "Q2",
+    "question": "What delivery promise applies before and after the amendment?",
+    "evidence": [
+      "MFG-002",
+      "MFG-003"
+    ],
+    "before": {
+      "as_of": "2024-05-29",
+      "promise": "2024-06-10"
+    },
+    "after": {
+      "as_of": "2024-05-30",
+      "promise": "2024-06-17"
+    },
+    "sql_due_date_stays": "2024-06-10"
+  },
+  {
+    "id": "Q3",
+    "question": "Is the supplier promise the same as the recorded average lead time?",
+    "sql": "SELECT AverageLeadTime FROM Purchasing_ProductVendor WHERE BusinessEntityID=? AND ProductID=?",
+    "parameters": [
+      1518,
+      842
+    ],
+    "expected_sql_result": {
+      "AverageLeadTime": 120
+    },
+    "document": "MFG-006",
+    "authored_promise_days": 14,
+    "expected_relation": "related_context",
+    "interpretation": "Different meaning and start event; do not label performance breach."
+  },
+  {
+    "id": "Q4",
+    "question": "What warranty duration applies?",
+    "document": "MFG-005",
+    "expected": "24 months from documented acceptance; no operational equivalent and no known start date."
+  },
+  {
+    "id": "Q5",
+    "question": "What quantity belongs to the second customer?",
+    "sql": "SELECT SUM(d.OrderQty) AS ordered_units FROM Sales_SalesOrderHeader h JOIN Sales_SalesOrderDetail d ON d.SalesOrderID=h.SalesOrderID WHERE h.CustomerID=? AND d.ProductID=? AND h.OrderDate>=? AND h.OrderDate<?",
+    "parameters": [
+      29629,
+      954,
+      "2024-01-01",
+      "2025-01-01"
+    ],
+    "expected_sql_result": {
+      "ordered_units": 21
+    },
+    "excluded_document": "MFG-001"
+  }
+]

@@ -1,0 +1,2278 @@
+# Business-semantics overlay for manufacturing.ossie.yaml. Review candidate, not an approved model.
+# Applied by demo_data/enrich_ossie.py. The base model is never edited.
+# Data is the synthetic Microsoft AdventureWorks sample. Code meanings come from the Microsoft
+# column comments in the base model. Counts and observed codes come from the local projection
+# (data/adventureworks.sqlite) as inspected on 20 November 2026.
+# The pinned source states no currency for any money column. Units say so.
+# The pinned source has no column comments for Production.WorkOrder and
+# Production.WorkOrderRouting. Those meanings follow column names, keys, computed expressions
+# and data, and need domain review.
+
+# Shared blocks, reused with YAML aliases. enrich_ossie.py ignores this key.
+_shared:
+  units:
+    - &money currency amount (currency not recorded in the source)
+    - &money_per_unit currency amount per unit (currency not recorded in the source)
+    - &each units (unit of measure not recorded in the source)
+    - &purchase_units units (unit of measure is not recorded on the purchase-order line)
+    - &vendor_units vendor unit of measure (see UnitMeasureCode)
+  rowguid: &rowguid
+    label: Row GUID
+    description: >-
+      Technical row identifier used by the source database for a replication sample.
+      It has no business meaning. Do not use it to match documents or records.
+    role: audit
+  ModifiedDate: &modified
+    label: Last modified
+    description: >-
+      Date and time the row was last updated in the source system. It is a system audit
+      timestamp, not a business event date. It can fall outside the transaction period.
+    role: audit
+
+subject_areas:
+  - id: sales_orders
+    label: Sales orders and customers
+    description: >-
+      What customers ordered, when it was due and shipped, and what it was worth. Covers
+      sales orders, their lines, customer accounts and reseller stores.
+    datasets: [Sales_SalesOrderHeader, Sales_SalesOrderDetail, Sales_Customer, Sales_Store]
+  - id: procurement
+    label: Purchasing and suppliers
+    description: >-
+      What was ordered from suppliers, what was received, rejected and stocked, and the
+      supply terms recorded per supplier and product. Covers vendors, vendor-product terms,
+      purchase orders, their lines and shipping methods.
+    datasets: [Purchasing_Vendor, Purchasing_ProductVendor, Purchasing_PurchaseOrderHeader,
+               Purchasing_PurchaseOrderDetail, Purchasing_ShipMethod]
+  - id: product_catalog
+    label: Products and bills of materials
+    description: >-
+      The product master: items sold or used in manufacturing, their categories, models,
+      units of measure and the components that make up each assembly.
+    datasets: [Production_Product, Production_ProductCategory, Production_ProductSubcategory,
+               Production_ProductModel, Production_UnitMeasure, Production_BillOfMaterials]
+  - id: production
+    label: Production and quality
+    description: >-
+      Work orders, their routing operations by work centre, planned and actual dates and
+      costs, and scrap with its reason.
+    datasets: [Production_WorkOrder, Production_WorkOrderRouting, Production_ScrapReason,
+               Production_Location]
+  - id: inventory
+    label: Inventory
+    description: >-
+      Quantity held per product and location at the source snapshot, with shelf and bin.
+    datasets: [Production_ProductInventory, Production_Location]
+  - id: product_documents
+    label: Product documents
+    description: >-
+      Maintenance, service and assembly documents and the products each document applies to.
+    datasets: [Production_Document, Production_ProductDocument]
+  - id: parties
+    label: Parties, people and addresses
+    description: >-
+      Shared party keys, contact persons and postal addresses used by customers, stores
+      and vendors.
+    datasets: [Person_BusinessEntity, Person_Person, Person_Address]
+
+concepts:
+  # Existing concepts. Ids, labels, definitions and broader links are kept from the base model.
+  - id: customer_identifier
+    label: Customer account identifier
+    definition: A customer account key interpreted within the source system.
+    synonyms: [customer ID, customer number, account number, customer account]
+    broader: null
+  - id: product_identifier
+    label: Product identifier
+    definition: A product key interpreted within its source namespace.
+    synonyms: [product ID, product number, SKU, part number, item number, item code]
+    broader: null
+  - id: inventory_position
+    label: Reported inventory quantity
+    definition: A source reports quantity at a product/location snapshot.
+    synonyms: [stock on hand, on-hand quantity, inventory level, stock quantity]
+    broader: null
+  - id: scrap_quality_context
+    label: Reported production scrap
+    definition: A source reports scrapped quantity for a product/work order.
+    synonyms: [scrap, scrapped quantity, production rejects, waste]
+    broader: null
+  - id: supplier_identifier
+    label: Supplier identifier
+    definition: An AdventureWorks vendor business-entity key in its declared source namespace.
+    synonyms: [vendor ID, supplier ID, vendor number, supplier number, supplier code]
+    broader: null
+  - id: delivery_promise
+    label: Promised delivery date
+    definition: A date promised by a contract or amendment for delivery of a scoped order.
+    synonyms: [promised delivery date, committed delivery date, agreed delivery date, delivery commitment]
+    broader: null
+  - id: sales_order
+    label: Sales order
+    definition: A confirmed sales commitment with a due date and customer assignment.
+    synonyms: [SO, customer order, order, sales order number]
+    broader: null
+  - id: revenue
+    label: Sales line revenue
+    definition: Total monetary value of goods sold on sales-order lines.
+    synonyms: [sales value, sales amount, line total, order value, turnover]
+    broader: sales_order
+  - id: unit_price
+    label: Unit price
+    definition: Monetary value charged per unit on a sales-order line before discount.
+    synonyms: [selling price, price per unit, sales price]
+    broader: null
+  - id: production_scrap
+    label: Production scrap rate
+    definition: Ratio of scrapped to requested units across work orders, indicating production quality.
+    synonyms: [scrap rate, scrap percentage, reject rate, scrap ratio]
+    broader: null
+  - id: delivery_lateness
+    label: Delivery lateness
+    definition: Whether a sales order shipped after its recorded due date. Shipment is not delivery, so the source does not show when the customer received the goods.
+    synonyms: [late shipment, late dispatch, shipped after due date, overdue shipment]
+    broader: null
+  - id: work_order_status
+    label: Work order status
+    definition: Whether a production work order has a recorded completion date.
+    synonyms: [open work orders, work in progress, WIP orders, unfinished work orders]
+    broader: null
+  - id: production_volume
+    label: Production requested units
+    definition: Total units requested on work orders for a product and period.
+    synonyms: [production quantity, quantity to build, planned production quantity, build quantity]
+    broader: null
+
+  # Added concepts: business entities.
+  - id: product
+    label: Product
+    definition: An item that the company sells or uses to manufacture what it sells, named as on the product master.
+    synonyms: [item, part, material, article, goods]
+    broader: null
+  - id: supplier
+    label: Supplier
+    definition: A company from which parts or other goods are purchased. The source calls it a vendor.
+    synonyms: [vendor, seller, supplier name, vendor name]
+    broader: null
+  - id: reseller_store
+    label: Reseller store
+    definition: A business customer that resells the company's products. The source calls it a store.
+    synonyms: [reseller, dealer, retailer, store, business customer, buyer]
+    broader: null
+  - id: contact_person
+    label: Contact person
+    definition: A person known to the company as an employee, an individual customer, or a store or vendor contact.
+    synonyms: [contact, individual, person, representative]
+    broader: null
+  - id: postal_address
+    label: Postal address
+    definition: A street address used as the bill-to or ship-to address of a sales order.
+    synonyms: [address, ship-to address, bill-to address, delivery address, billing address]
+    broader: null
+  - id: sales_territory
+    label: Sales territory
+    definition: The sales region a customer or a sale is assigned to. Only the territory key is in this pack.
+    synonyms: [sales region, territory, region]
+    broader: null
+
+  # Added concepts: sales.
+  - id: ordered_quantity
+    label: Sales ordered quantity
+    definition: Number of product units a customer ordered on a sales-order line. It is an order fact, not a contractual minimum and not proof of delivery.
+    synonyms: [quantity ordered, order quantity, units ordered, order qty]
+    broader: sales_order
+  - id: order_date
+    label: Order date
+    definition: The date an order was created, for a sales order or a purchase order. It is not a due, ship or receipt date.
+    synonyms: [date ordered, order placement date, PO date, booking date]
+    broader: null
+  - id: shipment_date
+    label: Shipment date
+    definition: The date a sales order was shipped to the customer. Shipment does not prove delivery or acceptance.
+    synonyms: [ship date, dispatch date, despatch date, shipped date]
+    broader: sales_order
+  - id: sales_order_status
+    label: Sales order status
+    definition: The current processing state of a sales order, from in process to shipped or cancelled.
+    synonyms: [order status, order state, fulfilment status]
+    broader: sales_order
+  - id: sales_channel
+    label: Sales channel
+    definition: Whether a sales order was placed online by the customer or entered by a sales person.
+    synonyms: [order channel, online order, web order, direct sales]
+    broader: sales_order
+  - id: customer_po_reference
+    label: Customer purchase order reference
+    definition: The customer's own purchase order number quoted on a sales order.
+    synonyms: [customer PO, customer PO number, buyer's order number, customer reference]
+    broader: sales_order
+  - id: line_discount
+    label: Line discount
+    definition: The discount applied to a sales-order line. The source comment calls it a discount amount; the data holds values between 0 and 0.40.
+    synonyms: [discount, price reduction]
+    broader: null
+  - id: order_total
+    label: Order total due
+    definition: The total amount due on an order, computed as subtotal plus tax plus freight.
+    synonyms: [total due, order total, amount due, grand total, order value]
+    broader: null
+  - id: tax_amount
+    label: Tax amount
+    definition: The tax charged on an order, held at order level.
+    synonyms: [tax, sales tax, VAT, GST]
+    broader: order_total
+  - id: freight_charge
+    label: Freight charge
+    definition: The shipping cost charged on an order, held at order level.
+    synonyms: [freight, shipping cost, delivery charge, carriage, transport cost]
+    broader: order_total
+  - id: ship_method
+    label: Shipping method
+    definition: The shipping company or service used to move an order.
+    synonyms: [carrier, shipping company, freight carrier, delivery service, mode of transport]
+    broader: null
+  - id: tracking_number
+    label: Carrier tracking number
+    definition: The shipment tracking number supplied by the shipper for a sales-order line.
+    synonyms: [tracking number, waybill number, consignment number, shipment reference]
+    broader: null
+
+  # Added concepts: product master.
+  - id: list_price
+    label: List price
+    definition: The catalogue selling price of one unit of a product before any discount. The price charged is the unit price on the order line.
+    synonyms: [catalogue price, catalog price, price list price, base price]
+    broader: null
+  - id: standard_cost
+    label: Standard cost
+    definition: The standard internal cost of one unit of a product. It is not a selling price or a vendor price.
+    synonyms: [std cost, standard unit cost, cost price]
+    broader: null
+  - id: make_or_buy
+    label: Make or buy
+    definition: Whether a product is manufactured in-house or purchased.
+    synonyms: [make/buy, manufactured in-house, purchased part, bought-in part]
+    broader: product
+  - id: manufacturing_lead_time
+    label: Days to manufacture
+    definition: The number of days required to manufacture a product, as held on the product master.
+    synonyms: [manufacturing lead time, production lead time, build time]
+    broader: product
+  - id: safety_stock
+    label: Safety stock level
+    definition: The minimum inventory quantity that should be kept for a product.
+    synonyms: [safety stock, buffer stock, minimum stock level]
+    broader: null
+  - id: reorder_point
+    label: Reorder point
+    definition: The inventory level that triggers a purchase order or a work order for a product.
+    synonyms: [ROP, reorder level, replenishment point, order point]
+    broader: null
+  - id: product_category
+    label: Product category
+    definition: The top-level grouping of products, such as bikes or components.
+    synonyms: [category, product group, product family]
+    broader: null
+  - id: product_subcategory
+    label: Product subcategory
+    definition: The second-level grouping of products inside a product category.
+    synonyms: [subcategory, product type, sub-group]
+    broader: product_category
+  - id: product_model
+    label: Product model
+    definition: The model a product variant belongs to. Variants of one model differ by attributes such as size and color.
+    synonyms: [model, model name, product family]
+    broader: null
+  - id: product_line
+    label: Product line
+    definition: The product line code of a product. Road, mountain, touring or standard.
+    synonyms: [line, range, product range]
+    broader: null
+  - id: unit_of_measure
+    label: Unit of measure
+    definition: The unit in which a quantity, size or weight is expressed, held as a three-character code.
+    synonyms: [UoM, UOM, unit, unit code, measurement unit]
+    broader: null
+  - id: bill_of_materials
+    label: Bill of materials
+    definition: The list of components needed to make an assembly, with the parent product, the component and the effective dates.
+    synonyms: [BOM, product structure, parts list, components list]
+    broader: null
+  - id: component_quantity
+    label: Component quantity per assembly
+    definition: The quantity of one component needed to create one unit of the parent assembly.
+    synonyms: [quantity per, usage quantity, qty per assembly]
+    broader: bill_of_materials
+
+  # Added concepts: purchasing.
+  - id: purchase_order
+    label: Purchase order
+    definition: An order placed with a vendor for one or more products.
+    synonyms: [PO, purchase order number, supplier order, buy order]
+    broader: null
+  - id: purchase_order_status
+    label: Purchase order status
+    definition: The current state of a purchase order. Pending, approved, rejected or complete.
+    synonyms: [PO status, order status, approval status]
+    broader: purchase_order
+  - id: purchase_ordered_quantity
+    label: Purchase ordered quantity
+    definition: The quantity of a product ordered from a vendor on a purchase-order line. It is what was asked for, not what arrived.
+    synonyms: [PO quantity, quantity ordered, ordered quantity, order qty]
+    broader: purchase_order
+  - id: received_quantity
+    label: Received quantity
+    definition: The quantity actually received from the vendor on a purchase-order line, before inspection.
+    synonyms: [goods received, quantity received, delivered quantity, receipt quantity]
+    broader: purchase_order
+  - id: rejected_quantity
+    label: Rejected quantity
+    definition: The part of the received quantity that was rejected during inspection.
+    synonyms: [rejects, inspection rejects, quantity rejected, non-conforming quantity]
+    broader: received_quantity
+  - id: stocked_quantity
+    label: Stocked quantity
+    definition: The quantity accepted into inventory from a purchase-order line. Received quantity minus rejected quantity.
+    synonyms: [accepted quantity, quantity accepted into stock, quantity put away]
+    broader: received_quantity
+  - id: expected_receipt_date
+    label: Expected receipt date
+    definition: The date a purchased product is expected to be received, as recorded on the purchase-order line.
+    synonyms: [expected delivery date, PO due date, need-by date, required-by date]
+    broader: purchase_order
+  - id: supplier_unit_price
+    label: Supplier unit price
+    definition: The vendor's selling price for one unit of a product, on a purchase-order line or as the vendor's usual price.
+    synonyms: [purchase price, vendor price, supplier price, unit cost]
+    broader: null
+  - id: supplier_lead_time
+    label: Average supplier lead time
+    definition: The average number of days between placing an order with a vendor and receiving the product. It is a recorded average, not a promise.
+    synonyms: [lead time, vendor lead time, average lead time, delivery lead time]
+    broader: null
+  - id: minimum_order_quantity
+    label: Minimum order quantity
+    definition: The smallest quantity that should be ordered from a vendor for a product. The source comment conflicts with the column name; domain review is pending.
+    synonyms: [MOQ, minimum order, min order qty, minimum order size]
+    broader: null
+  - id: maximum_order_quantity
+    label: Maximum order quantity
+    definition: The largest quantity that should be ordered from a vendor for a product. The source comment conflicts with the column name; domain review is pending.
+    synonyms: [maximum order, max order qty, order ceiling, order cap]
+    broader: null
+  - id: on_order_quantity
+    label: Quantity on order
+    definition: The quantity of a product currently on order with a vendor.
+    synonyms: [on order, open order quantity, outstanding order quantity]
+    broader: null
+  - id: vendor_credit_rating
+    label: Vendor credit rating
+    definition: The credit standing of a vendor on a five-step scale. It does not rate delivery or quality performance.
+    synonyms: [credit rating, creditworthiness, credit standing]
+    broader: supplier
+  - id: preferred_supplier
+    label: Preferred vendor status
+    definition: Whether a vendor is preferred over other vendors that supply the same product.
+    synonyms: [preferred supplier, preferred vendor, primary source]
+    broader: supplier
+
+  # Added concepts: production.
+  - id: work_order
+    label: Work order
+    definition: A production order to build a quantity of one product, with start, end and due dates.
+    synonyms: [WO, production order, manufacturing order, job]
+    broader: null
+  - id: work_order_due_date
+    label: Work order due date
+    definition: The date a work order is due to be finished. It is a production due date, not a customer delivery date.
+    synonyms: [production due date, required completion date, target finish date]
+    broader: work_order
+  - id: production_stocked_quantity
+    label: Production quantity stocked
+    definition: The quantity from a work order that was put into inventory. Order quantity minus scrapped quantity.
+    synonyms: [good quantity, completed quantity, yield, output quantity]
+    broader: work_order
+  - id: scrap_reason
+    label: Scrap reason
+    definition: The recorded reason why a manufactured quantity was scrapped.
+    synonyms: [failure reason, defect type, reject reason, non-conformance reason]
+    broader: scrap_quality_context
+  - id: routing_operation
+    label: Routing operation
+    definition: One step in the manufacturing sequence of a work order, performed at one work centre.
+    synonyms: [operation, routing step, process step, operation sequence]
+    broader: work_order
+  - id: location
+    label: Inventory or manufacturing location
+    definition: A place where inventory is stored or a work centre where a manufacturing operation is performed.
+    synonyms: [work centre, work center, storage location, production area, station]
+    broader: null
+  - id: planned_cost
+    label: Planned operation cost
+    definition: The estimated manufacturing cost of one routing operation.
+    synonyms: [estimated cost, budgeted cost, planned manufacturing cost]
+    broader: routing_operation
+  - id: actual_cost
+    label: Actual operation cost
+    definition: The actual manufacturing cost recorded for one routing operation.
+    synonyms: [actual manufacturing cost, incurred cost, real cost]
+    broader: routing_operation
+  - id: resource_hours
+    label: Actual resource hours
+    definition: The hours of resource recorded as actually used on one routing operation.
+    synonyms: [actual hours, hours worked, run time, processing time]
+    broader: routing_operation
+
+  # Added concepts: documents.
+  - id: product_document
+    label: Product document
+    definition: A maintenance, service or assembly document held for products.
+    synonyms: [manual, maintenance document, service guide, assembly instructions, work instruction]
+    broader: null
+  - id: document_revision
+    label: Document revision
+    definition: The revision number of a product document.
+    synonyms: [revision, rev, version, issue]
+    broader: product_document
+  - id: document_approval_status
+    label: Document approval status
+    definition: Whether a product document is pending approval, approved or obsolete.
+    synonyms: [approval status, document status, release status]
+    broader: product_document
+  - id: engineering_change
+    label: Engineering change number
+    definition: The engineering change approval number recorded for a product document.
+    synonyms: [ECN, ECO, engineering change notice, change number]
+    broader: product_document
+
+datasets:
+  Person_Address:
+    label: Postal address
+    description: >-
+      Street addresses of customers, employees and vendors. One row per address. Sales
+      orders point here for the bill-to and the ship-to address.
+    synonyms: [address, delivery address, ship-to address, bill-to address, site address]
+    fields:
+      AddressID:
+        label: Address ID
+        description: Unique key of one postal address. Sales orders reference it as the bill-to and the ship-to address.
+        synonyms: [address number, address key]
+        role: identifier
+        concept: postal_address
+      AddressLine1:
+        label: Street address line 1
+        description: First line of the street address, usually the street and building number.
+        synonyms: [street address, address line 1, street]
+        role: attribute
+      AddressLine2:
+        label: Street address line 2
+        description: Second line of the street address, such as a suite, unit or building. Empty for most addresses.
+        synonyms: [address line 2, suite, unit, building]
+        role: attribute
+      City:
+        label: City
+        description: Name of the city of the address. Use it to group orders by ship-to or bill-to city.
+        synonyms: [town, delivery city, ship-to city]
+        role: dimension
+      StateProvinceID:
+        label: State or province ID
+        description: >-
+          Key of the state or province of the address. The state and province lookup is not
+          included in this pack, so only the numeric key is available.
+        synonyms: [state, province, region]
+        role: identifier
+      PostalCode:
+        label: Postal code
+        description: Postal code of the street address, stored as text.
+        synonyms: [zip code, postcode, ZIP]
+        role: attribute
+      SpatialLocation:
+        label: Geographic coordinates
+        description: >-
+          Latitude and longitude of the address, stored as an opaque geography value. This
+          pack cannot run spatial queries on it.
+        synonyms: [geo-location, coordinates, latitude and longitude]
+        role: attribute
+      rowguid: *rowguid
+      ModifiedDate: *modified
+
+  Production_BillOfMaterials:
+    label: Bill of materials
+    description: >-
+      Components required to make bicycles and subassemblies. One row per parent assembly,
+      component and start date. It gives the parent-to-component hierarchy and the quantity
+      of each component per assembly. Top-level rows have no parent assembly.
+    synonyms: [BOM, product structure, parts list, components list, material list]
+    fields:
+      BillOfMaterialsID:
+        label: BOM line ID
+        description: Unique key of one bill-of-materials row, that is one component of one parent assembly for one period.
+        synonyms: [BOM ID, BOM line, structure line]
+        role: identifier
+        concept: bill_of_materials
+      ProductAssemblyID:
+        label: Parent assembly product ID
+        description: >-
+          Product that is built from the component, the parent assembly. Empty on the 103
+          top-level rows, which are exactly the rows at BOM level 0.
+        synonyms: [parent item, assembly, parent product, parent part]
+        role: identifier
+        concept: product_identifier
+      ComponentID:
+        label: Component product ID
+        description: Product that is consumed as a component of the parent assembly.
+        synonyms: [component, child item, part, material, sub-component]
+        role: identifier
+        concept: product_identifier
+      StartDate:
+        label: Component effective from
+        description: Date the component started being used in the assembly.
+        synonyms: [effective from, valid from, effectivity start]
+        role: time
+      EndDate:
+        label: Component effective to
+        description: Date the component stopped being used in the assembly. Empty while the component is still in use.
+        synonyms: [effective to, valid to, effectivity end, obsolete from]
+        role: time
+      UnitMeasureCode:
+        label: Component unit of measure
+        description: >-
+          Unit of measure of the per-assembly quantity. Three codes occur here. Names come
+          from the unit of measure lookup. Codes are padded to three characters.
+        synonyms: [UoM, unit, component unit]
+        role: dimension
+        concept: unit_of_measure
+        values: {EA: Each, IN: Inch, OZ: Ounces}
+      BOMLevel:
+        label: BOM level
+        description: >-
+          Depth of the component below the top of the product structure, as described by the
+          source. Levels 0 to 4 occur. Level 0 rows have no parent assembly.
+        synonyms: [level, structure level, indenture level, depth]
+        role: dimension
+      PerAssemblyQty:
+        label: Component quantity per assembly
+        description: >-
+          Quantity of the component needed to create one parent assembly, in the component
+          unit of measure and for the effective period. Values range from 1 to 41. It is a
+          design quantity, not a quantity ordered, issued or consumed.
+        synonyms: [quantity per, usage quantity, qty per assembly, component quantity, quantity required]
+        role: measure
+        unit: component unit of measure per assembly (see UnitMeasureCode)
+        concept: component_quantity
+        examples: ["How many of each component does one unit of this assembly need?"]
+      ModifiedDate: *modified
+
+  Person_BusinessEntity:
+    label: Business entity (party key)
+    description: >-
+      Source of the shared key that connects vendors, stores and persons with address and
+      contact information. One row per party. It holds no business attributes of its own.
+    synonyms: [party, party key, business partner]
+    fields:
+      BusinessEntityID:
+        label: Business entity ID
+        description: >-
+          Shared party key. Vendors, stores and persons take their key from here, so the same
+          number identifies the same party in each of those tables.
+        synonyms: [party ID, business partner ID]
+        role: identifier
+      rowguid: *rowguid
+      ModifiedDate: *modified
+
+  Sales_Customer:
+    label: Customer account
+    description: >-
+      Customer accounts that sales orders are placed against. One row per account. An account
+      is an individual person (18,484 rows), a reseller store (701 rows), or a store with a
+      named person (635 rows). Names are in the person and store tables.
+    synonyms: [customer, account, buyer, client, sold-to party]
+    fields:
+      CustomerID:
+        label: Customer ID
+        description: >-
+          Unique key of one customer account in the AdventureWorks namespace. Sales orders
+          reference it. The store ID links a business customer to its store.
+        synonyms: [customer number, customer account, account ID, client ID]
+        role: identifier
+        concept: customer_identifier
+      PersonID:
+        label: Person ID
+        description: >-
+          Key of the person on the account. This is an individual customer, or the named
+          person when a store is also set. Empty when the account is a store without a named person.
+        synonyms: [contact, individual customer, contact person]
+        role: identifier
+        concept: contact_person
+      StoreID:
+        label: Store ID
+        description: Key of the reseller store the account belongs to. Empty for individual customers.
+        synonyms: [reseller, dealer, store account, business customer]
+        role: identifier
+        concept: reseller_store
+      TerritoryID:
+        label: Sales territory ID
+        description: >-
+          Key of the sales territory in which the customer is located. Territories 1 to 10
+          occur. The territory lookup is not included in this pack, so territory names are not available.
+        synonyms: [sales region, sales territory, region]
+        role: dimension
+        concept: sales_territory
+      AccountNumber:
+        label: Customer account number
+        description: >-
+          Customer number assigned by the accounting system. The source computes it as AW
+          followed by the zero-padded customer ID.
+        synonyms: [customer number, account no., customer account, customer code]
+        role: identifier
+        concept: customer_identifier
+      rowguid: *rowguid
+      ModifiedDate: *modified
+
+  Production_Document:
+    label: Product document
+    description: >-
+      Product maintenance, service and assembly documents, arranged as a folder tree. One
+      row per folder or document. This data has 4 folder entries and 8 Word documents.
+    synonyms: [manual, maintenance document, service guide, assembly instructions, work instruction, technical document]
+    fields:
+      DocumentNode:
+        label: Document node
+        description: >-
+          Key of one document or folder. It is a position in the document tree stored as an
+          opaque hierarchy value, not a readable path.
+        synonyms: [document ID, document key]
+        role: identifier
+        concept: product_document
+      DocumentLevel:
+        label: Document tree level
+        description: >-
+          Depth of the entry in the document tree, computed by the source from the document
+          node. In this data 0 is the root, 1 is a folder and 2 is a document.
+        synonyms: [folder depth, hierarchy level]
+        role: attribute
+      Title:
+        label: Document title
+        description: Title of the document or folder, for example a maintenance or assembly guide title.
+        synonyms: [document name, manual name, guide name, title]
+        role: attribute
+        concept: product_document
+      Owner:
+        label: Document owner (employee ID)
+        description: >-
+          Employee who controls the document. The employee table is not included in this
+          pack, so only the key is available.
+        synonyms: [document owner, document controller, author]
+        role: identifier
+      FolderFlag:
+        label: Folder or document flag
+        description: >-
+          Marks an entry as a folder or a document. The source comment says 0 = this is a
+          folder, 1 = this is a document. Observed data: the eight entries with 0 have the file
+          extension .doc and the four entries with 1 have no file extension. This model does not
+          resolve the difference.
+        synonyms: [is folder, entry type, folder indicator]
+        role: dimension
+      FileName:
+        label: File name
+        description: File name of the document including its extension. Folder entries repeat the folder title.
+        synonyms: [file, document file name]
+        role: attribute
+      FileExtension:
+        label: File extension
+        description: >-
+          File extension that indicates the document type. Only .doc occurs in this data.
+          Folder entries have no extension.
+        synonyms: [file type, file format, document format]
+        role: dimension
+      Revision:
+        label: Revision number
+        description: Revision number of the document, stored as padded text. Values 0 to 8 occur.
+        synonyms: [rev, revision level, version, issue]
+        role: attribute
+        concept: document_revision
+      ChangeNumber:
+        label: Engineering change number
+        description: >-
+          Engineering change approval number recorded for the document. The value 0 occurs on
+          folders and on one document. The meaning of 0 is not recorded in the source.
+        synonyms: [ECN, ECO, engineering change notice, change approval number]
+        role: attribute
+        concept: engineering_change
+      Status:
+        label: Document approval status
+        description: >-
+          Approval state of the document. Codes come from the source comment. Only 1 and 2
+          occur in this data.
+        synonyms: [approval status, document status, release status]
+        role: dimension
+        concept: document_approval_status
+        values: {1: Pending approval, 2: Approved, 3: Obsolete}
+      DocumentSummary:
+        label: Document summary
+        description: Abstract of the document in plain text. Empty for folder entries and for three of the eight documents.
+        synonyms: [abstract, summary, synopsis]
+        role: attribute
+      Document:
+        label: Document file content
+        description: >-
+          The complete document file, stored as binary content. Folder entries have none. It
+          cannot be queried as text here. Extracted text is held separately in this pack.
+        synonyms: [file content, attachment, document body]
+        role: attribute
+      rowguid:
+        label: Row GUID
+        description: >-
+          Technical row identifier that the source database requires for file storage. It has
+          no business meaning. Do not use it to match documents or records.
+        role: audit
+      ModifiedDate: *modified
+
+  Production_Location:
+    label: Inventory and manufacturing location
+    description: >-
+      Places where inventory is stored and work centres where manufacturing operations run.
+      One row per location. Fourteen locations exist. Seven are storage or support areas and
+      seven are work centres with a cost rate and capacity.
+    synonyms: [work centre, work center, storage location, production area, shop-floor location, station]
+    fields:
+      LocationID:
+        label: Location ID
+        description: Unique key of one inventory or manufacturing location.
+        synonyms: [location code, work centre ID, work center ID]
+        role: identifier
+        concept: location
+      Name:
+        label: Location name
+        description: >-
+          Name of the location. It is either a storage area, such as finished goods storage,
+          or a work centre, such as frame welding or final assembly.
+        synonyms: [work centre, work center, storage location, production area, station, department]
+        role: dimension
+        concept: location
+      CostRate:
+        label: Hourly cost rate
+        description: Standard hourly cost of the manufacturing location. It is 0 for the seven storage and support locations.
+        synonyms: [hourly rate, work centre rate, standard hourly cost]
+        role: attribute
+        unit: currency amount per hour (currency not recorded in the source)
+      Availability:
+        label: Work capacity (hours)
+        description: >-
+          Work capacity of the manufacturing location in hours. The source does not state the
+          period the hours cover. It is 0 for the seven storage and support locations.
+        synonyms: [capacity, available hours, work centre capacity]
+        role: attribute
+        unit: hours
+      ModifiedDate: *modified
+
+  Person_Person:
+    label: Person
+    description: >-
+      People involved with the company. Employees, individual customers, store contacts and
+      vendor contacts. One row per person. Names are fictional sample data and are personal
+      values. Do not copy them into definitions.
+    synonyms: [contact, contact person, individual, individual customer, representative]
+    fields:
+      BusinessEntityID:
+        label: Person ID
+        description: Unique key of one person, taken from the shared business-entity key. Customer accounts reference it.
+        synonyms: [contact ID, person key]
+        role: identifier
+        concept: contact_person
+      PersonType:
+        label: Person type
+        description: Primary type of the person. Codes come from the source comment. All six occur in this data.
+        synonyms: [contact type, role, party type]
+        role: dimension
+        values:
+          SC: Store contact
+          IN: Individual (retail) customer
+          SP: Sales person
+          EM: Employee (non-sales)
+          VC: Vendor contact
+          GC: General contact
+      NameStyle:
+        label: Name order style
+        description: Order in which the first and last name are stored. Only 0 occurs in this data.
+        synonyms: [name order, name format]
+        role: attribute
+        values: {0: 'Western style (first name, last name)', 1: 'Eastern style (last name, first name)'}
+      Title:
+        label: Courtesy title
+        description: Courtesy title such as Mr. or Ms. Empty for most people.
+        synonyms: [salutation, honorific]
+        role: attribute
+      FirstName:
+        label: First name
+        description: First name of the person. A personal value.
+        synonyms: [given name, forename]
+        role: attribute
+      MiddleName:
+        label: Middle name
+        description: Middle name or middle initial of the person. A personal value.
+        synonyms: [middle initial]
+        role: attribute
+      LastName:
+        label: Last name
+        description: Last name of the person. A personal value.
+        synonyms: [surname, family name]
+        role: attribute
+      Suffix:
+        label: Name suffix
+        description: Surname suffix such as Sr. or Jr. Empty for most people.
+        synonyms: [suffix, generational suffix]
+        role: attribute
+      EmailPromotion:
+        label: Email promotion preference
+        description: Whether the contact wishes to receive e-mail promotions. Codes come from the source comment.
+        synonyms: [email opt-in, marketing consent, marketing preference]
+        role: dimension
+        values:
+          0: Does not wish to receive e-mail promotions
+          1: Wishes to receive e-mail promotions from AdventureWorks
+          2: Wishes to receive e-mail promotions from AdventureWorks and selected partners
+      AdditionalContactInfo:
+        label: Additional contact information
+        description: Additional contact information about the person, stored as XML text. Filled for only 10 people.
+        synonyms: [other contact details, contact notes]
+        role: attribute
+      Demographics:
+        label: Demographics survey
+        description: >-
+          Personal information such as hobbies and income, collected from online shoppers and
+          stored as XML text. Personal data. It is not broken out into columns.
+        synonyms: [customer survey, demographic profile]
+        role: attribute
+      rowguid: *rowguid
+      ModifiedDate: *modified
+
+  Production_Product:
+    label: Product
+    description: >-
+      Products sold or used in the manufacturing of sold products. One row per product.
+      It holds 504 products. 295 are salable finished goods and 239 are manufactured in-house.
+      It carries the product number, standard cost, list price and planning values.
+    synonyms: [item, part, material, SKU, article, product master, item master]
+    fields:
+      ProductID:
+        label: Product ID
+        description: >-
+          Unique numeric key of one product in the AdventureWorks namespace. Order lines,
+          inventory, work orders and bills of materials reference it.
+        synonyms: [item ID, material ID, part ID, product key]
+        role: identifier
+        concept: product_identifier
+      Name:
+        label: Product name
+        description: Name of the product as on the product master. It usually includes model, color and size.
+        synonyms: [item name, item description, part name, material description, product description]
+        role: dimension
+        concept: product
+      ProductNumber:
+        label: Product number
+        description: >-
+          Unique product identification number in the AdventureWorks namespace, the code
+          printed on documents. The same text in another supplier or customer namespace does
+          not establish identity.
+        synonyms: [SKU, part number, item number, item code, P/N, article number]
+        role: identifier
+        concept: product_identifier
+      MakeFlag:
+        label: Make or buy flag
+        description: Whether the product is manufactured in-house or purchased. Codes come from the source comment.
+        synonyms: [make or buy, manufactured in-house, purchased part, bought-in part]
+        role: dimension
+        concept: make_or_buy
+        values: {0: Product is purchased, 1: Product is manufactured in-house}
+      FinishedGoodsFlag:
+        label: Salable item flag
+        description: Whether the product is a salable item. Codes come from the source comment.
+        synonyms: [finished goods, FG, salable item, saleable product]
+        role: dimension
+        values: {0: Product is not a salable item, 1: Product is salable}
+      Color:
+        label: Color
+        description: Product color. Nine colors occur. Empty for about half of the products.
+        synonyms: [colour, finish]
+        role: dimension
+      SafetyStockLevel:
+        label: Safety stock level
+        description: >-
+          Minimum inventory quantity that should be kept for the product. It is a planning
+          threshold on the product master, not a quantity on hand.
+        synonyms: [safety stock, buffer stock, minimum stock level, min stock]
+        role: attribute
+        unit: *each
+        concept: safety_stock
+      ReorderPoint:
+        label: Reorder point
+        description: >-
+          Inventory level that triggers a purchase order or a work order for the product.
+          It is a planning threshold, not a quantity on hand or on order.
+        synonyms: [ROP, reorder level, replenishment point, order point]
+        role: attribute
+        unit: *each
+        concept: reorder_point
+      StandardCost:
+        label: Standard cost
+        description: >-
+          Standard cost of one unit of the product. It is an internal costing value. It is not
+          the list price, the unit price on an order line or a vendor price. It is 0 for 200 products.
+        synonyms: [std cost, standard unit cost, cost price, unit cost]
+        role: attribute
+        unit: *money_per_unit
+        concept: standard_cost
+      ListPrice:
+        label: List price
+        description: >-
+          Catalogue selling price of one unit before any discount. The price actually charged
+          is the unit price on the sales-order line. It is 0 for 200 products, none of them salable.
+        synonyms: [catalogue price, catalog price, price list price, base price, selling price]
+        role: attribute
+        unit: *money_per_unit
+        concept: list_price
+      Size:
+        label: Size
+        description: >-
+          Product size as text. Values mix numbers from 38 to 70 and the letter sizes S, M, L
+          and XL. Empty for products without a size.
+        synonyms: [frame size, dimension, product size]
+        role: dimension
+      SizeUnitMeasureCode:
+        label: Size unit of measure
+        description: Unit of measure of the size. Only CM occurs. Empty where no unit is recorded.
+        synonyms: [size unit, size UoM]
+        role: dimension
+        concept: unit_of_measure
+        values: {CM: Centimeter}
+      WeightUnitMeasureCode:
+        label: Weight unit of measure
+        description: Unit of measure of the weight. Two codes occur. Empty where no weight is recorded.
+        synonyms: [weight unit, weight UoM]
+        role: dimension
+        concept: unit_of_measure
+        values: {G: Gram, LB: US pound}
+      Weight:
+        label: Weight
+        description: >-
+          Product weight in the unit given by the weight unit of measure, grams or US pounds.
+          Convert units before comparing or adding weights. Empty for 299 products.
+        synonyms: [unit weight, net weight, mass]
+        role: attribute
+        unit: grams or US pounds (see WeightUnitMeasureCode)
+      DaysToManufacture:
+        label: Days to manufacture
+        description: >-
+          Number of days required to manufacture the product. Values 0, 1, 2 and 4 occur. It
+          is a product master value, not the measured duration of a work order.
+        synonyms: [manufacturing lead time, production lead time, build time, make time]
+        role: attribute
+        unit: days
+        concept: manufacturing_lead_time
+      ProductLine:
+        label: Product line
+        description: Product line of the product. Codes come from the source comment and are padded with a trailing space. Empty for 226 products.
+        synonyms: [line, range, product range]
+        role: dimension
+        concept: product_line
+        values: {R: Road, M: Mountain, T: Touring, S: Standard}
+      Class:
+        label: Product class
+        description: >-
+          Class of the product. Codes come from the source comment. The source does not say
+          what is rated high, medium or low. Empty for 257 products.
+        synonyms: [class, grade, tier]
+        role: dimension
+        values: {H: High, M: Medium, L: Low}
+      Style:
+        label: Product style
+        description: Style of the product. Codes come from the source comment. Empty for 293 products.
+        synonyms: [style, gender, fit]
+        role: dimension
+        values: {W: Womens, M: Mens, U: Universal}
+      ProductSubcategoryID:
+        label: Product subcategory ID
+        description: Subcategory the product belongs to. Empty for 209 products, which have no subcategory.
+        synonyms: [subcategory, product type]
+        role: identifier
+        concept: product_subcategory
+      ProductModelID:
+        label: Product model ID
+        description: Product model the product belongs to. Empty for 209 products, which have no model.
+        synonyms: [model, product family]
+        role: identifier
+        concept: product_model
+      SellStartDate:
+        label: Sell start date
+        description: Date the product became available for sale.
+        synonyms: [launch date, available from, on-sale date]
+        role: time
+      SellEndDate:
+        label: Sell end date
+        description: Date the product was no longer available for sale. Empty for products still on sale.
+        synonyms: [end of sale, withdrawn from sale, available until]
+        role: time
+      DiscontinuedDate:
+        label: Discontinued date
+        description: Date the product was discontinued. Empty for every product in this data.
+        synonyms: [end of life, EOL, discontinuation date]
+        role: time
+      rowguid: *rowguid
+      ModifiedDate: *modified
+
+  Production_ProductCategory:
+    label: Product category
+    description: >-
+      Top-level product categories. One row per category. Four exist. Bikes, Components,
+      Clothing and Accessories.
+    synonyms: [category, product group, product family]
+    fields:
+      ProductCategoryID:
+        label: Product category ID
+        description: Unique key of one top-level product category.
+        synonyms: [category ID, category code]
+        role: identifier
+        concept: product_category
+      Name:
+        label: Product category name
+        description: Name of the top-level product category. One of Bikes, Components, Clothing or Accessories.
+        synonyms: [category, product group, product family]
+        role: dimension
+        concept: product_category
+      rowguid: *rowguid
+      ModifiedDate: *modified
+
+  Production_ProductDocument:
+    label: Product-to-document link
+    description: >-
+      Cross-reference that says which product documents apply to which products. One row per
+      product and document. It has 32 links. A document without a link here has no recorded
+      product; do not infer one.
+    synonyms: [document link, applicable documents, product documentation link]
+    fields:
+      ProductID:
+        label: Product ID
+        description: Product the document applies to.
+        synonyms: [item, part, product]
+        role: identifier
+        concept: product_identifier
+      DocumentNode:
+        label: Document node
+        description: Document that applies to the product. It refers to the document node of the product document table.
+        synonyms: [document ID, document key]
+        role: identifier
+        concept: product_document
+      ModifiedDate: *modified
+
+  Production_ProductInventory:
+    label: Product inventory by location
+    description: >-
+      Quantity of each product held at each inventory location at the source snapshot, with
+      its shelf and bin. One row per product and location. It is a single snapshot, not a
+      stock history, and not available-to-promise inventory.
+    synonyms: [stock, inventory, stock on hand, stock balance, on-hand inventory]
+    fields:
+      ProductID:
+        label: Product ID
+        description: Product whose stock is held at the location.
+        synonyms: [item, part, material]
+        role: identifier
+        concept: product_identifier
+      LocationID:
+        label: Location ID
+        description: Inventory location where the stock is held. All fourteen locations hold stock in this data.
+        synonyms: [storage location, warehouse location, stock location]
+        role: identifier
+        concept: location
+      Shelf:
+        label: Shelf
+        description: >-
+          Storage compartment within the inventory location, held as a letter code. The text
+          N/A is recorded on 290 rows where no shelf is given.
+        synonyms: [rack, shelf location, storage compartment]
+        role: dimension
+      Bin:
+        label: Bin
+        description: Storage container on a shelf within the inventory location, held as a number. Every row with shelf N/A has bin 0.
+        synonyms: [bin location, storage bin, container, slot]
+        role: dimension
+      Quantity:
+        label: Inventory quantity
+        description: >-
+          Quantity of the product held at one location at the source snapshot. Shelf and bin
+          describe its position. It is not available-to-promise inventory, not a quantity on
+          order, and not verified stock at any business date.
+        synonyms: [stock on hand, on-hand quantity, inventory level, stock quantity, QOH, stock balance]
+        role: measure
+        unit: *each
+        concept: inventory_position
+        examples: ["How many units of this product are in finished goods storage?"]
+      rowguid: *rowguid
+      ModifiedDate:
+        label: Last modified
+        description: >-
+          Date and time the inventory row was last updated in the source system. The
+          inventory metric uses it as its time field because the table has no snapshot date.
+          Treat it as an update timestamp, not a stock-count date.
+        role: audit
+
+  Production_ProductModel:
+    label: Product model
+    description: >-
+      Product models. One row per model. 128 exist. A model groups product variants that
+      differ by attributes such as size and color. A few models carry a catalogue description or
+      manufacturing instructions as XML text.
+    synonyms: [model, product family, model range]
+    fields:
+      ProductModelID:
+        label: Product model ID
+        description: Unique key of one product model.
+        synonyms: [model ID, model code]
+        role: identifier
+        concept: product_model
+      Name:
+        label: Product model name
+        description: Name of the product model, shared by its size and color variants.
+        synonyms: [model, model name, product family]
+        role: dimension
+        concept: product_model
+      CatalogDescription:
+        label: Catalogue description
+        description: Detailed product catalogue information for the model, stored as XML text. Filled for 6 of 128 models.
+        synonyms: [catalog description, product description, marketing description, product specification]
+        role: attribute
+      Instructions:
+        label: Manufacturing instructions
+        description: Manufacturing instructions for the model, stored as XML text. Filled for 9 of 128 models.
+        synonyms: [work instructions, assembly instructions, build instructions, process instructions]
+        role: attribute
+      rowguid: *rowguid
+      ModifiedDate: *modified
+
+  Production_ProductSubcategory:
+    label: Product subcategory
+    description: >-
+      Second-level product groupings inside a category, such as road bikes, brakes or helmets.
+      One row per subcategory. 37 exist.
+    synonyms: [subcategory, product type, sub-group]
+    fields:
+      ProductSubcategoryID:
+        label: Product subcategory ID
+        description: Unique key of one product subcategory.
+        synonyms: [subcategory ID, subcategory code]
+        role: identifier
+        concept: product_subcategory
+      ProductCategoryID:
+        label: Product category ID
+        description: Top-level category that the subcategory belongs to.
+        synonyms: [category, parent category]
+        role: identifier
+        concept: product_category
+      Name:
+        label: Product subcategory name
+        description: Name of the product subcategory, for example a type of bike, component, clothing or accessory.
+        synonyms: [subcategory, product type, sub-group]
+        role: dimension
+        concept: product_subcategory
+      rowguid: *rowguid
+      ModifiedDate: *modified
+
+  Purchasing_ProductVendor:
+    label: Vendor product terms
+    description: >-
+      Which vendor supplies which product, with the supply terms recorded for that pair.
+      Average lead time, usual price, last receipt, order quantity limits and unit of measure.
+      One row per product and vendor. These are system records, not contract terms.
+    synonyms: [approved vendor list, supplier catalogue, vendor item, sourcing record, purchasing info record]
+    fields:
+      ProductID:
+        label: Product ID
+        description: Product that the vendor supplies.
+        synonyms: [item, part, purchased item, material]
+        role: identifier
+        concept: product_identifier
+      BusinessEntityID:
+        label: Vendor ID
+        description: Vendor that supplies the product. It refers to the vendor key.
+        synonyms: [supplier ID, vendor number, supplier]
+        role: identifier
+        concept: supplier_identifier
+      AverageLeadTime:
+        label: Average supplier lead time
+        description: >-
+          Source-described average time in days between placing a purchase order with the
+          vendor and receiving the product. Values range from 10 to 120 days. It is a
+          recorded average, not a contract promise. A promised lead time in a contract may
+          also count from a different start event.
+        synonyms: [lead time, supplier lead time, vendor lead time, average lead time, delivery lead time]
+        role: measure
+        unit: days
+        concept: supplier_lead_time
+        examples: ["What is the average lead time for this product from this vendor?"]
+      StandardPrice:
+        label: Vendor standard price
+        description: >-
+          The vendor's usual selling price for the product. It is a reference price on the
+          vendor-product record, not the unit price of a specific purchase order.
+        synonyms: [vendor price, supplier price, standard purchase price, usual price]
+        role: attribute
+        unit: *money_per_unit
+        concept: supplier_unit_price
+      LastReceiptCost:
+        label: Last receipt cost
+        description: The selling price when the product was last purchased from this vendor.
+        synonyms: [last purchase price, last cost, most recent price]
+        role: attribute
+        unit: *money_per_unit
+      LastReceiptDate:
+        label: Last receipt date
+        description: >-
+          Date the product was last received. The source comment says: Date the product was last
+          received by the vendor. Observed data: all 460 rows hold a value, from 2022-07-21 to
+          2025-10-21, and 406 of them equal the row's ModifiedDate. This model does not resolve
+          who received the product.
+        synonyms: [last delivery date, last goods receipt date, last received]
+        role: time
+      MinOrderQty:
+        label: Minimum order quantity
+        description: >-
+          Smallest quantity that should be ordered from the vendor, read from the column name.
+          Unresolved conflict. The source comment says maximum. Domain-owner review is
+          required and the field is excluded from certified metrics. In the data it never
+          exceeds the maximum order quantity.
+        synonyms: [MOQ, minimum order, min order qty, minimum order size]
+        role: measure
+        unit: *vendor_units
+        concept: minimum_order_quantity
+      MaxOrderQty:
+        label: Maximum order quantity
+        description: >-
+          Largest quantity that should be ordered from the vendor, read from the column name.
+          Unresolved conflict. The source comment says minimum. Domain-owner review is
+          required and the field is excluded from certified metrics. In the data it is never
+          below the minimum order quantity.
+        synonyms: [maximum order, max order qty, order ceiling, order cap]
+        role: measure
+        unit: *vendor_units
+        concept: maximum_order_quantity
+      OnOrderQty:
+        label: Quantity on order
+        description: >-
+          Quantity of the product currently on order with the vendor. Empty for 305 of 460
+          rows. The source does not say whether empty means zero.
+        synonyms: [on order, open order quantity, outstanding order quantity, quantity on order]
+        role: measure
+        unit: *vendor_units
+        concept: on_order_quantity
+      UnitMeasureCode:
+        label: Vendor unit of measure
+        description: >-
+          Unit of measure in which the vendor supplies the product. Seven codes occur. Names
+          come from the unit of measure lookup. Note that CTN is named Container there.
+        synonyms: [UoM, purchase unit, order unit, pack unit]
+        role: dimension
+        concept: unit_of_measure
+        values: {CAN: Canister, CS: Case, CTN: Container, DZ: Dozen, EA: Each, GAL: Gallon, PAK: Pack}
+      ModifiedDate: *modified
+
+  Purchasing_PurchaseOrderDetail:
+    label: Purchase order line
+    description: >-
+      Products ordered on a purchase order. One row per purchase-order line. It holds the
+      ordered, received, rejected and stocked quantities, the unit price and the expected
+      receipt date. It has no actual receipt date.
+    synonyms: [PO line, PO line item, purchase order item, goods receipt line]
+    fields:
+      PurchaseOrderID:
+        label: Purchase order ID
+        description: Purchase order that the line belongs to.
+        synonyms: [PO, PO number, purchase order number]
+        role: identifier
+        concept: purchase_order
+      PurchaseOrderDetailID:
+        label: Purchase order line ID
+        description: Key of one line of the purchase order. One line per purchased product.
+        synonyms: [PO line, line item, line number]
+        role: identifier
+      DueDate:
+        label: Expected receipt date
+        description: >-
+          Date the product on this line is expected to be received from the vendor. It is an
+          expectation recorded on the order. It is not the actual receipt date, which this
+          table does not hold, and not a contractual delivery promise.
+        synonyms: [expected delivery date, PO due date, need-by date, required-by date, delivery due date]
+        role: time
+        concept: expected_receipt_date
+      OrderQty:
+        label: Purchase ordered quantity
+        description: >-
+          Quantity of the product ordered from the vendor on this line. It is what was asked
+          for. It is not the quantity received, rejected or stocked.
+        synonyms: [ordered quantity, PO quantity, quantity ordered, order qty]
+        role: measure
+        unit: *purchase_units
+        concept: purchase_ordered_quantity
+        examples: ["How many units did we order from each vendor last quarter?"]
+      ProductID:
+        label: Product ID
+        description: Product ordered from the vendor on this line.
+        synonyms: [item, part, purchased item, material]
+        role: identifier
+        concept: product_identifier
+      UnitPrice:
+        label: Purchase unit price
+        description: >-
+          The vendor's selling price for one unit on this purchase-order line. It is the price
+          on this order, which can differ from the vendor standard price.
+        synonyms: [purchase price, PO price, unit cost, price per unit]
+        role: measure
+        unit: *money_per_unit
+        concept: supplier_unit_price
+      LineTotal:
+        label: Purchase line total
+        description: >-
+          Value of the purchase-order line. The source computes it as ordered quantity times
+          unit price and stores a snapshot. It is based on the ordered quantity, not the
+          received quantity. It excludes tax and freight.
+        synonyms: [line amount, extended price, PO line value, line value]
+        role: measure
+        unit: *money
+      ReceivedQty:
+        label: Received quantity
+        description: >-
+          Quantity actually received from the vendor for this line, before inspection. It
+          includes units that were later rejected. It is below the ordered quantity on 380 of
+          8,845 lines and never above it.
+        synonyms: [goods received, quantity received, delivered quantity, receipt quantity, GR quantity]
+        role: measure
+        unit: *purchase_units
+        concept: received_quantity
+        examples: ["Which vendors delivered less than we ordered?"]
+      RejectedQty:
+        label: Rejected quantity
+        description: >-
+          Quantity rejected during inspection, out of the received quantity. It is above zero
+          on 563 lines. The source records no rejection reason for purchases.
+        synonyms: [rejects, inspection rejects, quantity rejected, non-conforming quantity, failed inspection]
+        role: measure
+        unit: *purchase_units
+        concept: rejected_quantity
+      StockedQty:
+        label: Stocked quantity
+        description: >-
+          Quantity accepted into inventory. The source computes it as received quantity minus
+          rejected quantity and stores a snapshot. It is not the ordered quantity.
+        synonyms: [accepted quantity, quantity accepted into stock, quantity put away, quantity stocked]
+        role: measure
+        unit: *purchase_units
+        concept: stocked_quantity
+      ModifiedDate: *modified
+
+  Purchasing_PurchaseOrderHeader:
+    label: Purchase order
+    description: >-
+      Purchase orders placed with vendors. One row per purchase order. It holds the vendor,
+      status, order date, estimated ship date, shipping method and order-level amounts. It
+      has 4,012 orders dated April 2022 to September 2025.
+    synonyms: [PO, purchase order, supplier order, procurement order]
+    fields:
+      PurchaseOrderID:
+        label: Purchase order ID
+        description: Unique key of one purchase order placed with a vendor.
+        synonyms: [PO, PO number, purchase order number, order number]
+        role: identifier
+        concept: purchase_order
+      RevisionNumber:
+        label: Purchase order revision number
+        description: >-
+          Counter that tracks changes to the purchase order over time. It counts changes. It
+          does not say what changed and it is not a contract amendment number.
+        synonyms: [PO revision, order revision, version]
+        role: attribute
+      Status:
+        label: Purchase order status
+        description: Current status of the purchase order. Codes come from the source comment. All four occur in this data.
+        synonyms: [PO status, order status, approval status]
+        role: dimension
+        concept: purchase_order_status
+        values: {1: Pending, 2: Approved, 3: Rejected, 4: Complete}
+      EmployeeID:
+        label: Buyer (employee ID)
+        description: >-
+          Employee who created the purchase order. The employee table is not included in this
+          pack, so only the key is available.
+        synonyms: [buyer, purchaser, purchasing agent]
+        role: identifier
+      VendorID:
+        label: Vendor ID
+        description: Vendor with whom the purchase order is placed. It refers to the vendor key.
+        synonyms: [supplier, vendor, seller, supplier ID]
+        role: identifier
+        concept: supplier_identifier
+      ShipMethodID:
+        label: Shipping method ID
+        description: Shipping method used for the purchase order. All five methods occur on purchase orders.
+        synonyms: [carrier, shipping method, delivery method]
+        role: identifier
+        concept: ship_method
+      OrderDate:
+        label: Purchase order date
+        description: >-
+          Date the purchase order was created. It is the start of the order-to-receipt span.
+          It is not the date the goods shipped or arrived.
+        synonyms: [PO date, date ordered, order placement date]
+        role: time
+        concept: order_date
+      ShipDate:
+        label: Estimated vendor ship date
+        description: >-
+          Estimated shipment date from the vendor. It is an estimate, per the source. It is not
+          a confirmed dispatch and not the date the goods were received.
+        synonyms: [estimated ship date, expected dispatch date, vendor ship date]
+        role: time
+      SubTotal:
+        label: Purchase order subtotal
+        description: Sum of the line totals of the purchase order, before tax and freight.
+        synonyms: [subtotal, net order value, goods value]
+        role: measure
+        unit: *money
+      TaxAmt:
+        label: Purchase order tax amount
+        description: Tax amount on the purchase order, held at order level.
+        synonyms: [tax, purchase tax, VAT, GST]
+        role: measure
+        unit: *money
+        concept: tax_amount
+      Freight:
+        label: Purchase order freight
+        description: Shipping cost on the purchase order, held at order level.
+        synonyms: [freight, shipping cost, inbound freight, carriage, delivery charge]
+        role: measure
+        unit: *money
+        concept: freight_charge
+      TotalDue:
+        label: Purchase order total due
+        description: >-
+          Total due to the vendor for the purchase order. The source computes it as subtotal
+          plus tax plus freight. It is an order amount, not a record of payment.
+        synonyms: [PO total, total due, amount due to vendor, order value]
+        role: measure
+        unit: *money
+        concept: order_total
+      ModifiedDate: *modified
+
+  Sales_SalesOrderDetail:
+    label: Sales order line
+    description: >-
+      Products sold on a sales order. One row per sales-order line. It holds the ordered
+      quantity, unit price, discount and line total. Order, due and ship dates and the
+      customer are on the sales order. The model declares a derived join from ProductID to the
+      product table. The source schema links order lines to products only through SpecialOfferProduct,
+      which is outside the 25-table projection, so the join is derived from two source foreign keys.
+    synonyms: [order line, SO line, line item, order item, order position]
+    fields:
+      SalesOrderID:
+        label: Sales order ID
+        description: Sales order that the line belongs to.
+        synonyms: [SO, order number, order ID]
+        role: identifier
+        concept: sales_order
+      SalesOrderDetailID:
+        label: Sales order line ID
+        description: Unique incremental key of one sales-order line. One line per product sold on the order.
+        synonyms: [order line, line item, SO line, line number]
+        role: identifier
+      CarrierTrackingNumber:
+        label: Carrier tracking number
+        description: >-
+          Shipment tracking number supplied by the shipper. It is filled on every line of
+          sales-person orders and empty on every line of online orders.
+        synonyms: [tracking number, waybill number, consignment number, shipment reference]
+        role: attribute
+        concept: tracking_number
+      OrderQty:
+        label: Sales ordered quantity
+        description: >-
+          Count of product units ordered on one sales-order line. It is an order quantity. It
+          is not a contractual minimum, a shipped quantity or proof of delivery.
+        synonyms: [ordered quantity, quantity ordered, order qty, units ordered, sales quantity]
+        role: measure
+        unit: *each
+        concept: ordered_quantity
+        examples: ["How many units of this product did the customer order in 2024?"]
+      ProductID:
+        label: Product ID
+        description: >-
+          Product sold to the customer on this line. The model declares a derived join from this
+          key to the product table, so a product attribute such as the product name can filter
+          the line.
+        synonyms: [item, product, SKU, part]
+        role: identifier
+        concept: product_identifier
+      SpecialOfferID:
+        label: Special offer ID
+        description: >-
+          Promotional code applied to the line. Twelve codes occur and code 1 is on most
+          lines. The special offer table is not included in this pack, so the meaning of each
+          code is not recorded in the source available here.
+        synonyms: [promotion, promo code, special offer, deal]
+        role: identifier
+      UnitPrice:
+        label: Sales unit price
+        description: >-
+          Selling price of one unit on this sales-order line, before the line discount. It can
+          differ from the product list price. It is not the standard cost.
+        synonyms: [selling price, price per unit, sales price, unit selling price]
+        role: measure
+        unit: *money_per_unit
+        concept: unit_price
+      UnitPriceDiscount:
+        label: Unit price discount
+        description: >-
+          Discount on the sales-order line. The source comment says: Discount amount. Observed
+          data: values lie between 0 and 0.40 and are non-zero on 3,282 of 121,317 lines. On
+          every line LineTotal equals OrderQty times UnitPrice times (1 minus this value). This
+          model does not resolve the difference.
+        synonyms: [discount, price reduction]
+        role: attribute
+        concept: line_discount
+      LineTotal:
+        label: Sales line total
+        description: >-
+          Value of the sales-order line. The source computes it as unit price times (1 minus
+          discount) times ordered quantity and stores a snapshot. It excludes tax and freight.
+          It is an ordered value, not proof of delivery or payment.
+        synonyms: [line amount, extended price, net line amount, sales amount, line value]
+        role: measure
+        unit: *money
+        concept: revenue
+      rowguid: *rowguid
+      ModifiedDate: *modified
+
+  Sales_SalesOrderHeader:
+    label: Sales order
+    description: >-
+      Sales orders placed by customers. One row per sales order. It holds the customer, the
+      order, due and ship dates, status, channel, addresses and order-level amounts. It has
+      31,465 orders dated 30 May 2022 to 29 June 2025. All are in status shipped.
+    synonyms: [customer order, SO, order, sales order header]
+    fields:
+      SalesOrderID:
+        label: Sales order ID
+        description: Unique numeric key of one sales order.
+        synonyms: [SO, order ID, order number, customer order]
+        role: identifier
+        concept: sales_order
+      RevisionNumber:
+        label: Sales order revision number
+        description: >-
+          Counter that tracks changes to the sales order over time. It counts changes. It does
+          not say what changed and it is not a contract amendment number.
+        synonyms: [order revision, version, change counter]
+        role: attribute
+      OrderDate:
+        label: Order date
+        description: >-
+          Date the sales order was created. Sales metrics use it for period filters. It is not
+          the due date or the ship date.
+        synonyms: [date ordered, order placement date, booking date, order entry date]
+        role: time
+        concept: order_date
+      DueDate:
+        label: Order due date
+        description: >-
+          Date the order is due to the customer, as recorded on the sales order. It is the
+          operational due date. It does not establish a negotiated delivery promise. A
+          contract or amendment may promise another date and does not change this field. It
+          is not the ship date or an actual receipt date. In this data it is 12 or more days
+          after the order date.
+        synonyms: [due date, required date, requested delivery date, delivery due date, required-by date]
+        role: time
+        concept: delivery_promise
+        examples: ["Which orders shipped after their due date?"]
+      ShipDate:
+        label: Shipment date
+        description: >-
+          Date the order was shipped to the customer. Shipment does not prove delivery or
+          customer acceptance. In this data it is never after the due date.
+        synonyms: [ship date, dispatch date, despatch date, shipped date, date of dispatch]
+        role: time
+        concept: shipment_date
+      Status:
+        label: Sales order status
+        description: Current status of the sales order. Codes come from the source comment. Only 5 occurs in this data.
+        synonyms: [order status, order state, fulfilment status]
+        role: dimension
+        concept: sales_order_status
+        values: {1: In process, 2: Approved, 3: Backordered, 4: Rejected, 5: Shipped, 6: Cancelled}
+      OnlineOrderFlag:
+        label: Online order flag
+        description: >-
+          Whether the order was placed online by the customer or by a sales person. Codes come
+          from the source comment. 27,659 orders are online and 3,806 are sales-person orders.
+        synonyms: [sales channel, online order, web order, order channel]
+        role: dimension
+        concept: sales_channel
+        values: {0: Order placed by sales person, 1: Order placed online by customer}
+      SalesOrderNumber:
+        label: Sales order number
+        description: Readable sales order number. The source computes it as SO followed by the sales order ID.
+        synonyms: [SO number, order reference, order no.]
+        role: identifier
+        concept: sales_order
+      PurchaseOrderNumber:
+        label: Customer purchase order number
+        description: >-
+          The customer's own purchase order number quoted on the sales order. It is a customer
+          reference. It is not a key into this company's purchase orders. It is filled on
+          every sales-person order and empty on every online order.
+        synonyms: [customer PO, customer PO number, buyer's order number, customer reference]
+        role: attribute
+        concept: customer_po_reference
+      AccountNumber:
+        label: Accounting reference number
+        description: >-
+          Financial accounting number reference on the order. It uses a different numbering
+          scheme from the customer account number on the customer record.
+        synonyms: [accounting reference, ledger account, financial account number]
+        role: attribute
+      CustomerID:
+        label: Customer ID
+        description: >-
+          Customer account that placed the order. The source comment names
+          Customer.BusinessEntityID, but the key and the join in this model use the customer ID.
+        synonyms: [customer, buyer, account, sold-to party]
+        role: identifier
+        concept: customer_identifier
+      SalesPersonID:
+        label: Sales person ID
+        description: >-
+          Sales person who created the sales order. Empty on every online order. The sales
+          person table is not included in this pack, so only the key is available.
+        synonyms: [sales rep, salesperson, account manager]
+        role: identifier
+      TerritoryID:
+        label: Sales territory ID
+        description: >-
+          Key of the sales territory in which the sale was made. Territories 1 to 10 occur.
+          The territory lookup is not included in this pack, so territory names are not available.
+        synonyms: [sales region, sales territory, region]
+        role: dimension
+        concept: sales_territory
+      BillToAddressID:
+        label: Bill-to address ID
+        description: Customer billing address of the order. It refers to the postal address table.
+        synonyms: [billing address, invoice address, bill-to]
+        role: identifier
+        concept: postal_address
+      ShipToAddressID:
+        label: Ship-to address ID
+        description: Customer shipping address of the order. It refers to the postal address table.
+        synonyms: [shipping address, delivery address, ship-to, consignee address]
+        role: identifier
+        concept: postal_address
+      ShipMethodID:
+        label: Shipping method ID
+        description: Shipping method used for the sales order. Only methods 1 and 5 occur on sales orders.
+        synonyms: [carrier, shipping method, delivery method]
+        role: identifier
+        concept: ship_method
+      CreditCardID:
+        label: Credit card ID
+        description: >-
+          Key of the credit card used on the order. Empty on 1,131 orders. The credit card
+          table is not included in this pack.
+        synonyms: [payment card, card on file]
+        role: identifier
+      CreditCardApprovalCode:
+        label: Credit card approval code
+        description: Approval code provided by the credit card company for the order payment.
+        synonyms: [authorisation code, authorization code, approval code]
+        role: attribute
+      CurrencyRateID:
+        label: Currency rate ID
+        description: >-
+          Key of the currency exchange rate used for the order. Empty on 17,489 orders. The
+          currency rate table is not included in this pack, so the order currency cannot be
+          determined here.
+        synonyms: [exchange rate, FX rate, currency conversion]
+        role: identifier
+      SubTotal:
+        label: Sales order subtotal
+        description: Sum of the line totals of the sales order, before tax and freight.
+        synonyms: [subtotal, net order value, goods value, order value before tax]
+        role: measure
+        unit: *money
+      TaxAmt:
+        label: Sales order tax amount
+        description: Tax amount on the sales order, held at order level.
+        synonyms: [tax, sales tax, VAT, GST]
+        role: measure
+        unit: *money
+        concept: tax_amount
+      Freight:
+        label: Sales order freight
+        description: Shipping cost on the sales order, held at order level.
+        synonyms: [freight, shipping cost, delivery charge, carriage, outbound freight]
+        role: measure
+        unit: *money
+        concept: freight_charge
+      TotalDue:
+        label: Sales order total due
+        description: >-
+          Total due from the customer for the sales order. The source computes it as subtotal
+          plus tax plus freight. It is an order amount, not a record of payment.
+        synonyms: [order total, total due, amount due, grand total, invoice total]
+        role: measure
+        unit: *money
+        concept: order_total
+      Comment:
+        label: Sales representative comment
+        description: Free-text comments from the sales representative. Empty on every order in this data.
+        synonyms: [order notes, remarks, comments]
+        role: attribute
+      rowguid: *rowguid
+      ModifiedDate: *modified
+
+  Production_ScrapReason:
+    label: Scrap reason
+    description: >-
+      Lookup of manufacturing failure reasons. One row per reason. Sixteen exist. Work
+      orders with scrap point to one reason.
+    synonyms: [failure reason, defect type, reject reason, non-conformance reason, scrap code]
+    fields:
+      ScrapReasonID:
+        label: Scrap reason ID
+        description: Unique key of one manufacturing failure reason.
+        synonyms: [scrap code, reason code, defect code]
+        role: identifier
+        concept: scrap_reason
+      Name:
+        label: Scrap reason
+        description: >-
+          Description of the manufacturing failure that caused scrap, for example a failed
+          paint process or a drill size that is too large.
+        synonyms: [failure reason, defect type, reject reason, non-conformance reason, cause of scrap]
+        role: dimension
+        concept: scrap_reason
+        examples: ["Which scrap reasons account for the most scrapped units?"]
+      ModifiedDate: *modified
+
+  Purchasing_ShipMethod:
+    label: Shipping method
+    description: >-
+      Lookup of shipping companies and services. One row per method. Five exist. Both
+      purchase orders and sales orders reference it.
+    synonyms: [carrier, shipping company, freight carrier, delivery service, mode of transport]
+    fields:
+      ShipMethodID:
+        label: Shipping method ID
+        description: Unique key of one shipping method.
+        synonyms: [carrier ID, ship method code]
+        role: identifier
+        concept: ship_method
+      Name:
+        label: Shipping method name
+        description: Name of the shipping company or service.
+        synonyms: [carrier, shipping company, freight carrier, delivery service, shipper]
+        role: dimension
+        concept: ship_method
+      ShipBase:
+        label: Minimum shipping charge
+        description: Minimum shipping charge for the method. It is a rate-card value, not the freight on an order.
+        synonyms: [base freight, minimum freight charge, base rate]
+        role: attribute
+        unit: *money
+      ShipRate:
+        label: Shipping rate per pound
+        description: Shipping charge per pound of weight for the method. It is a rate-card value, not the freight on an order.
+        synonyms: [freight rate, rate per pound, per-lb rate]
+        role: attribute
+        unit: currency amount per pound (currency not recorded in the source)
+      rowguid: *rowguid
+      ModifiedDate: *modified
+
+  Sales_Store:
+    label: Reseller store
+    description: >-
+      Business customers that resell the company's products. One row per store. 701 exist.
+      The store name is the customer name used for a business account.
+    synonyms: [reseller, dealer, retailer, store, business customer, distributor]
+    fields:
+      BusinessEntityID:
+        label: Store ID
+        description: >-
+          Unique key of one reseller store, taken from the shared business-entity key.
+          Customer accounts reference it as the store ID.
+        synonyms: [reseller ID, dealer ID, store number]
+        role: identifier
+        concept: reseller_store
+      Name:
+        label: Store name
+        description: Name of the reseller store. Use it as the customer name of a business account.
+        synonyms: [customer name, reseller, dealer, retailer, account name, buyer]
+        role: dimension
+        concept: reseller_store
+      SalesPersonID:
+        label: Assigned sales person ID
+        description: >-
+          Sales person assigned to the store. The sales person table is not included in this
+          pack, so only the key is available.
+        synonyms: [account manager, sales rep, assigned salesperson]
+        role: identifier
+      Demographics:
+        label: Store survey
+        description: >-
+          Demographic information about the store, such as number of employees, annual sales
+          and store type, stored as XML text. It is not broken out into columns.
+        synonyms: [store profile, store survey, reseller profile]
+        role: attribute
+      rowguid: *rowguid
+      ModifiedDate: *modified
+
+  Production_UnitMeasure:
+    label: Unit of measure
+    description: >-
+      Lookup of units of measure. One row per unit. 38 exist. Products, bills of materials
+      and vendor product terms reference it.
+    synonyms: [UoM, UOM, unit, measurement unit]
+    fields:
+      UnitMeasureCode:
+        label: Unit of measure code
+        description: Three-character unit of measure code, padded with spaces, for example EA or LB.
+        synonyms: [UoM, UOM, unit code, unit]
+        role: identifier
+        concept: unit_of_measure
+      Name:
+        label: Unit of measure name
+        description: Name of the unit of measure, for example Each, Case or US pound.
+        synonyms: [unit name, unit description]
+        role: dimension
+        concept: unit_of_measure
+      ModifiedDate: *modified
+
+  Purchasing_Vendor:
+    label: Vendor
+    description: >-
+      Companies from whom the company purchases parts or other goods. One row per vendor.
+      104 exist. It holds the name, account number, credit rating and the preferred and
+      active flags.
+    synonyms: [supplier, vendor, seller, provider, source of supply]
+    fields:
+      BusinessEntityID:
+        label: Vendor ID
+        description: >-
+          Unique key of one vendor, taken from the shared business-entity key. Purchase orders
+          and vendor product terms reference it.
+        synonyms: [supplier ID, vendor number, supplier number, supplier code]
+        role: identifier
+        concept: supplier_identifier
+      AccountNumber:
+        label: Vendor account number
+        description: Vendor account (identification) number, a readable text code for the vendor.
+        synonyms: [vendor account, supplier account number, vendor code]
+        role: identifier
+        concept: supplier_identifier
+      Name:
+        label: Vendor name
+        description: Company name of the vendor.
+        synonyms: [supplier, supplier name, vendor, seller, provider]
+        role: dimension
+        concept: supplier
+      CreditRating:
+        label: Vendor credit rating
+        description: >-
+          Credit rating of the vendor. Codes come from the source comment. 1 is the best. It
+          rates credit standing. It does not rate delivery or quality performance.
+        synonyms: [credit rating, creditworthiness, credit standing, credit score]
+        role: dimension
+        concept: vendor_credit_rating
+        values: {1: Superior, 2: Excellent, 3: Above average, 4: Average, 5: Below average}
+      PreferredVendorStatus:
+        label: Preferred vendor status
+        description: Whether the vendor is preferred over other vendors supplying the same product. Codes come from the source comment.
+        synonyms: [preferred supplier, preferred vendor, primary source]
+        role: dimension
+        concept: preferred_supplier
+        values:
+          0: Do not use if another vendor is available
+          1: Preferred over other vendors supplying the same product
+      ActiveFlag:
+        label: Active vendor flag
+        description: Whether the vendor is actively used. Codes come from the source comment. Four vendors are no longer used.
+        synonyms: [active supplier, vendor status, inactive vendor]
+        role: dimension
+        values: {0: Vendor no longer used, 1: Vendor is actively used}
+      PurchasingWebServiceURL:
+        label: Purchasing web service URL
+        description: >-
+          Web address of the vendor's purchasing service, read from the column name. The
+          source gives no description. Filled for 6 of 104 vendors.
+        synonyms: [supplier portal, ordering URL, e-procurement link]
+        role: attribute
+      ModifiedDate: *modified
+
+  Production_WorkOrder:
+    label: Work order
+    description: >-
+      Production orders to build a quantity of one product. One row per work order. It holds
+      the order, stocked and scrapped quantities, the start, end and due dates and the scrap
+      reason. It has 72,591 work orders started June 2022 to June 2025. The pinned source has
+      no column comments for this table. Meanings follow column names, keys, the computed
+      expression and data, and need domain review.
+    synonyms: [WO, production order, manufacturing order, job, shop order]
+    fields:
+      WorkOrderID:
+        label: Work order ID
+        description: Unique key of one work order.
+        synonyms: [WO, work order number, production order number, job number]
+        role: identifier
+        concept: work_order
+      ProductID:
+        label: Product ID
+        description: Product that the work order builds.
+        synonyms: [item, part, product built, assembly]
+        role: identifier
+        concept: product_identifier
+      OrderQty:
+        label: Production order quantity
+        description: >-
+          Requested product quantity on a work order, the quantity to build. It is not the
+          customer sales-order quantity and not the quantity that reached stock.
+        synonyms: [quantity to build, planned production quantity, build quantity, work order quantity, lot size]
+        role: measure
+        unit: *each
+        concept: production_volume
+      StockedQty:
+        label: Production quantity stocked
+        description: >-
+          Quantity built and put into inventory. The source computes it as order quantity
+          minus scrapped quantity and stores a snapshot. It equals the order quantity on all
+          but 729 work orders. It is not the stock on hand.
+        synonyms: [good quantity, completed quantity, yield, output quantity, quantity to stock]
+        role: measure
+        unit: *each
+        concept: production_stocked_quantity
+      ScrappedQty:
+        label: Scrapped quantity
+        description: >-
+          Quantity scrapped on one work order. It is above zero on 729 work orders. A nonzero
+          quantity does not by itself establish a contract-quality breach.
+        synonyms: [scrap, scrap quantity, scrapped units, rejects, defective units, waste]
+        role: measure
+        unit: *each
+        concept: scrap_quality_context
+        examples: ["How many units were scrapped for this product last year?"]
+      StartDate:
+        label: Work order start date
+        description: Date the work order started. Production metrics use it for period filters.
+        synonyms: [production start date, start of production, start date]
+        role: time
+      EndDate:
+        label: Work order end date
+        description: >-
+          Date the work order finished. An empty value would mean the work order is still
+          open. Every work order in this data has one. It is after the due date on 22,790 work orders.
+        synonyms: [completion date, finish date, actual end date, closed date]
+        role: time
+      DueDate:
+        label: Work order due date
+        description: >-
+          Date the work order is due to be finished. It is a production due date. It is not
+          the sales-order due date and not a customer delivery promise.
+        synonyms: [production due date, required completion date, target finish date, scheduled completion]
+        role: time
+        concept: work_order_due_date
+      ScrapReasonID:
+        label: Scrap reason ID
+        description: Reason for the scrap on the work order. It is filled exactly on the 729 work orders that have scrap.
+        synonyms: [scrap reason, failure reason, defect code, reject reason]
+        role: identifier
+        concept: scrap_reason
+      ModifiedDate: *modified
+
+  Production_WorkOrderRouting:
+    label: Work order routing operation
+    description: >-
+      Manufacturing operations of a work order. One row per work order, product and operation
+      sequence. It holds the work centre, scheduled and actual dates, actual hours and planned
+      and actual cost. 42,625 of the work orders have routing rows. The pinned source has no
+      column comments for this table. Meanings follow column names, keys and data, and need
+      domain review.
+    synonyms: [routing, operation, routing step, production operation, process step, shop-floor operation]
+    fields:
+      WorkOrderID:
+        label: Work order ID
+        description: Work order that the operation belongs to.
+        synonyms: [WO, work order number, production order]
+        role: identifier
+        concept: work_order
+      ProductID:
+        label: Product ID
+        description: Product that the operation builds. It always equals the product of the work order in this data.
+        synonyms: [item, part, product built]
+        role: identifier
+        concept: product_identifier
+      OperationSequence:
+        label: Operation sequence
+        description: >-
+          Position of the operation in the manufacturing sequence of the work order. Values 1
+          to 7 occur. In this data each sequence number always runs at the same location.
+        synonyms: [operation number, routing step, op sequence, process step, operation]
+        role: identifier
+        concept: routing_operation
+      LocationID:
+        label: Work centre (location ID)
+        description: Manufacturing location where the operation is performed. Seven work centres occur, locations 10 to 60.
+        synonyms: [work centre, work center, station, production area]
+        role: identifier
+        concept: location
+      ScheduledStartDate:
+        label: Scheduled start date
+        description: Planned start date of the operation. It is the plan, not what happened.
+        synonyms: [planned start, scheduled start, plan start date]
+        role: time
+      ScheduledEndDate:
+        label: Scheduled end date
+        description: >-
+          Planned end date of the operation. It is the plan, not what happened. The actual end
+          is later than this date on 39,212 of 67,131 operations.
+        synonyms: [planned end, scheduled finish, planned completion]
+        role: time
+      ActualStartDate:
+        label: Actual start date
+        description: Date the operation actually started. Filled on every operation in this data.
+        synonyms: [actual start, real start date, started on]
+        role: time
+      ActualEndDate:
+        label: Actual end date
+        description: Date the operation actually ended. Filled on every operation in this data.
+        synonyms: [actual finish, actual completion, finished on]
+        role: time
+      ActualResourceHrs:
+        label: Actual resource hours
+        description: >-
+          Hours of resource actually used on the operation, read from the column name. Values
+          range from 1.0 to 4.1. The source does not say whether these are labour or machine
+          hours. There is no planned-hours column.
+        synonyms: [actual hours, hours worked, run time, processing time, resource hours]
+        role: measure
+        unit: hours
+        concept: resource_hours
+      PlannedCost:
+        label: Planned operation cost
+        description: >-
+          Planned manufacturing cost of the operation. It is the estimate, not what was
+          incurred. In this data it equals the actual cost on every operation.
+        synonyms: [estimated cost, budgeted cost, planned manufacturing cost, standard operation cost]
+        role: measure
+        unit: *money
+        concept: planned_cost
+      ActualCost:
+        label: Actual operation cost
+        description: >-
+          Actual manufacturing cost recorded for the operation. In this data it equals the
+          planned cost on every operation, so the cost variance is always zero.
+        synonyms: [actual manufacturing cost, incurred cost, real cost]
+        role: measure
+        unit: *money
+        concept: actual_cost
+        examples: ["Where did actual cost exceed planned cost by work centre?"]
+      ModifiedDate: *modified
+
+metrics:
+  sales_ordered_units:
+    label: Sales ordered units
+    description: >-
+      Sum of ordered units on sales-order lines. Not shipments, revenue or contract compliance.
+      The order date and the customer are on the order header. The metric is computed on the
+      line table. A filter on the order date or on a product attribute reaches the header or the
+      product table through the declared joins from the line. A customer filter is two joins
+      away, through the order header, and the compiler follows one declared join.
+    synonyms: [units ordered, ordered quantity, order volume, quantity ordered, sales volume]
+    examples:
+      - How many units of product 954 did customer 29641 order in 2024?
+      - What is the ordered quantity by customer this year?
+  production_requested_units:
+    # scope_required: the definition is per selected product; asked with no product, the answer path clarifies.
+    scope_required: [ProductID]
+    label: Production requested units
+    synonyms: [production quantity, quantity to build, planned production quantity, build quantity]
+    examples:
+      - How many units were requested on work orders for this product in 2024?
+  production_scrapped_units:
+    # scope_required: the definition is per selected product; asked with no product, the answer path clarifies.
+    scope_required: [ProductID]
+    label: Production scrapped units
+    synonyms: [scrap quantity, scrapped units, scrap volume, rejects]
+    examples:
+      - How many units were scrapped for this product in 2024?
+  inventory_units:
+    # scope_required: the definition is per selected product; asked with no product, the answer path clarifies.
+    scope_required: [ProductID]
+    label: Inventory units
+    synonyms: [stock on hand, on-hand quantity, inventory level, stock quantity, QOH]
+    examples:
+      - How many units of this product are in stock at each location?
+  sales_order_count:
+    label: Sales order count
+    synonyms: [number of orders, order count, orders placed, order volume]
+    examples:
+      - How many sales orders did this customer place in 2024?
+  sales_line_revenue:
+    label: Sales line revenue
+    synonyms: [revenue, sales value, sales amount, order value, turnover]
+    examples:
+      - What was the sales value of this product in 2024?
+      - What is revenue by sales territory?
+  average_unit_price:
+    label: Average sales unit price
+    synonyms: [average selling price, ASP, average price, mean unit price]
+    examples:
+      - What was the average selling price of this product in 2024?
+  production_scrap_rate:
+    label: Production scrap rate
+    synonyms: [scrap rate, scrap percentage, reject rate, scrap ratio]
+    examples:
+      - What was the scrap rate for this product in 2024?
+  late_dispatch_orders:
+    label: Late dispatch orders
+    synonyms: [late shipments, orders shipped late, overdue shipments, shipped after due date]
+    examples:
+      - How many orders shipped after their due date for this customer?
+  open_work_orders:
+    label: Open work orders
+    synonyms: [work in progress orders, WIP orders, unfinished work orders, outstanding work orders]
+    examples:
+      - How many work orders are still open for this product?
+
+competency_questions:
+  - question: For each vendor, how much did we order, how much was received, and how much was rejected at inspection?
+    definitions:
+      - Purchasing_Vendor.Name
+      - Purchasing_PurchaseOrderDetail.OrderQty
+      - Purchasing_PurchaseOrderDetail.ReceivedQty
+      - Purchasing_PurchaseOrderDetail.RejectedQty
+    joins:
+      - FK_PurchaseOrderDetail_PurchaseOrderHeader_PurchaseOrderID
+      - FK_PurchaseOrderHeader_Vendor_VendorID
+  - question: Which reseller stores had sales orders that shipped after the due date?
+    definitions:
+      - late_dispatch_orders
+      - Sales_SalesOrderHeader.DueDate
+      - Sales_SalesOrderHeader.ShipDate
+      - Sales_Store.Name
+    joins:
+      - FK_SalesOrderHeader_Customer_CustomerID
+      - FK_Customer_Store_StoreID
+  - question: How many units of a given product did a reseller store order in a calendar year?
+    definitions:
+      - sales_ordered_units
+      - Sales_SalesOrderDetail.ProductID
+      - Sales_SalesOrderHeader.OrderDate
+      - Sales_Store.Name
+    joins:
+      - FK_SalesOrderDetail_SalesOrderHeader_SalesOrderID
+      - FK_SalesOrderHeader_Customer_CustomerID
+      - FK_Customer_Store_StoreID
+  - question: How many units were scrapped by scrap reason and product?
+    definitions:
+      - Production_WorkOrder.ScrappedQty
+      - Production_ScrapReason.Name
+      - Production_Product.Name
+    joins:
+      - FK_WorkOrder_ScrapReason_ScrapReasonID
+      - FK_WorkOrder_Product_ProductID
+  - question: How much stock of a product is held at each inventory location?
+    definitions:
+      - inventory_units
+      - Production_Location.Name
+      - Production_Product.ProductNumber
+    joins:
+      - FK_ProductInventory_Location_LocationID
+      - FK_ProductInventory_Product_ProductID
+  - question: Which products have total inventory below their reorder point or safety stock level?
+    definitions:
+      - inventory_units
+      - Production_Product.ReorderPoint
+      - Production_Product.SafetyStockLevel
+    joins:
+      - FK_ProductInventory_Product_ProductID
+  - question: What average lead time and order quantity limits are recorded for a product with each vendor?
+    definitions:
+      - Purchasing_ProductVendor.AverageLeadTime
+      - Purchasing_ProductVendor.MinOrderQty
+      - Purchasing_ProductVendor.MaxOrderQty
+      - Purchasing_Vendor.Name
+      - Production_Product.ProductNumber
+    joins:
+      - FK_ProductVendor_Vendor_BusinessEntityID
+      - FK_ProductVendor_Product_ProductID
+  - question: Which work orders finished after their due date, by product?
+    definitions:
+      - Production_WorkOrder.EndDate
+      - Production_WorkOrder.DueDate
+      - Production_Product.Name
+    joins:
+      - FK_WorkOrder_Product_ProductID
+  - question: How do planned and actual cost and actual hours compare by work centre?
+    definitions:
+      - Production_WorkOrderRouting.PlannedCost
+      - Production_WorkOrderRouting.ActualCost
+      - Production_WorkOrderRouting.ActualResourceHrs
+      - Production_Location.Name
+    joins:
+      - FK_WorkOrderRouting_Location_LocationID
+  - question: Which operations ended later than scheduled, by work centre?
+    definitions:
+      - Production_WorkOrderRouting.ScheduledEndDate
+      - Production_WorkOrderRouting.ActualEndDate
+      - Production_Location.Name
+    joins:
+      - FK_WorkOrderRouting_Location_LocationID
+  - question: What was the production scrap rate for a product in a period?
+    definitions:
+      - production_scrap_rate
+      - Production_WorkOrder.ProductID
+      - Production_WorkOrder.StartDate
+  - question: Which components, and how many of each, does one unit of an assembly need?
+    definitions:
+      - Production_BillOfMaterials.ComponentID
+      - Production_BillOfMaterials.PerAssemblyQty
+      - Production_BillOfMaterials.UnitMeasureCode
+      - Production_Product.Name
+    joins:
+      - FK_BillOfMaterials_Product_ProductAssemblyID
+  - question: Which maintenance or assembly documents apply to a product, and at which revision and approval status?
+    definitions:
+      - Production_Document.Title
+      - Production_Document.Revision
+      - Production_Document.Status
+      - Production_Product.Name
+    joins:
+      - FK_ProductDocument_Product_ProductID
+      - FK_ProductDocument_Document_DocumentNode
+  - question: What is sales line revenue for online orders compared with sales-person orders?
+    definitions:
+      - sales_line_revenue
+      - Sales_SalesOrderHeader.OnlineOrderFlag
+    joins:
+      - FK_SalesOrderDetail_SalesOrderHeader_SalesOrderID
+  - question: What is the total due on purchase orders by status?
+    definitions:
+      - Purchasing_PurchaseOrderHeader.TotalDue
+      - Purchasing_PurchaseOrderHeader.Status
+
+# Relationships the source schema implies but the 25-table projection cannot declare directly.
+relationships:
+  - name: FK_SalesOrderDetail_Product_ProductID_derived
+    from: Sales_SalesOrderDetail
+    to: Production_Product
+    from_columns: [ProductID]
+    to_columns: [ProductID]
+    derived: true
+    justification: >-
+      Two source foreign keys imply it. The sales order line references SpecialOfferProduct on
+      (SpecialOfferID, ProductID), and SpecialOfferProduct.ProductID references Product.ProductID.
+      SpecialOfferProduct is outside the 25-table projection, so no direct key exists in the source.

@@ -1,0 +1,16 @@
+% Frozen settings of action P2g.
+\begin{table}[H]
+\centering
+\caption{Two-step settings, frozen before the unseen run.}
+\label{tab:twostep-settings}
+\begin{tabular}{p{0.52\textwidth}p{0.38\textwidth}}
+\toprule
+Setting & Value\\\midrule
+$N_{\max}$ (catalog size at or below which the whole catalog is offered) & 150\\
+$N$ (first-step list size otherwise, by retrieval score) & 60\\
+Shortlist size & at most 5\\
+Prompts & \texttt{shortlist-v2}, then \texttt{interp-v3}\\
+Measured cost & 1.7 calls per chunk, against 1.0 for hybrid-12\\
+\bottomrule
+\end{tabular}
+\end{table}

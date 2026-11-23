@@ -1,0 +1,16 @@
+[
+  {
+    "field": "Purchasing.ProductVendor.MinOrderQty",
+    "source_description": "The maximum quantity that should be ordered.",
+    "proposed_definition": "Minimum order quantity under the demo interpretation of the column name. Upstream description says maximum; domain-owner review is required.",
+    "status": "requires_domain_review",
+    "exclude_from_certified_metrics": true
+  },
+  {
+    "field": "Purchasing.ProductVendor.MaxOrderQty",
+    "source_description": "The minimum quantity that should be ordered.",
+    "proposed_definition": "Maximum order quantity under the demo interpretation of the column name. Upstream description says minimum; domain-owner review is required.",
+    "status": "requires_domain_review",
+    "exclude_from_certified_metrics": true
+  }
+]

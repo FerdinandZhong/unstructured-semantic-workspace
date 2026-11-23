@@ -1,0 +1,128 @@
+[
+  {
+    "document_node": "5AC0",
+    "title": "Introduction 1",
+    "file": "data/native-documents/5AC0.doc",
+    "sha256": "ead40483144fe6f028f0116cab6e1fb7f35bb2d166979cbb9d991a3e0a52ed00",
+    "bytes": 29696,
+    "products": [
+      977,
+      997,
+      998,
+      999
+    ],
+    "attribution": "Microsoft AdventureWorks sample, MIT; raw/license.txt",
+    "text_status": "converted_not_human_reviewed",
+    "text_file": "data/native-documents/5AC0.txt"
+  },
+  {
+    "document_node": "5B40",
+    "title": "Repair and Service Guidelines",
+    "file": "data/native-documents/5B40.doc",
+    "sha256": "26cf743bb2e9129fec7fbc2c065b0521e8531d678d56ed30b6fa40cf9e8e8718",
+    "bytes": 26112,
+    "products": [],
+    "attribution": "Microsoft AdventureWorks sample, MIT; raw/license.txt",
+    "text_status": "converted_not_human_reviewed",
+    "text_file": "data/native-documents/5B40.txt"
+  },
+  {
+    "document_node": "6AC0",
+    "title": "Crank Arm and Tire Maintenance",
+    "file": "data/native-documents/6AC0.doc",
+    "sha256": "05b0acf55c6c4cb23e351696d0fe81b598ef144e8ada1eb4135b03f79101b7fb",
+    "bytes": 30208,
+    "products": [
+      317,
+      318,
+      319,
+      928,
+      929,
+      930,
+      931,
+      932,
+      933,
+      934
+    ],
+    "attribution": "Microsoft AdventureWorks sample, MIT; raw/license.txt",
+    "text_status": "converted_not_human_reviewed",
+    "text_file": "data/native-documents/6AC0.txt"
+  },
+  {
+    "document_node": "6B40",
+    "title": "Lubrication Maintenance",
+    "file": "data/native-documents/6B40.doc",
+    "sha256": "e5b8fcc9ed98e237c8513b1edc6b9b2532bcc299cf923c6e2011f78f1634d3e7",
+    "bytes": 22528,
+    "products": [],
+    "attribution": "Microsoft AdventureWorks sample, MIT; raw/license.txt",
+    "text_status": "converted_not_human_reviewed",
+    "text_file": "data/native-documents/6B40.txt"
+  },
+  {
+    "document_node": "7AC0",
+    "title": "Front Reflector Bracket and Reflector Assembly 3",
+    "file": "data/native-documents/7AC0.doc",
+    "sha256": "1cf7b46e14fcbbb97ab33489cb85714176899104b2edad2957a2d1b3be17d1cc",
+    "bytes": 34816,
+    "products": [
+      506
+    ],
+    "attribution": "Microsoft AdventureWorks sample, MIT; raw/license.txt",
+    "text_status": "converted_not_human_reviewed",
+    "text_file": "data/native-documents/7AC0.txt"
+  },
+  {
+    "document_node": "7B40",
+    "title": "Front Reflector Bracket Installation",
+    "file": "data/native-documents/7B40.doc",
+    "sha256": "4c6d0c5e95bcedfc02b99c7a2886c709c51e84a0044063d98efddf257a649cef",
+    "bytes": 46592,
+    "products": [
+      506
+    ],
+    "attribution": "Microsoft AdventureWorks sample, MIT; raw/license.txt",
+    "text_status": "converted_not_human_reviewed",
+    "text_file": "data/native-documents/7B40.txt"
+  },
+  {
+    "document_node": "7BC0",
+    "title": "Installing Replacement Pedals",
+    "file": "data/native-documents/7BC0.doc",
+    "sha256": "638f1f02ab7b4ec060662fe6c6191c8b889bd631e4ec2da93cb6bde1a0a5d6bc",
+    "bytes": 29696,
+    "products": [
+      935,
+      936,
+      937,
+      938,
+      939,
+      940,
+      941
+    ],
+    "attribution": "Microsoft AdventureWorks sample, MIT; raw/license.txt",
+    "text_status": "converted_not_human_reviewed",
+    "text_file": "data/native-documents/7BC0.txt"
+  },
+  {
+    "document_node": "7C20",
+    "title": "Seat Assembly",
+    "file": "data/native-documents/7C20.doc",
+    "sha256": "ba39717f1365ab9e39a7b723e23e29809254d741df87622027b5a15ef3c04721",
+    "bytes": 39424,
+    "products": [
+      514,
+      515,
+      516,
+      517,
+      518,
+      519,
+      520,
+      521,
+      522
+    ],
+    "attribution": "Microsoft AdventureWorks sample, MIT; raw/license.txt",
+    "text_status": "converted_not_human_reviewed",
+    "text_file": "data/native-documents/7C20.txt"
+  }
+]

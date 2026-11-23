@@ -1,0 +1,25 @@
+% Sources: P6 and qualification/exam-heldout-2026-11-21/results.json (exam 1);
+% P6d and qualification/exam-heldout2-2026-11-22/results.json (exam 2);
+% P6i and qualification/exam-heldout3-2026-11-22/results.json (exam 3);
+% P6l and qualification/exam-heldout4-2026-11-22/results.json (exam 4).
+% Per-dataset totals and refusal counts checked against the "summary" block of each results.json on 2026-11-22.
+% Per-kind counts are from the progress record rows named above.
+\begin{table}[H]
+\centering\small
+\caption{Answer path on four unseen exams, each run once by the controller. Each exam has 30 questions, 15 per dataset: 4 database only, 4 documents only, 4 both, 3 with no supported answer. F is finance, M is manufacturing. The design changed between exams (Section~\ref{sec:exam-protocol}). The pass bar is 14 of 15 per dataset with every no-supported-answer question refused. No exam meets it.}
+\label{tab:exam-heldout}
+\begin{tabular}{lrrrrrrrr}
+\toprule
+ & \multicolumn{2}{c}{Exam 1} & \multicolumn{2}{c}{Exam 2} & \multicolumn{2}{c}{Exam 3} & \multicolumn{2}{c}{Exam 4}\\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){6-7}\cmidrule(lr){8-9}
+Question kind & F & M & F & M & F & M & F & M\\\midrule
+Database only (of 4) & 0 & 2 & 1 & 1 & 3 & 2 & 1 & 1\\
+Documents only (of 4) & 1 & 4 & 4 & 3 & 3 & 3 & 4 & 3\\
+Both (of 4) & 0 & 0 & 0 & 2 & 0 & 1 & 1 & 3\\
+No supported answer, refused (of 3) & 2 & 2 & 2 & 1 & 3 & 3 & 3 & 1\\\midrule
+Per dataset (of 15) & 3 & 8 & 7 & 7 & 9 & 9 & 9 & 8\\
+Exam total (of 30) & \multicolumn{2}{c}{11} & \multicolumn{2}{c}{14} & \multicolumn{2}{c}{18} & \multicolumn{2}{c}{17}\\
+Design & \multicolumn{2}{c}{first} & \multicolumn{2}{c}{redesign} & \multicolumn{2}{c}{round 3} & \multicolumn{2}{c}{round 4}\\
+\bottomrule
+\end{tabular}
+\end{table}

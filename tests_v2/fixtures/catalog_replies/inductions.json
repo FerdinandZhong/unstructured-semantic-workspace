@@ -1,0 +1,11 @@
+{
+ "model": "mistral-small-latest (induction), mistral-medium-latest (catalog steps)",
+ "prompt_version": "induce-v2",
+ "recorded": "2026-11-22",
+ "count": 1062,
+ "note": "Synthetic or public-licence demo document text only.",
+ "prompt_versions": [
+  "induce-v2",
+  "catalog-v1"
+ ]
+}

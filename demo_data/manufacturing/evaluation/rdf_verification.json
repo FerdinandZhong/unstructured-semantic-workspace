@@ -1,0 +1,8 @@
+{
+  "conforms": true,
+  "missing_definition_rejected": true,
+  "triples": 142,
+  "validator": "pySHACL",
+  "inference": "none",
+  "meaning": "Structural conformance only; not factual truth, human approval, OWL reasoning or app integration."
+}

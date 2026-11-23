@@ -1,0 +1,17 @@
+% Sources: evidence_links.py (CONTRACT, STATUSES, table v2_evidence_links); concept_catalog.py (CONTRACT, origin values
+% "both" and "document"); semantic_store.py (v2_catalog_concept); publish.py (v2_release); physical_mapping.py (row shape,
+% v2_physical_rows); iceberg_target.py and P4b (Iceberg); answer_path.py (_refusal and the answered reply); answer_path.published_catalog and _semantics (catalog as input); answer_detail.py (fact handles); ask_actions.py (writes from Ask).
+\begin{table}[H]
+\centering\scriptsize\setlength{\tabcolsep}{3pt}
+\caption{Outputs of the system. All are stored in the private V2 PostgreSQL unless stated.}
+\label{tab:outputs}
+\begin{tabular}{L{1.7cm}L{3.4cm}L{4.6cm}L{2.4cm}L{2.3cm}}
+\toprule
+Output & Definition & Record shape & Stored in & Consumed by\\\midrule
+A. Evidence links & For each passage, the definitions it states a value of or is about, or none. & Chunk, source and revision, span; definition and canonical definition; relation ($\sv$, $\ia$, \texttt{none}); stated value, unit, period; entity keys (stated, derived, inherited); candidates and scores; method and model revision; status (proposed, degraded, corrected, rejected, not processed); actor and time. & Table \path{v2_evidence_links} & Pipeline B; Output C; the answer path; reviewers; JSON export\\
+B. Concept catalog & Business concepts found in the evidence, linked to definitions of the model. & Id, label, meaning, synonyms, examples; origin (\texttt{both}: anchored on a structured concept; \texttt{document}: found in documents only); type, unit, grain; links to definitions with a SKOS predicate and evidence counts; evidence passages; status (proposed, candidate; corrected or rejected by a reviewer); level and parent. & Versioned rows in \path{v2_catalog_concept}; each published release as an Ossie export in \path{v2_release} & Reviewers; the published release; the answer path (approved concepts of the latest release only)\\
+C. Physical rows & Rows of tables filled from documents of a known shape: fill-in forms, printed reports and recorded calls, or a table proposed from a document's own labels. & Table, row key, source revision, cells (column, value, typed value, status, reason); row status (previewed, written, rejected). & \path{v2_physical_rows}, then the declared tables; optionally Iceberg tables, through Trino or a Spark job & The answer path (the tables are offered to the planner); writes from the Ask step; any query of the tables\\
+The answer & One reply to one question. & Status (answered, clarify, refused); reason and refusal reason (no supported answer, source withheld); definitions used; facts with value, SQL and filters; at most four citations; conclusion and comparison computed by code; summary; the plan; the catalog concepts the question named and whether the plan used them; a server-held handle per fact. & Returned to the caller, not stored & End user\\
+\bottomrule
+\end{tabular}
+\end{table}

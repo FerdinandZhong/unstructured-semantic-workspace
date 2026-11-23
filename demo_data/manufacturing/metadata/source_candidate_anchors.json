@@ -1,0 +1,220 @@
+{
+  "role": "exploratory source candidate; final presentation anchors are metadata/demo_context.json",
+  "source": "Microsoft synthetic AdventureWorks sample; no real enterprise identities",
+  "date": "2026-11-16",
+  "sales_date_window": {
+    "first_order": "2022-05-30 00:00:00.000",
+    "last_order": "2025-06-29 00:00:00.000"
+  },
+  "hero_customer": {
+    "CustomerID": 29705,
+    "PersonID": 793,
+    "StoreID": 794,
+    "TerritoryID": 6,
+    "AccountNumber": "AW00029705",
+    "rowguid": "52E54E40-7914-4340-B5D8-F460753F849D",
+    "ModifiedDate": "2025-09-11 11:15:07.263",
+    "Name": "Rewarding Activities Company"
+  },
+  "secondary_customer": {
+    "CustomerID": 29722,
+    "PersonID": 827,
+    "StoreID": 828,
+    "TerritoryID": 6,
+    "AccountNumber": "AW00029722",
+    "rowguid": "68396E18-907F-4CD5-A5F8-84D7969DAC11",
+    "ModifiedDate": "2025-09-11 11:15:07.263",
+    "Name": "Vigorous Exercise Company"
+  },
+  "product": {
+    "ProductID": 712,
+    "Name": "AWC Logo Cap",
+    "ProductNumber": "CA-1098",
+    "MakeFlag": 0,
+    "FinishedGoodsFlag": 1,
+    "Color": "Multi",
+    "SafetyStockLevel": 4,
+    "ReorderPoint": 3,
+    "StandardCost": "6.9223",
+    "ListPrice": "8.9900",
+    "Size": null,
+    "SizeUnitMeasureCode": null,
+    "WeightUnitMeasureCode": null,
+    "Weight": null,
+    "DaysToManufacture": 0,
+    "ProductLine": "S ",
+    "Class": null,
+    "Style": "U ",
+    "ProductSubcategoryID": 19,
+    "ProductModelID": 2,
+    "SellStartDate": "2022-05-30 00:00:00.000",
+    "SellEndDate": null,
+    "DiscontinuedDate": null,
+    "rowguid": "B9EDE243-A6F4-4629-B1D4-FFE1AEDC6DE7",
+    "ModifiedDate": "2025-02-07 10:01:36.827"
+  },
+  "product_vendor": {
+    "ProductID": 712,
+    "BusinessEntityID": 1636,
+    "AverageLeadTime": 45,
+    "StandardPrice": "6.5500",
+    "LastReceiptCost": "6.9200",
+    "LastReceiptDate": "2025-06-12 00:00:00.000",
+    "MinOrderQty": 100,
+    "MaxOrderQty": 1000,
+    "OnOrderQty": 630,
+    "UnitMeasureCode": "EA ",
+    "ModifiedDate": "2026-08-11 12:20:28.330",
+    "vendor_name": "Integrated Sport Products",
+    "vendor_account": "INTEGRAT0001"
+  },
+  "hero_orders": [
+    {
+      "SalesOrderID": 43898,
+      "OrderDate": "2022-06-30 00:00:00.000",
+      "DueDate": "2022-07-12 00:00:00.000",
+      "ShipDate": "2022-07-07 00:00:00.000",
+      "SalesOrderDetailID": 1043,
+      "ProductID": 712,
+      "OrderQty": 7,
+      "UnitPrice": "5.1865",
+      "LineTotal": "36.305500"
+    },
+    {
+      "SalesOrderID": 44547,
+      "OrderDate": "2022-09-30 00:00:00.000",
+      "DueDate": "2022-10-12 00:00:00.000",
+      "ShipDate": "2022-10-07 00:00:00.000",
+      "SalesOrderDetailID": 3631,
+      "ProductID": 712,
+      "OrderQty": 10,
+      "UnitPrice": "5.1865",
+      "LineTotal": "51.865000"
+    },
+    {
+      "SalesOrderID": 45323,
+      "OrderDate": "2022-12-31 00:00:00.000",
+      "DueDate": "2023-01-12 00:00:00.000",
+      "ShipDate": "2023-01-07 00:00:00.000",
+      "SalesOrderDetailID": 6321,
+      "ProductID": 712,
+      "OrderQty": 11,
+      "UnitPrice": "5.0136",
+      "LineTotal": "54.046608"
+    },
+    {
+      "SalesOrderID": 46086,
+      "OrderDate": "2023-03-30 00:00:00.000",
+      "DueDate": "2023-04-11 00:00:00.000",
+      "ShipDate": "2023-04-06 00:00:00.000",
+      "SalesOrderDetailID": 9096,
+      "ProductID": 712,
+      "OrderQty": 16,
+      "UnitPrice": "4.7543",
+      "LineTotal": "72.265360"
+    },
+    {
+      "SalesOrderID": 47037,
+      "OrderDate": "2023-06-30 00:00:00.000",
+      "DueDate": "2023-07-12 00:00:00.000",
+      "ShipDate": "2023-07-07 00:00:00.000",
+      "SalesOrderDetailID": 14939,
+      "ProductID": 712,
+      "OrderQty": 3,
+      "UnitPrice": "5.1865",
+      "LineTotal": "15.559500"
+    },
+    {
+      "SalesOrderID": 48059,
+      "OrderDate": "2023-09-30 00:00:00.000",
+      "DueDate": "2023-10-12 00:00:00.000",
+      "ShipDate": "2023-10-07 00:00:00.000",
+      "SalesOrderDetailID": 21730,
+      "ProductID": 712,
+      "OrderQty": 4,
+      "UnitPrice": "5.1865",
+      "LineTotal": "20.746000"
+    },
+    {
+      "SalesOrderID": 49140,
+      "OrderDate": "2023-12-31 00:00:00.000",
+      "DueDate": "2024-01-12 00:00:00.000",
+      "ShipDate": "2024-01-07 00:00:00.000",
+      "SalesOrderDetailID": 27004,
+      "ProductID": 712,
+      "OrderQty": 4,
+      "UnitPrice": "5.1865",
+      "LineTotal": "20.746000"
+    },
+    {
+      "SalesOrderID": 50284,
+      "OrderDate": "2024-03-29 00:00:00.000",
+      "DueDate": "2024-04-10 00:00:00.000",
+      "ShipDate": "2024-04-05 00:00:00.000",
+      "SalesOrderDetailID": 32478,
+      "ProductID": 712,
+      "OrderQty": 8,
+      "UnitPrice": "5.1865",
+      "LineTotal": "41.492000"
+    },
+    {
+      "SalesOrderID": 51839,
+      "OrderDate": "2024-06-29 00:00:00.000",
+      "DueDate": "2024-07-11 00:00:00.000",
+      "ShipDate": "2024-07-06 00:00:00.000",
+      "SalesOrderDetailID": 42324,
+      "ProductID": 712,
+      "OrderQty": 18,
+      "UnitPrice": "4.9445",
+      "LineTotal": "84.550950"
+    },
+    {
+      "SalesOrderID": 57122,
+      "OrderDate": "2024-09-29 00:00:00.000",
+      "DueDate": "2024-10-11 00:00:00.000",
+      "ShipDate": "2024-10-06 00:00:00.000",
+      "SalesOrderDetailID": 62217,
+      "ProductID": 712,
+      "OrderQty": 16,
+      "UnitPrice": "4.9445",
+      "LineTotal": "75.156400"
+    },
+    {
+      "SalesOrderID": 63239,
+      "OrderDate": "2024-12-30 00:00:00.000",
+      "DueDate": "2025-01-11 00:00:00.000",
+      "ShipDate": "2025-01-06 00:00:00.000",
+      "SalesOrderDetailID": 83124,
+      "ProductID": 712,
+      "OrderQty": 2,
+      "UnitPrice": "5.3940",
+      "LineTotal": "10.788000"
+    },
+    {
+      "SalesOrderID": 69522,
+      "OrderDate": "2025-03-30 00:00:00.000",
+      "DueDate": "2025-04-11 00:00:00.000",
+      "ShipDate": "2025-04-06 00:00:00.000",
+      "SalesOrderDetailID": 104322,
+      "ProductID": 712,
+      "OrderQty": 14,
+      "UnitPrice": "5.2142",
+      "LineTotal": "71.538824"
+    }
+  ],
+  "quantity_by_customer": [
+    {
+      "CustomerID": 29705,
+      "order_lines": 12,
+      "ordered_quantity": 113
+    },
+    {
+      "CustomerID": 29722,
+      "order_lines": 12,
+      "ordered_quantity": 108
+    }
+  ],
+  "2024_hero_quantity": {
+    "ordered_quantity": 44
+  }
+}

@@ -1,0 +1,518 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage{amsmath,amssymb,booktabs,graphicx,hyperref,geometry,enumitem,xcolor}
+\usepackage[numbers,sort&compress]{natbib}
+\geometry{margin=2.5cm}
+\newcommand{\pending}{\textcolor{red}{[PENDING]}}
+\newcommand{\sv}{\mathsf{sv}}
+\newcommand{\ia}{\mathsf{ia}}
+% Number sources: row ids (P2i, P6l, ...) refer to the "Action status" table of
+% docs/progress/2026-11-20-v2-outputs.md; folders refer to qualification/.
+\title{Mapping Unstructured Documents onto a Governed Semantic Layer:\\Evidence Links and an Anchored Concept Catalog}
+\author{Qishuai Zhong\\Cloudera}
+\date{Working draft, 23 November 2026}
+\usepackage{float,array}
+\usepackage{tikz}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Enterprises now put AI assistants and agents to work on their own data, and in industries such as banking and manufacturing every answer must trace back to a governed definition. Structured data has that foundation: the tables of a warehouse are described by a semantic layer of defined fields, metrics and relationships. Contracts, forms and recorded calls have none, so the limits, dates and commitments they hold cannot be joined to the tables or governed with them. We formulate this gap as a mapping task: given a semantic layer, decide for each unstructured passage which definitions it states a value of or is about, or abstain, and group that evidence into business concepts linked to the layer, which is never edited. Our algorithm lets a small language model choose among retrieved definitions and leaves the relation, the value and the entity keys to code. On held-out data it reaches a link precision of 0.70, against 0.29 for thresholds and rules, and on unseen documents up to 0.90 at a false-link rate of 0.01. Recall on commitments remains the main limit. The outputs support cited question answering and human correction in a working system.
+\end{abstract}
+% Abstract sources: E3 table (0.70, 0.29); E24 (0.03, 0.01, 0.73, 0.90); Pipeline B table rows 1 and 3 (0.25, 0.06, 0.70, 0.41); P6, P6d, P6i, P6l (exam scores).
+
+\section{Introduction}
+Language models now sit between people and enterprise data. An assistant that answers a business question, or an agent that acts on one, is only as reliable as the data it reads. In industries such as banking and manufacturing, an answer is trusted only when it traces back to a definition the organisation governs, so that a figure can be checked, compared and audited.
+For structured data, organisations have built this foundation: a semantic layer that names each field and metric of the warehouse tables, defines it, and declares how the tables join. Text-to-SQL work builds on that foundation and measures how well a system turns a question into a query over such a schema \cite{yu2018spider,li2023bird}.
+
+Much of what a business commits to is not in its tables. Letters, contracts, memos, filled forms and recorded calls hold limits, dates, parties and promises that no schema describes. A figure in a letter therefore cannot be compared with the figure in the table, an access rule on a table does not reach the documents about it, and a person cannot review what the system believes a document says. What unstructured data lacks is not text search but the same governed vocabulary that structured data already has.
+
+Retrieval-augmented generation reads such documents as text \cite{lewis2020rag}. It returns passages, not meaning in the terms of the layer: a retrieved clause may state a limit, but nothing records which field it is a limit of, for which entity, or whether the clause states the value or only discusses it. Prior work that goes beyond retrieval mostly builds a new structure from the documents. Extraction pipelines write their own schema or knowledge graph \cite{zhang2024edc,bai2025autoschemakg,edge2024graphrag}, document-to-table systems derive queryable tables \cite{arora2023evaporate}, and topic and taxonomy induction builds labels from the corpus alone \cite{pham2024topicgpt,wan2024tntllm}. A new structure must then be reconciled with the layer the organisation already governs. We take the opposite stance: the existing layer is the target, it is given, and the system never edits it.
+
+We therefore study a mapping task with defined inputs and outputs (Section~\ref{sec:io}). The inputs are the structured data, the semantic model, the unstructured sources, an access policy and human decisions. Output~A is a set of evidence links: for each passage, the definitions it states a value of or is about, with the value, the unit, the period and the entity keys, or an explicit abstention. Output~B is a concept catalog: business concepts found in that evidence, each linked to definitions of the layer by a mapping predicate. Together the two outputs form a data foundation on which question answering, review and access control can treat documents in the same terms as tables. Figure~\ref{fig:overview} shows the system and one question end to end.
+
+The mapping algorithm rests on one division of labour: the model chooses, code decides. A small language model picks among retrieved definitions, because judging whether a clause states a limit or only discusses it needs language understanding. Deterministic guards then check the stated value against the passage, settle the relation, resolve the canonical definition and attach entity keys, because these decisions must be repeatable and auditable. The catalog is anchored on the layer in the same spirit. Concepts of the layer collect their evidence by aggregation with no model call, the mapping predicate is computed from evidence counts, and only passages the layer cannot explain reach an induction model.
+
+\paragraph{Contributions.}
+\begin{itemize}[nosep]
+\item A task formulation: mapping unstructured passages onto a given semantic layer, with defined inputs, two defined outputs and abstention as a first-class outcome.
+\item A mapping algorithm. Pipeline~A turns a passage into evidence links with a model decision step and deterministic guards. Pipeline~B derives a concept catalog from those links, anchored on the layer, with residual induction, a constrained merge and a vote.
+\item An evaluation defined by the outputs, with held-out gold sets, unseen generated documents and a downstream question-answering test, in which every result is reported.
+\end{itemize}
+
+On a held-out gold set, the model decision step raises link precision from 0.29 for thresholds and rules to 0.70. On unseen documents, the two-step search reaches a precision of up to 0.90 at a false-link rate of 0.01, and no other search method compared has a lower false-link rate. The main limit is recall: the shortlist step loses the right definition for many commitment passages, and the catalog can anchor only what the evidence links capture.
+
+\begin{figure}[tb]
+\centering
+\resizebox{\textwidth}{!}{\input{figures/overview}}
+\caption{Overview. (a) At build time, Pipeline A links passages to the given semantic model (Output A), Pipeline B groups that evidence into concepts (Output B), and a person approves and publishes a release. (b) At question time, a rules-first router sends each request to one of two fixed tools. Right: one verified demo question, answered from a letter and its amendment. A refusal replaces the three result parts when no answer is supported.}
+\label{fig:overview}
+\end{figure}
+
+\section{Related work}\label{sec:related}
+% Every reference was fetched from arXiv, CrossRef or Semantic Scholar on 23 November 2026 (refs.bib); the SKOS entry from the W3C page. Statements about a work follow its fetched abstract or, for LogMap, its title.
+Related work either builds a structure from documents, links text to elements of a given schema, induces concepts from a corpus, or aligns two vocabularies. Our task combines linking with a fixed target, so we position it against each line in turn.
+
+\paragraph{Extraction into a schema.} Schema-guided extraction fills a given schema from text \cite{caufield2024spires}. Open extraction followed by definition and canonicalisation builds the schema after the fact \cite{zhang2024edc}, other systems induce a schema with none given \cite{bai2025autoschemakg}, or build a graph index over the corpus \cite{edge2024graphrag}. Document analytics systems derive queryable tables, analytical queries, processing pipelines and declarative operators over document collections \cite{arora2023evaporate,lin2024zendb,shankar2024docetl,patel2024lotus}. These systems create a structure. Ours leaves it fixed: the target is the set of definitions that already governs the tables, and abstention is a recorded outcome.
+
+\paragraph{Linking text to database elements.} Entity linking retrieves candidates and then reranks them \cite{wu2020blink}. Text-to-SQL maps a question onto a database schema \cite{yu2018spider,li2023bird}. Schema linking is often a separate step \cite{li2023resdsql}, and recent work asks whether strong models still need it \cite{maamari2024death}. Our retrieve, shortlist and decide steps follow the same pattern. They differ in what is linked and what is kept: a document passage, not a question, and a stored record with a relation, a value and entity keys, not a transient hint.
+
+\paragraph{Concept and taxonomy induction.} Language models can induce topics with descriptions \cite{pham2024topicgpt}, label taxonomies \cite{wan2024tntllm,kargupta2025taxoadapt} and ontologies \cite{babaei2023llms4ol,lo2024ollm} from a corpus, or a summary tree over its chunks \cite{sarthi2024raptor}. These methods induce from all of the text. We induce only from the residual that the given layer does not explain, and anchor the rest by aggregation. Automated topic-coherence metrics lack human validation for newer models \cite{hoyle2021automated}, and model judges carry biases \cite{thakur2024judging}; we therefore score against gold sets.
+
+\paragraph{Mapping predicates.} SKOS defines the mapping relations we use \cite{miles2009skos}, and SSSOM is a standard for sharing mappings with the metadata needed to interpret them \cite{matentzoglu2022sssom}. Ontology matchers align two given ontologies \cite{jimenez2011logmap,qiang2024agentom}. We align document-side concepts with a layer, and compute the predicate from evidence counts.
+
+\paragraph{Grounded answers.} Retrieval-augmented generation conditions an answer on retrieved passages \cite{lewis2020rag}, and later work builds an evaluation of answers generated with citations \cite{gao2023alce}. Our downstream test follows that line with one constraint: code, not the model, supplies every number.
+
+\section{Problem: inputs and outputs}\label{sec:io}
+This section fixes what the mapping reads and what it must produce, so that each output can be evaluated against a definition. The system takes six inputs (Table~\ref{tab:inputs}) and produces two outputs, on which a downstream answer is built (Table~\ref{tab:outputs}).
+
+\paragraph{Inputs.} The structured data and the semantic model are given; the semantic model is the file that defines the semantic layer. The system reads them and never learns or edits them. The unstructured sources are files pinned by content hash. Each source carries a data label: synthetic, public, or a cleaned customer file. Public files have scope \texttt{extraction\_only}. They are linked to definitions, but never induced into concepts and never tied to a customer. The access policy decides which sources each principal may read. Human decisions are inputs too: a correction, an approval or rejection, a confirm and a publish all change what the outputs hold.
+
+\input{tables/inputs}
+
+\paragraph{Outputs.} Output A says, for each passage, which definitions it states a value of or is about. Output B groups that evidence into business concepts linked to the model. Outputs A and B are the general mapping and the subject of this paper. The answer is not an output of the mapping but a downstream use of both: one reply per question, with every number computed by SQL or code.
+
+\input{tables/outputs}
+
+\paragraph{What is not an output.} The system does not change the semantic model. It does not merge entities or customers.
+
+\paragraph{Output B as an input to the answer step.} Output B is an input to the answer step, with one restriction. Only approved concepts of the latest published release are read. A proposed or candidate concept never shapes an answer. A concept is left out for a principal when any one of its evidence passages is withheld from that principal, because its label and synonyms are written from all of them. A switch turns this input off; it is on by default. Section~\ref{sec:res-catalog} reports what it changes. % P8g; the first version dropped it only when every passage was withheld. Switch: V2_ASK_CATALOG; answer_path.published_catalog, catalog_mode; plan 2026-11-22-v2-step6-harness.md D3
+
+\begin{table}[H]
+\centering\small
+\caption{Notation.}
+\label{tab:notation}
+\begin{tabular}{lp{11cm}}
+\toprule
+Symbol & Meaning\\\midrule
+$\mathcal{D}$ & Definitions of the semantic layer (fields and metrics). $|\mathcal{D}| = 143$ (finance), $240$ (manufacturing).\\
+$d \in \mathcal{D}$ & One definition, with a text card $\mathrm{card}(d)$, a unit $u(d)$, a table $\tau(d)$.\\
+$\mathcal{R}$ & Declared many-to-one relationships between columns of the layer.\\
+$c$ & A chunk, also called a passage: text $t_c$, context $x_c$ (title, nearest heading, speaker), source $\sigma(c)$.\\
+$\rho$ & Relation: \texttt{states\_value\_of} ($\sv$), \texttt{is\_about} ($\ia$), \texttt{none}.\\
+$\ell = (c, d, \rho, v, u, p)$ & Evidence link: chunk, definition, relation, stated value, unit, period.\\
+$E(c)$ & Entity keys of a chunk, each a triple (table.column, value, how).\\
+$\mathcal{K}$ & Concepts of the catalog.\\
+$q$, $\mathcal{S}$ & A question, and the sources the asking principal may read.\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Method: the mapping algorithm}\label{sec:method}
+The algorithm maps passages onto the given layer in two stages (Figure~\ref{fig:algorithm}). Pipeline~A handles one passage at a time and writes Output~A. Pipeline~B reads all links and writes Output~B. Four of the eleven steps call a language model; code does the rest, so every relation, value, key and predicate that reaches an output has passed a deterministic check. Table~\ref{tab:notation} gives the notation.
+
+\begin{figure}[H]
+\centering
+\resizebox{\textwidth}{!}{\input{figures/algorithm}}
+\caption{The mapping algorithm. Pipeline~A scores every definition for a passage, lets a model shortlist and decide, then applies deterministic guards and resolves the canonical definition and the entity keys. A passage with an empty shortlist or no fitting definition keeps no link. Pipeline~B anchors the concepts of the layer on all links by aggregation and derives each mapping predicate from counts. Only the residual, the passages with no stated value, reaches an induction model.}
+\label{fig:algorithm}
+\end{figure}
+
+\subsection{Pipeline A: passage to evidence links}\label{sec:pipeA}
+\noindent\textbf{Input:} chunks of readable sources, the semantic model, the structured data (for entity keys). \textbf{Output:} Output A, one or more evidence-link records per chunk.
+\paragraph{Passages.}
+Passages are the chunks of a standard splitter, with one addition for printed label-and-value reports. OCR returns the label-and-value tables of such a report apart from the page text, so a splitter that reads only the page text turns the report into a single chunk with no link. Field passages restore the tables. Each labelled field becomes one passage, with its section heading as context. A heading-only passage is recorded without a model call. Field passages are on by default, and every other source keeps identical chunks. % P2i, P2j
+
+\paragraph{Retrieval scores.}
+Let $\mathbf{e}(\cdot)$ be the \texttt{mistral-embed} embedding (1024 dimensions), L2-normalised. The query is the passage with its context, $q_c = t_c \oplus x_c$.
+
+Cosine and its standard score over the catalog:
+\begin{equation}
+\cos(c,d) = \mathbf{e}(q_c)^\top \mathbf{e}(\mathrm{card}(d)), \qquad
+z(c,d) = \frac{\cos(c,d) - \mu_c}{\max(\sigma_c, 10^{-9})}
+\end{equation}
+where $\mu_c$ and $\sigma_c$ are the mean and standard deviation of $\cos(c,\cdot)$ over $\mathcal{D}$. The standard score removes the per-query offset of embedding similarity.
+
+Let $s_{\mathrm{lex}}(c,d)\ge 0$ be the keyword score of the definition catalog (labels, synonyms, descriptions). Both scores are clipped to $[0,1]$:
+\begin{equation}
+\tilde{s}_{\mathrm{lex}} = \mathrm{clip}\!\left(\frac{s_{\mathrm{lex}}}{45}\right), \qquad
+\tilde{s}_{\mathrm{vec}} = \mathrm{clip}\!\left(\frac{z - 2.0}{4.5 - 2.0}\right)
+\end{equation}
+and combined so that strong evidence from either leg counts:
+\begin{equation}
+r(c,d) = 1 - (1-\tilde{s}_{\mathrm{lex}})(1-\tilde{s}_{\mathrm{vec}})
+\end{equation}
+The constants $45$, $2.0$ and $4.5$ were set on development data and are not tuned further. $r$ is retrieval proximity. It is not a confidence.
+
+\paragraph{Candidate set.}
+\textit{Hybrid-$k$.} Each leg keeps its top $k$; the candidate set is the union, ranked by $r$:
+\begin{equation}
+C_k(c) = \mathrm{top}_k^{\mathrm{lex}}(c) \cup \mathrm{top}_k^{\mathrm{vec}}(c)
+\end{equation}
+Hybrid-12 ($k=12$) is the baseline; Section~\ref{sec:res-retrieval} shows that a list this short caps recall.
+
+\textit{Two-step (current default).} Let $\mathcal{D}^{\ast}(c) = \mathcal{D}$ when $|\mathcal{D}| \le N_{\max}$, else the top $N$ by $r$. A model $f_{\mathrm{short}}$ reads a compact list (id, label, one line per definition) and returns a shortlist:
+\begin{equation}
+S(c) = f_{\mathrm{short}}\big(t_c, x_c, \mathcal{D}^{\ast}(c)\big), \qquad S(c) \subseteq \mathcal{D}^{\ast}(c),\ |S(c)| \le 5
+\end{equation}
+A reply naming an id outside $\mathcal{D}^{\ast}(c)$ is invalid and nothing is substituted. $S(c)=\emptyset$ is an abstention with no second call. The settings are in Table~\ref{tab:twostep-settings}.
+
+\input{tables/twostep_settings}
+
+\paragraph{Decision.}
+A model $f_{\mathrm{int}}$ (\texttt{mistral-small-latest}, temperature 0, prompt \texttt{interp-v3}) reads the passage, its context and the full cards of the candidates, and returns at most three links or none:
+\begin{equation}
+f_{\mathrm{int}}(t_c, x_c, S(c)) = \big\{(d_i, \rho_i, v_i, u_i, p_i)\big\}_{i=1}^{m},\quad 0 \le m \le 3,\ d_i \in S(c),\ d_i \text{ distinct}
+\end{equation}
+An invalid item is dropped and noted. If every item is invalid the chunk is stored as \texttt{degraded}. The per-chunk calls run on a shared pool of four workers by default. % P8b
+
+\paragraph{Deterministic guards.}
+Guards run after the model. Let $A(t)$ be true when the passage matches an allegation pattern, $\mathrm{norm}(\cdot)$ a normalisation of digits and currency marks, and $U(\cdot)$ the unit family of a text.
+
+\begin{table}[H]
+\centering\small
+\caption{Deterministic guards of Pipeline A.}
+\label{tab:guards}
+\begin{tabular}{lp{6.2cm}l}
+\toprule
+Guard & Condition & Effect\\\midrule
+G1 value grounding & $\mathrm{norm}(v) \not\subseteq \mathrm{norm}(t_c)$ & $v \leftarrow \varnothing$\\
+G2 allegation & $A(t_c)$ and $\rho = \sv$ & $\rho \leftarrow \ia$\\
+G3 constrained field & $A(t_c)$ and $d$ is a constrained field & link withdrawn\\
+G4 unit conflict & $\rho=\sv$, $U(u)\neq\emptyset$, $u(d) \notin U(u)$ & $\rho \leftarrow \ia$\\
+G5 no value & $\rho=\sv$ and $v=\varnothing$ & $\rho \leftarrow \ia$\\
+G6 key value & $\kappa(d)$ is a key column and the passage holds exactly one existing value $w$ of that column & $v \leftarrow w$, $\rho \leftarrow \sv$\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The relation rule the guards enforce: $\sv$ needs a value of that definition for an identifiable entity. A promise, a target, an allegation, or a different unit, grain or period is $\ia$ at most.
+
+\paragraph{Canonical definition.}
+Two fields joined by a declared relationship can hold one key. The canonical map follows relationships from a non-key foreign-key column to the primary key it references:
+\begin{equation}
+\kappa(d) = \begin{cases}
+d & \text{if } d \text{ is the single-column primary key of } \tau(d)\\
+\kappa(d') & \text{if } (d \to d') \in \mathcal{R}\\
+d & \text{otherwise}
+\end{cases}
+\end{equation}
+Each link stores both $d$ and $\kappa(d)$. Strict metrics compare $d$; canonical metrics compare $\kappa(d)$ on both sides.
+
+\paragraph{Entity keys.}
+Entity keys belong to the chunk, not to the selected definition. With $V(T.k)$ the set of existing values of key column $T.k$:
+\begin{equation}
+E_{\mathrm{stated}}(c) = \{(T.k, w) : w \in V(T.k),\ w \text{ occurs in } t_c \oplus x_c \text{ under the labelling rule}\}
+\end{equation}
+The labelling rule: a mixed alphanumeric identifier resolves anywhere; a bare number resolves only next to a label derived from the model (column name, or entity word of the table). A name alone resolves nothing.
+\begin{equation}
+E_{\mathrm{derived}}(c) = \{(T'.k', w') : (T.k,w)\in E_{\mathrm{stated}}(c),\ (T \to T')\in\mathcal{R},\ \mathrm{row}_T(w).k' = w'\}
+\end{equation}
+\begin{equation}
+E_{\mathrm{inherited}}(c) = \{(T.k, w) : \{w'' : (T.k,w'') \in \textstyle\bigcup_{c' \in \sigma(c)} E_{\mathrm{stated}}(c')\} = \{w\},\ c \text{ states no key of } T\}
+\end{equation}
+$E(c)$ is the union, each key tagged with how it was found.
+
+\subsection{Pipeline B: evidence links to a concept catalog}\label{sec:pipeB}
+\noindent\textbf{Input:} Output A after human corrections, the chunks, the semantic model. \textbf{Output:} Output B, a versioned concept catalog and its Ossie export.
+
+Let $L$ be the links after human corrections, without rejected, degraded or unprocessed records.
+
+\paragraph{Anchored concepts.}
+Each structured concept $k$ of the layer is bound to a set of definitions $B(k) \subseteq \mathcal{D}$. Its evidence is found by aggregation, with no model call:
+\begin{equation}
+\mathrm{ev}(k) = \{c : \exists\, \ell \in L,\ \ell.c = c,\ \kappa(\ell.d) \in \kappa(B(k))\}
+\end{equation}
+For a concept $k$ and a definition $d$, each supporting chunk counts once: as $\sv$ when one of its links states a value that fits $d$, else as $\ia$:
+\begin{equation}
+n_{\sv}(k,d) = |\{c \in \mathrm{ev}(k) : (c,d,\sv) \in L\}|, \qquad n_{\ia}(k,d) \text{ likewise}
+\end{equation}
+
+\paragraph{Predicate from evidence.}\label{sec:pred}
+The mapping predicate is derived, not asked of a model. Let $n_{\mathrm{own}}(k,d)$ be the $\sv$ chunks whose selected definition belongs to the same structured concept as $d$. Let $\mathrm{name}(k,d)$ be true when the concept's label or synonyms share a normalised name with the label, technical name or synonyms of $d$.
+\begin{equation}
+\pi(k,d) = \begin{cases}
+\texttt{exactMatch} & n_{\sv} > n_{\ia},\ 2\,n_{\mathrm{own}} > n_{\sv},\ \mathrm{name}(k,d)\\
+\texttt{closeMatch} & n_{\sv} > n_{\ia}, \text{ otherwise}\\
+\texttt{relatedMatch} & \text{otherwise}
+\end{cases}
+\end{equation}
+Stated values show that passages talk about the field. Only a shared name shows that the concept means what the field records. A stricter rule that also required $d \in B(k)$ for \texttt{exactMatch} and agreeing units for both predicates left \texttt{closeMatch} unable to fire. % P3d; code concept_catalog.link_support
+Minimum support decides the status of the link. One $\ia$ chunk whose link states a value and a unit or a period also counts:
+\begin{equation}
+\mathrm{status}(k,d) = \begin{cases}\texttt{proposed} & n_{\sv} \ge 1 \ \text{or}\ n_{\ia} \ge 2 \ \text{or one quantified } \ia \text{ clause}\\ \texttt{candidate} & \text{otherwise}\end{cases}
+\end{equation}
+
+\paragraph{Residual induction.}
+Only chunks the layer cannot explain reach a model:
+\begin{equation}
+\mathcal{C}_{\mathrm{res}} = \{c : \forall \ell \in L \text{ with } \ell.c=c,\ \ell.\rho \in \{\ia, \texttt{none}\}\} \setminus \mathcal{C}_{\mathrm{tmpl}}
+\end{equation}
+where $\mathcal{C}_{\mathrm{tmpl}}$ are chunks of sources with a fixed field layout that a template matches (the fill-in forms and one printed report layout); their fields are read by exact label match and are not induced. Chunks of public sources are never induced. A clause chunk that also states an identifier is induced. An induction model proposes concepts from $\mathcal{C}_{\mathrm{res}}$. One concept is one obligation, event, measure, party or attribute with one unit, one grain and one party role. % P3d
+
+\paragraph{Constrained merge.}
+Each concept has a signature $\mathrm{sig}(k) = (\text{type}, \text{unit}, \text{role}, \kappa(\text{links}))$. Two concepts are compatible when no component conflicts. Candidate pairs come from embedding similarity above $0.90$ among compatible pairs; a model confirms each pair. A set $G$ is merged only if it is a complete group:
+\begin{equation}
+\forall\, k_i, k_j \in G,\ i \ne j:\ \mathrm{compatible}(k_i,k_j) \wedge \mathrm{confirmed}(k_i,k_j)
+\end{equation}
+This forbids chains, where $k_1{\sim}k_2$ and $k_2{\sim}k_3$ would merge $k_1$ with $k_3$.
+
+\paragraph{Vote.}
+Induction runs on the full residual set and on three resamples of $80\%$ of it with fixed seeds. With $\mathrm{votes}(k)$ the number of runs in which $k$ is found:
+\begin{equation}
+\mathrm{status}(k) = \begin{cases}\texttt{proposed} & \mathrm{votes}(k) \ge 2\\ \texttt{candidate} & \text{otherwise}\end{cases}
+\end{equation}
+Candidates are stored and shown, and are not exported. The catalog is exported in the Ossie format, in one concept block with the structured concepts. The export passes the Semantic Hub schema check and lint. % E4, E5
+
+\paragraph{Build and incremental update.}
+A failed model reply does not abort a build. A unit is retried a bounded number of times. A build fails only when more than 10\% of units fail. % P3c
+Adding one document reuses cached links and keeps every earlier concept id. % P3d
+
+\section{Evaluation}\label{sec:eval}
+\subsection{Setup}
+The evaluation asks whether each output meets its definition: whether evidence links name the right definition or abstain, whether catalog concepts and their links match a gold catalog, and whether a question-answering path built on the outputs answers unseen questions.
+
+\paragraph{Data.} Two datasets supply the structured data and the semantic model. The finance dataset is a synthetic banking workbook with 11 tables and three days of transactions, described by 143 definitions. The manufacturing dataset is AdventureWorks, with 25 tables and 240 definitions. The documents are partly synthetic (Table~\ref{tab:inputs}). Gold set A2 has 82 anchor passages, 53 of them positive, from both datasets; its first run is held-out. Two document packs, one per dataset, were generated from the data rows with the truth planted by the generator, and no implementer tuned on them: the finance pack has 163 sentences (104 positive) and the manufacturing pack 212 paraphrased sentences (144 positive). Set A3 has 52 rows (13 positive), mostly from product manuals, labelled by an independent annotator. The concept gold set has 39 concepts. Four unseen exams of 30 questions and a development set of 166 questions test the downstream answer path.
+
+\paragraph{Metrics.} Each gold row has a passage, a set of acceptable definitions $G_i$ (empty when none fits), a relation, and optionally a value and an entity. Let $\hat{d}_i$ be the selected definition (first link) or $\varnothing$.
+\begin{equation}
+\text{Precision} = \frac{|\{i : \hat{d}_i \in G_i\}|}{|\{i : \hat{d}_i \neq \varnothing\}|}, \qquad
+\text{Recall} = \frac{|\{i : \hat{d}_i \in G_i\}|}{|\{i : G_i \neq \emptyset\}|}
+\end{equation}
+\begin{equation}
+\text{False-link rate} = \frac{|\{i : G_i = \emptyset,\ \hat{d}_i \neq \varnothing\}|}{|\{i : G_i = \emptyset\}|}, \qquad
+\text{Offered@}k = \frac{|\{i : G_i \cap C_k(c_i) \neq \emptyset\}|}{|\{i : G_i \neq \emptyset\}|}
+\end{equation}
+Canonical variants replace $\hat{d}$ and $G$ by $\kappa(\hat{d})$ and $\kappa(G)$. Value and entity accuracy are exact-match rates on rows that carry them. For the catalog, a gold concept is matched to a catalog concept by shared evidence and label similarity; link precision and recall are computed over (concept, definition) pairs, with and without the predicate.
+
+An exam question passes when its status matches the key, its facts and conclusion match, and its citations overlap the key's spans. A question whose key has no supported answer passes only when it is refused. For exam 4, span overlap ignores punctuation; the rule was fixed before that exam was run. Words, digits and their order must still match. The rule exists because a field passage is cited as ``Label: value'' while the keys read ``Label value''. It is a leniency of the grader. % P2j; rule dated 22 November 2026
+
+\paragraph{Protocol for gold sets.} Two roles are kept apart. Implementers build and tune the pipeline; a controller, who does not implement, freezes settings and runs evaluations. Gold sets are written by an AI annotator who does not read the pipeline code. Implementers never open held-out labels. Settings are frozen before a held-out run. The controller runs each held-out set once. A set that has been read is relabelled development data. Some timings and inspections were made by implementers and not repeated by the controller; the text marks them as implementer-reported.
+
+\paragraph{Protocol for the unseen exams.}\label{sec:exam-protocol}
+Each exam was written by an AI author who did not implement the answer path. Each has 30 questions, 15 per dataset: 4 database only, 4 documents only, 4 needing both, and 3 with no supported answer. The author of exam 4 did not read the answer code or the earlier sets. The controller ran each exam once, with product defaults and all 53 sources ingested. After the run the exam became development data. Its failures were diagnosed and fixed. The next measure needed a new exam. % P6, P6d, P6g, P6i, P6j, P6l
+The pass bar is 14 of 15 per dataset, with every no-supported-answer question refused. % Work log 2026-11-20; exam README
+A broad development set, \texttt{dev\_wide}, has 166 questions in 29 classes, including 54 reworded variants with identical keys. Implementers may read it. % P6g
+
+\subsection{Evidence links}\label{sec:res-retrieval}
+The model decision step is what makes evidence links precise. On the held-out run it raises precision from 0.29 to 0.70 (Table~\ref{tab:pipeA}), and on the two generated packs the two-step search keeps the false-link rate at 0.03 and 0.01 (Table~\ref{tab:search-unseen}). The paragraphs below trace how retrieval, selection and the shortlist each shape that result.
+
+\paragraph{Candidate retrieval.} Embedding ranking alone places the right definition within the top 12 for 0.52 (finance) and 0.69 (manufacturing) of positive passages, and within the top 50 for 0.96 and 1.00 (Table~\ref{tab:retrieval}, development data). A short single list therefore caps recall, which motivated a wide first list with a model shortlist.
+
+\paragraph{Selection without a model.} Selection by score threshold and fitted compatibility rules reached precision 0.21 to 0.40 on the held-out set (Table~\ref{tab:nointerp}). The same rules reached 0.95 precision on the implementer's own examples. This gap motivated the model decision step and the held-out protocol.
+
+\paragraph{Held-out result.} Table~\ref{tab:pipeA} gives the single held-out run on gold set A2. With the small model, the decision step lowers the false-link rate from 0.31 to 0.10 and raises relation accuracy from 0.00 to 0.67. The medium model is more cautious: it has the lowest false-link rate but about half the recall.
+\begin{table}[H]
+\centering\small
+\caption{Pipeline A. Held-out, run once (gold set A2, 82 anchors, 53 positive).}
+\label{tab:pipeA}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{lcccccc}
+\toprule
+Method & Precision & Recall & False-link rate & Relation acc. & Value acc. & Entity acc.\\\midrule
+Threshold and rules & 0.29 & 0.19 & 0.31 & 0.00 & --- & ---\\
+Interpreter, \texttt{mistral-small} & \textbf{0.70} & \textbf{0.53} & 0.10 & \textbf{0.67} & \textbf{0.41} & \textbf{0.45}\\
+Interpreter, \texttt{mistral-medium} & 0.58 & 0.26 & \textbf{0.07} & 0.52 & 0.34 & 0.40\\
+\bottomrule
+\end{tabular}}
+\end{table}
+
+Per dataset, small model: finance precision 1.00 (18 selected), recall 0.67; manufacturing precision 0.45 (22 selected), recall 0.38.
+
+After guard G6, the canonical map, multi-link output and chunk-level entity keys, canonical precision is 0.82 and value accuracy 0.63 on the same set (Table~\ref{tab:pipeA-dev}). The set was development data by then, so these numbers are optimistic.
+
+\paragraph{Unseen packs.} Table~\ref{tab:search-unseen} compares the search methods on the two generated packs and on set A3, each run once with frozen settings. Two-step has the lowest false-link rate on all three sets (0.03, 0.01 and 0.18). Its precision is the highest on two sets and within 0.01 of the best on the finance pack. Its recall is the best on the manufacturing pack and within 0.03 of the best on the finance pack. A longer single list is not better: hybrid-30 offers the right definition more often than hybrid-12, yet has lower precision and recall on the finance pack. Recall changes by a few points only, although the first-step list holds the right definition for nearly every passage of the two packs. Commitments are the weakest category: every method links between 0.00 and 0.12 of the finance commitments and between 0.34 and 0.48 of the manufacturing commitments. On set A3, whose passages come mostly from product manuals, every method is poor (recall 0.23 to 0.31); with 13 positive rows these numbers are rough. On development set A2 the same comparison gave two-step recall 0.57 against 0.34 for hybrid-12 at an equal false-link rate of 0.17; a setting was chosen on that set, so those numbers are optimistic.
+
+\input{tables/search_unseen}
+
+\paragraph{Where commitment recall is lost.} The shortlist step drops the right definition. It reaches the decision call for 0.55 to 0.61 of commitment passages, while the wide first-step list holds it for 0.94 to 0.95 (implementer-reported). % P2i (agent claims)
+Two switches aimed at this gap were evaluated on the packs and rejected (Table~\ref{tab:outputA-switches}). Both lower precision and raise the false-link rate on both packs. Neither raises finance recall. The commitment gap stays open. % P2i; qualification/outputA-v4-2026-11-22
+
+
+\subsection{Concept catalog}\label{sec:res-catalog-build}
+Anchoring the catalog on the layer gives the most precise catalog links of the designs compared on the concept gold set: 0.70 on the narrow corpus, against 0.25 for free induction (Table~\ref{tab:pipeB}). Only the first row is a held-out run. Later rows are development evidence: the controller had read the gold, and the scorer's matching rule was tightened after the first run.
+\begin{table}[H]
+\centering\small
+\caption{Pipeline B, concept gold set (39 concepts; manufacturing has 21 gold concepts and 17 gold links). First row held-out; later rows development data. The last two rows use the wider corpus and the two-step default.}
+\label{tab:pipeB}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{lccccc}
+\toprule
+Design & Mfg. predicted & Mfg. correct & Mfg. precision & Mfg. recall (of 17) & Fin. correct (of 7)\\\midrule
+Free induction, model merge, model link & 4 & 1 & 0.25 & 0.06 & 0\\
+The same with two levels and linked entities & 15 & 8 & 0.53 & 0.47 & 2\\
+Anchored on Output A, narrow corpus, hybrid-12 & 10 & 7 & \textbf{0.70} & \textbf{0.41} & 0, not measurable\\
+Anchored, wider corpus, two-step & 9 & 5 & 0.56 & 0.29 & not scored\\ % P3c
+The same with the revised predicate and support rules & 11 & 5 & 0.45 & 0.29 & not scored\\ % P3d
+\bottomrule
+\end{tabular}}
+\end{table}
+
+The score did not improve on the wider corpus. Concept coverage rose from 9 to 11 of 21. Link precision fell from 0.56 to 0.45, and recall stayed at 0.29. % P3c, P3d
+Two things changed at once between the narrow and wide runs: the corpus and the candidate method. The cause of the drop is therefore not isolated. One cause is visible. On the shared contract chunks, two-step gives 12 usable link records where hybrid-12 gave 22. Two-step abstains on contract headers and promise clauses. Pipeline B can only anchor what Pipeline A links, so Output A commitment recall limits Output B. % P3d
+The wider builds hold 87 manufacturing concepts (67 exported) from 29 sources and 82 chunks, and 49 finance concepts (42 exported) from 24 sources and 153 chunks. % P3c
+A rebuild with cached links takes about one minute (67~s and 54~s). Adding one document takes 8.6~s and 7.6~s with 6 model calls. These timings are implementer-reported. % P3d (agent claims)
+
+Agreement between two resampled induction runs: manufacturing 0.83 (free, coarse) and 1.00 (residual only); finance 0.36 to 0.42. The finance corpus is too small and form-dominated for this number to carry weight: 84 of 94 chunks are form chunks, which the anchored design leaves out of induction.
+
+\subsection{Downstream test: question answering}\label{sec:res-answer}
+The outputs are meant to be used, so we also test them downstream with a question-answering path that joins SQL facts with cited document clauses (Appendix~\ref{sec:answer}). It makes two model calls: one writes a typed plan over offered ids, one reads clause values. Code computes every number and decides the status, the arithmetic and the citations. The path reads the entity keys of Output~A and the approved concepts of the latest published release of Output~B.
+
+The development exam of 10 questions gave 9 of 10 under the first design. It overstated the unseen result. % P4, P6
+Table~\ref{tab:exam-heldout} gives the four unseen exams. Scores were 11, 14, 18 and 17 of 30. The pass bar was not met on any exam. % P6, P6d, P6i, P6l
+On exams 3 and 4, finance refused all three no-supported-answer questions. On exam 4, manufacturing refused one of three. One of those questions came from a restricted reader whose answer source was withheld. The reply gave a database figure and cited a readable contract of another customer. The implementer's inspection found no withheld text in the reply. Another asked about a period outside the data and got a request for a missing parameter instead of a refusal. % P6l, P6m (inspection is the agent's claim)
+On exam 3, one refusal passed by accident: the plan was invalid. % P6i
+
+\input{tables/exam_heldout}
+
+After rounds 5 and 6 of fixes, a replay of exam~4 gives 23 of 30, with both remaining unrefused cases now refused (Table~\ref{tab:exam-posthoc}). All four exams were development data by then, so this is not evidence of unseen performance. % P6m, P6n
+
+\paragraph{Using the published catalog in answers.}\label{sec:res-catalog} Table~\ref{tab:catalog-replay} replays every development set with the catalog off, with the switch on and no release, and with the switch on and every anchored concept approved and published. The numbers are implementer-reported, on recorded replies with the default small model. % Output B agent hand-back via controller, 2026-11-22; tests_v2/test_answer_plan7.py
+No question changed status or answer in any set. With every anchored concept approved, a concept named a usable definition in 23 of 296 questions. The plan used that definition in 16. No question pair was found where the catalog turns a failure into a right answer. The reason is that the structured model already carries almost every useful synonym. % same source
+This shows that the mechanism is safe on these sets: it broke no answer. It does not show a benefit. A benefit needs data whose business vocabulary differs from the model's names. The first versions did cause regressions, which the narrowing rules of Table~\ref{tab:answer-guards} fixed (Appendix~\ref{sec:answer}).
+
+\paragraph{Where the gap comes from.}\label{sec:gap} The gap between the replay and the bar has three sources.
+
+\textit{(a) The planner picks the wrong measure, table or record.} On exam 3, four questions were answered with wrong definitions or facts. On exam 4, seven were answered with facts or a conclusion the key rejects. One development answer summed debits and credits; the direction-word rule of round 5 targets that failure. % P6i, P6l, P6k, P6m
+Four rounds of fixes moved the unseen scores from 11 to 14, 18 and 17. The last exam did not improve on the one before. Fixes driven by an exam already used for diagnosis do not transfer in full to the next one. % P6, P6d, P6i, P6l
+
+\textit{(b) Right answers in another key shape.} Some answers carry the right status and figure, but state the fact in a different shape from the key: a date range that covers all data, or a named record shown by id. On replay, exam 4 has 23 strict passes and 27 right regardless of shape. Exam 3 has 18 and 23. \texttt{dev\_wide} has 111 and 128 of 166. Key-shape conventions have been proposed and not adopted. The strict number is the reported one. % P6m, P6k
+
+\textit{(c) Capabilities not built.} One plan holds one measure, so a question that needs two measures fails. Several document-plus-database classes remain at 0 to 2 of 6 on \texttt{dev\_wide}: comparisons, differences and date order between a stated and a recorded value. Grouping, date arithmetic and relative phrases such as ``last month'' are not supported. % P6h, P6c
+
+\textit{The model is a factor, not the bottleneck.} On \texttt{dev\_wide}, \texttt{mistral-small-latest} answered 109 to 110 of 166 and \texttt{mistral-medium-latest} 115. Among 54 reworded variants, small changed outcome on 11 to 12 and medium on 5. \texttt{mistral-large-latest} was not measured. The default stays small, because a gain of 6 is near run-to-run noise. % P6h
+
+\section{Discussion and limitations}\label{sec:limits}
+\paragraph{What the results mean.} Letting a model choose and code decide gives links that are precise and that abstain. On the two unseen packs the false-link rate is 0.03 and 0.01. Anchoring the catalog on the layer removes most model calls from Pipeline~B and ties every concept to counted evidence. The cost is recall. The shortlist step drops the right definition for many commitment passages, and Pipeline~B can only anchor what Pipeline~A links. Catalog link recall is 0.29 on the wider corpus. Recall of commitments is therefore the first thing to improve.
+
+\paragraph{The downstream test.} No unseen exam reached 14 of 15 per dataset, and exam~4 also failed the refusal rule. All four exams have since been used for diagnosis, so a further measure of unseen performance needs a fifth, independently written exam. % P6m
+Using approved concepts in answers changed no measured outcome on these sets (Section~\ref{sec:res-answer}), so the catalog's benefit to answers is not demonstrated. An approved but doubtful link now shapes answers; one example links ``sales tax'' to a purchase-order tax field. Approval, including the one-click ``Approve all'', is the only gate. % controller observation, 2026-11-22
+About one in five reworded questions changed outcome on the small model (11 to 12 of 54). % P6h
+
+\paragraph{Limits of the evidence.}
+\begin{itemize}[nosep]
+\item \textbf{Small sets, one AI annotator each.} 82 anchors, 39 concepts, four exams of 30 questions, 166 development questions. There is no second annotator and no agreement statistic. Differences of a few points are not meaningful. No confidence intervals are reported yet, and we make no claim of state-of-the-art results.
+\item \textbf{Development contamination.} Gold set A2 and the concept set were read after their first run. Only the first row of each results table for those sets is held-out. The synthetic packs were used a second time for the switches of Table~\ref{tab:outputA-switches}.
+\item \textbf{Two demo datasets, partly synthetic.} One synthetic banking workbook with three days of transactions, and AdventureWorks. The manufacturing documents total about 7 KB. The two generated packs are written from the data rows, so their wording is more regular than real documents.
+\item \textbf{Unmeasured parts.} The predicate rule was changed so that \texttt{closeMatch} can fire; agreement with the gold's predicates has not been measured since. The constants ($k$, the score clips, the 0.90 similarity, the support minima and the vote threshold) were chosen once and are untuned. Several timings and inspections are implementer claims; rows so marked were not re-run by the controller.
+\item \textbf{Narrow or unrun parts.} The sign-in by access key has not been run against a live service. % P9
+\end{itemize}
+
+\section{Conclusion}
+We framed the mapping of unstructured passages onto a given semantic layer as a task with defined inputs and outputs, and gave an algorithm in which a small model chooses among retrieved definitions and code decides the relation, the value and the entity keys. The decisive evidence is on the links. The decision step raised held-out link precision from 0.29 for thresholds and rules to 0.70, and on unseen generated documents the links were precise and rarely false. The catalog anchored on the layer was more precise than free induction on our concept gold set, and its recall is bounded by the recall of the links.
+
+For practice, the implication is that documents need not wait for a new schema before they can be governed. Evidence links and an anchored catalog give documents the definitions that already govern the structured data, so a figure in a contract can be compared with the figure in a table, and a person can review and correct what the system believes a document says. The boundary of these results is set by the evaluation: two datasets and small, single-annotator sets, a recall on commitments that limits both outputs, and a downstream question-answering test that has not yet met its pass bar. A larger, independently annotated evaluation and better recall on commitments are the next steps.
+
+\bibliographystyle{unsrtnat}
+\bibliography{refs}
+
+\appendix
+\section{The answer path and the question-time harness}\label{sec:answer}
+\noindent\textbf{Input:} a question, the asking principal, the semantic model, the structured data, the readable chunks, Output A, and the approved concepts of the latest published release of Output B. \textbf{Output:} the answer.
+
+For a question $q$ and a principal with readable sources $\mathcal{S}$, the answer path runs seven stages. Two of them call a model. Code does the rest. % P6c; code answer_path.py module docstring
+\begin{enumerate}[nosep]
+\item \textbf{Gate} (code). The dataset and the model source must be readable by the principal.
+\item \textbf{Offer} (code). Code lists what the question states and data can resolve: entities $O_E(q)$ (exact identifiers, names that equal a span of the question in a name column, keys a referenced document states), periods $O_P(q)$ (parsed, never guessed) and plain numbers $O_N(q)$. When the question states the label or a synonym of an approved published concept, that name is offered beside the definitions the concept links to with \texttt{exactMatch}, or else with \texttt{closeMatch}. Table~\ref{tab:answer-guards} lists the rules that keep a name out.
+\item \textbf{Plan} (model call 1). A model $f_{\mathrm{plan}}$ writes a typed JSON plan $P$: the measure, its aggregate, entities, value filters, time, the answer kind, the document evidence needed, a comparison, and what no definition supports. Every id in $P$ must come from $\mathcal{D} \cup O_E(q) \cup O_P(q) \cup O_N(q)$. An invalid plan gets one repair that names the broken item. A second invalid plan is a refusal.
+\item \textbf{Bind} (code). Stated values are linked against the distinct values of their column. Entities are placed through declared relationships. A missing required parameter is a clarification that names it. An ambiguous value is a clarification. A party no record identifies is a refusal. A measure reached only through a catalog name that also names a definition on another table is a clarification.
+\item \textbf{Facts} (code). A guarded SQL compiler computes the facts $F(q)$. Joins follow declared many-to-one relationships of up to three hops. A distinct count crosses a bridge table from the base table. No model supplies a number.
+\item \textbf{Read} (model call 2). Code ranks clauses from sources in $\mathcal{S}$. A model $f_{\mathrm{read}}$ names, for each evidence need, a clause and copies its value. Code checks that the copy is verbatim, parses it, and checks that the clause's document is tied to the named party. This call is skipped when $P$ needs no document evidence.
+\item \textbf{Decide} (code). Code sets the status (answered, clarify, refused), does any comparison or arithmetic, writes the conclusion and selects at most four citations. The model writes the summary only.
+\end{enumerate}
+A failed model call is a refusal, never a made-up answer. A question costs one or two model calls, plus at most one repair each. The plan and read model is \texttt{mistral-small-latest} by default. % P6f, P6h
+
+The first design, used for exam 1, had a small-model judge and word-based pickers. The redesign deleted both. Table~\ref{tab:answer-guards} lists the guards added in later rounds. % P6c
+The catalog-name rules of round 7 have 13 tests; 9 were written first and 4 after the replay exposed the regressions. An implementer-reported suite run then gave 1164 passed and 3 expected failures. % tests_v2/test_answer_plan7.py; agent claim
+
+\input{tables/answer_guards}
+
+\subsection{The question-time harness}\label{sec:harness}
+The Ask step is a small harness around the answer path. The timings and replay counts below are implementer-reported. A full offline suite run by the controller gave 1218 passed and 3 expected failures. % P9 result phase 1, P10b; suite run of 23 November 2026
+\begin{itemize}[nosep]
+\item \textbf{Router.} Code rules send each text to one of two fixed tools: an explanation of a term, or otherwise the answer path. The router names a tool; it never writes. All questions in the evaluation were routed by these rules. The working system adds one model call for a request to act that the rules do not complete; code checks the reply against the fixed tool list and the readable sources, and asks the person when it cannot confirm it. % ask_router.py; P10b
+\item \textbf{Fact handles.} Each answer returns an opaque, server-held handle per fact, bound to the dataset and the account. The rows behind a figure and a chart series are derived by the server from the compiler's own query. Only the projection, one removed condition and a grouping change. No SQL comes from the browser. % answer_detail.py; P9 result phase 1
+\item \textbf{Identifier masking.} At the response boundary, every reply has the values of restricted identifier columns (account numbers, customer and relationship-manager identifiers) masked wherever they stand as a whole token, including identifiers that documents state but no table holds. Source identities are left intact. The administrator reads the real values; the entity view keeps customer and manager identifiers, by which it is searched. % identifier_mask.py; workspace_server.masked
+\item \textbf{Trace.} The server records each stage of a request when it starts: route, understand, plan, query, read, decide. The reply returns the trace, and the client can poll it while the request runs. Recording adds no model call and no query. The implementer reports that 179 replies were byte-identical with and without tracing, and that the status and conclusion of all 296 replayed development questions were unchanged; the controller has not re-run this. A restricted principal's trace names no source beyond what the reply itself says. % ask_trace.py; implementer's report of 22 November 2026
+\end{itemize}
+
+\paragraph{Entity report.} A separate view builds a report for one customer on request. Profile, holdings and activity come from guarded SQL. Evidence is the set of visible links that carry that customer's key. Concepts are those whose evidence passages belong to that customer. A stated value is compared with the recorded value by code. A short model summary is added; code drops any sentence without a valid citation or with a number or name that its cited items do not hold. This check is lexical, so the summary is labelled for review. The report is not evaluated against a gold set. One demo entity is known from documents only and has no row in the customer table; its report says so and shows no holdings. A customer identifier stated in a call transcript differs by one character from an identifier in the table; the two are shown as similar and are never merged. % entity_report.py; tests_v2/test_entity_report.py (14 tests, re-run by the controller)
+
+\section{Failures found late}\label{sec:late}
+Four faults passed the offline suite and surfaced only on a state that the product itself had built. Each is now fixed with a test that failed before the fix.
+\begin{itemize}[nosep]
+\item \textbf{A withheld sentence reached a restricted reader.} The catalog route returned a concept's \texttt{examples}. These are phrases copied from evidence chunks without chunk attribution. One came from a withheld manufacturing source. Concepts with any withheld evidence chunk now hide their examples. A residual risk remained: a concept's model-written meaning and synonyms were built from all its evidence and were still shown. This was closed before Output B fed answers. When any evidence passage of a concept is withheld, its synonyms are now emptied for that reader. A concept found in documents only has its meaning replaced by a withheld notice. A meaning anchored on the model stays, because it comes from the model. % P8f
+The same check found that the earlier finance alarm was a sentence repeated in readable sources, not a leak. % P8c
+\item \textbf{The real server never loaded the structured tables.} Only test fixtures called the loader. On a product-built state, every question that needed the database was refused as a failed query. The server now loads both datasets' tables at start. % P8d
+\item \textbf{One ingest parsed the model file ten times.} Ten parses took 7.5~s of a 10.3~s request and caused a client timeout. The file is now parsed once per content. The gain on the running server is not yet measured. % P8e
+\item \textbf{The chat route never used the published catalog.} The answer route passed the latest published release to the answer path; the chat route did not, so the chat page reported that no release was published. A browser rehearsal on a product-built state found it. % progress row P11g, tests_v2/test_ask_uses_published_catalog.py
+\end{itemize}
+The common lesson is about test state. Fixtures built by tests hid each fault. Checks against a state built by the product's own preparation path found them. The wrong-report answer that led to the reference-token rule was found the same way. % P8d, P6n
+
+\section{Additional results}\label{sec:extra}
+\paragraph{Candidate retrieval.} Share of positive passages whose right definition is within the top $K$ of the embedding ranking alone. Development data (gold set A2, 53 positive passages).
+\begin{table}[H]
+\centering\small
+\caption{Candidate retrieval, embedding ranking alone. Development data (gold set A2, 53 positive passages).}
+\label{tab:retrieval}
+\begin{tabular}{rccc}
+\toprule
+$K$ & Finance, strict & Manufacturing, strict & Manufacturing, canonical\\\midrule
+5 & 0.41 & 0.54 & 0.77\\
+12 & 0.52 & 0.69 & 0.92\\
+20 & 0.74 & 0.88 & 0.96\\
+30 & 0.81 & 0.96 & 0.96\\
+50 & 0.96 & 1.00 & 1.00\\
+100 & 1.00 & 1.00 & 1.00\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+With the keyword leg added, Offered@12 is 0.72 overall. A table-first variant (choose tables, then show all their fields) places the right table in the top three for only 0.62 to 0.63 of passages, so it was not pursued.
+
+\paragraph{Selection without a model.} Held-out, run once (82 anchors, first gold set). Selection by score threshold and fitted compatibility rules.
+\begin{table}[H]
+\centering\small
+\caption{Selection without an interpreter. Held-out, run once (82 anchors, first gold set).}
+\label{tab:nointerp}
+\begin{tabular}{lcc}
+\toprule
+Arm & Precision & Offered@12\\\midrule
+Keyword only & 0.40 & 0.49\\
+Hybrid & 0.27 & 0.73\\
+Hybrid with passage context & 0.21 & 0.76\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Pipeline A after later changes.} After the guard G6, the canonical map, multi-link output and chunk-level entity keys. Same set, now development data, so these numbers are optimistic.
+\begin{table}[H]
+\centering\small
+\caption{Pipeline A before and after changes. The first column is held-out; the second is development data (same set, read after the first run), so it is optimistic.}
+\label{tab:pipeA-dev}
+\begin{tabular}{lcc}
+\toprule
+Measure & Held-out run & After changes (development)\\\midrule
+Strict precision & 0.70 & 0.69\\
+Canonical precision & not measured & 0.82\\
+Recall (strict / canonical) & 0.53 / --- & 0.51 / 0.60\\
+False-link rate & 0.10 & 0.10\\
+Value accuracy & 0.41 & 0.63\\
+Entity accuracy, by value & 0.56 & 0.70\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\input{tables/outputA_switches}
+
+\paragraph{Field passages.} On one printed report, field passages change 1 chunk with no link into 20 chunks with 13 links. By the implementer's own reading, each report gets 8 to 9 right links, 3 right abstentions, 2 wrong links and 3 missing links. No gold set scores this. % P2i (agent claims)
+The finance PDFs grow from 153 to 207 chunks. No recorded fixture went stale. % P2j
+
+\paragraph{Parallel calls.} Four workers cut link building on one held-out form from 67.0~s to 22.3~s, with no rate limit hit (implementer-reported). Total ingest did not fall in the two runs measured, because the definition-card embeddings on a new state took 37~s and 110~s. The time on a prepared state is not yet measured. % P8b (agent claims)
+
+\paragraph{Answer-path replays.} Table~\ref{tab:exam-posthoc} reports replays after rounds 5 and 6. All four exams were development data by then. These numbers show that the fixes hold on the questions that prompted them. They are not evidence of unseen performance. On exam 4, both remaining unrefused cases are now refused, and the score rises to 23 of 30. On \texttt{dev\_wide}, two older unsafe answers remain where the key refuses. Round 6 changed no question's status on any set. % P6m, P6n
+
+\input{tables/exam_posthoc}
+
+\input{tables/catalog_replay}
+
+\section{Reproduction}
+\begin{itemize}[nosep]\sloppy
+\item Environment: Python 3.12, \path{requirements-v2.lock}, private PostgreSQL, LanceDB 0.41.0.
+\item Models: \path{mistral-embed}; \path{mistral-small-latest} for the interpreter, induction and the answer path (selectable by \path{V2_ANSWER_MODEL}); \path{mistral-medium-latest} for merge confirmation in Pipeline B.
+\item Offline tests replay recorded embeddings and model replies. A missing recording raises; nothing is substituted.
+\item Evaluation: \texttt{python -m semantic\_pipeline\_v2.evaluate\_mapping -{}-gold FILE -{}-arm interpret -{}-variant METHOD}, and \texttt{python -m semantic\_pipeline\_v2.evaluate\_catalog -{}-gold FILE -{}-catalog FILE}. Exams: \path{tests_v2/exam_heldout_run.py}.
+\item Result files: \path{qualification/outputA-heldout-2026-11-20/}, \path{qualification/outputA-heldout-2026-11-21/}, \path{qualification/outputA-v4-2026-11-22/}, \path{qualification/outputB-heldout-2026-11-21/}, \path{qualification/outputB-heldout-2026-11-21b/}, \path{qualification/outputB-heldout-2026-11-21c/}, \path{qualification/search-verification-2026-11-21/}, \path{qualification/exam-heldout-2026-11-21/}, \path{qualification/exam-heldout2-2026-11-22/}, \path{qualification/exam-heldout3-2026-11-22/}, \path{qualification/exam-heldout4-2026-11-22/}.
+\end{itemize}
+
+\end{document}

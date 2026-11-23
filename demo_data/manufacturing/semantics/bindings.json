@@ -1,0 +1,1842 @@
+[
+  {
+    "definition_id": "Person.Address.AddressID",
+    "dataset": "Person_Address",
+    "field": "AddressID",
+    "source_table": "Person.Address",
+    "source_column": "AddressID",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Person.Address.AddressLine1",
+    "dataset": "Person_Address",
+    "field": "AddressLine1",
+    "source_table": "Person.Address",
+    "source_column": "AddressLine1",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Person.Address.AddressLine2",
+    "dataset": "Person_Address",
+    "field": "AddressLine2",
+    "source_table": "Person.Address",
+    "source_column": "AddressLine2",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Person.Address.City",
+    "dataset": "Person_Address",
+    "field": "City",
+    "source_table": "Person.Address",
+    "source_column": "City",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Person.Address.StateProvinceID",
+    "dataset": "Person_Address",
+    "field": "StateProvinceID",
+    "source_table": "Person.Address",
+    "source_column": "StateProvinceID",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Person.Address.PostalCode",
+    "dataset": "Person_Address",
+    "field": "PostalCode",
+    "source_table": "Person.Address",
+    "source_column": "PostalCode",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Person.Address.SpatialLocation",
+    "dataset": "Person_Address",
+    "field": "SpatialLocation",
+    "source_table": "Person.Address",
+    "source_column": "SpatialLocation",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Person.Address.rowguid",
+    "dataset": "Person_Address",
+    "field": "rowguid",
+    "source_table": "Person.Address",
+    "source_column": "rowguid",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Person.Address.ModifiedDate",
+    "dataset": "Person_Address",
+    "field": "ModifiedDate",
+    "source_table": "Person.Address",
+    "source_column": "ModifiedDate",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.BillOfMaterials.BillOfMaterialsID",
+    "dataset": "Production_BillOfMaterials",
+    "field": "BillOfMaterialsID",
+    "source_table": "Production.BillOfMaterials",
+    "source_column": "BillOfMaterialsID",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.BillOfMaterials.ProductAssemblyID",
+    "dataset": "Production_BillOfMaterials",
+    "field": "ProductAssemblyID",
+    "source_table": "Production.BillOfMaterials",
+    "source_column": "ProductAssemblyID",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.BillOfMaterials.ComponentID",
+    "dataset": "Production_BillOfMaterials",
+    "field": "ComponentID",
+    "source_table": "Production.BillOfMaterials",
+    "source_column": "ComponentID",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.BillOfMaterials.StartDate",
+    "dataset": "Production_BillOfMaterials",
+    "field": "StartDate",
+    "source_table": "Production.BillOfMaterials",
+    "source_column": "StartDate",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.BillOfMaterials.EndDate",
+    "dataset": "Production_BillOfMaterials",
+    "field": "EndDate",
+    "source_table": "Production.BillOfMaterials",
+    "source_column": "EndDate",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.BillOfMaterials.UnitMeasureCode",
+    "dataset": "Production_BillOfMaterials",
+    "field": "UnitMeasureCode",
+    "source_table": "Production.BillOfMaterials",
+    "source_column": "UnitMeasureCode",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.BillOfMaterials.BOMLevel",
+    "dataset": "Production_BillOfMaterials",
+    "field": "BOMLevel",
+    "source_table": "Production.BillOfMaterials",
+    "source_column": "BOMLevel",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.BillOfMaterials.PerAssemblyQty",
+    "dataset": "Production_BillOfMaterials",
+    "field": "PerAssemblyQty",
+    "source_table": "Production.BillOfMaterials",
+    "source_column": "PerAssemblyQty",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.BillOfMaterials.ModifiedDate",
+    "dataset": "Production_BillOfMaterials",
+    "field": "ModifiedDate",
+    "source_table": "Production.BillOfMaterials",
+    "source_column": "ModifiedDate",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Person.BusinessEntity.BusinessEntityID",
+    "dataset": "Person_BusinessEntity",
+    "field": "BusinessEntityID",
+    "source_table": "Person.BusinessEntity",
+    "source_column": "BusinessEntityID",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Person.BusinessEntity.rowguid",
+    "dataset": "Person_BusinessEntity",
+    "field": "rowguid",
+    "source_table": "Person.BusinessEntity",
+    "source_column": "rowguid",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Person.BusinessEntity.ModifiedDate",
+    "dataset": "Person_BusinessEntity",
+    "field": "ModifiedDate",
+    "source_table": "Person.BusinessEntity",
+    "source_column": "ModifiedDate",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Sales.Customer.CustomerID",
+    "dataset": "Sales_Customer",
+    "field": "CustomerID",
+    "source_table": "Sales.Customer",
+    "source_column": "CustomerID",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Sales.Customer.PersonID",
+    "dataset": "Sales_Customer",
+    "field": "PersonID",
+    "source_table": "Sales.Customer",
+    "source_column": "PersonID",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Sales.Customer.StoreID",
+    "dataset": "Sales_Customer",
+    "field": "StoreID",
+    "source_table": "Sales.Customer",
+    "source_column": "StoreID",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Sales.Customer.TerritoryID",
+    "dataset": "Sales_Customer",
+    "field": "TerritoryID",
+    "source_table": "Sales.Customer",
+    "source_column": "TerritoryID",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Sales.Customer.AccountNumber",
+    "dataset": "Sales_Customer",
+    "field": "AccountNumber",
+    "source_table": "Sales.Customer",
+    "source_column": "AccountNumber",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Sales.Customer.rowguid",
+    "dataset": "Sales_Customer",
+    "field": "rowguid",
+    "source_table": "Sales.Customer",
+    "source_column": "rowguid",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Sales.Customer.ModifiedDate",
+    "dataset": "Sales_Customer",
+    "field": "ModifiedDate",
+    "source_table": "Sales.Customer",
+    "source_column": "ModifiedDate",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.Document.DocumentNode",
+    "dataset": "Production_Document",
+    "field": "DocumentNode",
+    "source_table": "Production.Document",
+    "source_column": "DocumentNode",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.Document.DocumentLevel",
+    "dataset": "Production_Document",
+    "field": "DocumentLevel",
+    "source_table": "Production.Document",
+    "source_column": "DocumentLevel",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.Document.Title",
+    "dataset": "Production_Document",
+    "field": "Title",
+    "source_table": "Production.Document",
+    "source_column": "Title",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.Document.Owner",
+    "dataset": "Production_Document",
+    "field": "Owner",
+    "source_table": "Production.Document",
+    "source_column": "Owner",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.Document.FolderFlag",
+    "dataset": "Production_Document",
+    "field": "FolderFlag",
+    "source_table": "Production.Document",
+    "source_column": "FolderFlag",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.Document.FileName",
+    "dataset": "Production_Document",
+    "field": "FileName",
+    "source_table": "Production.Document",
+    "source_column": "FileName",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.Document.FileExtension",
+    "dataset": "Production_Document",
+    "field": "FileExtension",
+    "source_table": "Production.Document",
+    "source_column": "FileExtension",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.Document.Revision",
+    "dataset": "Production_Document",
+    "field": "Revision",
+    "source_table": "Production.Document",
+    "source_column": "Revision",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.Document.ChangeNumber",
+    "dataset": "Production_Document",
+    "field": "ChangeNumber",
+    "source_table": "Production.Document",
+    "source_column": "ChangeNumber",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.Document.Status",
+    "dataset": "Production_Document",
+    "field": "Status",
+    "source_table": "Production.Document",
+    "source_column": "Status",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.Document.DocumentSummary",
+    "dataset": "Production_Document",
+    "field": "DocumentSummary",
+    "source_table": "Production.Document",
+    "source_column": "DocumentSummary",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.Document.Document",
+    "dataset": "Production_Document",
+    "field": "Document",
+    "source_table": "Production.Document",
+    "source_column": "Document",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.Document.rowguid",
+    "dataset": "Production_Document",
+    "field": "rowguid",
+    "source_table": "Production.Document",
+    "source_column": "rowguid",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.Document.ModifiedDate",
+    "dataset": "Production_Document",
+    "field": "ModifiedDate",
+    "source_table": "Production.Document",
+    "source_column": "ModifiedDate",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.Location.LocationID",
+    "dataset": "Production_Location",
+    "field": "LocationID",
+    "source_table": "Production.Location",
+    "source_column": "LocationID",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.Location.Name",
+    "dataset": "Production_Location",
+    "field": "Name",
+    "source_table": "Production.Location",
+    "source_column": "Name",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.Location.CostRate",
+    "dataset": "Production_Location",
+    "field": "CostRate",
+    "source_table": "Production.Location",
+    "source_column": "CostRate",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.Location.Availability",
+    "dataset": "Production_Location",
+    "field": "Availability",
+    "source_table": "Production.Location",
+    "source_column": "Availability",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.Location.ModifiedDate",
+    "dataset": "Production_Location",
+    "field": "ModifiedDate",
+    "source_table": "Production.Location",
+    "source_column": "ModifiedDate",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Person.Person.BusinessEntityID",
+    "dataset": "Person_Person",
+    "field": "BusinessEntityID",
+    "source_table": "Person.Person",
+    "source_column": "BusinessEntityID",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Person.Person.PersonType",
+    "dataset": "Person_Person",
+    "field": "PersonType",
+    "source_table": "Person.Person",
+    "source_column": "PersonType",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Person.Person.NameStyle",
+    "dataset": "Person_Person",
+    "field": "NameStyle",
+    "source_table": "Person.Person",
+    "source_column": "NameStyle",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Person.Person.Title",
+    "dataset": "Person_Person",
+    "field": "Title",
+    "source_table": "Person.Person",
+    "source_column": "Title",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Person.Person.FirstName",
+    "dataset": "Person_Person",
+    "field": "FirstName",
+    "source_table": "Person.Person",
+    "source_column": "FirstName",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Person.Person.MiddleName",
+    "dataset": "Person_Person",
+    "field": "MiddleName",
+    "source_table": "Person.Person",
+    "source_column": "MiddleName",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Person.Person.LastName",
+    "dataset": "Person_Person",
+    "field": "LastName",
+    "source_table": "Person.Person",
+    "source_column": "LastName",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Person.Person.Suffix",
+    "dataset": "Person_Person",
+    "field": "Suffix",
+    "source_table": "Person.Person",
+    "source_column": "Suffix",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Person.Person.EmailPromotion",
+    "dataset": "Person_Person",
+    "field": "EmailPromotion",
+    "source_table": "Person.Person",
+    "source_column": "EmailPromotion",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Person.Person.AdditionalContactInfo",
+    "dataset": "Person_Person",
+    "field": "AdditionalContactInfo",
+    "source_table": "Person.Person",
+    "source_column": "AdditionalContactInfo",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Person.Person.Demographics",
+    "dataset": "Person_Person",
+    "field": "Demographics",
+    "source_table": "Person.Person",
+    "source_column": "Demographics",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Person.Person.rowguid",
+    "dataset": "Person_Person",
+    "field": "rowguid",
+    "source_table": "Person.Person",
+    "source_column": "rowguid",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Person.Person.ModifiedDate",
+    "dataset": "Person_Person",
+    "field": "ModifiedDate",
+    "source_table": "Person.Person",
+    "source_column": "ModifiedDate",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.Product.ProductID",
+    "dataset": "Production_Product",
+    "field": "ProductID",
+    "source_table": "Production.Product",
+    "source_column": "ProductID",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.Product.Name",
+    "dataset": "Production_Product",
+    "field": "Name",
+    "source_table": "Production.Product",
+    "source_column": "Name",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.Product.ProductNumber",
+    "dataset": "Production_Product",
+    "field": "ProductNumber",
+    "source_table": "Production.Product",
+    "source_column": "ProductNumber",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.Product.MakeFlag",
+    "dataset": "Production_Product",
+    "field": "MakeFlag",
+    "source_table": "Production.Product",
+    "source_column": "MakeFlag",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.Product.FinishedGoodsFlag",
+    "dataset": "Production_Product",
+    "field": "FinishedGoodsFlag",
+    "source_table": "Production.Product",
+    "source_column": "FinishedGoodsFlag",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.Product.Color",
+    "dataset": "Production_Product",
+    "field": "Color",
+    "source_table": "Production.Product",
+    "source_column": "Color",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.Product.SafetyStockLevel",
+    "dataset": "Production_Product",
+    "field": "SafetyStockLevel",
+    "source_table": "Production.Product",
+    "source_column": "SafetyStockLevel",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.Product.ReorderPoint",
+    "dataset": "Production_Product",
+    "field": "ReorderPoint",
+    "source_table": "Production.Product",
+    "source_column": "ReorderPoint",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.Product.StandardCost",
+    "dataset": "Production_Product",
+    "field": "StandardCost",
+    "source_table": "Production.Product",
+    "source_column": "StandardCost",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.Product.ListPrice",
+    "dataset": "Production_Product",
+    "field": "ListPrice",
+    "source_table": "Production.Product",
+    "source_column": "ListPrice",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.Product.Size",
+    "dataset": "Production_Product",
+    "field": "Size",
+    "source_table": "Production.Product",
+    "source_column": "Size",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.Product.SizeUnitMeasureCode",
+    "dataset": "Production_Product",
+    "field": "SizeUnitMeasureCode",
+    "source_table": "Production.Product",
+    "source_column": "SizeUnitMeasureCode",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.Product.WeightUnitMeasureCode",
+    "dataset": "Production_Product",
+    "field": "WeightUnitMeasureCode",
+    "source_table": "Production.Product",
+    "source_column": "WeightUnitMeasureCode",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.Product.Weight",
+    "dataset": "Production_Product",
+    "field": "Weight",
+    "source_table": "Production.Product",
+    "source_column": "Weight",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.Product.DaysToManufacture",
+    "dataset": "Production_Product",
+    "field": "DaysToManufacture",
+    "source_table": "Production.Product",
+    "source_column": "DaysToManufacture",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.Product.ProductLine",
+    "dataset": "Production_Product",
+    "field": "ProductLine",
+    "source_table": "Production.Product",
+    "source_column": "ProductLine",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.Product.Class",
+    "dataset": "Production_Product",
+    "field": "Class",
+    "source_table": "Production.Product",
+    "source_column": "Class",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.Product.Style",
+    "dataset": "Production_Product",
+    "field": "Style",
+    "source_table": "Production.Product",
+    "source_column": "Style",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.Product.ProductSubcategoryID",
+    "dataset": "Production_Product",
+    "field": "ProductSubcategoryID",
+    "source_table": "Production.Product",
+    "source_column": "ProductSubcategoryID",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.Product.ProductModelID",
+    "dataset": "Production_Product",
+    "field": "ProductModelID",
+    "source_table": "Production.Product",
+    "source_column": "ProductModelID",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.Product.SellStartDate",
+    "dataset": "Production_Product",
+    "field": "SellStartDate",
+    "source_table": "Production.Product",
+    "source_column": "SellStartDate",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.Product.SellEndDate",
+    "dataset": "Production_Product",
+    "field": "SellEndDate",
+    "source_table": "Production.Product",
+    "source_column": "SellEndDate",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.Product.DiscontinuedDate",
+    "dataset": "Production_Product",
+    "field": "DiscontinuedDate",
+    "source_table": "Production.Product",
+    "source_column": "DiscontinuedDate",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.Product.rowguid",
+    "dataset": "Production_Product",
+    "field": "rowguid",
+    "source_table": "Production.Product",
+    "source_column": "rowguid",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.Product.ModifiedDate",
+    "dataset": "Production_Product",
+    "field": "ModifiedDate",
+    "source_table": "Production.Product",
+    "source_column": "ModifiedDate",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.ProductCategory.ProductCategoryID",
+    "dataset": "Production_ProductCategory",
+    "field": "ProductCategoryID",
+    "source_table": "Production.ProductCategory",
+    "source_column": "ProductCategoryID",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.ProductCategory.Name",
+    "dataset": "Production_ProductCategory",
+    "field": "Name",
+    "source_table": "Production.ProductCategory",
+    "source_column": "Name",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.ProductCategory.rowguid",
+    "dataset": "Production_ProductCategory",
+    "field": "rowguid",
+    "source_table": "Production.ProductCategory",
+    "source_column": "rowguid",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.ProductCategory.ModifiedDate",
+    "dataset": "Production_ProductCategory",
+    "field": "ModifiedDate",
+    "source_table": "Production.ProductCategory",
+    "source_column": "ModifiedDate",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.ProductDocument.ProductID",
+    "dataset": "Production_ProductDocument",
+    "field": "ProductID",
+    "source_table": "Production.ProductDocument",
+    "source_column": "ProductID",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.ProductDocument.DocumentNode",
+    "dataset": "Production_ProductDocument",
+    "field": "DocumentNode",
+    "source_table": "Production.ProductDocument",
+    "source_column": "DocumentNode",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.ProductDocument.ModifiedDate",
+    "dataset": "Production_ProductDocument",
+    "field": "ModifiedDate",
+    "source_table": "Production.ProductDocument",
+    "source_column": "ModifiedDate",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.ProductInventory.ProductID",
+    "dataset": "Production_ProductInventory",
+    "field": "ProductID",
+    "source_table": "Production.ProductInventory",
+    "source_column": "ProductID",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.ProductInventory.LocationID",
+    "dataset": "Production_ProductInventory",
+    "field": "LocationID",
+    "source_table": "Production.ProductInventory",
+    "source_column": "LocationID",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.ProductInventory.Shelf",
+    "dataset": "Production_ProductInventory",
+    "field": "Shelf",
+    "source_table": "Production.ProductInventory",
+    "source_column": "Shelf",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.ProductInventory.Bin",
+    "dataset": "Production_ProductInventory",
+    "field": "Bin",
+    "source_table": "Production.ProductInventory",
+    "source_column": "Bin",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.ProductInventory.Quantity",
+    "dataset": "Production_ProductInventory",
+    "field": "Quantity",
+    "source_table": "Production.ProductInventory",
+    "source_column": "Quantity",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.ProductInventory.rowguid",
+    "dataset": "Production_ProductInventory",
+    "field": "rowguid",
+    "source_table": "Production.ProductInventory",
+    "source_column": "rowguid",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.ProductInventory.ModifiedDate",
+    "dataset": "Production_ProductInventory",
+    "field": "ModifiedDate",
+    "source_table": "Production.ProductInventory",
+    "source_column": "ModifiedDate",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.ProductModel.ProductModelID",
+    "dataset": "Production_ProductModel",
+    "field": "ProductModelID",
+    "source_table": "Production.ProductModel",
+    "source_column": "ProductModelID",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.ProductModel.Name",
+    "dataset": "Production_ProductModel",
+    "field": "Name",
+    "source_table": "Production.ProductModel",
+    "source_column": "Name",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.ProductModel.CatalogDescription",
+    "dataset": "Production_ProductModel",
+    "field": "CatalogDescription",
+    "source_table": "Production.ProductModel",
+    "source_column": "CatalogDescription",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.ProductModel.Instructions",
+    "dataset": "Production_ProductModel",
+    "field": "Instructions",
+    "source_table": "Production.ProductModel",
+    "source_column": "Instructions",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.ProductModel.rowguid",
+    "dataset": "Production_ProductModel",
+    "field": "rowguid",
+    "source_table": "Production.ProductModel",
+    "source_column": "rowguid",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.ProductModel.ModifiedDate",
+    "dataset": "Production_ProductModel",
+    "field": "ModifiedDate",
+    "source_table": "Production.ProductModel",
+    "source_column": "ModifiedDate",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.ProductSubcategory.ProductSubcategoryID",
+    "dataset": "Production_ProductSubcategory",
+    "field": "ProductSubcategoryID",
+    "source_table": "Production.ProductSubcategory",
+    "source_column": "ProductSubcategoryID",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.ProductSubcategory.ProductCategoryID",
+    "dataset": "Production_ProductSubcategory",
+    "field": "ProductCategoryID",
+    "source_table": "Production.ProductSubcategory",
+    "source_column": "ProductCategoryID",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.ProductSubcategory.Name",
+    "dataset": "Production_ProductSubcategory",
+    "field": "Name",
+    "source_table": "Production.ProductSubcategory",
+    "source_column": "Name",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.ProductSubcategory.rowguid",
+    "dataset": "Production_ProductSubcategory",
+    "field": "rowguid",
+    "source_table": "Production.ProductSubcategory",
+    "source_column": "rowguid",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.ProductSubcategory.ModifiedDate",
+    "dataset": "Production_ProductSubcategory",
+    "field": "ModifiedDate",
+    "source_table": "Production.ProductSubcategory",
+    "source_column": "ModifiedDate",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Purchasing.ProductVendor.ProductID",
+    "dataset": "Purchasing_ProductVendor",
+    "field": "ProductID",
+    "source_table": "Purchasing.ProductVendor",
+    "source_column": "ProductID",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Purchasing.ProductVendor.BusinessEntityID",
+    "dataset": "Purchasing_ProductVendor",
+    "field": "BusinessEntityID",
+    "source_table": "Purchasing.ProductVendor",
+    "source_column": "BusinessEntityID",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Purchasing.ProductVendor.AverageLeadTime",
+    "dataset": "Purchasing_ProductVendor",
+    "field": "AverageLeadTime",
+    "source_table": "Purchasing.ProductVendor",
+    "source_column": "AverageLeadTime",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Purchasing.ProductVendor.StandardPrice",
+    "dataset": "Purchasing_ProductVendor",
+    "field": "StandardPrice",
+    "source_table": "Purchasing.ProductVendor",
+    "source_column": "StandardPrice",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Purchasing.ProductVendor.LastReceiptCost",
+    "dataset": "Purchasing_ProductVendor",
+    "field": "LastReceiptCost",
+    "source_table": "Purchasing.ProductVendor",
+    "source_column": "LastReceiptCost",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Purchasing.ProductVendor.LastReceiptDate",
+    "dataset": "Purchasing_ProductVendor",
+    "field": "LastReceiptDate",
+    "source_table": "Purchasing.ProductVendor",
+    "source_column": "LastReceiptDate",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Purchasing.ProductVendor.MinOrderQty",
+    "dataset": "Purchasing_ProductVendor",
+    "field": "MinOrderQty",
+    "source_table": "Purchasing.ProductVendor",
+    "source_column": "MinOrderQty",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Purchasing.ProductVendor.MaxOrderQty",
+    "dataset": "Purchasing_ProductVendor",
+    "field": "MaxOrderQty",
+    "source_table": "Purchasing.ProductVendor",
+    "source_column": "MaxOrderQty",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Purchasing.ProductVendor.OnOrderQty",
+    "dataset": "Purchasing_ProductVendor",
+    "field": "OnOrderQty",
+    "source_table": "Purchasing.ProductVendor",
+    "source_column": "OnOrderQty",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Purchasing.ProductVendor.UnitMeasureCode",
+    "dataset": "Purchasing_ProductVendor",
+    "field": "UnitMeasureCode",
+    "source_table": "Purchasing.ProductVendor",
+    "source_column": "UnitMeasureCode",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Purchasing.ProductVendor.ModifiedDate",
+    "dataset": "Purchasing_ProductVendor",
+    "field": "ModifiedDate",
+    "source_table": "Purchasing.ProductVendor",
+    "source_column": "ModifiedDate",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Purchasing.PurchaseOrderDetail.PurchaseOrderID",
+    "dataset": "Purchasing_PurchaseOrderDetail",
+    "field": "PurchaseOrderID",
+    "source_table": "Purchasing.PurchaseOrderDetail",
+    "source_column": "PurchaseOrderID",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Purchasing.PurchaseOrderDetail.PurchaseOrderDetailID",
+    "dataset": "Purchasing_PurchaseOrderDetail",
+    "field": "PurchaseOrderDetailID",
+    "source_table": "Purchasing.PurchaseOrderDetail",
+    "source_column": "PurchaseOrderDetailID",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Purchasing.PurchaseOrderDetail.DueDate",
+    "dataset": "Purchasing_PurchaseOrderDetail",
+    "field": "DueDate",
+    "source_table": "Purchasing.PurchaseOrderDetail",
+    "source_column": "DueDate",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Purchasing.PurchaseOrderDetail.OrderQty",
+    "dataset": "Purchasing_PurchaseOrderDetail",
+    "field": "OrderQty",
+    "source_table": "Purchasing.PurchaseOrderDetail",
+    "source_column": "OrderQty",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Purchasing.PurchaseOrderDetail.ProductID",
+    "dataset": "Purchasing_PurchaseOrderDetail",
+    "field": "ProductID",
+    "source_table": "Purchasing.PurchaseOrderDetail",
+    "source_column": "ProductID",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Purchasing.PurchaseOrderDetail.UnitPrice",
+    "dataset": "Purchasing_PurchaseOrderDetail",
+    "field": "UnitPrice",
+    "source_table": "Purchasing.PurchaseOrderDetail",
+    "source_column": "UnitPrice",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Purchasing.PurchaseOrderDetail.LineTotal",
+    "dataset": "Purchasing_PurchaseOrderDetail",
+    "field": "LineTotal",
+    "source_table": "Purchasing.PurchaseOrderDetail",
+    "source_column": "LineTotal",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Purchasing.PurchaseOrderDetail.ReceivedQty",
+    "dataset": "Purchasing_PurchaseOrderDetail",
+    "field": "ReceivedQty",
+    "source_table": "Purchasing.PurchaseOrderDetail",
+    "source_column": "ReceivedQty",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Purchasing.PurchaseOrderDetail.RejectedQty",
+    "dataset": "Purchasing_PurchaseOrderDetail",
+    "field": "RejectedQty",
+    "source_table": "Purchasing.PurchaseOrderDetail",
+    "source_column": "RejectedQty",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Purchasing.PurchaseOrderDetail.StockedQty",
+    "dataset": "Purchasing_PurchaseOrderDetail",
+    "field": "StockedQty",
+    "source_table": "Purchasing.PurchaseOrderDetail",
+    "source_column": "StockedQty",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Purchasing.PurchaseOrderDetail.ModifiedDate",
+    "dataset": "Purchasing_PurchaseOrderDetail",
+    "field": "ModifiedDate",
+    "source_table": "Purchasing.PurchaseOrderDetail",
+    "source_column": "ModifiedDate",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Purchasing.PurchaseOrderHeader.PurchaseOrderID",
+    "dataset": "Purchasing_PurchaseOrderHeader",
+    "field": "PurchaseOrderID",
+    "source_table": "Purchasing.PurchaseOrderHeader",
+    "source_column": "PurchaseOrderID",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Purchasing.PurchaseOrderHeader.RevisionNumber",
+    "dataset": "Purchasing_PurchaseOrderHeader",
+    "field": "RevisionNumber",
+    "source_table": "Purchasing.PurchaseOrderHeader",
+    "source_column": "RevisionNumber",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Purchasing.PurchaseOrderHeader.Status",
+    "dataset": "Purchasing_PurchaseOrderHeader",
+    "field": "Status",
+    "source_table": "Purchasing.PurchaseOrderHeader",
+    "source_column": "Status",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Purchasing.PurchaseOrderHeader.EmployeeID",
+    "dataset": "Purchasing_PurchaseOrderHeader",
+    "field": "EmployeeID",
+    "source_table": "Purchasing.PurchaseOrderHeader",
+    "source_column": "EmployeeID",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Purchasing.PurchaseOrderHeader.VendorID",
+    "dataset": "Purchasing_PurchaseOrderHeader",
+    "field": "VendorID",
+    "source_table": "Purchasing.PurchaseOrderHeader",
+    "source_column": "VendorID",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Purchasing.PurchaseOrderHeader.ShipMethodID",
+    "dataset": "Purchasing_PurchaseOrderHeader",
+    "field": "ShipMethodID",
+    "source_table": "Purchasing.PurchaseOrderHeader",
+    "source_column": "ShipMethodID",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Purchasing.PurchaseOrderHeader.OrderDate",
+    "dataset": "Purchasing_PurchaseOrderHeader",
+    "field": "OrderDate",
+    "source_table": "Purchasing.PurchaseOrderHeader",
+    "source_column": "OrderDate",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Purchasing.PurchaseOrderHeader.ShipDate",
+    "dataset": "Purchasing_PurchaseOrderHeader",
+    "field": "ShipDate",
+    "source_table": "Purchasing.PurchaseOrderHeader",
+    "source_column": "ShipDate",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Purchasing.PurchaseOrderHeader.SubTotal",
+    "dataset": "Purchasing_PurchaseOrderHeader",
+    "field": "SubTotal",
+    "source_table": "Purchasing.PurchaseOrderHeader",
+    "source_column": "SubTotal",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Purchasing.PurchaseOrderHeader.TaxAmt",
+    "dataset": "Purchasing_PurchaseOrderHeader",
+    "field": "TaxAmt",
+    "source_table": "Purchasing.PurchaseOrderHeader",
+    "source_column": "TaxAmt",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Purchasing.PurchaseOrderHeader.Freight",
+    "dataset": "Purchasing_PurchaseOrderHeader",
+    "field": "Freight",
+    "source_table": "Purchasing.PurchaseOrderHeader",
+    "source_column": "Freight",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Purchasing.PurchaseOrderHeader.TotalDue",
+    "dataset": "Purchasing_PurchaseOrderHeader",
+    "field": "TotalDue",
+    "source_table": "Purchasing.PurchaseOrderHeader",
+    "source_column": "TotalDue",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Purchasing.PurchaseOrderHeader.ModifiedDate",
+    "dataset": "Purchasing_PurchaseOrderHeader",
+    "field": "ModifiedDate",
+    "source_table": "Purchasing.PurchaseOrderHeader",
+    "source_column": "ModifiedDate",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Sales.SalesOrderDetail.SalesOrderID",
+    "dataset": "Sales_SalesOrderDetail",
+    "field": "SalesOrderID",
+    "source_table": "Sales.SalesOrderDetail",
+    "source_column": "SalesOrderID",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Sales.SalesOrderDetail.SalesOrderDetailID",
+    "dataset": "Sales_SalesOrderDetail",
+    "field": "SalesOrderDetailID",
+    "source_table": "Sales.SalesOrderDetail",
+    "source_column": "SalesOrderDetailID",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Sales.SalesOrderDetail.CarrierTrackingNumber",
+    "dataset": "Sales_SalesOrderDetail",
+    "field": "CarrierTrackingNumber",
+    "source_table": "Sales.SalesOrderDetail",
+    "source_column": "CarrierTrackingNumber",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Sales.SalesOrderDetail.OrderQty",
+    "dataset": "Sales_SalesOrderDetail",
+    "field": "OrderQty",
+    "source_table": "Sales.SalesOrderDetail",
+    "source_column": "OrderQty",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Sales.SalesOrderDetail.ProductID",
+    "dataset": "Sales_SalesOrderDetail",
+    "field": "ProductID",
+    "source_table": "Sales.SalesOrderDetail",
+    "source_column": "ProductID",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Sales.SalesOrderDetail.SpecialOfferID",
+    "dataset": "Sales_SalesOrderDetail",
+    "field": "SpecialOfferID",
+    "source_table": "Sales.SalesOrderDetail",
+    "source_column": "SpecialOfferID",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Sales.SalesOrderDetail.UnitPrice",
+    "dataset": "Sales_SalesOrderDetail",
+    "field": "UnitPrice",
+    "source_table": "Sales.SalesOrderDetail",
+    "source_column": "UnitPrice",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Sales.SalesOrderDetail.UnitPriceDiscount",
+    "dataset": "Sales_SalesOrderDetail",
+    "field": "UnitPriceDiscount",
+    "source_table": "Sales.SalesOrderDetail",
+    "source_column": "UnitPriceDiscount",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Sales.SalesOrderDetail.LineTotal",
+    "dataset": "Sales_SalesOrderDetail",
+    "field": "LineTotal",
+    "source_table": "Sales.SalesOrderDetail",
+    "source_column": "LineTotal",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Sales.SalesOrderDetail.rowguid",
+    "dataset": "Sales_SalesOrderDetail",
+    "field": "rowguid",
+    "source_table": "Sales.SalesOrderDetail",
+    "source_column": "rowguid",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Sales.SalesOrderDetail.ModifiedDate",
+    "dataset": "Sales_SalesOrderDetail",
+    "field": "ModifiedDate",
+    "source_table": "Sales.SalesOrderDetail",
+    "source_column": "ModifiedDate",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Sales.SalesOrderHeader.SalesOrderID",
+    "dataset": "Sales_SalesOrderHeader",
+    "field": "SalesOrderID",
+    "source_table": "Sales.SalesOrderHeader",
+    "source_column": "SalesOrderID",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Sales.SalesOrderHeader.RevisionNumber",
+    "dataset": "Sales_SalesOrderHeader",
+    "field": "RevisionNumber",
+    "source_table": "Sales.SalesOrderHeader",
+    "source_column": "RevisionNumber",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Sales.SalesOrderHeader.OrderDate",
+    "dataset": "Sales_SalesOrderHeader",
+    "field": "OrderDate",
+    "source_table": "Sales.SalesOrderHeader",
+    "source_column": "OrderDate",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Sales.SalesOrderHeader.DueDate",
+    "dataset": "Sales_SalesOrderHeader",
+    "field": "DueDate",
+    "source_table": "Sales.SalesOrderHeader",
+    "source_column": "DueDate",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Sales.SalesOrderHeader.ShipDate",
+    "dataset": "Sales_SalesOrderHeader",
+    "field": "ShipDate",
+    "source_table": "Sales.SalesOrderHeader",
+    "source_column": "ShipDate",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Sales.SalesOrderHeader.Status",
+    "dataset": "Sales_SalesOrderHeader",
+    "field": "Status",
+    "source_table": "Sales.SalesOrderHeader",
+    "source_column": "Status",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Sales.SalesOrderHeader.OnlineOrderFlag",
+    "dataset": "Sales_SalesOrderHeader",
+    "field": "OnlineOrderFlag",
+    "source_table": "Sales.SalesOrderHeader",
+    "source_column": "OnlineOrderFlag",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Sales.SalesOrderHeader.SalesOrderNumber",
+    "dataset": "Sales_SalesOrderHeader",
+    "field": "SalesOrderNumber",
+    "source_table": "Sales.SalesOrderHeader",
+    "source_column": "SalesOrderNumber",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Sales.SalesOrderHeader.PurchaseOrderNumber",
+    "dataset": "Sales_SalesOrderHeader",
+    "field": "PurchaseOrderNumber",
+    "source_table": "Sales.SalesOrderHeader",
+    "source_column": "PurchaseOrderNumber",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Sales.SalesOrderHeader.AccountNumber",
+    "dataset": "Sales_SalesOrderHeader",
+    "field": "AccountNumber",
+    "source_table": "Sales.SalesOrderHeader",
+    "source_column": "AccountNumber",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Sales.SalesOrderHeader.CustomerID",
+    "dataset": "Sales_SalesOrderHeader",
+    "field": "CustomerID",
+    "source_table": "Sales.SalesOrderHeader",
+    "source_column": "CustomerID",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Sales.SalesOrderHeader.SalesPersonID",
+    "dataset": "Sales_SalesOrderHeader",
+    "field": "SalesPersonID",
+    "source_table": "Sales.SalesOrderHeader",
+    "source_column": "SalesPersonID",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Sales.SalesOrderHeader.TerritoryID",
+    "dataset": "Sales_SalesOrderHeader",
+    "field": "TerritoryID",
+    "source_table": "Sales.SalesOrderHeader",
+    "source_column": "TerritoryID",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Sales.SalesOrderHeader.BillToAddressID",
+    "dataset": "Sales_SalesOrderHeader",
+    "field": "BillToAddressID",
+    "source_table": "Sales.SalesOrderHeader",
+    "source_column": "BillToAddressID",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Sales.SalesOrderHeader.ShipToAddressID",
+    "dataset": "Sales_SalesOrderHeader",
+    "field": "ShipToAddressID",
+    "source_table": "Sales.SalesOrderHeader",
+    "source_column": "ShipToAddressID",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Sales.SalesOrderHeader.ShipMethodID",
+    "dataset": "Sales_SalesOrderHeader",
+    "field": "ShipMethodID",
+    "source_table": "Sales.SalesOrderHeader",
+    "source_column": "ShipMethodID",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Sales.SalesOrderHeader.CreditCardID",
+    "dataset": "Sales_SalesOrderHeader",
+    "field": "CreditCardID",
+    "source_table": "Sales.SalesOrderHeader",
+    "source_column": "CreditCardID",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Sales.SalesOrderHeader.CreditCardApprovalCode",
+    "dataset": "Sales_SalesOrderHeader",
+    "field": "CreditCardApprovalCode",
+    "source_table": "Sales.SalesOrderHeader",
+    "source_column": "CreditCardApprovalCode",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Sales.SalesOrderHeader.CurrencyRateID",
+    "dataset": "Sales_SalesOrderHeader",
+    "field": "CurrencyRateID",
+    "source_table": "Sales.SalesOrderHeader",
+    "source_column": "CurrencyRateID",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Sales.SalesOrderHeader.SubTotal",
+    "dataset": "Sales_SalesOrderHeader",
+    "field": "SubTotal",
+    "source_table": "Sales.SalesOrderHeader",
+    "source_column": "SubTotal",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Sales.SalesOrderHeader.TaxAmt",
+    "dataset": "Sales_SalesOrderHeader",
+    "field": "TaxAmt",
+    "source_table": "Sales.SalesOrderHeader",
+    "source_column": "TaxAmt",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Sales.SalesOrderHeader.Freight",
+    "dataset": "Sales_SalesOrderHeader",
+    "field": "Freight",
+    "source_table": "Sales.SalesOrderHeader",
+    "source_column": "Freight",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Sales.SalesOrderHeader.TotalDue",
+    "dataset": "Sales_SalesOrderHeader",
+    "field": "TotalDue",
+    "source_table": "Sales.SalesOrderHeader",
+    "source_column": "TotalDue",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Sales.SalesOrderHeader.Comment",
+    "dataset": "Sales_SalesOrderHeader",
+    "field": "Comment",
+    "source_table": "Sales.SalesOrderHeader",
+    "source_column": "Comment",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Sales.SalesOrderHeader.rowguid",
+    "dataset": "Sales_SalesOrderHeader",
+    "field": "rowguid",
+    "source_table": "Sales.SalesOrderHeader",
+    "source_column": "rowguid",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Sales.SalesOrderHeader.ModifiedDate",
+    "dataset": "Sales_SalesOrderHeader",
+    "field": "ModifiedDate",
+    "source_table": "Sales.SalesOrderHeader",
+    "source_column": "ModifiedDate",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.ScrapReason.ScrapReasonID",
+    "dataset": "Production_ScrapReason",
+    "field": "ScrapReasonID",
+    "source_table": "Production.ScrapReason",
+    "source_column": "ScrapReasonID",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.ScrapReason.Name",
+    "dataset": "Production_ScrapReason",
+    "field": "Name",
+    "source_table": "Production.ScrapReason",
+    "source_column": "Name",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.ScrapReason.ModifiedDate",
+    "dataset": "Production_ScrapReason",
+    "field": "ModifiedDate",
+    "source_table": "Production.ScrapReason",
+    "source_column": "ModifiedDate",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Purchasing.ShipMethod.ShipMethodID",
+    "dataset": "Purchasing_ShipMethod",
+    "field": "ShipMethodID",
+    "source_table": "Purchasing.ShipMethod",
+    "source_column": "ShipMethodID",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Purchasing.ShipMethod.Name",
+    "dataset": "Purchasing_ShipMethod",
+    "field": "Name",
+    "source_table": "Purchasing.ShipMethod",
+    "source_column": "Name",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Purchasing.ShipMethod.ShipBase",
+    "dataset": "Purchasing_ShipMethod",
+    "field": "ShipBase",
+    "source_table": "Purchasing.ShipMethod",
+    "source_column": "ShipBase",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Purchasing.ShipMethod.ShipRate",
+    "dataset": "Purchasing_ShipMethod",
+    "field": "ShipRate",
+    "source_table": "Purchasing.ShipMethod",
+    "source_column": "ShipRate",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Purchasing.ShipMethod.rowguid",
+    "dataset": "Purchasing_ShipMethod",
+    "field": "rowguid",
+    "source_table": "Purchasing.ShipMethod",
+    "source_column": "rowguid",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Purchasing.ShipMethod.ModifiedDate",
+    "dataset": "Purchasing_ShipMethod",
+    "field": "ModifiedDate",
+    "source_table": "Purchasing.ShipMethod",
+    "source_column": "ModifiedDate",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Sales.Store.BusinessEntityID",
+    "dataset": "Sales_Store",
+    "field": "BusinessEntityID",
+    "source_table": "Sales.Store",
+    "source_column": "BusinessEntityID",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Sales.Store.Name",
+    "dataset": "Sales_Store",
+    "field": "Name",
+    "source_table": "Sales.Store",
+    "source_column": "Name",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Sales.Store.SalesPersonID",
+    "dataset": "Sales_Store",
+    "field": "SalesPersonID",
+    "source_table": "Sales.Store",
+    "source_column": "SalesPersonID",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Sales.Store.Demographics",
+    "dataset": "Sales_Store",
+    "field": "Demographics",
+    "source_table": "Sales.Store",
+    "source_column": "Demographics",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Sales.Store.rowguid",
+    "dataset": "Sales_Store",
+    "field": "rowguid",
+    "source_table": "Sales.Store",
+    "source_column": "rowguid",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Sales.Store.ModifiedDate",
+    "dataset": "Sales_Store",
+    "field": "ModifiedDate",
+    "source_table": "Sales.Store",
+    "source_column": "ModifiedDate",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.UnitMeasure.UnitMeasureCode",
+    "dataset": "Production_UnitMeasure",
+    "field": "UnitMeasureCode",
+    "source_table": "Production.UnitMeasure",
+    "source_column": "UnitMeasureCode",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.UnitMeasure.Name",
+    "dataset": "Production_UnitMeasure",
+    "field": "Name",
+    "source_table": "Production.UnitMeasure",
+    "source_column": "Name",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.UnitMeasure.ModifiedDate",
+    "dataset": "Production_UnitMeasure",
+    "field": "ModifiedDate",
+    "source_table": "Production.UnitMeasure",
+    "source_column": "ModifiedDate",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Purchasing.Vendor.BusinessEntityID",
+    "dataset": "Purchasing_Vendor",
+    "field": "BusinessEntityID",
+    "source_table": "Purchasing.Vendor",
+    "source_column": "BusinessEntityID",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Purchasing.Vendor.AccountNumber",
+    "dataset": "Purchasing_Vendor",
+    "field": "AccountNumber",
+    "source_table": "Purchasing.Vendor",
+    "source_column": "AccountNumber",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Purchasing.Vendor.Name",
+    "dataset": "Purchasing_Vendor",
+    "field": "Name",
+    "source_table": "Purchasing.Vendor",
+    "source_column": "Name",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Purchasing.Vendor.CreditRating",
+    "dataset": "Purchasing_Vendor",
+    "field": "CreditRating",
+    "source_table": "Purchasing.Vendor",
+    "source_column": "CreditRating",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Purchasing.Vendor.PreferredVendorStatus",
+    "dataset": "Purchasing_Vendor",
+    "field": "PreferredVendorStatus",
+    "source_table": "Purchasing.Vendor",
+    "source_column": "PreferredVendorStatus",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Purchasing.Vendor.ActiveFlag",
+    "dataset": "Purchasing_Vendor",
+    "field": "ActiveFlag",
+    "source_table": "Purchasing.Vendor",
+    "source_column": "ActiveFlag",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Purchasing.Vendor.PurchasingWebServiceURL",
+    "dataset": "Purchasing_Vendor",
+    "field": "PurchasingWebServiceURL",
+    "source_table": "Purchasing.Vendor",
+    "source_column": "PurchasingWebServiceURL",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Purchasing.Vendor.ModifiedDate",
+    "dataset": "Purchasing_Vendor",
+    "field": "ModifiedDate",
+    "source_table": "Purchasing.Vendor",
+    "source_column": "ModifiedDate",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.WorkOrder.WorkOrderID",
+    "dataset": "Production_WorkOrder",
+    "field": "WorkOrderID",
+    "source_table": "Production.WorkOrder",
+    "source_column": "WorkOrderID",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.WorkOrder.ProductID",
+    "dataset": "Production_WorkOrder",
+    "field": "ProductID",
+    "source_table": "Production.WorkOrder",
+    "source_column": "ProductID",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.WorkOrder.OrderQty",
+    "dataset": "Production_WorkOrder",
+    "field": "OrderQty",
+    "source_table": "Production.WorkOrder",
+    "source_column": "OrderQty",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.WorkOrder.StockedQty",
+    "dataset": "Production_WorkOrder",
+    "field": "StockedQty",
+    "source_table": "Production.WorkOrder",
+    "source_column": "StockedQty",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.WorkOrder.ScrappedQty",
+    "dataset": "Production_WorkOrder",
+    "field": "ScrappedQty",
+    "source_table": "Production.WorkOrder",
+    "source_column": "ScrappedQty",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.WorkOrder.StartDate",
+    "dataset": "Production_WorkOrder",
+    "field": "StartDate",
+    "source_table": "Production.WorkOrder",
+    "source_column": "StartDate",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.WorkOrder.EndDate",
+    "dataset": "Production_WorkOrder",
+    "field": "EndDate",
+    "source_table": "Production.WorkOrder",
+    "source_column": "EndDate",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.WorkOrder.DueDate",
+    "dataset": "Production_WorkOrder",
+    "field": "DueDate",
+    "source_table": "Production.WorkOrder",
+    "source_column": "DueDate",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.WorkOrder.ScrapReasonID",
+    "dataset": "Production_WorkOrder",
+    "field": "ScrapReasonID",
+    "source_table": "Production.WorkOrder",
+    "source_column": "ScrapReasonID",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.WorkOrder.ModifiedDate",
+    "dataset": "Production_WorkOrder",
+    "field": "ModifiedDate",
+    "source_table": "Production.WorkOrder",
+    "source_column": "ModifiedDate",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.WorkOrderRouting.WorkOrderID",
+    "dataset": "Production_WorkOrderRouting",
+    "field": "WorkOrderID",
+    "source_table": "Production.WorkOrderRouting",
+    "source_column": "WorkOrderID",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.WorkOrderRouting.ProductID",
+    "dataset": "Production_WorkOrderRouting",
+    "field": "ProductID",
+    "source_table": "Production.WorkOrderRouting",
+    "source_column": "ProductID",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.WorkOrderRouting.OperationSequence",
+    "dataset": "Production_WorkOrderRouting",
+    "field": "OperationSequence",
+    "source_table": "Production.WorkOrderRouting",
+    "source_column": "OperationSequence",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.WorkOrderRouting.LocationID",
+    "dataset": "Production_WorkOrderRouting",
+    "field": "LocationID",
+    "source_table": "Production.WorkOrderRouting",
+    "source_column": "LocationID",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.WorkOrderRouting.ScheduledStartDate",
+    "dataset": "Production_WorkOrderRouting",
+    "field": "ScheduledStartDate",
+    "source_table": "Production.WorkOrderRouting",
+    "source_column": "ScheduledStartDate",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.WorkOrderRouting.ScheduledEndDate",
+    "dataset": "Production_WorkOrderRouting",
+    "field": "ScheduledEndDate",
+    "source_table": "Production.WorkOrderRouting",
+    "source_column": "ScheduledEndDate",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.WorkOrderRouting.ActualStartDate",
+    "dataset": "Production_WorkOrderRouting",
+    "field": "ActualStartDate",
+    "source_table": "Production.WorkOrderRouting",
+    "source_column": "ActualStartDate",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.WorkOrderRouting.ActualEndDate",
+    "dataset": "Production_WorkOrderRouting",
+    "field": "ActualEndDate",
+    "source_table": "Production.WorkOrderRouting",
+    "source_column": "ActualEndDate",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.WorkOrderRouting.ActualResourceHrs",
+    "dataset": "Production_WorkOrderRouting",
+    "field": "ActualResourceHrs",
+    "source_table": "Production.WorkOrderRouting",
+    "source_column": "ActualResourceHrs",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.WorkOrderRouting.PlannedCost",
+    "dataset": "Production_WorkOrderRouting",
+    "field": "PlannedCost",
+    "source_table": "Production.WorkOrderRouting",
+    "source_column": "PlannedCost",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.WorkOrderRouting.ActualCost",
+    "dataset": "Production_WorkOrderRouting",
+    "field": "ActualCost",
+    "source_table": "Production.WorkOrderRouting",
+    "source_column": "ActualCost",
+    "state": "authored_demo_candidate"
+  },
+  {
+    "definition_id": "Production.WorkOrderRouting.ModifiedDate",
+    "dataset": "Production_WorkOrderRouting",
+    "field": "ModifiedDate",
+    "source_table": "Production.WorkOrderRouting",
+    "source_column": "ModifiedDate",
+    "state": "authored_demo_candidate"
+  }
+]

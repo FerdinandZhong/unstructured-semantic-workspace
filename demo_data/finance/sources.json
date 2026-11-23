@@ -1,0 +1,46 @@
+{
+  "dataset": "financial_services",
+  "assets": [
+    {
+      "id": "workbook",
+      "root": "downloads",
+      "path": "MockUp Data.xlsx",
+      "kind": "structured_source",
+      "scope": "finance_workbook_demo",
+      "status": "modeled_locally",
+      "bytes": 224082,
+      "sha256": "22461ccdef508009f6f229f9cfd3ad22802a3b32316170b2254efc113d0f9b79"
+    },
+    {
+      "id": "looker_map",
+      "root": "project",
+      "path": "multimedia_rag/semantic_map.json",
+      "kind": "reviewed_v1_metadata_map",
+      "scope": "finance_domain",
+      "status": "metadata_only",
+      "bytes": 2432,
+      "sha256": "029cfbda4c6a96ad5a8b476cbfe8da3e068b0d8a22863a1009ec3afdce8bc711",
+      "model": "bank_trino"
+    },
+    {
+      "id": "jade_news",
+      "root": "project",
+      "path": "demo_data/preload/adverse1536_NEWS-CORP0006700_jade-logistics-pte-ltd.md",
+      "kind": "synthetic_document",
+      "scope": "jade_demo",
+      "status": "local_source",
+      "bytes": 896,
+      "sha256": "23d729575d8bed3c62849a24e0f892f4d7c2dc009af2dc3946f8cb599ab9ef5f"
+    },
+    {
+      "id": "jade_call",
+      "root": "v1",
+      "path": "demo_data/hero/out/jade_logistics_rm_call.mp3",
+      "kind": "synthetic_audio",
+      "scope": "jade_demo",
+      "status": "local_source",
+      "bytes": 495698,
+      "sha256": "817cdbcbbf5e12250208b7e1bbb767039bcc54033a5d042ea77e6a7556a87e38"
+    }
+  ]
+}

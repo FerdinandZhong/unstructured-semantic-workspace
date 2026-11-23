@@ -1,0 +1,182 @@
+[
+  {
+    "id": "G01",
+    "document_id": "MFG-001",
+    "path": "documents/markdown/MFG-001.md",
+    "quote": "Customer Westside Plaza uses AdventureWorks CustomerID 29641 and StoreID 652.",
+    "locator": {
+      "kind": "unicode_codepoint_range",
+      "end_exclusive": true,
+      "start": 436,
+      "end": 513
+    },
+    "concept": "customer_identifier",
+    "target_definition": "Sales.Customer.CustomerID",
+    "expected_relation": "identifier_binding",
+    "rationale": "Explicit source namespace and account key match the sample.",
+    "label_origin": "authored_demo_expectation",
+    "human_adjudication": "pending"
+  },
+  {
+    "id": "G02",
+    "document_id": "MFG-001",
+    "path": "documents/markdown/MFG-001.md",
+    "quote": "The covered product is Touring-1000 Yellow, 46, ProductID 954, ProductNumber BK-T79Y-46, in namespace adventureworks_demo.",
+    "locator": {
+      "kind": "unicode_codepoint_range",
+      "end_exclusive": true,
+      "start": 530,
+      "end": 652
+    },
+    "concept": "product_identifier",
+    "target_definition": "Production.Product.ProductNumber",
+    "expected_relation": "identifier_binding",
+    "rationale": "Verify ProductID and ProductNumber together within the namespace.",
+    "label_origin": "authored_demo_expectation",
+    "human_adjudication": "pending"
+  },
+  {
+    "id": "G03",
+    "document_id": "MFG-001",
+    "path": "documents/markdown/MFG-001.md",
+    "quote": "The customer commits to order at least 71 units of ProductNumber BK-T79Y-46 from 2024-01-01 through 2024-12-31.",
+    "locator": {
+      "kind": "unicode_codepoint_range",
+      "end_exclusive": true,
+      "start": 688,
+      "end": 799
+    },
+    "concept": "purchase_commitment",
+    "target_definition": "Sales.SalesOrderDetail.OrderQty",
+    "expected_relation": "related_context",
+    "rationale": "Commitment is an obligation, not the actual ordered quantity.",
+    "label_origin": "authored_demo_expectation",
+    "human_adjudication": "pending"
+  },
+  {
+    "id": "G04",
+    "document_id": "MFG-002",
+    "path": "documents/markdown/MFG-002.md",
+    "quote": "The synthetic promised delivery date for SalesOrderID 51131 is 2024-06-10.",
+    "locator": {
+      "kind": "unicode_codepoint_range",
+      "end_exclusive": true,
+      "start": 794,
+      "end": 868
+    },
+    "concept": "delivery_promise",
+    "target_definition": "Sales.SalesOrderHeader.DueDate",
+    "expected_relation": "related_context",
+    "rationale": "A documented promise and operational due date have separate provenance.",
+    "label_origin": "authored_demo_expectation",
+    "human_adjudication": "pending"
+  },
+  {
+    "id": "G05",
+    "document_id": "MFG-003",
+    "path": "documents/markdown/MFG-003.md",
+    "quote": "Effective 2024-05-30, the promised delivery date for SalesOrderID 51131 changes from 2024-06-10 to 2024-06-17.",
+    "locator": {
+      "kind": "unicode_codepoint_range",
+      "end_exclusive": true,
+      "start": 523,
+      "end": 633
+    },
+    "concept": "delivery_promise",
+    "target_definition": "Sales.SalesOrderHeader.DueDate",
+    "expected_relation": "related_context",
+    "rationale": "Resolve effective version for the question date; never overwrite source facts.",
+    "label_origin": "authored_demo_expectation",
+    "human_adjudication": "pending"
+  },
+  {
+    "id": "G06",
+    "document_id": "MFG-004",
+    "path": "documents/markdown/MFG-004.md",
+    "quote": "The customer will inspect the supplied goods within ten calendar days after documented receipt. Written acceptance is required.",
+    "locator": {
+      "kind": "unicode_codepoint_range",
+      "end_exclusive": true,
+      "start": 666,
+      "end": 793
+    },
+    "concept": "inspection_acceptance",
+    "target_definition": null,
+    "expected_relation": "unmapped",
+    "rationale": "No inspected operational field establishes customer acceptance.",
+    "label_origin": "authored_demo_expectation",
+    "human_adjudication": "pending"
+  },
+  {
+    "id": "G07",
+    "document_id": "MFG-005",
+    "path": "documents/markdown/MFG-005.md",
+    "quote": "The synthetic warranty lasts 24 months from documented customer acceptance. The start date remains unknown until acceptance evidence exists.",
+    "locator": {
+      "kind": "unicode_codepoint_range",
+      "end_exclusive": true,
+      "start": 658,
+      "end": 798
+    },
+    "concept": "warranty_duration",
+    "target_definition": null,
+    "expected_relation": "unmapped",
+    "rationale": "A useful concept can remain unmapped without fabricating a schema field.",
+    "label_origin": "authored_demo_expectation",
+    "human_adjudication": "pending"
+  },
+  {
+    "id": "G08",
+    "document_id": "MFG-006",
+    "path": "documents/markdown/MFG-006.md",
+    "quote": "Supplier International Trek Center uses AdventureWorks Vendor BusinessEntityID 1518.",
+    "locator": {
+      "kind": "unicode_codepoint_range",
+      "end_exclusive": true,
+      "start": 425,
+      "end": 509
+    },
+    "concept": "supplier_identifier",
+    "target_definition": "Purchasing.Vendor.BusinessEntityID",
+    "expected_relation": "identifier_binding",
+    "rationale": "Vendor key binding is separate from a customer account binding.",
+    "label_origin": "authored_demo_expectation",
+    "human_adjudication": "pending"
+  },
+  {
+    "id": "G09",
+    "document_id": "MFG-006",
+    "path": "documents/markdown/MFG-006.md",
+    "quote": "The supplier promises receipt within 14 calendar days after purchase-order acceptance for ProductNumber PA-T100 (ProductID 842).",
+    "locator": {
+      "kind": "unicode_codepoint_range",
+      "end_exclusive": true,
+      "start": 687,
+      "end": 815
+    },
+    "concept": "supplier_lead_time_promise",
+    "target_definition": "Purchasing.ProductVendor.AverageLeadTime",
+    "expected_relation": "related_context",
+    "rationale": "Promise versus average, plus different start events; exact equivalence is forbidden.",
+    "label_origin": "authored_demo_expectation",
+    "human_adjudication": "pending"
+  },
+  {
+    "id": "G10",
+    "document_id": "MFG-007",
+    "path": "documents/markdown/MFG-007.md",
+    "quote": "Customer Camping and Sports Store, CustomerID 29629, has a separate illustrative commitment of 40 units of ProductNumber BK-T79Y-46 during calendar year 2024.",
+    "locator": {
+      "kind": "unicode_codepoint_range",
+      "end_exclusive": true,
+      "start": 442,
+      "end": 600
+    },
+    "concept": "purchase_commitment",
+    "target_definition": "Sales.SalesOrderDetail.OrderQty",
+    "expected_relation": "related_context",
+    "rationale": "Same concept and product, separate account evidence and quantity filter.",
+    "label_origin": "authored_demo_expectation",
+    "human_adjudication": "pending"
+  }
+]

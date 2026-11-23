@@ -1,0 +1,472 @@
+{
+  "date": "2026-11-16",
+  "row_counts": {
+    "Person.Address": 19614,
+    "Production.BillOfMaterials": 2679,
+    "Person.BusinessEntity": 20777,
+    "Sales.Customer": 19820,
+    "Production.Document": 12,
+    "Production.Location": 14,
+    "Person.Person": 19972,
+    "Production.Product": 504,
+    "Production.ProductCategory": 4,
+    "Production.ProductDocument": 32,
+    "Production.ProductInventory": 1069,
+    "Production.ProductModel": 128,
+    "Production.ProductSubcategory": 37,
+    "Purchasing.ProductVendor": 460,
+    "Purchasing.PurchaseOrderDetail": 8845,
+    "Purchasing.PurchaseOrderHeader": 4012,
+    "Sales.SalesOrderDetail": 121317,
+    "Sales.SalesOrderHeader": 31465,
+    "Production.ScrapReason": 16,
+    "Purchasing.ShipMethod": 5,
+    "Sales.Store": 701,
+    "Production.UnitMeasure": 38,
+    "Purchasing.Vendor": 104,
+    "Production.WorkOrder": 72591,
+    "Production.WorkOrderRouting": 67131
+  },
+  "total_rows": 391347,
+  "checks": [
+    {
+      "kind": "primary_key",
+      "table": "Person.Address",
+      "duplicates": 0,
+      "nulls": 0
+    },
+    {
+      "kind": "primary_key",
+      "table": "Production.BillOfMaterials",
+      "duplicates": 0,
+      "nulls": 0
+    },
+    {
+      "kind": "primary_key",
+      "table": "Person.BusinessEntity",
+      "duplicates": 0,
+      "nulls": 0
+    },
+    {
+      "kind": "primary_key",
+      "table": "Sales.Customer",
+      "duplicates": 0,
+      "nulls": 0
+    },
+    {
+      "kind": "primary_key",
+      "table": "Production.Document",
+      "duplicates": 0,
+      "nulls": 0
+    },
+    {
+      "kind": "primary_key",
+      "table": "Production.Location",
+      "duplicates": 0,
+      "nulls": 0
+    },
+    {
+      "kind": "primary_key",
+      "table": "Person.Person",
+      "duplicates": 0,
+      "nulls": 0
+    },
+    {
+      "kind": "primary_key",
+      "table": "Production.Product",
+      "duplicates": 0,
+      "nulls": 0
+    },
+    {
+      "kind": "primary_key",
+      "table": "Production.ProductCategory",
+      "duplicates": 0,
+      "nulls": 0
+    },
+    {
+      "kind": "primary_key",
+      "table": "Production.ProductDocument",
+      "duplicates": 0,
+      "nulls": 0
+    },
+    {
+      "kind": "primary_key",
+      "table": "Production.ProductInventory",
+      "duplicates": 0,
+      "nulls": 0
+    },
+    {
+      "kind": "primary_key",
+      "table": "Production.ProductModel",
+      "duplicates": 0,
+      "nulls": 0
+    },
+    {
+      "kind": "primary_key",
+      "table": "Production.ProductSubcategory",
+      "duplicates": 0,
+      "nulls": 0
+    },
+    {
+      "kind": "primary_key",
+      "table": "Purchasing.ProductVendor",
+      "duplicates": 0,
+      "nulls": 0
+    },
+    {
+      "kind": "primary_key",
+      "table": "Purchasing.PurchaseOrderDetail",
+      "duplicates": 0,
+      "nulls": 0
+    },
+    {
+      "kind": "primary_key",
+      "table": "Purchasing.PurchaseOrderHeader",
+      "duplicates": 0,
+      "nulls": 0
+    },
+    {
+      "kind": "primary_key",
+      "table": "Sales.SalesOrderDetail",
+      "duplicates": 0,
+      "nulls": 0
+    },
+    {
+      "kind": "primary_key",
+      "table": "Sales.SalesOrderHeader",
+      "duplicates": 0,
+      "nulls": 0
+    },
+    {
+      "kind": "primary_key",
+      "table": "Production.ScrapReason",
+      "duplicates": 0,
+      "nulls": 0
+    },
+    {
+      "kind": "primary_key",
+      "table": "Purchasing.ShipMethod",
+      "duplicates": 0,
+      "nulls": 0
+    },
+    {
+      "kind": "primary_key",
+      "table": "Sales.Store",
+      "duplicates": 0,
+      "nulls": 0
+    },
+    {
+      "kind": "primary_key",
+      "table": "Production.UnitMeasure",
+      "duplicates": 0,
+      "nulls": 0
+    },
+    {
+      "kind": "primary_key",
+      "table": "Purchasing.Vendor",
+      "duplicates": 0,
+      "nulls": 0
+    },
+    {
+      "kind": "primary_key",
+      "table": "Production.WorkOrder",
+      "duplicates": 0,
+      "nulls": 0
+    },
+    {
+      "kind": "primary_key",
+      "table": "Production.WorkOrderRouting",
+      "duplicates": 0,
+      "nulls": 0
+    },
+    {
+      "kind": "foreign_key",
+      "name": "FK_BillOfMaterials_Product_ProductAssemblyID",
+      "unmatched_rows": 0
+    },
+    {
+      "kind": "foreign_key",
+      "name": "FK_BillOfMaterials_Product_ComponentID",
+      "unmatched_rows": 0
+    },
+    {
+      "kind": "foreign_key",
+      "name": "FK_BillOfMaterials_UnitMeasure_UnitMeasureCode",
+      "unmatched_rows": 0
+    },
+    {
+      "kind": "foreign_key",
+      "name": "FK_Customer_Person_PersonID",
+      "unmatched_rows": 0
+    },
+    {
+      "kind": "foreign_key",
+      "name": "FK_Customer_Store_StoreID",
+      "unmatched_rows": 0
+    },
+    {
+      "kind": "foreign_key",
+      "name": "FK_Person_BusinessEntity_BusinessEntityID",
+      "unmatched_rows": 0
+    },
+    {
+      "kind": "foreign_key",
+      "name": "FK_Product_UnitMeasure_SizeUnitMeasureCode",
+      "unmatched_rows": 0
+    },
+    {
+      "kind": "foreign_key",
+      "name": "FK_Product_UnitMeasure_WeightUnitMeasureCode",
+      "unmatched_rows": 0
+    },
+    {
+      "kind": "foreign_key",
+      "name": "FK_Product_ProductModel_ProductModelID",
+      "unmatched_rows": 0
+    },
+    {
+      "kind": "foreign_key",
+      "name": "FK_Product_ProductSubcategory_ProductSubcategoryID",
+      "unmatched_rows": 0
+    },
+    {
+      "kind": "foreign_key",
+      "name": "FK_ProductDocument_Product_ProductID",
+      "unmatched_rows": 0
+    },
+    {
+      "kind": "foreign_key",
+      "name": "FK_ProductDocument_Document_DocumentNode",
+      "unmatched_rows": 0
+    },
+    {
+      "kind": "foreign_key",
+      "name": "FK_ProductInventory_Location_LocationID",
+      "unmatched_rows": 0
+    },
+    {
+      "kind": "foreign_key",
+      "name": "FK_ProductInventory_Product_ProductID",
+      "unmatched_rows": 0
+    },
+    {
+      "kind": "foreign_key",
+      "name": "FK_ProductSubcategory_ProductCategory_ProductCategoryID",
+      "unmatched_rows": 0
+    },
+    {
+      "kind": "foreign_key",
+      "name": "FK_ProductVendor_Product_ProductID",
+      "unmatched_rows": 0
+    },
+    {
+      "kind": "foreign_key",
+      "name": "FK_ProductVendor_UnitMeasure_UnitMeasureCode",
+      "unmatched_rows": 0
+    },
+    {
+      "kind": "foreign_key",
+      "name": "FK_ProductVendor_Vendor_BusinessEntityID",
+      "unmatched_rows": 0
+    },
+    {
+      "kind": "foreign_key",
+      "name": "FK_PurchaseOrderDetail_Product_ProductID",
+      "unmatched_rows": 0
+    },
+    {
+      "kind": "foreign_key",
+      "name": "FK_PurchaseOrderDetail_PurchaseOrderHeader_PurchaseOrderID",
+      "unmatched_rows": 0
+    },
+    {
+      "kind": "foreign_key",
+      "name": "FK_PurchaseOrderHeader_Vendor_VendorID",
+      "unmatched_rows": 0
+    },
+    {
+      "kind": "foreign_key",
+      "name": "FK_PurchaseOrderHeader_ShipMethod_ShipMethodID",
+      "unmatched_rows": 0
+    },
+    {
+      "kind": "foreign_key",
+      "name": "FK_SalesOrderDetail_SalesOrderHeader_SalesOrderID",
+      "unmatched_rows": 0
+    },
+    {
+      "kind": "foreign_key",
+      "name": "FK_SalesOrderHeader_Address_BillToAddressID",
+      "unmatched_rows": 0
+    },
+    {
+      "kind": "foreign_key",
+      "name": "FK_SalesOrderHeader_Address_ShipToAddressID",
+      "unmatched_rows": 0
+    },
+    {
+      "kind": "foreign_key",
+      "name": "FK_SalesOrderHeader_Customer_CustomerID",
+      "unmatched_rows": 0
+    },
+    {
+      "kind": "foreign_key",
+      "name": "FK_SalesOrderHeader_ShipMethod_ShipMethodID",
+      "unmatched_rows": 0
+    },
+    {
+      "kind": "foreign_key",
+      "name": "FK_Store_BusinessEntity_BusinessEntityID",
+      "unmatched_rows": 0
+    },
+    {
+      "kind": "foreign_key",
+      "name": "FK_Vendor_BusinessEntity_BusinessEntityID",
+      "unmatched_rows": 0
+    },
+    {
+      "kind": "foreign_key",
+      "name": "FK_WorkOrder_Product_ProductID",
+      "unmatched_rows": 0
+    },
+    {
+      "kind": "foreign_key",
+      "name": "FK_WorkOrder_ScrapReason_ScrapReasonID",
+      "unmatched_rows": 0
+    },
+    {
+      "kind": "foreign_key",
+      "name": "FK_WorkOrderRouting_Location_LocationID",
+      "unmatched_rows": 0
+    },
+    {
+      "kind": "foreign_key",
+      "name": "FK_WorkOrderRouting_WorkOrder_WorkOrderID",
+      "unmatched_rows": 0
+    }
+  ],
+  "external_foreign_keys": [
+    {
+      "name": "FK_Address_StateProvince_StateProvinceID",
+      "from_table": "Person.Address",
+      "to_table": "Person.StateProvince",
+      "from_columns": [
+        "StateProvinceID"
+      ],
+      "to_columns": [
+        "StateProvinceID"
+      ],
+      "in_scope": false
+    },
+    {
+      "name": "FK_Customer_SalesTerritory_TerritoryID",
+      "from_table": "Sales.Customer",
+      "to_table": "Sales.SalesTerritory",
+      "from_columns": [
+        "TerritoryID"
+      ],
+      "to_columns": [
+        "TerritoryID"
+      ],
+      "in_scope": false
+    },
+    {
+      "name": "FK_Document_Employee_Owner",
+      "from_table": "Production.Document",
+      "to_table": "HumanResources.Employee",
+      "from_columns": [
+        "Owner"
+      ],
+      "to_columns": [
+        "BusinessEntityID"
+      ],
+      "in_scope": false
+    },
+    {
+      "name": "FK_PurchaseOrderHeader_Employee_EmployeeID",
+      "from_table": "Purchasing.PurchaseOrderHeader",
+      "to_table": "HumanResources.Employee",
+      "from_columns": [
+        "EmployeeID"
+      ],
+      "to_columns": [
+        "BusinessEntityID"
+      ],
+      "in_scope": false
+    },
+    {
+      "name": "FK_SalesOrderDetail_SpecialOfferProduct_SpecialOfferIDProductID",
+      "from_table": "Sales.SalesOrderDetail",
+      "to_table": "Sales.SpecialOfferProduct",
+      "from_columns": [
+        "SpecialOfferID",
+        "ProductID"
+      ],
+      "to_columns": [
+        "SpecialOfferID",
+        "ProductID"
+      ],
+      "in_scope": false
+    },
+    {
+      "name": "FK_SalesOrderHeader_CreditCard_CreditCardID",
+      "from_table": "Sales.SalesOrderHeader",
+      "to_table": "Sales.CreditCard",
+      "from_columns": [
+        "CreditCardID"
+      ],
+      "to_columns": [
+        "CreditCardID"
+      ],
+      "in_scope": false
+    },
+    {
+      "name": "FK_SalesOrderHeader_CurrencyRate_CurrencyRateID",
+      "from_table": "Sales.SalesOrderHeader",
+      "to_table": "Sales.CurrencyRate",
+      "from_columns": [
+        "CurrencyRateID"
+      ],
+      "to_columns": [
+        "CurrencyRateID"
+      ],
+      "in_scope": false
+    },
+    {
+      "name": "FK_SalesOrderHeader_SalesPerson_SalesPersonID",
+      "from_table": "Sales.SalesOrderHeader",
+      "to_table": "Sales.SalesPerson",
+      "from_columns": [
+        "SalesPersonID"
+      ],
+      "to_columns": [
+        "BusinessEntityID"
+      ],
+      "in_scope": false
+    },
+    {
+      "name": "FK_SalesOrderHeader_SalesTerritory_TerritoryID",
+      "from_table": "Sales.SalesOrderHeader",
+      "to_table": "Sales.SalesTerritory",
+      "from_columns": [
+        "TerritoryID"
+      ],
+      "to_columns": [
+        "TerritoryID"
+      ],
+      "in_scope": false
+    },
+    {
+      "name": "FK_Store_SalesPerson_SalesPersonID",
+      "from_table": "Sales.Store",
+      "to_table": "Sales.SalesPerson",
+      "from_columns": [
+        "SalesPersonID"
+      ],
+      "to_columns": [
+        "BusinessEntityID"
+      ],
+      "in_scope": false
+    }
+  ]
+}

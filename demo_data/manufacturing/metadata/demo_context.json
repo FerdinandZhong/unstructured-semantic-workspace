@@ -1,0 +1,51 @@
+{
+  "scope": "adventureworks_demo",
+  "sample_period": [
+    "2024-01-01",
+    "2025-01-01"
+  ],
+  "annual_comparison_as_of": "2024-12-31",
+  "hero": {
+    "CustomerID": 29641,
+    "StoreID": 652,
+    "CustomerName": "Westside Plaza",
+    "ProductID": 954,
+    "ProductNumber": "BK-T79Y-46",
+    "ProductName": "Touring-1000 Yellow, 46",
+    "AnnualOrderedUnits": 51,
+    "OrderCount": 3
+  },
+  "order": {
+    "SalesOrderID": 51131,
+    "OrderDate": "2024-05-29 00:00:00.000",
+    "DueDate": "2024-06-10 00:00:00.000",
+    "ShipDate": "2024-06-05 00:00:00.000",
+    "SalesOrderDetailID": 36824,
+    "OrderQty": 16
+  },
+  "second_customer": {
+    "CustomerID": 29629,
+    "StoreID": 626,
+    "CustomerName": "Camping and Sports Store",
+    "AnnualOrderedUnits": 21
+  },
+  "supplier": {
+    "VendorID": 1518,
+    "VendorName": "International Trek Center",
+    "ProductID": 842,
+    "ProductNumber": "PA-T100",
+    "ProductName": "Touring-Panniers, Large",
+    "AverageLeadTime": 120,
+    "MinOrderQty": 100,
+    "MaxOrderQty": 600,
+    "UnitMeasureCode": "EA "
+  },
+  "authored_terms": {
+    "minimum_commitment": 71,
+    "original_delivery_promise": "2024-06-10",
+    "amended_delivery_promise": "2024-06-17",
+    "amendment_effective": "2024-05-30",
+    "supplier_promised_days": 14
+  },
+  "warning": "All contract terms are newly authored synthetic fixtures. Operational records come from the Microsoft sample, not real customers."
+}

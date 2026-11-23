@@ -1,0 +1,39 @@
+% Generated from qualification/search-verification-2026-11-21/ on 2026-11-21 (test E24).
+\begin{table}[H]
+\centering\small
+\caption{Search methods on unseen data, each run once with frozen settings. \emph{Offered} is the share of positive passages whose right definition reached the deciding call. Methods with dashes were measured for retrieval only. $^{\ast}$For two-step, \emph{Offered} is the five-id shortlist; its first-step list held the right definition for 1.00 (finance), 0.99 (manufacturing) and 0.77 (A3) of positive passages. The two packs are generator-made planted truth; only A3 is independently annotated. Best end-to-end value per block in bold.}
+\label{tab:search-unseen}
+\begin{tabular}{lccccc}
+\toprule
+\multicolumn{6}{l}{\textit{Finance pack (163 sentences, 104 positive)}}\\\midrule
+Method & Offered & Precision & Recall & False-link rate & Calls per chunk\\\midrule
+Lexical, top 12 & 0.80 & -- & -- & -- & --\\
+Vector, top 12 & 0.88 & -- & -- & -- & --\\
+Hybrid-12 & 0.86 & 0.72 & 0.60 & 0.08 & 1.00\\
+Hybrid-30 & 0.90 & 0.63 & 0.53 & 0.10 & 1.00\\
+Hybrid-50 & 0.91 & -- & -- & -- & --\\
+Expanded query & 0.87 & \textbf{0.74} & \textbf{0.62} & 0.07 & 2.00\\
+Two-step & 0.83$^{\ast}$ & 0.73 & 0.59 & \textbf{0.03} & 1.74\\
+\midrule
+\multicolumn{6}{l}{\textit{Manufacturing pack (212 sentences, 144 positive, paraphrased)}}\\\midrule
+Method & Offered & Precision & Recall & False-link rate & Calls per chunk\\\midrule
+Lexical, top 12 & 0.40 & -- & -- & -- & --\\
+Vector, top 12 & 0.90 & -- & -- & -- & --\\
+Hybrid-12 & 0.86 & 0.76 & 0.56 & 0.07 & 1.00\\
+Hybrid-30 & 0.97 & 0.84 & 0.59 & 0.06 & 1.00\\
+Hybrid-50 & 0.98 & -- & -- & -- & --\\
+Expanded query & 0.83 & 0.74 & 0.56 & 0.12 & 2.00\\
+Two-step & 0.78$^{\ast}$ & \textbf{0.90} & \textbf{0.62} & \textbf{0.01} & 1.69\\
+\midrule
+\multicolumn{6}{l}{\textit{Set A3 (52 rows, 13 positive, independent annotator)}}\\\midrule
+Method & Offered & Precision & Recall & False-link rate & Calls per chunk\\\midrule
+Lexical, top 12 & 0.23 & -- & -- & -- & --\\
+Vector, top 12 & 0.38 & -- & -- & -- & --\\
+Hybrid-12 & 0.38 & 0.21 & \textbf{0.31} & 0.28 & 1.00\\
+Hybrid-30 & 0.69 & 0.24 & \textbf{0.31} & 0.26 & 1.00\\
+Hybrid-50 & 0.77 & -- & -- & -- & --\\
+Expanded query & 0.38 & 0.21 & 0.23 & 0.21 & 2.00\\
+Two-step & 0.31$^{\ast}$ & \textbf{0.31} & \textbf{0.31} & \textbf{0.18} & 1.48\\
+\bottomrule
+\end{tabular}
+\end{table}

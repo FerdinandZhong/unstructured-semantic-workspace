@@ -1,0 +1,12 @@
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix v: <urn:demo:manufacturing:vocab:> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+v:ConceptShape a sh:NodeShape; sh:targetClass skos:Concept;
+ sh:property [sh:path skos:prefLabel; sh:minCount 1; sh:maxCount 1; sh:datatype xsd:string; sh:minLength 1];
+ sh:property [sh:path skos:definition; sh:minCount 1; sh:maxCount 1; sh:datatype xsd:string; sh:minLength 1].
+v:ProposalShape a sh:NodeShape; sh:targetClass v:MappingProposal;
+ sh:property [sh:path v:sourceConcept; sh:minCount 1; sh:maxCount 1; sh:nodeKind sh:IRI; sh:class skos:Concept];
+ sh:property [sh:path v:targetDefinition; sh:minCount 1; sh:maxCount 1; sh:nodeKind sh:IRI; sh:class skos:Concept];
+ sh:property [sh:path v:relation; sh:minCount 1; sh:maxCount 1; sh:in ("identifier_binding" "related_context")];
+ sh:property [sh:path v:status; sh:hasValue "authored_demo_candidate"; sh:maxCount 1].

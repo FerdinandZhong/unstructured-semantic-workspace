@@ -1,0 +1,5138 @@
+{
+  "generator": "demo_data/manufacturing/documents/generate_pack2.py",
+  "seed": 20261121,
+  "date": "2026-11-21",
+  "synthetic": true,
+  "note": "Planted truth from the generator, not an independent gold set. Every document is synthetic. Recorded values are read from the AdventureWorks CSV projections. Commitment truth is computed from the same rows. Sales and purchase periods are real calendar years and quarters of the data. No randomness is used. The paraphrase flag is true when the sentence contains neither the field or metric name nor its spaced form.",
+  "model_definition_format": "manufacturing:definition:adventureworks_manufacturing_demo/{field/<Dataset>/<Field>|metric/<name>}",
+  "documents": [
+    {
+      "id": "MFG-101",
+      "title": "Customer supply agreement",
+      "type": "customer supply agreement",
+      "path": "markdown/MFG-101.md",
+      "sha256": "f68a6a80d575e31d5488cdc5978ee307e15f4e076a26c2197835271c16be3477",
+      "customer_keys": [
+        "29837"
+      ],
+      "vendor_keys": [],
+      "entity_keys": {
+        "product": [
+          "813"
+        ]
+      },
+      "statements": [
+        {
+          "sentence": "The buyer trades as Producer Goods Clearinghouse.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Sales_Store/Name",
+          "stated": {
+            "value": "Producer Goods Clearinghouse",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Sales_Store",
+            "key": {
+              "BusinessEntityID": 1072
+            },
+            "field": "Name",
+            "value": "Producer Goods Clearinghouse",
+            "surface": "Producer Goods Clearinghouse"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The buyer's ledger code is AW00029837 and its orders are booked to outlet 1,072.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Sales_Customer/AccountNumber",
+          "stated": {
+            "value": "AW00029837",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Sales_Customer",
+            "key": {
+              "CustomerID": 29837
+            },
+            "field": "AccountNumber",
+            "value": "AW00029837",
+            "surface": "AW00029837"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The buyer's ledger code is AW00029837 and its orders are booked to outlet 1,072.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Sales_Customer/StoreID",
+          "stated": {
+            "value": "1072",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Sales_Customer",
+            "key": {
+              "CustomerID": 29837
+            },
+            "field": "StoreID",
+            "value": "1072",
+            "surface": "1,072"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The buyer is served from sales region 8.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Sales_Customer/TerritoryID",
+          "stated": {
+            "value": "8",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Sales_Customer",
+            "key": {
+              "CustomerID": 29837
+            },
+            "field": "TerritoryID",
+            "value": "8",
+            "surface": "8"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The principal article is HL Road Handlebars.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_Product/Name",
+          "stated": {
+            "value": "HL Road Handlebars",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Production_Product",
+            "key": {
+              "ProductID": 813
+            },
+            "field": "Name",
+            "value": "HL Road Handlebars",
+            "surface": "HL Road Handlebars"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "Its catalogue code is HB-R956 and its catalogue price is 120.27 per unit.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_Product/ProductNumber",
+          "stated": {
+            "value": "HB-R956",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Production_Product",
+            "key": {
+              "ProductID": 813
+            },
+            "field": "ProductNumber",
+            "value": "HB-R956",
+            "surface": "HB-R956"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "Its catalogue code is HB-R956 and its catalogue price is 120.27 per unit.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_Product/ListPrice",
+          "stated": {
+            "value": "120.2700",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Production_Product",
+            "key": {
+              "ProductID": 813
+            },
+            "field": "ListPrice",
+            "value": "120.2700",
+            "surface": "120.27"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The buyer commits to take at least 25 units across all products during 2024.",
+          "kind": "commitment",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/metric/sales_ordered_units",
+          "stated": {
+            "value": 25,
+            "unit": "units",
+            "period": "2024"
+          },
+          "commitment": {
+            "check": {
+              "op": "sales_units",
+              "customer": 29837,
+              "from": "2024-01-01",
+              "to": "2024-12-31"
+            },
+            "comparison": "ge",
+            "threshold": 25,
+            "actual": 34.0,
+            "met": true,
+            "logic": "Sum of OrderQty on Sales_SalesOrderDetail lines of orders of CustomerID 29837, OrderDate from 2024-01-01 to 2024-12-31; compare at least 25.",
+            "note": ""
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The buyer commits to take at least 10 units of the HL Road Handlebars during 2024.",
+          "kind": "commitment",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/metric/sales_ordered_units",
+          "stated": {
+            "value": 10,
+            "unit": "units",
+            "period": "2024"
+          },
+          "commitment": {
+            "check": {
+              "op": "sales_units",
+              "customer": 29837,
+              "product": 813,
+              "from": "2024-01-01",
+              "to": "2024-12-31"
+            },
+            "comparison": "ge",
+            "threshold": 10,
+            "actual": 4.0,
+            "met": false,
+            "logic": "Sum of OrderQty on Sales_SalesOrderDetail lines of orders of CustomerID 29837, ProductID 813, OrderDate from 2024-01-01 to 2024-12-31; compare at least 10.",
+            "note": ""
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The buyer's invoiced spend for 2024 will be at least USD 10,000.",
+          "kind": "commitment",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/metric/sales_line_revenue",
+          "stated": {
+            "value": 10000,
+            "unit": "USD",
+            "period": "2024"
+          },
+          "commitment": {
+            "check": {
+              "op": "sales_revenue",
+              "customer": 29837,
+              "from": "2024-01-01",
+              "to": "2024-12-31"
+            },
+            "comparison": "ge",
+            "threshold": 10000,
+            "actual": 11109.89,
+            "met": true,
+            "logic": "Sum of LineTotal (currency not recorded) on lines of orders of CustomerID 29837, OrderDate from 2024-01-01 to 2024-12-31; compare at least 10000.",
+            "note": "The source records no currency. The contract states USD."
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The buyer will place at least 8 separate orders during 2024.",
+          "kind": "commitment",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/metric/sales_order_count",
+          "stated": {
+            "value": 8,
+            "unit": "orders",
+            "period": "2024"
+          },
+          "commitment": {
+            "check": {
+              "op": "sales_orders",
+              "customer": 29837,
+              "from": "2024-01-01",
+              "to": "2024-12-31"
+            },
+            "comparison": "ge",
+            "threshold": 8,
+            "actual": 6.0,
+            "met": false,
+            "logic": "Count of distinct SalesOrderID of CustomerID 29837, OrderDate from 2024-01-01 to 2024-12-31; compare at least 8.",
+            "note": ""
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The agreed price for the handlebars is EUR 110 per unit.",
+          "kind": "trap",
+          "trap": {
+            "reason": "A price in euros. The source records no currency and the catalogue price is a different figure.",
+            "tempts": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_Product/ListPrice"
+          }
+        },
+        {
+          "sentence": "Framework reference SA-2024-0117 identifies this agreement.",
+          "kind": "trap",
+          "trap": {
+            "reason": "A document reference, not a customer number, order number or ledger code.",
+            "tempts": "manufacturing:definition:adventureworks_manufacturing_demo/field/Sales_Customer/AccountNumber"
+          }
+        },
+        {
+          "sentence": "Invoices are payable within 45 days of the invoice date.",
+          "kind": "no_counterpart",
+          "why": "The data records nothing like it."
+        },
+        {
+          "sentence": "This agreement runs for 3 years and renews automatically unless either party gives notice.",
+          "kind": "no_counterpart",
+          "why": "The data records nothing like it."
+        },
+        {
+          "sentence": "The courts of King County in the State of Washington decide any dispute about this document.",
+          "kind": "no_counterpart",
+          "why": "The data records nothing like it."
+        },
+        {
+          "sentence": "Signed for the company by an authorised officer whose name is withheld in this synthetic pack.",
+          "kind": "no_counterpart",
+          "why": "The data records nothing like it."
+        }
+      ]
+    },
+    {
+      "id": "MFG-102",
+      "title": "Amendment to customer supply agreement MFG-101",
+      "type": "supply agreement amendment",
+      "path": "markdown/MFG-102.md",
+      "sha256": "94cf8dc6706a0672d917b1b56a4c40ddd66aa5f9536f7017f5c9757950ba51c3",
+      "customer_keys": [
+        "29837"
+      ],
+      "vendor_keys": [],
+      "entity_keys": {},
+      "amends": "MFG-101",
+      "statements": [
+        {
+          "sentence": "The buyer trades as Producer Goods Clearinghouse.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Sales_Store/Name",
+          "stated": {
+            "value": "Producer Goods Clearinghouse",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Sales_Store",
+            "key": {
+              "BusinessEntityID": 1072
+            },
+            "field": "Name",
+            "value": "Producer Goods Clearinghouse",
+            "surface": "Producer Goods Clearinghouse"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The buyer's ledger code is AW00029837 and its orders are booked to outlet 1,072.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Sales_Customer/AccountNumber",
+          "stated": {
+            "value": "AW00029837",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Sales_Customer",
+            "key": {
+              "CustomerID": 29837
+            },
+            "field": "AccountNumber",
+            "value": "AW00029837",
+            "surface": "AW00029837"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The buyer's ledger code is AW00029837 and its orders are booked to outlet 1,072.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Sales_Customer/StoreID",
+          "stated": {
+            "value": "1072",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Sales_Customer",
+            "key": {
+              "CustomerID": 29837
+            },
+            "field": "StoreID",
+            "value": "1072",
+            "surface": "1,072"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The buyer is served from sales region 8.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Sales_Customer/TerritoryID",
+          "stated": {
+            "value": "8",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Sales_Customer",
+            "key": {
+              "CustomerID": 29837
+            },
+            "field": "TerritoryID",
+            "value": "8",
+            "surface": "8"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "Clause 3.1 of MFG-101 is replaced: the buyer commits to take at least 40 units across all products during 2024, in place of 25 units.",
+          "kind": "commitment",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/metric/sales_ordered_units",
+          "stated": {
+            "value": 40,
+            "unit": "units",
+            "period": "2024"
+          },
+          "commitment": {
+            "check": {
+              "op": "sales_units",
+              "customer": 29837,
+              "from": "2024-01-01",
+              "to": "2024-12-31"
+            },
+            "comparison": "ge",
+            "threshold": 40,
+            "actual": 34.0,
+            "met": false,
+            "logic": "Sum of OrderQty on Sales_SalesOrderDetail lines of orders of CustomerID 29837, OrderDate from 2024-01-01 to 2024-12-31; compare at least 40.",
+            "note": "Replaces the 25 unit threshold of MFG-101 clause 3.1. The amended threshold applies."
+          },
+          "paraphrase": true,
+          "supersedes": "The buyer commits to take at least 25 units across all products during 2024."
+        },
+        {
+          "sentence": "The first call-off under the amendment was dispatched on 5 June 2024.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Sales_SalesOrderHeader/ShipDate",
+          "stated": {
+            "value": "2024-06-05",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Sales_SalesOrderHeader",
+            "key": {
+              "SalesOrderID": 51170
+            },
+            "field": "ShipDate",
+            "value": "2024-06-05",
+            "surface": "5 June 2024"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "That order is numbered SO51170 and was placed on 29 May 2024.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Sales_SalesOrderHeader/SalesOrderNumber",
+          "stated": {
+            "value": "SO51170",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Sales_SalesOrderHeader",
+            "key": {
+              "SalesOrderID": 51170
+            },
+            "field": "SalesOrderNumber",
+            "value": "SO51170",
+            "surface": "SO51170"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "That order is numbered SO51170 and was placed on 29 May 2024.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Sales_SalesOrderHeader/OrderDate",
+          "stated": {
+            "value": "2024-05-29",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Sales_SalesOrderHeader",
+            "key": {
+              "SalesOrderID": 51170
+            },
+            "field": "OrderDate",
+            "value": "2024-05-29",
+            "surface": "29 May 2024"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "Amendment reference AM-2024-0031 identifies this letter.",
+          "kind": "trap",
+          "trap": {
+            "reason": "A document reference, not an order number.",
+            "tempts": "manufacturing:definition:adventureworks_manufacturing_demo/field/Sales_SalesOrderHeader/SalesOrderNumber"
+          }
+        },
+        {
+          "sentence": "The buyer must return a signed copy within 10 working days.",
+          "kind": "no_counterpart",
+          "why": "The data records nothing like it."
+        },
+        {
+          "sentence": "The buyer says it plans to sell roughly 300 units a year across all its outlets.",
+          "kind": "trap",
+          "trap": {
+            "reason": "An unverified sales forecast of the buyer, not an order quantity of the data.",
+            "tempts": "manufacturing:definition:adventureworks_manufacturing_demo/metric/sales_ordered_units"
+          }
+        },
+        {
+          "sentence": "The company keeps this document for ten years after the relationship ends.",
+          "kind": "no_counterpart",
+          "why": "The data records nothing like it."
+        },
+        {
+          "sentence": "Signed for the company by an authorised officer whose name is withheld in this synthetic pack.",
+          "kind": "no_counterpart",
+          "why": "The data records nothing like it."
+        }
+      ]
+    },
+    {
+      "id": "MFG-103",
+      "title": "Purchase order confirmation",
+      "type": "purchase order confirmation",
+      "path": "markdown/MFG-103.md",
+      "sha256": "3fd97ba200d1fdb508bc505379178579c78b0f9af4d8f05cec91f9ceede546c7",
+      "customer_keys": [],
+      "vendor_keys": [
+        "1492"
+      ],
+      "entity_keys": {
+        "purchase_order": [
+          "325"
+        ]
+      },
+      "statements": [
+        {
+          "sentence": "The supplier trades as Australia Bike Retailer.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Purchasing_Vendor/Name",
+          "stated": {
+            "value": "Australia Bike Retailer",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Purchasing_Vendor",
+            "key": {
+              "BusinessEntityID": 1492
+            },
+            "field": "Name",
+            "value": "Australia Bike Retailer",
+            "surface": "Australia Bike Retailer"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The supplier's ledger code is AUSTRALI0001.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Purchasing_Vendor/AccountNumber",
+          "stated": {
+            "value": "AUSTRALI0001",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Purchasing_Vendor",
+            "key": {
+              "BusinessEntityID": 1492
+            },
+            "field": "AccountNumber",
+            "value": "AUSTRALI0001",
+            "surface": "AUSTRALI0001"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The order was placed on 24 April 2024 and dispatch is expected on 3 May 2024.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Purchasing_PurchaseOrderHeader/OrderDate",
+          "stated": {
+            "value": "2024-04-24",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Purchasing_PurchaseOrderHeader",
+            "key": {
+              "PurchaseOrderID": 325
+            },
+            "field": "OrderDate",
+            "value": "2024-04-24",
+            "surface": "24 April 2024"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The order was placed on 24 April 2024 and dispatch is expected on 3 May 2024.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Purchasing_PurchaseOrderHeader/ShipDate",
+          "stated": {
+            "value": "2024-05-03",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Purchasing_PurchaseOrderHeader",
+            "key": {
+              "PurchaseOrderID": 325
+            },
+            "field": "ShipDate",
+            "value": "2024-05-03",
+            "surface": "3 May 2024"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "It travels by shipping option 4 and carries revision 5.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Purchasing_PurchaseOrderHeader/ShipMethodID",
+          "stated": {
+            "value": "4",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Purchasing_PurchaseOrderHeader",
+            "key": {
+              "PurchaseOrderID": 325
+            },
+            "field": "ShipMethodID",
+            "value": "4",
+            "surface": "4"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "It travels by shipping option 4 and carries revision 5.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Purchasing_PurchaseOrderHeader/RevisionNumber",
+          "stated": {
+            "value": "5",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Purchasing_PurchaseOrderHeader",
+            "key": {
+              "PurchaseOrderID": 325
+            },
+            "field": "RevisionNumber",
+            "value": "5",
+            "surface": "5"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The goods are worth 1,497.51 before tax of 119.80 and freight of 37.44.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Purchasing_PurchaseOrderHeader/SubTotal",
+          "stated": {
+            "value": "1497.5100",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Purchasing_PurchaseOrderHeader",
+            "key": {
+              "PurchaseOrderID": 325
+            },
+            "field": "SubTotal",
+            "value": "1497.5100",
+            "surface": "1,497.51"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The goods are worth 1,497.51 before tax of 119.80 and freight of 37.44.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Purchasing_PurchaseOrderHeader/TaxAmt",
+          "stated": {
+            "value": "119.8008",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Purchasing_PurchaseOrderHeader",
+            "key": {
+              "PurchaseOrderID": 325
+            },
+            "field": "TaxAmt",
+            "value": "119.8008",
+            "surface": "119.80"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The goods are worth 1,497.51 before tax of 119.80 and freight of 37.44.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Purchasing_PurchaseOrderHeader/Freight",
+          "stated": {
+            "value": "37.4378",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Purchasing_PurchaseOrderHeader",
+            "key": {
+              "PurchaseOrderID": 325
+            },
+            "field": "Freight",
+            "value": "37.4378",
+            "surface": "37.44"
+          },
+          "paraphrase": false
+        },
+        {
+          "sentence": "The amount payable is 1,654.75.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Purchasing_PurchaseOrderHeader/TotalDue",
+          "stated": {
+            "value": "1654.7486",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Purchasing_PurchaseOrderHeader",
+            "key": {
+              "PurchaseOrderID": 325
+            },
+            "field": "TotalDue",
+            "value": "1654.7486",
+            "surface": "1,654.75"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The buyer processed the order as employee 251.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Purchasing_PurchaseOrderHeader/EmployeeID",
+          "stated": {
+            "value": "251",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Purchasing_PurchaseOrderHeader",
+            "key": {
+              "PurchaseOrderID": 325
+            },
+            "field": "EmployeeID",
+            "value": "251",
+            "surface": "251"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "Line 726 is for product 426, 3 units at 43.32 each, due on 8 May 2024.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Purchasing_PurchaseOrderDetail/ProductID",
+          "stated": {
+            "value": "426",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Purchasing_PurchaseOrderDetail",
+            "key": {
+              "PurchaseOrderID": 325,
+              "PurchaseOrderDetailID": 726
+            },
+            "field": "ProductID",
+            "value": "426",
+            "surface": "426"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "Line 726 is for product 426, 3 units at 43.32 each, due on 8 May 2024.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Purchasing_PurchaseOrderDetail/OrderQty",
+          "stated": {
+            "value": "3",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Purchasing_PurchaseOrderDetail",
+            "key": {
+              "PurchaseOrderID": 325,
+              "PurchaseOrderDetailID": 726
+            },
+            "field": "OrderQty",
+            "value": "3",
+            "surface": "3"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "Line 726 is for product 426, 3 units at 43.32 each, due on 8 May 2024.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Purchasing_PurchaseOrderDetail/UnitPrice",
+          "stated": {
+            "value": "43.3230",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Purchasing_PurchaseOrderDetail",
+            "key": {
+              "PurchaseOrderID": 325,
+              "PurchaseOrderDetailID": 726
+            },
+            "field": "UnitPrice",
+            "value": "43.3230",
+            "surface": "43.32"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "Line 726 is for product 426, 3 units at 43.32 each, due on 8 May 2024.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Purchasing_PurchaseOrderDetail/DueDate",
+          "stated": {
+            "value": "2024-05-08",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Purchasing_PurchaseOrderDetail",
+            "key": {
+              "PurchaseOrderID": 325,
+              "PurchaseOrderDetailID": 726
+            },
+            "field": "DueDate",
+            "value": "2024-05-08",
+            "surface": "8 May 2024"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The supplier will deliver at least 3 units on line 726 by 8 May 2024.",
+          "kind": "commitment",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Purchasing_PurchaseOrderDetail/ReceivedQty",
+          "stated": {
+            "value": 3,
+            "unit": "units",
+            "period": "by 2024-05-08"
+          },
+          "commitment": {
+            "check": {
+              "op": "field_value",
+              "table": "Purchasing_PurchaseOrderDetail",
+              "key": {
+                "PurchaseOrderID": 325,
+                "PurchaseOrderDetailID": 726
+              },
+              "field": "ReceivedQty"
+            },
+            "comparison": "ge",
+            "threshold": 3,
+            "actual": 3.0,
+            "met": true,
+            "logic": "Value of Purchasing_PurchaseOrderDetail.ReceivedQty for key {'PurchaseOrderID': 325, 'PurchaseOrderDetailID': 726}; compare at least 3.",
+            "note": ""
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The supplier will have no more than 0 units turned away on line 726.",
+          "kind": "commitment",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Purchasing_PurchaseOrderDetail/RejectedQty",
+          "stated": {
+            "value": 0,
+            "unit": "units",
+            "period": "line 726"
+          },
+          "commitment": {
+            "check": {
+              "op": "field_value",
+              "table": "Purchasing_PurchaseOrderDetail",
+              "key": {
+                "PurchaseOrderID": 325,
+                "PurchaseOrderDetailID": 726
+              },
+              "field": "RejectedQty"
+            },
+            "comparison": "le",
+            "threshold": 0,
+            "actual": 0.0,
+            "met": true,
+            "logic": "Value of Purchasing_PurchaseOrderDetail.RejectedQty for key {'PurchaseOrderID': 325, 'PurchaseOrderDetailID': 726}; compare at most 0.",
+            "note": ""
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The amount payable for the whole order will not exceed USD 1,600.",
+          "kind": "commitment",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Purchasing_PurchaseOrderHeader/TotalDue",
+          "stated": {
+            "value": 1600,
+            "unit": "USD",
+            "period": "order 325"
+          },
+          "commitment": {
+            "check": {
+              "op": "field_value",
+              "table": "Purchasing_PurchaseOrderHeader",
+              "key": {
+                "PurchaseOrderID": 325
+              },
+              "field": "TotalDue"
+            },
+            "comparison": "le",
+            "threshold": 1600,
+            "actual": 1654.7486,
+            "met": false,
+            "logic": "Value of Purchasing_PurchaseOrderHeader.TotalDue for key {'PurchaseOrderID': 325}; compare at most 1600.",
+            "note": "The source records no currency. The contract states USD."
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "Payment is due 30 days after receipt of the supplier invoice.",
+          "kind": "no_counterpart",
+          "why": "The data records nothing like it."
+        },
+        {
+          "sentence": "Ownership of the goods passes to the buyer on delivery.",
+          "kind": "no_counterpart",
+          "why": "The data records nothing like it."
+        },
+        {
+          "sentence": "The supplier's acknowledgement number is OA-77412.",
+          "kind": "trap",
+          "trap": {
+            "reason": "A document reference of the supplier, not a purchase order number.",
+            "tempts": "manufacturing:definition:adventureworks_manufacturing_demo/field/Purchasing_PurchaseOrderHeader/PurchaseOrderID"
+          }
+        },
+        {
+          "sentence": "Carriage is charged at USD 8 per carton.",
+          "kind": "trap",
+          "trap": {
+            "reason": "A rate per carton, where the data holds one freight amount per order.",
+            "tempts": "manufacturing:definition:adventureworks_manufacturing_demo/field/Purchasing_PurchaseOrderHeader/Freight"
+          }
+        },
+        {
+          "sentence": "The courts of King County in the State of Washington decide any dispute about this document.",
+          "kind": "no_counterpart",
+          "why": "The data records nothing like it."
+        },
+        {
+          "sentence": "Notices go to the contracts desk at the correspondence address held on the supplier file.",
+          "kind": "no_counterpart",
+          "why": "The data records nothing like it."
+        }
+      ]
+    },
+    {
+      "id": "MFG-104",
+      "title": "Supplier performance scorecard",
+      "type": "supplier scorecard",
+      "path": "markdown/MFG-104.md",
+      "sha256": "d4746e1b1e8751e5b4b875dd1f51f1609370e075eada7914f09a920731452716",
+      "customer_keys": [],
+      "vendor_keys": [
+        "1492"
+      ],
+      "entity_keys": {
+        "product": [
+          "422"
+        ]
+      },
+      "statements": [
+        {
+          "sentence": "The supplier trades as Australia Bike Retailer.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Purchasing_Vendor/Name",
+          "stated": {
+            "value": "Australia Bike Retailer",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Purchasing_Vendor",
+            "key": {
+              "BusinessEntityID": 1492
+            },
+            "field": "Name",
+            "value": "Australia Bike Retailer",
+            "surface": "Australia Bike Retailer"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "Its credit grade is 1.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Purchasing_Vendor/CreditRating",
+          "stated": {
+            "value": "1",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Purchasing_Vendor",
+            "key": {
+              "BusinessEntityID": 1492
+            },
+            "field": "CreditRating",
+            "value": "1",
+            "surface": "1"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The supplier is on the preferred supplier list and is currently trading.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Purchasing_Vendor/PreferredVendorStatus",
+          "stated": {
+            "value": "1",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Purchasing_Vendor",
+            "key": {
+              "BusinessEntityID": 1492
+            },
+            "field": "PreferredVendorStatus",
+            "value": "1",
+            "surface": "is on the preferred supplier list"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The supplier is on the preferred supplier list and is currently trading.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Purchasing_Vendor/ActiveFlag",
+          "stated": {
+            "value": "1",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Purchasing_Vendor",
+            "key": {
+              "BusinessEntityID": 1492
+            },
+            "field": "ActiveFlag",
+            "value": "1",
+            "surface": "currently trading"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "For product 422 deliveries usually arrive 17 days after the order is placed.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Purchasing_ProductVendor/ProductID",
+          "stated": {
+            "value": "422",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Purchasing_ProductVendor",
+            "key": {
+              "ProductID": 422,
+              "BusinessEntityID": 1492
+            },
+            "field": "ProductID",
+            "value": "422",
+            "surface": "422"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "For product 422 deliveries usually arrive 17 days after the order is placed.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Purchasing_ProductVendor/AverageLeadTime",
+          "stated": {
+            "value": "17",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Purchasing_ProductVendor",
+            "key": {
+              "ProductID": 422,
+              "BusinessEntityID": 1492
+            },
+            "field": "AverageLeadTime",
+            "value": "17",
+            "surface": "17"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The supplier accepts orders from 1 up to 5 units.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Purchasing_ProductVendor/MinOrderQty",
+          "stated": {
+            "value": "1",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Purchasing_ProductVendor",
+            "key": {
+              "ProductID": 422,
+              "BusinessEntityID": 1492
+            },
+            "field": "MinOrderQty",
+            "value": "1",
+            "surface": "1"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The supplier accepts orders from 1 up to 5 units.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Purchasing_ProductVendor/MaxOrderQty",
+          "stated": {
+            "value": "5",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Purchasing_ProductVendor",
+            "key": {
+              "ProductID": 422,
+              "BusinessEntityID": 1492
+            },
+            "field": "MaxOrderQty",
+            "value": "5",
+            "surface": "5"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The supplier will receive at least 15 purchase orders from us during 2024.",
+          "kind": "commitment",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Purchasing_PurchaseOrderHeader/PurchaseOrderID",
+          "stated": {
+            "value": 15,
+            "unit": "orders",
+            "period": "2024"
+          },
+          "commitment": {
+            "check": {
+              "op": "po_count",
+              "vendor": 1492,
+              "from": "2024-01-01",
+              "to": "2024-12-31"
+            },
+            "comparison": "ge",
+            "threshold": 15,
+            "actual": 17.0,
+            "met": true,
+            "logic": "Count of distinct purchase orders of VendorID 1492, OrderDate from 2024-01-01 to 2024-12-31; compare at least 15.",
+            "note": ""
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "Units turned away on arrival will stay at or below 3 percent of units received during 2024.",
+          "kind": "commitment",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Purchasing_PurchaseOrderDetail/RejectedQty",
+          "stated": {
+            "value": 0.03,
+            "unit": "ratio",
+            "period": "2024"
+          },
+          "commitment": {
+            "check": {
+              "op": "po_reject_rate",
+              "vendor": 1492,
+              "from": "2024-01-01",
+              "to": "2024-12-31"
+            },
+            "comparison": "le",
+            "threshold": 0.03,
+            "actual": 0.033333,
+            "met": false,
+            "logic": "Sum of RejectedQty divided by sum of ReceivedQty on purchase order lines of VendorID 1492, OrderDate from 2024-01-01 to 2024-12-31; compare at most 0.03.",
+            "note": "The ratio is above the target."
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "We will buy at least 200 units from this supplier during 2024.",
+          "kind": "commitment",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Purchasing_PurchaseOrderDetail/OrderQty",
+          "stated": {
+            "value": 200,
+            "unit": "units",
+            "period": "2024"
+          },
+          "commitment": {
+            "check": {
+              "op": "po_units",
+              "vendor": 1492,
+              "from": "2024-01-01",
+              "to": "2024-12-31"
+            },
+            "comparison": "ge",
+            "threshold": 200,
+            "actual": 180.0,
+            "met": false,
+            "logic": "Sum of OrderQty on purchase order lines of VendorID 1492, OrderDate from 2024-01-01 to 2024-12-31; compare at least 200.",
+            "note": ""
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The supplier scored 94 out of 100 on our delivery punctuality survey.",
+          "kind": "no_counterpart",
+          "why": "The data records nothing like it."
+        },
+        {
+          "sentence": "Spend with the supplier in the third quarter was USD 40,000.",
+          "kind": "trap",
+          "trap": {
+            "reason": "A quarterly spend figure, where the data holds an amount per order and no spend by quarter for a vendor.",
+            "tempts": "manufacturing:definition:adventureworks_manufacturing_demo/field/Purchasing_PurchaseOrderHeader/TotalDue"
+          }
+        },
+        {
+          "sentence": "Supplier audit certificate QA-2201 was sighted.",
+          "kind": "trap",
+          "trap": {
+            "reason": "A certificate number of another namespace, not a vendor number or account code.",
+            "tempts": "manufacturing:definition:adventureworks_manufacturing_demo/field/Purchasing_Vendor/AccountNumber"
+          }
+        },
+        {
+          "sentence": "The company keeps this document for ten years after the relationship ends.",
+          "kind": "no_counterpart",
+          "why": "The data records nothing like it."
+        },
+        {
+          "sentence": "Signed for the company by an authorised officer whose name is withheld in this synthetic pack.",
+          "kind": "no_counterpart",
+          "why": "The data records nothing like it."
+        }
+      ]
+    },
+    {
+      "id": "MFG-105",
+      "title": "Vendor lead-time and minimum-order agreement",
+      "type": "lead-time and minimum-order agreement",
+      "path": "markdown/MFG-105.md",
+      "sha256": "924f97006d61ea193ba825768feac42bedb2fa43d3207b21a0658c42c45307e5",
+      "customer_keys": [],
+      "vendor_keys": [
+        "1496"
+      ],
+      "entity_keys": {
+        "product": [
+          "359"
+        ]
+      },
+      "statements": [
+        {
+          "sentence": "The supplier trades as Advanced Bicycles.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Purchasing_Vendor/Name",
+          "stated": {
+            "value": "Advanced Bicycles",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Purchasing_Vendor",
+            "key": {
+              "BusinessEntityID": 1496
+            },
+            "field": "Name",
+            "value": "Advanced Bicycles",
+            "surface": "Advanced Bicycles"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The product is Thin-Jam Hex Nut 9 with catalogue code HJ-1213.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_Product/Name",
+          "stated": {
+            "value": "Thin-Jam Hex Nut 9",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Production_Product",
+            "key": {
+              "ProductID": 359
+            },
+            "field": "Name",
+            "value": "Thin-Jam Hex Nut 9",
+            "surface": "Thin-Jam Hex Nut 9"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The product is Thin-Jam Hex Nut 9 with catalogue code HJ-1213.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_Product/ProductNumber",
+          "stated": {
+            "value": "HJ-1213",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Production_Product",
+            "key": {
+              "ProductID": 359
+            },
+            "field": "ProductNumber",
+            "value": "HJ-1213",
+            "surface": "HJ-1213"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The supplier usually delivers within 17 days of the order.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Purchasing_ProductVendor/AverageLeadTime",
+          "stated": {
+            "value": "17",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Purchasing_ProductVendor",
+            "key": {
+              "ProductID": 359,
+              "BusinessEntityID": 1496
+            },
+            "field": "AverageLeadTime",
+            "value": "17",
+            "surface": "17"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "Its usual price is 45.41 and the last delivery was invoiced at 47.68.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Purchasing_ProductVendor/StandardPrice",
+          "stated": {
+            "value": "45.4100",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Purchasing_ProductVendor",
+            "key": {
+              "ProductID": 359,
+              "BusinessEntityID": 1496
+            },
+            "field": "StandardPrice",
+            "value": "45.4100",
+            "surface": "45.41"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "Its usual price is 45.41 and the last delivery was invoiced at 47.68.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Purchasing_ProductVendor/LastReceiptCost",
+          "stated": {
+            "value": "47.6805",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Purchasing_ProductVendor",
+            "key": {
+              "ProductID": 359,
+              "BusinessEntityID": 1496
+            },
+            "field": "LastReceiptCost",
+            "value": "47.6805",
+            "surface": "47.68"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The last delivery arrived on 28 August 2022.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Purchasing_ProductVendor/LastReceiptDate",
+          "stated": {
+            "value": "2022-08-28",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Purchasing_ProductVendor",
+            "key": {
+              "ProductID": 359,
+              "BusinessEntityID": 1496
+            },
+            "field": "LastReceiptDate",
+            "value": "2022-08-28",
+            "surface": "28 August 2022"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The supplier takes orders of at least 1 and at most 5 units, counted in CS.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Purchasing_ProductVendor/MinOrderQty",
+          "stated": {
+            "value": "1",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Purchasing_ProductVendor",
+            "key": {
+              "ProductID": 359,
+              "BusinessEntityID": 1496
+            },
+            "field": "MinOrderQty",
+            "value": "1",
+            "surface": "1"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The supplier takes orders of at least 1 and at most 5 units, counted in CS.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Purchasing_ProductVendor/MaxOrderQty",
+          "stated": {
+            "value": "5",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Purchasing_ProductVendor",
+            "key": {
+              "ProductID": 359,
+              "BusinessEntityID": 1496
+            },
+            "field": "MaxOrderQty",
+            "value": "5",
+            "surface": "5"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The supplier takes orders of at least 1 and at most 5 units, counted in CS.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Purchasing_ProductVendor/UnitMeasureCode",
+          "stated": {
+            "value": "CS",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Purchasing_ProductVendor",
+            "key": {
+              "ProductID": 359,
+              "BusinessEntityID": 1496
+            },
+            "field": "UnitMeasureCode",
+            "value": "CS",
+            "surface": "CS"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "Right now 3 units are on order with the supplier.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Purchasing_ProductVendor/OnOrderQty",
+          "stated": {
+            "value": "3",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Purchasing_ProductVendor",
+            "key": {
+              "ProductID": 359,
+              "BusinessEntityID": 1496
+            },
+            "field": "OnOrderQty",
+            "value": "3",
+            "surface": "3"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The supplier will deliver within 14 days of each order.",
+          "kind": "commitment",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Purchasing_ProductVendor/AverageLeadTime",
+          "stated": {
+            "value": 14,
+            "unit": "days",
+            "period": "standing term"
+          },
+          "commitment": {
+            "check": {
+              "op": "field_value",
+              "table": "Purchasing_ProductVendor",
+              "key": {
+                "ProductID": 359,
+                "BusinessEntityID": 1496
+              },
+              "field": "AverageLeadTime"
+            },
+            "comparison": "le",
+            "threshold": 14,
+            "actual": 17.0,
+            "met": false,
+            "logic": "Value of Purchasing_ProductVendor.AverageLeadTime for key {'ProductID': 359, 'BusinessEntityID': 1496}; compare at most 14.",
+            "note": ""
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The usual price will not rise above USD 46 per unit.",
+          "kind": "commitment",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Purchasing_ProductVendor/StandardPrice",
+          "stated": {
+            "value": 46,
+            "unit": "USD",
+            "period": "standing term"
+          },
+          "commitment": {
+            "check": {
+              "op": "field_value",
+              "table": "Purchasing_ProductVendor",
+              "key": {
+                "ProductID": 359,
+                "BusinessEntityID": 1496
+              },
+              "field": "StandardPrice"
+            },
+            "comparison": "le",
+            "threshold": 46,
+            "actual": 45.41,
+            "met": true,
+            "logic": "Value of Purchasing_ProductVendor.StandardPrice for key {'ProductID': 359, 'BusinessEntityID': 1496}; compare at most 46.",
+            "note": "The source records no currency. The contract states USD."
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The smallest order the supplier may insist on will not exceed 2 units.",
+          "kind": "commitment",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Purchasing_ProductVendor/MinOrderQty",
+          "stated": {
+            "value": 2,
+            "unit": "units",
+            "period": "standing term"
+          },
+          "commitment": {
+            "check": {
+              "op": "field_value",
+              "table": "Purchasing_ProductVendor",
+              "key": {
+                "ProductID": 359,
+                "BusinessEntityID": 1496
+              },
+              "field": "MinOrderQty"
+            },
+            "comparison": "le",
+            "threshold": 2,
+            "actual": 1.0,
+            "met": true,
+            "logic": "Value of Purchasing_ProductVendor.MinOrderQty for key {'ProductID': 359, 'BusinessEntityID': 1496}; compare at most 2.",
+            "note": ""
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The supplier will keep at least 5 units on order for us at all times.",
+          "kind": "commitment",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Purchasing_ProductVendor/OnOrderQty",
+          "stated": {
+            "value": 5,
+            "unit": "units",
+            "period": "standing term"
+          },
+          "commitment": {
+            "check": {
+              "op": "field_value",
+              "table": "Purchasing_ProductVendor",
+              "key": {
+                "ProductID": 359,
+                "BusinessEntityID": 1496
+              },
+              "field": "OnOrderQty"
+            },
+            "comparison": "ge",
+            "threshold": 5,
+            "actual": 3.0,
+            "met": false,
+            "logic": "Value of Purchasing_ProductVendor.OnOrderQty for key {'ProductID': 359, 'BusinessEntityID': 1496}; compare at least 5.",
+            "note": ""
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "Either party may end this agreement with 90 days of written notice.",
+          "kind": "no_counterpart",
+          "why": "The data records nothing like it."
+        },
+        {
+          "sentence": "Supplier agreement reference VA-1496-02 identifies this agreement.",
+          "kind": "trap",
+          "trap": {
+            "reason": "A document reference, not a vendor number.",
+            "tempts": "manufacturing:definition:adventureworks_manufacturing_demo/field/Purchasing_Vendor/BusinessEntityID"
+          }
+        },
+        {
+          "sentence": "The supplier quoted a lead time of 3 weeks for rush orders.",
+          "kind": "trap",
+          "trap": {
+            "reason": "A lead time in weeks for a different order class, where the data holds an average in days.",
+            "tempts": "manufacturing:definition:adventureworks_manufacturing_demo/field/Purchasing_ProductVendor/AverageLeadTime"
+          }
+        },
+        {
+          "sentence": "The courts of King County in the State of Washington decide any dispute about this document.",
+          "kind": "no_counterpart",
+          "why": "The data records nothing like it."
+        },
+        {
+          "sentence": "Notices go to the contracts desk at the correspondence address held on the supplier file.",
+          "kind": "no_counterpart",
+          "why": "The data records nothing like it."
+        }
+      ]
+    },
+    {
+      "id": "MFG-106",
+      "title": "Production work-order summary with scrap",
+      "type": "work-order summary",
+      "path": "markdown/MFG-106.md",
+      "sha256": "ebb032fbf71e132be43d2cbff376481ffe090f73e2492bc67a7bca864bf122af",
+      "customer_keys": [],
+      "vendor_keys": [],
+      "entity_keys": {
+        "product": [
+          "950"
+        ],
+        "work_order": [
+          "39419"
+        ]
+      },
+      "statements": [
+        {
+          "sentence": "The product is ML Crankset with catalogue code CS-6583.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_Product/Name",
+          "stated": {
+            "value": "ML Crankset",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Production_Product",
+            "key": {
+              "ProductID": 950
+            },
+            "field": "Name",
+            "value": "ML Crankset",
+            "surface": "ML Crankset"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The product is ML Crankset with catalogue code CS-6583.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_Product/ProductNumber",
+          "stated": {
+            "value": "CS-6583",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Production_Product",
+            "key": {
+              "ProductID": 950
+            },
+            "field": "ProductNumber",
+            "value": "CS-6583",
+            "surface": "CS-6583"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "It is built in house and is sold as a finished item.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_Product/MakeFlag",
+          "stated": {
+            "value": "1",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Production_Product",
+            "key": {
+              "ProductID": 950
+            },
+            "field": "MakeFlag",
+            "value": "1",
+            "surface": "is built in house"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "It is built in house and is sold as a finished item.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_Product/FinishedGoodsFlag",
+          "stated": {
+            "value": "1",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Production_Product",
+            "key": {
+              "ProductID": 950
+            },
+            "field": "FinishedGoodsFlag",
+            "value": "1",
+            "surface": "sold as a finished item"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "Each build is expected to take 1 days.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_Product/DaysToManufacture",
+          "stated": {
+            "value": "1",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Production_Product",
+            "key": {
+              "ProductID": 950
+            },
+            "field": "DaysToManufacture",
+            "value": "1",
+            "surface": "1"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "Work order 39419 asked for 1,933 units, of which 1,874 passed into stock and 59 were thrown away.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_WorkOrder/OrderQty",
+          "stated": {
+            "value": "1933",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Production_WorkOrder",
+            "key": {
+              "WorkOrderID": 39419
+            },
+            "field": "OrderQty",
+            "value": "1933",
+            "surface": "1,933"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "Work order 39419 asked for 1,933 units, of which 1,874 passed into stock and 59 were thrown away.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_WorkOrder/StockedQty",
+          "stated": {
+            "value": "1874",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Production_WorkOrder",
+            "key": {
+              "WorkOrderID": 39419
+            },
+            "field": "StockedQty",
+            "value": "1874",
+            "surface": "1,874"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "Work order 39419 asked for 1,933 units, of which 1,874 passed into stock and 59 were thrown away.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_WorkOrder/ScrappedQty",
+          "stated": {
+            "value": "59",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Production_WorkOrder",
+            "key": {
+              "WorkOrderID": 39419
+            },
+            "field": "ScrappedQty",
+            "value": "59",
+            "surface": "59"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "It began on 2 July 2024, finished on 18 July 2024 and was promised for 13 July 2024.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_WorkOrder/StartDate",
+          "stated": {
+            "value": "2024-07-02",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Production_WorkOrder",
+            "key": {
+              "WorkOrderID": 39419
+            },
+            "field": "StartDate",
+            "value": "2024-07-02",
+            "surface": "2 July 2024"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "It began on 2 July 2024, finished on 18 July 2024 and was promised for 13 July 2024.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_WorkOrder/EndDate",
+          "stated": {
+            "value": "2024-07-18",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Production_WorkOrder",
+            "key": {
+              "WorkOrderID": 39419
+            },
+            "field": "EndDate",
+            "value": "2024-07-18",
+            "surface": "18 July 2024"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "It began on 2 July 2024, finished on 18 July 2024 and was promised for 13 July 2024.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_WorkOrder/DueDate",
+          "stated": {
+            "value": "2024-07-13",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Production_WorkOrder",
+            "key": {
+              "WorkOrderID": 39419
+            },
+            "field": "DueDate",
+            "value": "2024-07-13",
+            "surface": "13 July 2024"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The loss was blamed on the cause coded 3.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_WorkOrder/ScrapReasonID",
+          "stated": {
+            "value": "3",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Production_WorkOrder",
+            "key": {
+              "WorkOrderID": 39419
+            },
+            "field": "ScrapReasonID",
+            "value": "3",
+            "surface": "3"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "Cause 3 is described as Gouge in metal.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_ScrapReason/Name",
+          "stated": {
+            "value": "Gouge in metal",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Production_ScrapReason",
+            "key": {
+              "ScrapReasonID": 3
+            },
+            "field": "Name",
+            "value": "Gouge in metal",
+            "surface": "Gouge in metal"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "Step 6 of that order ran at work centre 50 and used 3 machine hours.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_WorkOrderRouting/LocationID",
+          "stated": {
+            "value": "50",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Production_WorkOrderRouting",
+            "key": {
+              "WorkOrderID": 39419,
+              "ProductID": 950,
+              "OperationSequence": "6"
+            },
+            "field": "LocationID",
+            "value": "50",
+            "surface": "50"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "Step 6 of that order ran at work centre 50 and used 3 machine hours.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_WorkOrderRouting/ActualResourceHrs",
+          "stated": {
+            "value": "3.0000",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Production_WorkOrderRouting",
+            "key": {
+              "WorkOrderID": 39419,
+              "ProductID": 950,
+              "OperationSequence": "6"
+            },
+            "field": "ActualResourceHrs",
+            "value": "3.0000",
+            "surface": "3"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The step was budgeted at 36.75 and cost 36.75.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_WorkOrderRouting/PlannedCost",
+          "stated": {
+            "value": "36.7500",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Production_WorkOrderRouting",
+            "key": {
+              "WorkOrderID": 39419,
+              "ProductID": 950,
+              "OperationSequence": "6"
+            },
+            "field": "PlannedCost",
+            "value": "36.7500",
+            "surface": "36.75"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The step was budgeted at 36.75 and cost 36.75.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_WorkOrderRouting/ActualCost",
+          "stated": {
+            "value": "36.7500",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Production_WorkOrderRouting",
+            "key": {
+              "WorkOrderID": 39419,
+              "ProductID": 950,
+              "OperationSequence": "6"
+            },
+            "field": "ActualCost",
+            "value": "36.7500",
+            "surface": "36.75"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "Scrap for the product will stay at or below 0.5 percent of units asked for in 2024.",
+          "kind": "commitment",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/metric/production_scrap_rate",
+          "stated": {
+            "value": 0.005,
+            "unit": "ratio",
+            "period": "2024"
+          },
+          "commitment": {
+            "check": {
+              "op": "wo_scrap_rate",
+              "product": 950,
+              "from": "2024-01-01",
+              "to": "2024-12-31"
+            },
+            "comparison": "le",
+            "threshold": 0.005,
+            "actual": 0.005367,
+            "met": false,
+            "logic": "Sum of ScrappedQty divided by sum of OrderQty on work orders of ProductID 950, StartDate from 2024-01-01 to 2024-12-31; compare at most 0.005.",
+            "note": ""
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The plant will start builds for at least 20,000 units of the product in 2024.",
+          "kind": "commitment",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/metric/production_requested_units",
+          "stated": {
+            "value": 20000,
+            "unit": "units",
+            "period": "2024"
+          },
+          "commitment": {
+            "check": {
+              "op": "wo_requested",
+              "product": 950,
+              "from": "2024-01-01",
+              "to": "2024-12-31"
+            },
+            "comparison": "ge",
+            "threshold": 20000,
+            "actual": 25897.0,
+            "met": true,
+            "logic": "Sum of OrderQty on Production_WorkOrder rows of ProductID 950, StartDate from 2024-01-01 to 2024-12-31; compare at least 20000.",
+            "note": ""
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "No more than 150 units of the product will be thrown away in 2024.",
+          "kind": "commitment",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/metric/production_scrapped_units",
+          "stated": {
+            "value": 150,
+            "unit": "units",
+            "period": "2024"
+          },
+          "commitment": {
+            "check": {
+              "op": "wo_scrapped",
+              "product": 950,
+              "from": "2024-01-01",
+              "to": "2024-12-31"
+            },
+            "comparison": "le",
+            "threshold": 150,
+            "actual": 139.0,
+            "met": true,
+            "logic": "Sum of ScrappedQty on Production_WorkOrder rows of ProductID 950, StartDate from 2024-01-01 to 2024-12-31; compare at most 150.",
+            "note": ""
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "No build of the product started in 2024 will be left unfinished.",
+          "kind": "commitment",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/metric/open_work_orders",
+          "stated": {
+            "value": 0,
+            "unit": "work orders",
+            "period": "2024"
+          },
+          "commitment": {
+            "check": {
+              "op": "wo_open",
+              "product": 950,
+              "from": "2024-01-01",
+              "to": "2024-12-31"
+            },
+            "comparison": "le",
+            "threshold": 0,
+            "actual": 0.0,
+            "met": true,
+            "logic": "Count of work orders of ProductID 950 with no EndDate, StartDate from 2024-01-01 to 2024-12-31; compare at most 0.",
+            "note": "The metric is zero for every product in this data set."
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The yield target is 99.8 percent per batch.",
+          "kind": "trap",
+          "trap": {
+            "reason": "A yield per batch, where the data holds scrap totals per work order and a rate over a period.",
+            "tempts": "manufacturing:definition:adventureworks_manufacturing_demo/metric/production_scrap_rate"
+          }
+        },
+        {
+          "sentence": "Lot reference LOT-8841 covers the example build.",
+          "kind": "trap",
+          "trap": {
+            "reason": "A lot reference, not a work order number.",
+            "tempts": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_WorkOrder/WorkOrderID"
+          }
+        },
+        {
+          "sentence": "The plant manager reviews scrap figures every Monday.",
+          "kind": "no_counterpart",
+          "why": "The data records nothing like it."
+        },
+        {
+          "sentence": "The company keeps this document for ten years after the relationship ends.",
+          "kind": "no_counterpart",
+          "why": "The data records nothing like it."
+        }
+      ]
+    },
+    {
+      "id": "MFG-107",
+      "title": "Quality inspection report",
+      "type": "quality inspection report",
+      "path": "markdown/MFG-107.md",
+      "sha256": "f4d3cbecb22906b22cb179ecf61794d4474cb1e296104152f51b52799a189718",
+      "customer_keys": [],
+      "vendor_keys": [],
+      "entity_keys": {
+        "product": [
+          "327"
+        ],
+        "work_order": [
+          "47662",
+          "50532"
+        ]
+      },
+      "statements": [
+        {
+          "sentence": "The part is Down Tube, catalogue code DT-2377.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_Product/Name",
+          "stated": {
+            "value": "Down Tube",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Production_Product",
+            "key": {
+              "ProductID": 327
+            },
+            "field": "Name",
+            "value": "Down Tube",
+            "surface": "Down Tube"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The part is Down Tube, catalogue code DT-2377.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_Product/ProductNumber",
+          "stated": {
+            "value": "DT-2377",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Production_Product",
+            "key": {
+              "ProductID": 327
+            },
+            "field": "ProductNumber",
+            "value": "DT-2377",
+            "surface": "DT-2377"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "A unit costs 0.00 to make on the plant's books.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_Product/StandardCost",
+          "stated": {
+            "value": "0.0000",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Production_Product",
+            "key": {
+              "ProductID": 327
+            },
+            "field": "StandardCost",
+            "value": "0.0000",
+            "surface": "0.00"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "Work order 47662 started on 2 October 2024 with 4,507 units requested and 135 discarded.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_WorkOrder/StartDate",
+          "stated": {
+            "value": "2024-10-02",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Production_WorkOrder",
+            "key": {
+              "WorkOrderID": 47662
+            },
+            "field": "StartDate",
+            "value": "2024-10-02",
+            "surface": "2 October 2024"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "Work order 47662 started on 2 October 2024 with 4,507 units requested and 135 discarded.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_WorkOrder/OrderQty",
+          "stated": {
+            "value": "4507",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Production_WorkOrder",
+            "key": {
+              "WorkOrderID": 47662
+            },
+            "field": "OrderQty",
+            "value": "4507",
+            "surface": "4,507"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "Work order 47662 started on 2 October 2024 with 4,507 units requested and 135 discarded.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_WorkOrder/ScrappedQty",
+          "stated": {
+            "value": "135",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Production_WorkOrder",
+            "key": {
+              "WorkOrderID": 47662
+            },
+            "field": "ScrappedQty",
+            "value": "135",
+            "surface": "135"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The recorded cause code was 10.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_WorkOrder/ScrapReasonID",
+          "stated": {
+            "value": "10",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Production_WorkOrder",
+            "key": {
+              "WorkOrderID": 47662
+            },
+            "field": "ScrapReasonID",
+            "value": "10",
+            "surface": "10"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "That cause reads Seat assembly not as ordered.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_ScrapReason/Name",
+          "stated": {
+            "value": "Seat assembly not as ordered",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Production_ScrapReason",
+            "key": {
+              "ScrapReasonID": 10
+            },
+            "field": "Name",
+            "value": "Seat assembly not as ordered",
+            "surface": "Seat assembly not as ordered"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "Work order 50532 started on 1 November 2024 with 134 units discarded.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_WorkOrder/StartDate",
+          "stated": {
+            "value": "2024-11-01",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Production_WorkOrder",
+            "key": {
+              "WorkOrderID": 50532
+            },
+            "field": "StartDate",
+            "value": "2024-11-01",
+            "surface": "1 November 2024"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "Work order 50532 started on 1 November 2024 with 134 units discarded.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_WorkOrder/ScrappedQty",
+          "stated": {
+            "value": "134",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Production_WorkOrder",
+            "key": {
+              "WorkOrderID": 50532
+            },
+            "field": "ScrappedQty",
+            "value": "134",
+            "surface": "134"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "Its cause reads Drill size too large.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_ScrapReason/Name",
+          "stated": {
+            "value": "Drill size too large",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Production_ScrapReason",
+            "key": {
+              "ScrapReasonID": 5
+            },
+            "field": "Name",
+            "value": "Drill size too large",
+            "surface": "Drill size too large"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "Discards of the part must stay at or below 350 units in 2024.",
+          "kind": "commitment",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/metric/production_scrapped_units",
+          "stated": {
+            "value": 350,
+            "unit": "units",
+            "period": "2024"
+          },
+          "commitment": {
+            "check": {
+              "op": "wo_scrapped",
+              "product": 327,
+              "from": "2024-01-01",
+              "to": "2024-12-31"
+            },
+            "comparison": "le",
+            "threshold": 350,
+            "actual": 389.0,
+            "met": false,
+            "logic": "Sum of ScrappedQty on Production_WorkOrder rows of ProductID 327, StartDate from 2024-01-01 to 2024-12-31; compare at most 350.",
+            "note": ""
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "Discards must stay at or below 1 percent of units asked for in 2024.",
+          "kind": "commitment",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/metric/production_scrap_rate",
+          "stated": {
+            "value": 0.01,
+            "unit": "ratio",
+            "period": "2024"
+          },
+          "commitment": {
+            "check": {
+              "op": "wo_scrap_rate",
+              "product": 327,
+              "from": "2024-01-01",
+              "to": "2024-12-31"
+            },
+            "comparison": "le",
+            "threshold": 0.01,
+            "actual": 0.007721,
+            "met": true,
+            "logic": "Sum of ScrappedQty divided by sum of OrderQty on work orders of ProductID 327, StartDate from 2024-01-01 to 2024-12-31; compare at most 0.01.",
+            "note": ""
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The plant must start builds for at least 40,000 units of the part in 2024.",
+          "kind": "commitment",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/metric/production_requested_units",
+          "stated": {
+            "value": 40000,
+            "unit": "units",
+            "period": "2024"
+          },
+          "commitment": {
+            "check": {
+              "op": "wo_requested",
+              "product": 327,
+              "from": "2024-01-01",
+              "to": "2024-12-31"
+            },
+            "comparison": "ge",
+            "threshold": 40000,
+            "actual": 50381.0,
+            "met": true,
+            "logic": "Sum of OrderQty on Production_WorkOrder rows of ProductID 327, StartDate from 2024-01-01 to 2024-12-31; compare at least 40000.",
+            "note": ""
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "A line operator suggested that drill wear was caused by a bad lot from a supplier, which is unverified.",
+          "kind": "trap",
+          "trap": {
+            "reason": "An unverified opinion. It is not a recorded cause code.",
+            "tempts": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_ScrapReason/Name"
+          }
+        },
+        {
+          "sentence": "The customer complaint rate for the part is 0.2 percent of units shipped.",
+          "kind": "trap",
+          "trap": {
+            "reason": "A rate on shipped units, where the data records discards on work orders.",
+            "tempts": "manufacturing:definition:adventureworks_manufacturing_demo/metric/production_scrap_rate"
+          }
+        },
+        {
+          "sentence": "Inspectors sample 1 unit in 50 at the end of each build.",
+          "kind": "no_counterpart",
+          "why": "The data records nothing like it."
+        },
+        {
+          "sentence": "The company keeps this document for ten years after the relationship ends.",
+          "kind": "no_counterpart",
+          "why": "The data records nothing like it."
+        },
+        {
+          "sentence": "Signed for the company by an authorised officer whose name is withheld in this synthetic pack.",
+          "kind": "no_counterpart",
+          "why": "The data records nothing like it."
+        }
+      ]
+    },
+    {
+      "id": "MFG-108",
+      "title": "Bill-of-materials change notice",
+      "type": "bill-of-materials change notice",
+      "path": "markdown/MFG-108.md",
+      "sha256": "de3776016d5343fa00fb84ca690f9909abe5e978e56dd6f40f460d5947eba4d8",
+      "customer_keys": [],
+      "vendor_keys": [],
+      "entity_keys": {
+        "product": [
+          "972",
+          "806",
+          "521"
+        ],
+        "bom_line": [
+          "99",
+          "299",
+          "3393"
+        ]
+      },
+      "statements": [
+        {
+          "sentence": "The finished bicycle is Touring-2000 Blue, 54, catalogue code BK-T44U-54.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_Product/Name",
+          "stated": {
+            "value": "Touring-2000 Blue, 54",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Production_Product",
+            "key": {
+              "ProductID": 972
+            },
+            "field": "Name",
+            "value": "Touring-2000 Blue, 54",
+            "surface": "Touring-2000 Blue, 54"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The finished bicycle is Touring-2000 Blue, 54, catalogue code BK-T44U-54.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_Product/ProductNumber",
+          "stated": {
+            "value": "BK-T44U-54",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Production_Product",
+            "key": {
+              "ProductID": 972
+            },
+            "field": "ProductNumber",
+            "value": "BK-T44U-54",
+            "surface": "BK-T44U-54"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The part under review is ML Headset.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_Product/Name",
+          "stated": {
+            "value": "ML Headset",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Production_Product",
+            "key": {
+              "ProductID": 806
+            },
+            "field": "Name",
+            "value": "ML Headset",
+            "surface": "ML Headset"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "List line 99 uses part 806 in an amount of 1 for each bicycle, from 3 May 2021.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_BillOfMaterials/ComponentID",
+          "stated": {
+            "value": "806",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Production_BillOfMaterials",
+            "key": {
+              "BillOfMaterialsID": 99
+            },
+            "field": "ComponentID",
+            "value": "806",
+            "surface": "806"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "List line 99 uses part 806 in an amount of 1 for each bicycle, from 3 May 2021.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_BillOfMaterials/PerAssemblyQty",
+          "stated": {
+            "value": "1.00",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Production_BillOfMaterials",
+            "key": {
+              "BillOfMaterialsID": 99
+            },
+            "field": "PerAssemblyQty",
+            "value": "1.00",
+            "surface": "1"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "List line 99 uses part 806 in an amount of 1 for each bicycle, from 3 May 2021.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_BillOfMaterials/StartDate",
+          "stated": {
+            "value": "2021-05-03",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Production_BillOfMaterials",
+            "key": {
+              "BillOfMaterialsID": 99
+            },
+            "field": "StartDate",
+            "value": "2021-05-03",
+            "surface": "3 May 2021"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "List line 99 sits at depth 1 of the tree and counts in EA.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_BillOfMaterials/BOMLevel",
+          "stated": {
+            "value": "1",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Production_BillOfMaterials",
+            "key": {
+              "BillOfMaterialsID": 99
+            },
+            "field": "BOMLevel",
+            "value": "1",
+            "surface": "1"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "List line 99 sits at depth 1 of the tree and counts in EA.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_BillOfMaterials/UnitMeasureCode",
+          "stated": {
+            "value": "EA",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Production_BillOfMaterials",
+            "key": {
+              "BillOfMaterialsID": 99
+            },
+            "field": "UnitMeasureCode",
+            "value": "EA",
+            "surface": "EA"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "List line 299 for the same part stopped applying on 2 May 2021.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_BillOfMaterials/EndDate",
+          "stated": {
+            "value": "2021-05-02",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Production_BillOfMaterials",
+            "key": {
+              "BillOfMaterialsID": 299
+            },
+            "field": "EndDate",
+            "value": "2021-05-02",
+            "surface": "2 May 2021"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "List line 299 had called for 2 of the part per bicycle.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_BillOfMaterials/PerAssemblyQty",
+          "stated": {
+            "value": "2.00",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Production_BillOfMaterials",
+            "key": {
+              "BillOfMaterialsID": 299
+            },
+            "field": "PerAssemblyQty",
+            "value": "2.00",
+            "surface": "2"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "List line 3393 links the bicycle to assembly 521.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_BillOfMaterials/ComponentID",
+          "stated": {
+            "value": "521",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Production_BillOfMaterials",
+            "key": {
+              "BillOfMaterialsID": 3393
+            },
+            "field": "ComponentID",
+            "value": "521",
+            "surface": "521"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "From the next revision no more than 1 headset will be fitted per bicycle on line 99.",
+          "kind": "commitment",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_BillOfMaterials/PerAssemblyQty",
+          "stated": {
+            "value": 1,
+            "unit": "units",
+            "period": "next revision"
+          },
+          "commitment": {
+            "check": {
+              "op": "field_value",
+              "table": "Production_BillOfMaterials",
+              "key": {
+                "BillOfMaterialsID": 99
+              },
+              "field": "PerAssemblyQty"
+            },
+            "comparison": "le",
+            "threshold": 1,
+            "actual": 1.0,
+            "met": true,
+            "logic": "Value of Production_BillOfMaterials.PerAssemblyQty for key {'BillOfMaterialsID': 99}; compare at most 1.",
+            "note": ""
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "Line 3393 will call for at least 2 seat assemblies per bicycle.",
+          "kind": "commitment",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_BillOfMaterials/PerAssemblyQty",
+          "stated": {
+            "value": 2,
+            "unit": "units",
+            "period": "next revision"
+          },
+          "commitment": {
+            "check": {
+              "op": "field_value",
+              "table": "Production_BillOfMaterials",
+              "key": {
+                "BillOfMaterialsID": 3393
+              },
+              "field": "PerAssemblyQty"
+            },
+            "comparison": "ge",
+            "threshold": 2,
+            "actual": 1.0,
+            "met": false,
+            "logic": "Value of Production_BillOfMaterials.PerAssemblyQty for key {'BillOfMaterialsID': 3393}; compare at least 2.",
+            "note": "The change is announced, not yet recorded. The row still shows 1."
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "Line 99 will stay at depth 1 of the parts tree.",
+          "kind": "commitment",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_BillOfMaterials/BOMLevel",
+          "stated": {
+            "value": 1,
+            "unit": "level",
+            "period": "next revision"
+          },
+          "commitment": {
+            "check": {
+              "op": "field_value",
+              "table": "Production_BillOfMaterials",
+              "key": {
+                "BillOfMaterialsID": 99
+              },
+              "field": "BOMLevel"
+            },
+            "comparison": "le",
+            "threshold": 1,
+            "actual": 1.0,
+            "met": true,
+            "logic": "Value of Production_BillOfMaterials.BOMLevel for key {'BillOfMaterialsID': 99}; compare at most 1.",
+            "note": ""
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "Engineering change request ECR-5530 authorises this notice.",
+          "kind": "trap",
+          "trap": {
+            "reason": "A change request number, not a parts-list line number.",
+            "tempts": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_BillOfMaterials/BillOfMaterialsID"
+          }
+        },
+        {
+          "sentence": "The change saves 0.4 kilograms per bicycle.",
+          "kind": "trap",
+          "trap": {
+            "reason": "A weight in kilograms per bicycle, where the data records an amount of a part per assembly.",
+            "tempts": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_BillOfMaterials/PerAssemblyQty"
+          }
+        },
+        {
+          "sentence": "Drawings are updated within 5 working days of approval.",
+          "kind": "no_counterpart",
+          "why": "The data records nothing like it."
+        },
+        {
+          "sentence": "The company keeps this document for ten years after the relationship ends.",
+          "kind": "no_counterpart",
+          "why": "The data records nothing like it."
+        },
+        {
+          "sentence": "Signed for the company by an authorised officer whose name is withheld in this synthetic pack.",
+          "kind": "no_counterpart",
+          "why": "The data records nothing like it."
+        }
+      ]
+    },
+    {
+      "id": "MFG-109",
+      "title": "Product specification sheet",
+      "type": "product specification sheet",
+      "path": "markdown/MFG-109.md",
+      "sha256": "8480b13fc7c7f9dbc9258ee7d33bef9b9ca1ae69ec103633c791dfb1dde5e3a7",
+      "customer_keys": [],
+      "vendor_keys": [],
+      "entity_keys": {
+        "product": [
+          "794"
+        ]
+      },
+      "statements": [
+        {
+          "sentence": "The bicycle is Road-250 Black, 48, catalogue code BK-R89B-48.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_Product/Name",
+          "stated": {
+            "value": "Road-250 Black, 48",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Production_Product",
+            "key": {
+              "ProductID": 794
+            },
+            "field": "Name",
+            "value": "Road-250 Black, 48",
+            "surface": "Road-250 Black, 48"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The bicycle is Road-250 Black, 48, catalogue code BK-R89B-48.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_Product/ProductNumber",
+          "stated": {
+            "value": "BK-R89B-48",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Production_Product",
+            "key": {
+              "ProductID": 794
+            },
+            "field": "ProductNumber",
+            "value": "BK-R89B-48",
+            "surface": "BK-R89B-48"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "It belongs to the model family Road-250.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_ProductModel/Name",
+          "stated": {
+            "value": "Road-250",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Production_ProductModel",
+            "key": {
+              "ProductModelID": 26
+            },
+            "field": "Name",
+            "value": "Road-250",
+            "surface": "Road-250"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "It is sold under the heading Road Bikes.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_ProductSubcategory/Name",
+          "stated": {
+            "value": "Road Bikes",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Production_ProductSubcategory",
+            "key": {
+              "ProductSubcategoryID": 2
+            },
+            "field": "Name",
+            "value": "Road Bikes",
+            "surface": "Road Bikes"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "That heading sits in the group Bikes.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_ProductCategory/Name",
+          "stated": {
+            "value": "Bikes",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Production_ProductCategory",
+            "key": {
+              "ProductCategoryID": 1
+            },
+            "field": "Name",
+            "value": "Bikes",
+            "surface": "Bikes"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "It is finished in Black and the frame measures 48.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_Product/Color",
+          "stated": {
+            "value": "Black",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Production_Product",
+            "key": {
+              "ProductID": 794
+            },
+            "field": "Color",
+            "value": "Black",
+            "surface": "Black"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "It is finished in Black and the frame measures 48.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_Product/Size",
+          "stated": {
+            "value": "48",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Production_Product",
+            "key": {
+              "ProductID": 794
+            },
+            "field": "Size",
+            "value": "48",
+            "surface": "48"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "It weighs 15.13 kilograms.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_Product/Weight",
+          "stated": {
+            "value": "15.13",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Production_Product",
+            "key": {
+              "ProductID": 794
+            },
+            "field": "Weight",
+            "value": "15.13",
+            "surface": "15.13"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The retail tag shows 2,443.35 and the plant's books carry a build cost of 1,554.95.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_Product/ListPrice",
+          "stated": {
+            "value": "2443.3500",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Production_Product",
+            "key": {
+              "ProductID": 794
+            },
+            "field": "ListPrice",
+            "value": "2443.3500",
+            "surface": "2,443.35"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The retail tag shows 2,443.35 and the plant's books carry a build cost of 1,554.95.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_Product/StandardCost",
+          "stated": {
+            "value": "1554.9479",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Production_Product",
+            "key": {
+              "ProductID": 794
+            },
+            "field": "StandardCost",
+            "value": "1554.9479",
+            "surface": "1,554.95"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "A build takes 4 days.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_Product/DaysToManufacture",
+          "stated": {
+            "value": "4",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Production_Product",
+            "key": {
+              "ProductID": 794
+            },
+            "field": "DaysToManufacture",
+            "value": "4",
+            "surface": "4"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "It belongs to the road range and to the high-end tier.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_Product/ProductLine",
+          "stated": {
+            "value": "R",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Production_Product",
+            "key": {
+              "ProductID": 794
+            },
+            "field": "ProductLine",
+            "value": "R",
+            "surface": "the road range"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "It belongs to the road range and to the high-end tier.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_Product/Class",
+          "stated": {
+            "value": "H",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Production_Product",
+            "key": {
+              "ProductID": 794
+            },
+            "field": "Class",
+            "value": "H",
+            "surface": "high-end"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "A buffer of 100 units is held and replenishment starts when stock falls to 75 units.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_Product/SafetyStockLevel",
+          "stated": {
+            "value": "100",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Production_Product",
+            "key": {
+              "ProductID": 794
+            },
+            "field": "SafetyStockLevel",
+            "value": "100",
+            "surface": "100"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "A buffer of 100 units is held and replenishment starts when stock falls to 75 units.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_Product/ReorderPoint",
+          "stated": {
+            "value": "75",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Production_Product",
+            "key": {
+              "ProductID": 794
+            },
+            "field": "ReorderPoint",
+            "value": "75",
+            "surface": "75"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "It has been on sale since 30 May 2023.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_Product/SellStartDate",
+          "stated": {
+            "value": "2023-05-30",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Production_Product",
+            "key": {
+              "ProductID": 794
+            },
+            "field": "SellStartDate",
+            "value": "2023-05-30",
+            "surface": "30 May 2023"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The build time will be cut to no more than 3 days.",
+          "kind": "commitment",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_Product/DaysToManufacture",
+          "stated": {
+            "value": 3,
+            "unit": "days",
+            "period": "next model year"
+          },
+          "commitment": {
+            "check": {
+              "op": "field_value",
+              "table": "Production_Product",
+              "key": {
+                "ProductID": 794
+              },
+              "field": "DaysToManufacture"
+            },
+            "comparison": "le",
+            "threshold": 3,
+            "actual": 4.0,
+            "met": false,
+            "logic": "Value of Production_Product.DaysToManufacture for key {'ProductID': 794}; compare at most 3.",
+            "note": ""
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The buffer stock will stay at 100 units or more.",
+          "kind": "commitment",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_Product/SafetyStockLevel",
+          "stated": {
+            "value": 100,
+            "unit": "units",
+            "period": "standing term"
+          },
+          "commitment": {
+            "check": {
+              "op": "field_value",
+              "table": "Production_Product",
+              "key": {
+                "ProductID": 794
+              },
+              "field": "SafetyStockLevel"
+            },
+            "comparison": "ge",
+            "threshold": 100,
+            "actual": 100.0,
+            "met": true,
+            "logic": "Value of Production_Product.SafetyStockLevel for key {'ProductID': 794}; compare at least 100.",
+            "note": ""
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The build cost will not exceed USD 1,600.",
+          "kind": "commitment",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_Product/StandardCost",
+          "stated": {
+            "value": 1600,
+            "unit": "USD",
+            "period": "standing term"
+          },
+          "commitment": {
+            "check": {
+              "op": "field_value",
+              "table": "Production_Product",
+              "key": {
+                "ProductID": 794
+              },
+              "field": "StandardCost"
+            },
+            "comparison": "le",
+            "threshold": 1600,
+            "actual": 1554.9479,
+            "met": true,
+            "logic": "Value of Production_Product.StandardCost for key {'ProductID': 794}; compare at most 1600.",
+            "note": "The source records no currency. The sheet states USD."
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The frame weighs 33 pounds when packed in its carton.",
+          "kind": "trap",
+          "trap": {
+            "reason": "A weight in pounds including packaging, where the data records kilograms of the bicycle.",
+            "tempts": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_Product/Weight"
+          }
+        },
+        {
+          "sentence": "Specification sheet number SS-0794 identifies this sheet.",
+          "kind": "trap",
+          "trap": {
+            "reason": "A document number, not a product number.",
+            "tempts": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_Product/ProductNumber"
+          }
+        },
+        {
+          "sentence": "The frame carries a lifetime guarantee against cracks.",
+          "kind": "no_counterpart",
+          "why": "The data records nothing like it."
+        },
+        {
+          "sentence": "The company keeps this document for ten years after the relationship ends.",
+          "kind": "no_counterpart",
+          "why": "The data records nothing like it."
+        }
+      ]
+    },
+    {
+      "id": "MFG-110",
+      "title": "Shipment and delivery notice",
+      "type": "shipment notice",
+      "path": "markdown/MFG-110.md",
+      "sha256": "8bb6a1699bcb127d1037795f24649efd8d39cb6d6579e995c6ff4823d705ba9c",
+      "customer_keys": [
+        "29745"
+      ],
+      "vendor_keys": [],
+      "entity_keys": {
+        "sales_order": [
+          "55272"
+        ]
+      },
+      "statements": [
+        {
+          "sentence": "The buyer trades as Versatile Sporting Goods Company.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Sales_Store/Name",
+          "stated": {
+            "value": "Versatile Sporting Goods Company",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Sales_Store",
+            "key": {
+              "BusinessEntityID": 876
+            },
+            "field": "Name",
+            "value": "Versatile Sporting Goods Company",
+            "surface": "Versatile Sporting Goods Company"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The buyer's ledger code is AW00029745 and its orders are booked to outlet 876.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Sales_Customer/AccountNumber",
+          "stated": {
+            "value": "AW00029745",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Sales_Customer",
+            "key": {
+              "CustomerID": 29745
+            },
+            "field": "AccountNumber",
+            "value": "AW00029745",
+            "surface": "AW00029745"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The buyer's ledger code is AW00029745 and its orders are booked to outlet 876.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Sales_Customer/StoreID",
+          "stated": {
+            "value": "876",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Sales_Customer",
+            "key": {
+              "CustomerID": 29745
+            },
+            "field": "StoreID",
+            "value": "876",
+            "surface": "876"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The buyer is served from sales region 8.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Sales_Customer/TerritoryID",
+          "stated": {
+            "value": "8",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Sales_Customer",
+            "key": {
+              "CustomerID": 29745
+            },
+            "field": "TerritoryID",
+            "value": "8",
+            "surface": "8"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The order is numbered SO55272 and was placed on 29 August 2024.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Sales_SalesOrderHeader/SalesOrderNumber",
+          "stated": {
+            "value": "SO55272",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Sales_SalesOrderHeader",
+            "key": {
+              "SalesOrderID": 55272
+            },
+            "field": "SalesOrderNumber",
+            "value": "SO55272",
+            "surface": "SO55272"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The order is numbered SO55272 and was placed on 29 August 2024.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Sales_SalesOrderHeader/OrderDate",
+          "stated": {
+            "value": "2024-08-29",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Sales_SalesOrderHeader",
+            "key": {
+              "SalesOrderID": 55272
+            },
+            "field": "OrderDate",
+            "value": "2024-08-29",
+            "surface": "29 August 2024"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "It was promised for 10 September 2024 and left the warehouse on 5 September 2024.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Sales_SalesOrderHeader/DueDate",
+          "stated": {
+            "value": "2024-09-10",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Sales_SalesOrderHeader",
+            "key": {
+              "SalesOrderID": 55272
+            },
+            "field": "DueDate",
+            "value": "2024-09-10",
+            "surface": "10 September 2024"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "It was promised for 10 September 2024 and left the warehouse on 5 September 2024.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Sales_SalesOrderHeader/ShipDate",
+          "stated": {
+            "value": "2024-09-05",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Sales_SalesOrderHeader",
+            "key": {
+              "SalesOrderID": 55272
+            },
+            "field": "ShipDate",
+            "value": "2024-09-05",
+            "surface": "5 September 2024"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "It travels by shipping option 5.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Sales_SalesOrderHeader/ShipMethodID",
+          "stated": {
+            "value": "5",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Sales_SalesOrderHeader",
+            "key": {
+              "SalesOrderID": 55272
+            },
+            "field": "ShipMethodID",
+            "value": "5",
+            "surface": "5"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "That option is called CARGO TRANSPORT 5.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Purchasing_ShipMethod/Name",
+          "stated": {
+            "value": "CARGO TRANSPORT 5",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Purchasing_ShipMethod",
+            "key": {
+              "ShipMethodID": 5
+            },
+            "field": "Name",
+            "value": "CARGO TRANSPORT 5",
+            "surface": "CARGO TRANSPORT 5"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The carrier charges a base of 8.99 plus 1.49 per unit of weight.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Purchasing_ShipMethod/ShipBase",
+          "stated": {
+            "value": "8.9900",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Purchasing_ShipMethod",
+            "key": {
+              "ShipMethodID": 5
+            },
+            "field": "ShipBase",
+            "value": "8.9900",
+            "surface": "8.99"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The carrier charges a base of 8.99 plus 1.49 per unit of weight.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Purchasing_ShipMethod/ShipRate",
+          "stated": {
+            "value": "1.4900",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Purchasing_ShipMethod",
+            "key": {
+              "ShipMethodID": 5
+            },
+            "field": "ShipRate",
+            "value": "1.4900",
+            "surface": "1.49"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The delivery cost billed on this order is 29.35 and the amount owed is 1,295.47.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Sales_SalesOrderHeader/Freight",
+          "stated": {
+            "value": "29.3514",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Sales_SalesOrderHeader",
+            "key": {
+              "SalesOrderID": 55272
+            },
+            "field": "Freight",
+            "value": "29.3514",
+            "surface": "29.35"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The delivery cost billed on this order is 29.35 and the amount owed is 1,295.47.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Sales_SalesOrderHeader/TotalDue",
+          "stated": {
+            "value": "1295.4694",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Sales_SalesOrderHeader",
+            "key": {
+              "SalesOrderID": 55272
+            },
+            "field": "TotalDue",
+            "value": "1295.4694",
+            "surface": "1,295.47"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The order was taken by a sales representative.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Sales_SalesOrderHeader/OnlineOrderFlag",
+          "stated": {
+            "value": "0",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Sales_SalesOrderHeader",
+            "key": {
+              "SalesOrderID": 55272
+            },
+            "field": "OnlineOrderFlag",
+            "value": "0",
+            "surface": "was taken by a sales representative"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The largest line carries parcel tag E60A-4069-A7 for 2 units of product 762.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Sales_SalesOrderDetail/CarrierTrackingNumber",
+          "stated": {
+            "value": "E60A-4069-A7",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Sales_SalesOrderDetail",
+            "key": {
+              "SalesOrderID": 55272,
+              "SalesOrderDetailID": 55268
+            },
+            "field": "CarrierTrackingNumber",
+            "value": "E60A-4069-A7",
+            "surface": "E60A-4069-A7"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The largest line carries parcel tag E60A-4069-A7 for 2 units of product 762.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Sales_SalesOrderDetail/OrderQty",
+          "stated": {
+            "value": "2",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Sales_SalesOrderDetail",
+            "key": {
+              "SalesOrderID": 55272,
+              "SalesOrderDetailID": 55268
+            },
+            "field": "OrderQty",
+            "value": "2",
+            "surface": "2"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The largest line carries parcel tag E60A-4069-A7 for 2 units of product 762.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Sales_SalesOrderDetail/ProductID",
+          "stated": {
+            "value": "762",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Sales_SalesOrderDetail",
+            "key": {
+              "SalesOrderID": 55272,
+              "SalesOrderDetailID": 55268
+            },
+            "field": "ProductID",
+            "value": "762",
+            "surface": "762"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "Each unit is priced at 563.75 with a price reduction of 0, so the line is worth 1,127.51.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Sales_SalesOrderDetail/UnitPrice",
+          "stated": {
+            "value": "563.7528",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Sales_SalesOrderDetail",
+            "key": {
+              "SalesOrderID": 55272,
+              "SalesOrderDetailID": 55268
+            },
+            "field": "UnitPrice",
+            "value": "563.7528",
+            "surface": "563.75"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "Each unit is priced at 563.75 with a price reduction of 0, so the line is worth 1,127.51.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Sales_SalesOrderDetail/UnitPriceDiscount",
+          "stated": {
+            "value": "0.0000",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Sales_SalesOrderDetail",
+            "key": {
+              "SalesOrderID": 55272,
+              "SalesOrderDetailID": 55268
+            },
+            "field": "UnitPriceDiscount",
+            "value": "0.0000",
+            "surface": "0"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "Each unit is priced at 563.75 with a price reduction of 0, so the line is worth 1,127.51.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Sales_SalesOrderDetail/LineTotal",
+          "stated": {
+            "value": "1127.505600",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Sales_SalesOrderDetail",
+            "key": {
+              "SalesOrderID": 55272,
+              "SalesOrderDetailID": 55268
+            },
+            "field": "LineTotal",
+            "value": "1127.505600",
+            "surface": "1,127.51"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "No order of this customer will leave the warehouse after its promised date during 2024.",
+          "kind": "commitment",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/metric/late_dispatch_orders",
+          "stated": {
+            "value": 0,
+            "unit": "orders",
+            "period": "2024"
+          },
+          "commitment": {
+            "check": {
+              "op": "late_dispatch",
+              "customer": 29745,
+              "from": "2024-01-01",
+              "to": "2024-12-31"
+            },
+            "comparison": "le",
+            "threshold": 0,
+            "actual": 0.0,
+            "met": true,
+            "logic": "Count of orders of CustomerID 29745 with ShipDate after DueDate, OrderDate from 2024-01-01 to 2024-12-31; compare at most 0.",
+            "note": "The metric is zero for every customer in this data set."
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "Every order will leave the warehouse within 3 days of being placed during 2024.",
+          "kind": "commitment",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Sales_SalesOrderHeader/ShipDate",
+          "stated": {
+            "value": 0,
+            "unit": "orders over 3 days",
+            "period": "2024"
+          },
+          "commitment": {
+            "check": {
+              "op": "ship_gap_over",
+              "customer": 29745,
+              "days": 3,
+              "from": "2024-01-01",
+              "to": "2024-12-31"
+            },
+            "comparison": "le",
+            "threshold": 0,
+            "actual": 6.0,
+            "met": false,
+            "logic": "Count of orders of CustomerID 29745 shipped more than 3 days after OrderDate, OrderDate from 2024-01-01 to 2024-12-31; compare at most 0.",
+            "note": ""
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The customer will place at least 2 orders in the third quarter of 2024.",
+          "kind": "commitment",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/metric/sales_order_count",
+          "stated": {
+            "value": 2,
+            "unit": "orders",
+            "period": "2024-07-01/2024-09-30"
+          },
+          "commitment": {
+            "check": {
+              "op": "sales_orders",
+              "customer": 29745,
+              "from": "2024-07-01",
+              "to": "2024-09-30"
+            },
+            "comparison": "ge",
+            "threshold": 2,
+            "actual": 2.0,
+            "met": true,
+            "logic": "Count of distinct SalesOrderID of CustomerID 29745, OrderDate from 2024-07-01 to 2024-09-30; compare at least 2.",
+            "note": ""
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "Container MSKU-0004417 carries the pallets to the depot.",
+          "kind": "trap",
+          "trap": {
+            "reason": "A container number, not a parcel tag.",
+            "tempts": "manufacturing:definition:adventureworks_manufacturing_demo/field/Sales_SalesOrderDetail/CarrierTrackingNumber"
+          }
+        },
+        {
+          "sentence": "Delivery to the depot is expected within two weeks of the notice.",
+          "kind": "trap",
+          "trap": {
+            "reason": "A relative promise, where the data records absolute ship and due dates.",
+            "tempts": "manufacturing:definition:adventureworks_manufacturing_demo/field/Sales_SalesOrderHeader/DueDate"
+          }
+        },
+        {
+          "sentence": "Damaged parcels must be reported within 48 hours of delivery.",
+          "kind": "no_counterpart",
+          "why": "The data records nothing like it."
+        },
+        {
+          "sentence": "Notices go to the contracts desk at the correspondence address held on the supplier file.",
+          "kind": "no_counterpart",
+          "why": "The data records nothing like it."
+        }
+      ]
+    },
+    {
+      "id": "MFG-111",
+      "title": "Inventory count memo",
+      "type": "inventory count memo",
+      "path": "markdown/MFG-111.md",
+      "sha256": "45801bc908600e5c4ebdbaa6dcf484ed19a033b04bed50f5e4ff6e16021fee63",
+      "customer_keys": [],
+      "vendor_keys": [],
+      "entity_keys": {
+        "product": [
+          "950",
+          "794"
+        ],
+        "location": [
+          "1",
+          "5",
+          "10",
+          "50"
+        ]
+      },
+      "statements": [
+        {
+          "sentence": "The first product is ML Crankset.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_Product/Name",
+          "stated": {
+            "value": "ML Crankset",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Production_Product",
+            "key": {
+              "ProductID": 950
+            },
+            "field": "Name",
+            "value": "ML Crankset",
+            "surface": "ML Crankset"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The second product is Road-250 Black, 48.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_Product/Name",
+          "stated": {
+            "value": "Road-250 Black, 48",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Production_Product",
+            "key": {
+              "ProductID": 794
+            },
+            "field": "Name",
+            "value": "Road-250 Black, 48",
+            "surface": "Road-250 Black, 48"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "Metal Storage holds 342 units of the first product on its shelf A.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_ProductInventory/Quantity",
+          "stated": {
+            "value": "342",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Production_ProductInventory",
+            "key": {
+              "ProductID": 950,
+              "LocationID": 5
+            },
+            "field": "Quantity",
+            "value": "342",
+            "surface": "342"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "Metal Storage holds 342 units of the first product on its shelf A.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_ProductInventory/Shelf",
+          "stated": {
+            "value": "A",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Production_ProductInventory",
+            "key": {
+              "ProductID": 950,
+              "LocationID": 5
+            },
+            "field": "Shelf",
+            "value": "A",
+            "surface": "A"
+          },
+          "paraphrase": false
+        },
+        {
+          "sentence": "The Tool Crib holds 272 units of the first product in slot 2.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_ProductInventory/Quantity",
+          "stated": {
+            "value": "272",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Production_ProductInventory",
+            "key": {
+              "ProductID": 950,
+              "LocationID": 1
+            },
+            "field": "Quantity",
+            "value": "272",
+            "surface": "272"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The Tool Crib holds 272 units of the first product in slot 2.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_ProductInventory/Bin",
+          "stated": {
+            "value": "2",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Production_ProductInventory",
+            "key": {
+              "ProductID": 950,
+              "LocationID": 1
+            },
+            "field": "Bin",
+            "value": "2",
+            "surface": "2"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "Finished Goods Storage holds 116 units of the second product.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_ProductInventory/Quantity",
+          "stated": {
+            "value": "116",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Production_ProductInventory",
+            "key": {
+              "ProductID": 794,
+              "LocationID": 7
+            },
+            "field": "Quantity",
+            "value": "116",
+            "surface": "116"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "Location 50 is labelled Subassembly.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_Location/Name",
+          "stated": {
+            "value": "Subassembly",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Production_Location",
+            "key": {
+              "LocationID": 50
+            },
+            "field": "Name",
+            "value": "Subassembly",
+            "surface": "Subassembly"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "Location 10 bills at 22.50 per hour and offers 96 hours.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_Location/CostRate",
+          "stated": {
+            "value": "22.5000",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Production_Location",
+            "key": {
+              "LocationID": 10
+            },
+            "field": "CostRate",
+            "value": "22.5000",
+            "surface": "22.50"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "Location 10 bills at 22.50 per hour and offers 96 hours.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_Location/Availability",
+          "stated": {
+            "value": "96.00",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Production_Location",
+            "key": {
+              "LocationID": 10
+            },
+            "field": "Availability",
+            "value": "96.00",
+            "surface": "96"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The first product will have at least 1,000 units in stock across all locations.",
+          "kind": "commitment",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/metric/inventory_units",
+          "stated": {
+            "value": 1000,
+            "unit": "units",
+            "period": "standing target"
+          },
+          "commitment": {
+            "check": {
+              "op": "inventory",
+              "product": 950
+            },
+            "comparison": "ge",
+            "threshold": 1000,
+            "actual": 905.0,
+            "met": false,
+            "logic": "Sum of Quantity on Production_ProductInventory rows of ProductID 950 across all locations; compare at least 1000.",
+            "note": ""
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "Metal Storage will keep at least 300 units of the first product.",
+          "kind": "commitment",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/metric/inventory_units",
+          "stated": {
+            "value": 300,
+            "unit": "units",
+            "period": "standing target"
+          },
+          "commitment": {
+            "check": {
+              "op": "inventory",
+              "product": 950,
+              "location": 5
+            },
+            "comparison": "ge",
+            "threshold": 300,
+            "actual": 342.0,
+            "met": true,
+            "logic": "Sum of Quantity on Production_ProductInventory rows of ProductID 950, LocationID 5; compare at least 300.",
+            "note": ""
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The Tool Crib will hold no more than 300 units of the first product.",
+          "kind": "commitment",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/metric/inventory_units",
+          "stated": {
+            "value": 300,
+            "unit": "units",
+            "period": "standing target"
+          },
+          "commitment": {
+            "check": {
+              "op": "inventory",
+              "product": 950,
+              "location": 1
+            },
+            "comparison": "le",
+            "threshold": 300,
+            "actual": 272.0,
+            "met": true,
+            "logic": "Sum of Quantity on Production_ProductInventory rows of ProductID 950, LocationID 1; compare at most 300.",
+            "note": ""
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The second product will have at least 200 units in stock across all locations.",
+          "kind": "commitment",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/metric/inventory_units",
+          "stated": {
+            "value": 200,
+            "unit": "units",
+            "period": "standing target"
+          },
+          "commitment": {
+            "check": {
+              "op": "inventory",
+              "product": 794
+            },
+            "comparison": "ge",
+            "threshold": 200,
+            "actual": 165.0,
+            "met": false,
+            "logic": "Sum of Quantity on Production_ProductInventory rows of ProductID 794 across all locations; compare at least 200.",
+            "note": ""
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The count was taken on 3 June 2025.",
+          "kind": "trap",
+          "trap": {
+            "reason": "A count date. The source records no business date for inventory, only an audit timestamp.",
+            "tempts": "manufacturing:definition:adventureworks_manufacturing_demo/metric/inventory_units"
+          }
+        },
+        {
+          "sentence": "Stores report 18 pallets of the second product.",
+          "kind": "trap",
+          "trap": {
+            "reason": "A count in pallets, where the data holds units.",
+            "tempts": "manufacturing:definition:adventureworks_manufacturing_demo/metric/inventory_units"
+          }
+        },
+        {
+          "sentence": "A full recount is scheduled for the end of each financial year.",
+          "kind": "no_counterpart",
+          "why": "The data records nothing like it."
+        },
+        {
+          "sentence": "The company keeps this document for ten years after the relationship ends.",
+          "kind": "no_counterpart",
+          "why": "The data records nothing like it."
+        }
+      ]
+    },
+    {
+      "id": "MFG-112",
+      "title": "Sales quotation",
+      "type": "sales quotation",
+      "path": "markdown/MFG-112.md",
+      "sha256": "e7c7b1cf1d9dd8157bcdd7d04fac1c3a183fcd446c65f181948c6ceefb70b9cf",
+      "customer_keys": [
+        "29586"
+      ],
+      "vendor_keys": [],
+      "entity_keys": {
+        "product": [
+          "875"
+        ]
+      },
+      "statements": [
+        {
+          "sentence": "The customer trades as North Bike Company.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Sales_Store/Name",
+          "stated": {
+            "value": "North Bike Company",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Sales_Store",
+            "key": {
+              "BusinessEntityID": 532
+            },
+            "field": "Name",
+            "value": "North Bike Company",
+            "surface": "North Bike Company"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The customer's ledger code is AW00029586 and its orders are booked to outlet 532.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Sales_Customer/AccountNumber",
+          "stated": {
+            "value": "AW00029586",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Sales_Customer",
+            "key": {
+              "CustomerID": 29586
+            },
+            "field": "AccountNumber",
+            "value": "AW00029586",
+            "surface": "AW00029586"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The customer's ledger code is AW00029586 and its orders are booked to outlet 532.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Sales_Customer/StoreID",
+          "stated": {
+            "value": "532",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Sales_Customer",
+            "key": {
+              "CustomerID": 29586
+            },
+            "field": "StoreID",
+            "value": "532",
+            "surface": "532"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The customer is served from sales region 8.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Sales_Customer/TerritoryID",
+          "stated": {
+            "value": "8",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Sales_Customer",
+            "key": {
+              "CustomerID": 29586
+            },
+            "field": "TerritoryID",
+            "value": "8",
+            "surface": "8"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The quoted article is Racing Socks, L, catalogue code SO-R809-L.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_Product/Name",
+          "stated": {
+            "value": "Racing Socks, L",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Production_Product",
+            "key": {
+              "ProductID": 875
+            },
+            "field": "Name",
+            "value": "Racing Socks, L",
+            "surface": "Racing Socks, L"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The quoted article is Racing Socks, L, catalogue code SO-R809-L.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_Product/ProductNumber",
+          "stated": {
+            "value": "SO-R809-L",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Production_Product",
+            "key": {
+              "ProductID": 875
+            },
+            "field": "ProductNumber",
+            "value": "SO-R809-L",
+            "surface": "SO-R809-L"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The catalogue price is 8.99 and the plant's books carry a cost of 3.36.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_Product/ListPrice",
+          "stated": {
+            "value": "8.9900",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Production_Product",
+            "key": {
+              "ProductID": 875
+            },
+            "field": "ListPrice",
+            "value": "8.9900",
+            "surface": "8.99"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The catalogue price is 8.99 and the plant's books carry a cost of 3.36.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_Product/StandardCost",
+          "stated": {
+            "value": "3.3623",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Production_Product",
+            "key": {
+              "ProductID": 875
+            },
+            "field": "StandardCost",
+            "value": "3.3623",
+            "surface": "3.36"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The customer will take at least 30 units of the quoted article during 2024.",
+          "kind": "commitment",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/metric/sales_ordered_units",
+          "stated": {
+            "value": 30,
+            "unit": "units",
+            "period": "2024"
+          },
+          "commitment": {
+            "check": {
+              "op": "sales_units",
+              "customer": 29586,
+              "product": 875,
+              "from": "2024-01-01",
+              "to": "2024-12-31"
+            },
+            "comparison": "ge",
+            "threshold": 30,
+            "actual": 32.0,
+            "met": true,
+            "logic": "Sum of OrderQty on Sales_SalesOrderDetail lines of orders of CustomerID 29586, ProductID 875, OrderDate from 2024-01-01 to 2024-12-31; compare at least 30.",
+            "note": ""
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The average price per unit of the quoted article will not exceed USD 5.00 during 2024.",
+          "kind": "commitment",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/metric/average_unit_price",
+          "stated": {
+            "value": 5.0,
+            "unit": "USD per unit",
+            "period": "2024"
+          },
+          "commitment": {
+            "check": {
+              "op": "avg_unit_price",
+              "customer": 29586,
+              "product": 875,
+              "from": "2024-01-01",
+              "to": "2024-12-31"
+            },
+            "comparison": "le",
+            "threshold": 5.0,
+            "actual": 5.2442,
+            "met": false,
+            "logic": "Mean UnitPrice of lines of ProductID 875 on orders of CustomerID 29586, OrderDate from 2024-01-01 to 2024-12-31; compare at most 5.0.",
+            "note": "The source records no currency. The quotation states USD."
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The customer will place at least 3 orders in the first half of 2025.",
+          "kind": "commitment",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/metric/sales_order_count",
+          "stated": {
+            "value": 3,
+            "unit": "orders",
+            "period": "2025-01-01/2025-06-30"
+          },
+          "commitment": {
+            "check": {
+              "op": "sales_orders",
+              "customer": 29586,
+              "from": "2025-01-01",
+              "to": "2025-06-30"
+            },
+            "comparison": "ge",
+            "threshold": 3,
+            "actual": 2.0,
+            "met": false,
+            "logic": "Count of distinct SalesOrderID of CustomerID 29586, OrderDate from 2025-01-01 to 2025-06-30; compare at least 3.",
+            "note": ""
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The quotation is valid for 30 days and carries reference QT-2024-0526.",
+          "kind": "trap",
+          "trap": {
+            "reason": "A document reference, not an order number.",
+            "tempts": "manufacturing:definition:adventureworks_manufacturing_demo/field/Sales_SalesOrderHeader/SalesOrderNumber"
+          }
+        },
+        {
+          "sentence": "A volume discount of 4 percent applies above 100 units.",
+          "kind": "trap",
+          "trap": {
+            "reason": "A percentage discount rule, where the data holds a discount amount per line.",
+            "tempts": "manufacturing:definition:adventureworks_manufacturing_demo/field/Sales_SalesOrderDetail/UnitPriceDiscount"
+          }
+        },
+        {
+          "sentence": "Delivery is free of charge to the main warehouse.",
+          "kind": "no_counterpart",
+          "why": "The data records nothing like it."
+        },
+        {
+          "sentence": "The courts of King County in the State of Washington decide any dispute about this document.",
+          "kind": "no_counterpart",
+          "why": "The data records nothing like it."
+        },
+        {
+          "sentence": "Signed for the company by an authorised officer whose name is withheld in this synthetic pack.",
+          "kind": "no_counterpart",
+          "why": "The data records nothing like it."
+        }
+      ]
+    },
+    {
+      "id": "MFG-113",
+      "title": "Warranty claim note",
+      "type": "warranty claim note",
+      "path": "markdown/MFG-113.md",
+      "sha256": "325f1761e4513b0e8e92c30c962c3e1fd00c6aa37e3c94322c82e1db5c3131e0",
+      "customer_keys": [
+        "29745"
+      ],
+      "vendor_keys": [],
+      "entity_keys": {
+        "sales_order": [
+          "61197"
+        ],
+        "product": [
+          "794"
+        ]
+      },
+      "statements": [
+        {
+          "sentence": "The claimant trades as Versatile Sporting Goods Company.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Sales_Store/Name",
+          "stated": {
+            "value": "Versatile Sporting Goods Company",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Sales_Store",
+            "key": {
+              "BusinessEntityID": 876
+            },
+            "field": "Name",
+            "value": "Versatile Sporting Goods Company",
+            "surface": "Versatile Sporting Goods Company"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The claimant's ledger code is AW00029745 and its orders are booked to outlet 876.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Sales_Customer/AccountNumber",
+          "stated": {
+            "value": "AW00029745",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Sales_Customer",
+            "key": {
+              "CustomerID": 29745
+            },
+            "field": "AccountNumber",
+            "value": "AW00029745",
+            "surface": "AW00029745"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The claimant's ledger code is AW00029745 and its orders are booked to outlet 876.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Sales_Customer/StoreID",
+          "stated": {
+            "value": "876",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Sales_Customer",
+            "key": {
+              "CustomerID": 29745
+            },
+            "field": "StoreID",
+            "value": "876",
+            "surface": "876"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The claimant is served from sales region 8.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Sales_Customer/TerritoryID",
+          "stated": {
+            "value": "8",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Sales_Customer",
+            "key": {
+              "CustomerID": 29745
+            },
+            "field": "TerritoryID",
+            "value": "8",
+            "surface": "8"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The order is numbered SO61197 and was placed on 29 November 2024.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Sales_SalesOrderHeader/SalesOrderNumber",
+          "stated": {
+            "value": "SO61197",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Sales_SalesOrderHeader",
+            "key": {
+              "SalesOrderID": 61197
+            },
+            "field": "SalesOrderNumber",
+            "value": "SO61197",
+            "surface": "SO61197"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The order is numbered SO61197 and was placed on 29 November 2024.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Sales_SalesOrderHeader/OrderDate",
+          "stated": {
+            "value": "2024-11-29",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Sales_SalesOrderHeader",
+            "key": {
+              "SalesOrderID": 61197
+            },
+            "field": "OrderDate",
+            "value": "2024-11-29",
+            "surface": "29 November 2024"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "It left the warehouse on 6 December 2024.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Sales_SalesOrderHeader/ShipDate",
+          "stated": {
+            "value": "2024-12-06",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Sales_SalesOrderHeader",
+            "key": {
+              "SalesOrderID": 61197
+            },
+            "field": "ShipDate",
+            "value": "2024-12-06",
+            "surface": "6 December 2024"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The line concerned covers 4 units of product 794 at 1,466.01 each, 5,864.04 in all.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Sales_SalesOrderDetail/OrderQty",
+          "stated": {
+            "value": "4",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Sales_SalesOrderDetail",
+            "key": {
+              "SalesOrderID": 61197,
+              "SalesOrderDetailID": 76149
+            },
+            "field": "OrderQty",
+            "value": "4",
+            "surface": "4"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The line concerned covers 4 units of product 794 at 1,466.01 each, 5,864.04 in all.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Sales_SalesOrderDetail/ProductID",
+          "stated": {
+            "value": "794",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Sales_SalesOrderDetail",
+            "key": {
+              "SalesOrderID": 61197,
+              "SalesOrderDetailID": 76149
+            },
+            "field": "ProductID",
+            "value": "794",
+            "surface": "794"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The line concerned covers 4 units of product 794 at 1,466.01 each, 5,864.04 in all.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Sales_SalesOrderDetail/UnitPrice",
+          "stated": {
+            "value": "1466.0100",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Sales_SalesOrderDetail",
+            "key": {
+              "SalesOrderID": 61197,
+              "SalesOrderDetailID": 76149
+            },
+            "field": "UnitPrice",
+            "value": "1466.0100",
+            "surface": "1,466.01"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The line concerned covers 4 units of product 794 at 1,466.01 each, 5,864.04 in all.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Sales_SalesOrderDetail/LineTotal",
+          "stated": {
+            "value": "5864.040000",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Sales_SalesOrderDetail",
+            "key": {
+              "SalesOrderID": 61197,
+              "SalesOrderDetailID": 76149
+            },
+            "field": "LineTotal",
+            "value": "5864.040000",
+            "surface": "5,864.04"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The product is Road-250 Black, 48 and is finished in Black.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_Product/Name",
+          "stated": {
+            "value": "Road-250 Black, 48",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Production_Product",
+            "key": {
+              "ProductID": 794
+            },
+            "field": "Name",
+            "value": "Road-250 Black, 48",
+            "surface": "Road-250 Black, 48"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The product is Road-250 Black, 48 and is finished in Black.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_Product/Color",
+          "stated": {
+            "value": "Black",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Production_Product",
+            "key": {
+              "ProductID": 794
+            },
+            "field": "Color",
+            "value": "Black",
+            "surface": "Black"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The claimant alleges that two frames cracked at the head tube, which is unverified because no unit has been inspected.",
+          "kind": "trap",
+          "trap": {
+            "reason": "An unverified allegation. It is not a recorded scrap reason or a quality finding.",
+            "tempts": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_ScrapReason/Name"
+          }
+        },
+        {
+          "sentence": "The claim covers at most 4 units, the amount bought on the line.",
+          "kind": "commitment",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Sales_SalesOrderDetail/OrderQty",
+          "stated": {
+            "value": 4,
+            "unit": "units",
+            "period": "order line"
+          },
+          "commitment": {
+            "check": {
+              "op": "field_value",
+              "table": "Sales_SalesOrderDetail",
+              "key": {
+                "SalesOrderID": 61197,
+                "SalesOrderDetailID": 76149
+              },
+              "field": "OrderQty"
+            },
+            "comparison": "le",
+            "threshold": 4,
+            "actual": 4.0,
+            "met": true,
+            "logic": "Value of Sales_SalesOrderDetail.OrderQty for key {'SalesOrderID': 61197, 'SalesOrderDetailID': 76149}; compare at most 4.",
+            "note": ""
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "Claims are accepted only on order lines worth at least USD 5,000.",
+          "kind": "commitment",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Sales_SalesOrderDetail/LineTotal",
+          "stated": {
+            "value": 5000,
+            "unit": "USD",
+            "period": "order line"
+          },
+          "commitment": {
+            "check": {
+              "op": "field_value",
+              "table": "Sales_SalesOrderDetail",
+              "key": {
+                "SalesOrderID": 61197,
+                "SalesOrderDetailID": 76149
+              },
+              "field": "LineTotal"
+            },
+            "comparison": "ge",
+            "threshold": 5000,
+            "actual": 5864.04,
+            "met": true,
+            "logic": "Value of Sales_SalesOrderDetail.LineTotal for key {'SalesOrderID': 61197, 'SalesOrderDetailID': 76149}; compare at least 5000.",
+            "note": "The source records no currency. The note states USD."
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "Claims must be raised within 60 days of the dispatch date.",
+          "kind": "commitment",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Sales_SalesOrderHeader/ShipDate",
+          "stated": {
+            "value": 60,
+            "unit": "days",
+            "period": "claim window"
+          },
+          "commitment": {
+            "check": {
+              "op": "days_since",
+              "table": "Sales_SalesOrderHeader",
+              "key": {
+                "SalesOrderID": 61197
+              },
+              "field": "ShipDate",
+              "until": "2025-02-20"
+            },
+            "comparison": "le",
+            "threshold": 60,
+            "actual": 76.0,
+            "met": false,
+            "logic": "Days from Sales_SalesOrderHeader.ShipDate (key {'SalesOrderID': 61197}) to 2025-02-20; compare at most 60.",
+            "note": "Days from ShipDate to the claim date 2025-02-20."
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The warranty runs 24 months from delivery.",
+          "kind": "no_counterpart",
+          "why": "The data records nothing like it."
+        },
+        {
+          "sentence": "Replacement units ship within 10 working days of approval.",
+          "kind": "no_counterpart",
+          "why": "The data records nothing like it."
+        },
+        {
+          "sentence": "Claim reference WC-2025-0063 identifies this note.",
+          "kind": "trap",
+          "trap": {
+            "reason": "A claim reference, not an order number.",
+            "tempts": "manufacturing:definition:adventureworks_manufacturing_demo/field/Sales_SalesOrderHeader/SalesOrderNumber"
+          }
+        },
+        {
+          "sentence": "The company keeps this document for ten years after the relationship ends.",
+          "kind": "no_counterpart",
+          "why": "The data records nothing like it."
+        }
+      ]
+    },
+    {
+      "id": "MFG-114",
+      "title": "Sales quotation",
+      "type": "sales quotation",
+      "path": "markdown/MFG-114.md",
+      "sha256": "9b8c35eaf4af5c127767279c5cb1f304758259350a4bb13cce5bf4ec2c106484",
+      "customer_keys": [
+        "29745"
+      ],
+      "vendor_keys": [],
+      "entity_keys": {
+        "product": [
+          "999"
+        ]
+      },
+      "statements": [
+        {
+          "sentence": "The customer trades as Versatile Sporting Goods Company.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Sales_Store/Name",
+          "stated": {
+            "value": "Versatile Sporting Goods Company",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Sales_Store",
+            "key": {
+              "BusinessEntityID": 876
+            },
+            "field": "Name",
+            "value": "Versatile Sporting Goods Company",
+            "surface": "Versatile Sporting Goods Company"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The customer's ledger code is AW00029745 and its orders are booked to outlet 876.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Sales_Customer/AccountNumber",
+          "stated": {
+            "value": "AW00029745",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Sales_Customer",
+            "key": {
+              "CustomerID": 29745
+            },
+            "field": "AccountNumber",
+            "value": "AW00029745",
+            "surface": "AW00029745"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The customer's ledger code is AW00029745 and its orders are booked to outlet 876.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Sales_Customer/StoreID",
+          "stated": {
+            "value": "876",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Sales_Customer",
+            "key": {
+              "CustomerID": 29745
+            },
+            "field": "StoreID",
+            "value": "876",
+            "surface": "876"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The customer is served from sales region 8.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Sales_Customer/TerritoryID",
+          "stated": {
+            "value": "8",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Sales_Customer",
+            "key": {
+              "CustomerID": 29745
+            },
+            "field": "TerritoryID",
+            "value": "8",
+            "surface": "8"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The quoted article is Road-750 Black, 52, catalogue code BK-R19B-52.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_Product/Name",
+          "stated": {
+            "value": "Road-750 Black, 52",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Production_Product",
+            "key": {
+              "ProductID": 999
+            },
+            "field": "Name",
+            "value": "Road-750 Black, 52",
+            "surface": "Road-750 Black, 52"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The quoted article is Road-750 Black, 52, catalogue code BK-R19B-52.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_Product/ProductNumber",
+          "stated": {
+            "value": "BK-R19B-52",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Production_Product",
+            "key": {
+              "ProductID": 999
+            },
+            "field": "ProductNumber",
+            "value": "BK-R19B-52",
+            "surface": "BK-R19B-52"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The catalogue price is 539.99 and the plant's books carry a cost of 343.65.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_Product/ListPrice",
+          "stated": {
+            "value": "539.9900",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Production_Product",
+            "key": {
+              "ProductID": 999
+            },
+            "field": "ListPrice",
+            "value": "539.9900",
+            "surface": "539.99"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The catalogue price is 539.99 and the plant's books carry a cost of 343.65.",
+          "kind": "recorded_value",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/field/Production_Product/StandardCost",
+          "stated": {
+            "value": "343.6496",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Production_Product",
+            "key": {
+              "ProductID": 999
+            },
+            "field": "StandardCost",
+            "value": "343.6496",
+            "surface": "343.65"
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The customer will take at least 2 units of the quoted article during 2024.",
+          "kind": "commitment",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/metric/sales_ordered_units",
+          "stated": {
+            "value": 2,
+            "unit": "units",
+            "period": "2024"
+          },
+          "commitment": {
+            "check": {
+              "op": "sales_units",
+              "customer": 29745,
+              "product": 999,
+              "from": "2024-01-01",
+              "to": "2024-12-31"
+            },
+            "comparison": "ge",
+            "threshold": 2,
+            "actual": 2.0,
+            "met": true,
+            "logic": "Sum of OrderQty on Sales_SalesOrderDetail lines of orders of CustomerID 29745, ProductID 999, OrderDate from 2024-01-01 to 2024-12-31; compare at least 2.",
+            "note": ""
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The average price per unit of the quoted article will not exceed USD 300.00 during 2024.",
+          "kind": "commitment",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/metric/average_unit_price",
+          "stated": {
+            "value": 300.0,
+            "unit": "USD per unit",
+            "period": "2024"
+          },
+          "commitment": {
+            "check": {
+              "op": "avg_unit_price",
+              "customer": 29745,
+              "product": 999,
+              "from": "2024-01-01",
+              "to": "2024-12-31"
+            },
+            "comparison": "le",
+            "threshold": 300.0,
+            "actual": 323.994,
+            "met": false,
+            "logic": "Mean UnitPrice of lines of ProductID 999 on orders of CustomerID 29745, OrderDate from 2024-01-01 to 2024-12-31; compare at most 300.0.",
+            "note": "The source records no currency. The quotation states USD."
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The customer will place at least 3 orders in the first half of 2025.",
+          "kind": "commitment",
+          "definition": "manufacturing:definition:adventureworks_manufacturing_demo/metric/sales_order_count",
+          "stated": {
+            "value": 3,
+            "unit": "orders",
+            "period": "2025-01-01/2025-06-30"
+          },
+          "commitment": {
+            "check": {
+              "op": "sales_orders",
+              "customer": 29745,
+              "from": "2025-01-01",
+              "to": "2025-06-30"
+            },
+            "comparison": "ge",
+            "threshold": 3,
+            "actual": 2.0,
+            "met": false,
+            "logic": "Count of distinct SalesOrderID of CustomerID 29745, OrderDate from 2025-01-01 to 2025-06-30; compare at least 3.",
+            "note": ""
+          },
+          "paraphrase": true
+        },
+        {
+          "sentence": "The quotation is valid for 30 days and carries reference QT-2024-0526.",
+          "kind": "trap",
+          "trap": {
+            "reason": "A document reference, not an order number.",
+            "tempts": "manufacturing:definition:adventureworks_manufacturing_demo/field/Sales_SalesOrderHeader/SalesOrderNumber"
+          }
+        },
+        {
+          "sentence": "A volume discount of 4 percent applies above 100 units.",
+          "kind": "trap",
+          "trap": {
+            "reason": "A percentage discount rule, where the data holds a discount amount per line.",
+            "tempts": "manufacturing:definition:adventureworks_manufacturing_demo/field/Sales_SalesOrderDetail/UnitPriceDiscount"
+          }
+        },
+        {
+          "sentence": "Delivery is free of charge to the main warehouse.",
+          "kind": "no_counterpart",
+          "why": "The data records nothing like it."
+        },
+        {
+          "sentence": "The courts of King County in the State of Washington decide any dispute about this document.",
+          "kind": "no_counterpart",
+          "why": "The data records nothing like it."
+        },
+        {
+          "sentence": "Signed for the company by an authorised officer whose name is withheld in this synthetic pack.",
+          "kind": "no_counterpart",
+          "why": "The data records nothing like it."
+        }
+      ]
+    }
+  ]
+}

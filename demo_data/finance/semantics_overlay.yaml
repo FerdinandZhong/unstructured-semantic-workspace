@@ -1,0 +1,1504 @@
+# Business-semantics overlay for finance.ossie.yaml. Review candidate, not an approved model.
+# Applied by demo_data/enrich_ossie.py. The base model is never edited.
+# Data is synthetic. Code sets below are the values observed in the local CSV projection on
+# 20 November 2026. The workbook Param and Dictionary sheets are not in this repository, so
+# code meanings are stated only where the value is self-describing.
+
+# Shared field blocks, reused with YAML merge keys. enrich_ossie.py ignores this key.
+_shared:
+  SourceBatch: &SourceBatch
+    label: Source batch
+    description: >-
+      SHA-256 identity of the immutable source workbook batch, supplied by the projection.
+      It is provenance, not a business attribute. Every query must select one batch, and
+      every join must match on it. Never display the value.
+    role: audit
+  BusinessDate: &BusinessDate
+    label: Business date
+    description: >-
+      Business snapshot date, also called the as-of date. Each row states what the bank
+      recorded on that day. It is separate from an event date or a relationship effective
+      date. The demo workbook holds daily snapshots for 4 to 6 November 2026. Never add
+      counts or amounts across snapshot dates.
+    synonyms: [as-of date, snapshot date, reporting date, position date, as at date]
+    role: time
+    concept: snapshot_date
+  CustomerID: &CustomerID
+    label: Customer ID
+    description: >-
+      Workbook-local customer identifier. It may identify a corporate or an individual
+      customer. It is valid only inside this workbook. It is not a national or company
+      registration number, and it does not link to a document or an external company
+      without a separately reviewed identity decision. Never display the value.
+    synonyms: [customer number, client ID, client number, CIF number, customer reference]
+    role: identifier
+    concept: customer
+  RMID: &RMID
+    label: Relationship manager ID
+    description: >-
+      Workbook-local relationship manager identifier. It is valid only inside this
+      workbook. A display name alone cannot establish the same manager in another system.
+      Never display the value.
+    synonyms: [RM ID, RM code, banker ID, relationship manager number, account officer code]
+    role: identifier
+    concept: relationship_manager
+  TxnAccountNumber: &TxnAccountNumber
+    label: Account number
+    synonyms: [account no, account ID, account reference]
+    role: identifier
+    concept: account
+  TxnCustomerID: &TxnCustomerID
+    <<: *CustomerID
+  TransactionID: &TransactionID
+    label: Transaction ID
+    synonyms: [transaction reference, transaction number, txn ID, posting reference]
+    role: identifier
+  TransactionDate: &TransactionDate
+    label: Transaction date
+    synonyms: [posting date, value date, event date, date of transaction, txn date]
+    role: time
+    concept: transaction
+  TxnCurrency: &TxnCurrency
+    label: Transaction currency
+    description: >-
+      ISO currency code of the transaction amount on this row. This projection performs
+      no conversion. Amounts in different currencies must not be added together.
+    synonyms: [currency code, CCY, transaction CCY, denomination, native currency]
+    role: dimension
+    concept: currency
+  Amount: &Amount
+    label: Transaction amount
+    synonyms: [transaction value, amount, txn amount, sum transacted, ticket size]
+    role: measure
+    unit: source currency
+    concept: transaction_amount
+  DebitCredit: &DebitCredit
+    label: Debit or credit indicator
+    description: >-
+      Direction code of the transaction as supplied. Observed codes are CR and DR. The
+      model does not infer a signed amount, an inflow or an outflow from this code.
+    synonyms: [debit/credit indicator, DR/CR, Dr/Cr flag, debit or credit, transaction direction, money in or money out]
+    role: dimension
+    concept: transaction_direction
+    values:
+      CR: Observed code. CR is the usual abbreviation for credit. Meaning not recorded in the source.
+      DR: Observed code. DR is the usual abbreviation for debit. Meaning not recorded in the source.
+  Channel: &Channel
+    label: Transaction channel
+    description: >-
+      Channel through which the transaction was recorded, as supplied. Observed values are
+      Branch, Mobile, Online and SWIFT. The source records no further definition of each
+      channel.
+    synonyms: [channel, delivery channel, origination channel, how the transaction was made, banking channel]
+    role: dimension
+    concept: transaction_channel
+    values:
+      Branch: Recorded as Branch. Detailed meaning not recorded in the source.
+      Mobile: Recorded as Mobile. Detailed meaning not recorded in the source.
+      Online: Recorded as Online. Detailed meaning not recorded in the source.
+      SWIFT: Recorded as SWIFT. Detailed meaning not recorded in the source.
+  TxnStatus: &TxnStatus
+    label: Transaction status
+    description: >-
+      Processing status of the transaction as recorded by this worksheet. The only observed
+      value is Completed. Code meanings can vary across worksheets, so this status is not
+      comparable with an account status or a relationship manager status.
+    synonyms: [status, processing status, settlement status, txn status]
+    role: dimension
+    values:
+      Completed: Recorded as Completed. Detailed meaning not recorded in the source.
+  TxnBranchCode: &TxnBranchCode
+    label: Transaction branch code
+    description: >-
+      Source code of the branch recorded on the transaction. Observed codes are BR001 to
+      BR005. No certified reference maps a code to a branch name or location.
+    synonyms: [branch, branch code, booking branch, processing branch, branch number]
+    role: dimension
+    concept: branch
+
+attributions:
+  - id: fibo
+    name: Financial Industry Business Ontology (FIBO)
+    publisher: Enterprise Data Management Council
+    licence: MIT
+    licence_url: https://github.com/edmcouncil/fibo/blob/master/LICENSE
+    licence_line: Copyright (c) 2020 Enterprise Data Management Council
+    source_url: https://github.com/edmcouncil/fibo
+    fetched: "2026-11-21"
+    use: Class label and skos:definition text, copied unchanged, as a secondary definition of the matching concept. The model's own description is never replaced.
+
+subject_areas:
+  - id: customer
+    label: Customer
+    description: >-
+      Who the bank's customers are on a business date. Covers customer type, industry,
+      segment, recorded risk rating, country and home branch.
+    datasets: [Customers]
+  - id: accounts_and_products
+    label: Accounts and products
+    description: >-
+      The accounts each customer holds and the product behind each account. Covers product
+      type, currency, opening date, booking location and account status. No balance is held.
+    datasets: [Accounts]
+  - id: relationship_coverage
+    label: Relationship coverage
+    description: >-
+      Which relationship manager covers which customer, and where each manager sits in the
+      organisation. Covers the manager roster, customer assignments and hierarchy records.
+    datasets: [RelationshipManagers, Customer_RM_Relationship, RMHierarchy]
+  - id: banking_transactions
+    label: Banking transactions
+    description: >-
+      Transaction events on deposit, card, loan and investment accounts. Amounts are
+      unsigned and in source currency. They are transaction flows, not balances.
+    datasets: [CASA_Txn, CreditCard_Txn, Loan_Txn, Investment_Txn]
+  - id: treasury_and_trade
+    label: Treasury and trade
+    description: >-
+      Transaction events on treasury foreign exchange and letter of credit accounts.
+      Amounts are unsigned and in source currency. An event here does not prove a settled
+      trade payment or an export receipt.
+    datasets: [Treasury_FX_Txn, Treasury_LC_Txn]
+  - id: suspicious_transaction_reports
+    label: Suspicious transaction reports
+    description: >-
+      Transactions stated on suspicious transaction report forms. A reporting institution
+      writes each row. A report states a suspicion. It is not a finding of wrongdoing and
+      it is not a booked workbook transaction. These rows are read from the form, not from
+      the workbook.
+    datasets: [STR_Transaction, STR_AccountEntity]
+
+concepts:
+  # Existing concepts. Ids, definitions and constraints are kept from the base model.
+  - id: customer_count
+    label: Customer count
+    definition: Number of distinct customers present in a source batch on a business date.
+    synonyms: [number of customers, customer base, client count, customer headcount, customers on book]
+    broader: customer
+  - id: account_status
+    label: Account status
+    definition: Whether an account is recorded as active in the source workbook.
+    synonyms: [active account, inactive account, account state, account standing]
+    broader: account
+  - id: transaction_amount
+    label: Transaction amount
+    definition: >-
+      Unsigned monetary value of one transaction event in its source currency. This is not
+      an account balance.
+    synonyms: [transaction value, amount transacted, payment amount, transaction size, turnover]
+    broader: null
+  - id: transaction_volume
+    label: Transaction volume
+    definition: Count of distinct transaction events in a source batch.
+    synonyms: [number of transactions, transaction count, transaction frequency, activity level]
+    broader: transaction
+  - id: risk_rating
+    label: Risk rating
+    definition: >-
+      Source-recorded customer risk classification. Never derived from adverse media or
+      allegations.
+    synonyms: [customer risk rating, risk grade, risk classification, risk category, risk profile]
+    broader: null
+    constraints: [filter_on_recorded_field_only, no_adverse_media]
+  - id: large_transaction
+    label: Large transaction
+    definition: >-
+      Transaction events exceeding a monetary threshold (Amount above 50000 in source
+      currency). Not an STR flag.
+    synonyms: [large-value transaction, high-value transaction, big-ticket transaction, transaction above threshold]
+    broader: transaction_amount
+  # Added concepts.
+  - id: customer
+    label: Customer
+    definition: >-
+      A corporate or individual party that holds a banking relationship in the workbook,
+      identified by a workbook-local customer ID.
+    synonyms: [client, account holder, borrower, counterparty, the company, the customer]
+    broader: null
+    fibo:
+      iri: https://spec.edmcouncil.org/fibo/ontology/FND/ProductsAndServices/ProductsAndServices/Customer
+      label: customer
+      definition: >-
+        party that receives or consumes products (goods or services) and has the ability to choose between different products and suppliers
+      source_file: FND/ProductsAndServices/ProductsAndServices.rdf
+      attribution: Enterprise Data Management Council, Financial Industry Business Ontology (FIBO)
+      licence: MIT
+      licence_url: https://github.com/edmcouncil/fibo/blob/master/LICENSE
+      fetched: "2026-11-21"
+  - id: customer_type
+    label: Customer type
+    definition: Whether the customer is recorded as a corporate or an individual customer.
+    synonyms: [corporate or individual, legal entity type, client type, party type]
+    broader: customer
+  - id: industry
+    label: Industry
+    definition: >-
+      The line of business recorded for a customer as a source industry code. A governed
+      industry classification has not been established.
+    synonyms: [sector, industry sector, line of business, business activity, industry classification]
+    broader: customer
+  - id: customer_segment
+    label: Customer segment
+    definition: >-
+      The bank's own grouping of a customer for service and coverage, as recorded in the
+      workbook. Tiers in other systems require a crosswalk.
+    synonyms: [segment, client segment, banking segment, service tier, coverage segment]
+    broader: customer
+  - id: account
+    label: Account
+    definition: >-
+      A product holding of one customer, identified by a workbook-local account number.
+      No balance is recorded for an account.
+    synonyms: [bank account, facility, product holding, account relationship]
+    broader: null
+    fibo:
+      iri: https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/ClientsAndAccounts/Account
+      label: account
+      definition: >-
+        container for records associated with a business arrangement for regular transactions and services
+      source_file: FBC/ProductsAndServices/ClientsAndAccounts.rdf
+      attribution: Enterprise Data Management Council, Financial Industry Business Ontology (FIBO)
+      licence: MIT
+      licence_url: https://github.com/edmcouncil/fibo/blob/master/LICENSE
+      fetched: "2026-11-21"
+  - id: product
+    label: Banking product
+    definition: >-
+      The product behind an account, recorded as a product type, a product subtype and a
+      source product code.
+    synonyms: [product, product type, product line, facility type, banking service, financial product]
+    broader: account
+    fibo:
+      iri: https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/FinancialProductsAndServices/FinancialProduct
+      label: financial product
+      definition: >-
+        product provided to consumers and businesses by financial institutions such as banks, insurance companies, brokerage firms, consumer finance companies, and investment companies
+      source_file: FBC/ProductsAndServices/FinancialProductsAndServices.rdf
+      attribution: Enterprise Data Management Council, Financial Industry Business Ontology (FIBO)
+      licence: MIT
+      licence_url: https://github.com/edmcouncil/fibo/blob/master/LICENSE
+      fetched: "2026-11-21"
+  - id: currency
+    label: Currency
+    definition: >-
+      The ISO currency code in which an account is held or a transaction amount is stated.
+      No conversion is performed.
+    synonyms: [CCY, currency code, denomination, native currency]
+    broader: null
+    fibo:
+      iri: https://spec.edmcouncil.org/fibo/ontology/FND/Accounting/CurrencyAmount/Currency
+      label: currency
+      definition: >-
+        medium of exchange value, defined by reference to the geographical location of the monetary authorities responsible for it
+      source_file: FND/Accounting/CurrencyAmount.rdf
+      attribution: Enterprise Data Management Council, Financial Industry Business Ontology (FIBO)
+      licence: MIT
+      licence_url: https://github.com/edmcouncil/fibo/blob/master/LICENSE
+      fetched: "2026-11-21"
+  - id: branch
+    label: Branch
+    definition: >-
+      A bank branch recorded as a source branch code. No certified reference maps the code
+      to a branch name or location.
+    synonyms: [branch office, booking branch, branch code, outlet]
+    broader: null
+  - id: relationship_manager
+    label: Relationship manager
+    definition: >-
+      A bank employee who manages customer relationships, identified by a workbook-local
+      relationship manager ID.
+    synonyms: [RM, banker, account officer, coverage banker, relationship officer]
+    broader: null
+    fibo:
+      iri: https://spec.edmcouncil.org/fibo/ontology/FBC/ProductsAndServices/ClientsAndAccounts/RelationshipManager
+      label: relationship manager
+      definition: >-
+        responsible party who manages a client's account and oversees their relationship with the service provider
+      source_file: FBC/ProductsAndServices/ClientsAndAccounts.rdf
+      attribution: Enterprise Data Management Council, Financial Industry Business Ontology (FIBO)
+      licence: MIT
+      licence_url: https://github.com/edmcouncil/fibo/blob/master/LICENSE
+      fetched: "2026-11-21"
+  - id: rm_assignment
+    label: Relationship manager assignment
+    definition: >-
+      The recorded link between one customer and one relationship manager, with a
+      relationship type and effective dates.
+    synonyms: [RM coverage, customer coverage, assigned RM, primary RM, portfolio assignment, book of clients]
+    broader: relationship_manager
+  - id: rm_hierarchy
+    label: Relationship manager hierarchy
+    definition: >-
+      The organisational placement of a relationship manager by level, region and
+      department. It does not establish who reports to whom.
+    synonyms: [RM hierarchy, organisation level, coverage team structure, reporting level]
+    broader: relationship_manager
+  - id: snapshot_date
+    label: Business snapshot date
+    definition: >-
+      The business date on which the workbook recorded a row. It is not the date an event
+      happened or a relationship started.
+    synonyms: [as-of date, business date, reporting date, position date]
+    broader: null
+  - id: transaction
+    label: Transaction
+    definition: >-
+      One recorded money movement or product event on an account, dated by its transaction
+      date. The same event can appear in more than one business snapshot.
+    synonyms: [txn, posting, payment, transfer, account movement, account activity]
+    broader: null
+  - id: transaction_direction
+    label: Transaction direction
+    definition: >-
+      The debit or credit indicator recorded on a transaction. The model infers no signed
+      amount from it.
+    synonyms: [debit or credit, DR/CR, inflow or outflow, money in or money out]
+    broader: transaction
+  - id: transaction_channel
+    label: Transaction channel
+    definition: The channel through which a transaction was recorded, such as branch, mobile, online or SWIFT.
+    synonyms: [channel, delivery channel, banking channel, origination channel]
+    broader: transaction
+  - id: casa_transaction
+    label: CASA transaction
+    definition: A transaction event on a current account or savings account.
+    synonyms: [current account transaction, savings account transaction, deposit account transaction, CASA movement, account transfer]
+    broader: transaction
+  - id: credit_card_transaction
+    label: Credit card transaction
+    definition: A transaction event on a credit card account.
+    synonyms: [card transaction, card spend, card payment, card purchase, credit card activity]
+    broader: transaction
+  - id: loan_transaction
+    label: Loan transaction
+    definition: >-
+      A transaction event on a loan account. The source does not record whether it is a
+      drawdown, a repayment, interest or a fee.
+    synonyms: [loan posting, loan movement, lending transaction, mortgage transaction, loan account activity]
+    broader: transaction
+  - id: investment_transaction
+    label: Investment transaction
+    definition: >-
+      A transaction event on an investment account. The source does not record the
+      security, the trade side or the quantity.
+    synonyms: [investment trade, custody transaction, securities transaction, wealth transaction, portfolio transaction]
+    broader: transaction
+  - id: fx_transaction
+    label: Foreign exchange transaction
+    definition: >-
+      A transaction event on a treasury foreign exchange account. It does not establish an
+      export receipt, a hedge or an exchange rate.
+    synonyms: [FX transaction, FX deal, forex trade, currency exchange, treasury FX]
+    broader: transaction
+  - id: letter_of_credit_transaction
+    label: Letter of credit transaction
+    definition: >-
+      A transaction event on a treasury letter of credit account. It does not establish a
+      settled import payment.
+    synonyms: [LC transaction, L/C, documentary credit, trade finance transaction, import LC]
+    broader: transaction
+  - id: suspicious_transaction
+    label: Suspicious transaction
+    definition: >-
+      A transaction a reporting institution states on a suspicious transaction report form.
+      The report states a suspicion. It does not establish a crime or a booked workbook
+      transaction.
+    synonyms: [STR transaction, reported transaction, suspicious transaction report line, transaction of concern, flagged transaction]
+    broader: transaction
+  - id: suspicious_transaction_amount
+    label: Suspicious transaction amount
+    definition: >-
+      The amount of one transaction stated on a suspicious transaction report form, in the
+      original currency the form states. It is not a booked amount and it is not a balance.
+    synonyms: [reported amount, STR amount, amount of the reported transaction, suspicious amount]
+    broader: suspicious_transaction
+  - id: reported_account
+    label: Reported account
+    definition: >-
+      An account a suspicious transaction report form states in its account information
+      group. The form states it. It does not link to a workbook account.
+    synonyms: [account on a suspicious transaction report, STR account, reported account information]
+    broader: null
+  - id: reported_entity
+    label: Reported entity
+    definition: >-
+      An individual or organisation a suspicious transaction report form profiles in its
+      entity profile group. The form states it. It does not resolve to a workbook customer.
+    synonyms: [entity on a suspicious transaction report, STR entity profile, profiled entity]
+    broader: null
+
+datasets:
+  Customers:
+    label: Customers
+    description: >-
+      One accepted customer per workbook business snapshot. Holds the customer's type,
+      industry code, segment, recorded risk rating, country of operation and home branch.
+      Corporate and individual customers share this table. Customer names, identity
+      numbers, dates of birth or incorporation and contact details are excluded from this
+      projection.
+    synonyms: [customer master, client master, customer list, customer profile, client base, customer static data]
+    fields:
+      SourceBatch: *SourceBatch
+      BusinessDate: *BusinessDate
+      CustomerID:
+        <<: *CustomerID
+        examples: ["How many customers were on book on 6 November 2026?"]
+      CustomerType:
+        label: Customer type
+        description: >-
+          Source customer type for an accepted customer snapshot. It separates companies
+          from natural persons. Observed values are Corporate and Individual.
+        synonyms: [client type, corporate or individual, entity type, legal form, party type, company or person]
+        role: dimension
+        concept: customer_type
+        values:
+          Corporate: Recorded as a corporate customer.
+          Individual: Recorded as an individual customer.
+      IndustryCode:
+        label: Industry code
+        description: >-
+          Industry code as supplied, written as a four-digit code and a short label. A
+          governed industry classification has not been established, so the code system
+          is unconfirmed. The value also appears on individual customers. Decode and
+          compare the code system before mapping it to a sector label in another model.
+        synonyms: [industry, sector, industry sector, line of business, business activity, industry classification]
+        role: dimension
+        concept: industry
+        values:
+          3510-Energy: Source label Energy. Code system not recorded in the source.
+          4641-Trading: Source label Trading. Code system not recorded in the source.
+          6201-Software: Source label Software. Code system not recorded in the source.
+          6419-Banking: Source label Banking. Code system not recorded in the source.
+          6810-RealEstate: Source label RealEstate. Code system not recorded in the source.
+          8610-Healthcare: Source label Healthcare. Code system not recorded in the source.
+      RiskRating:
+        label: Risk rating
+        description: >-
+          Workbook-recorded risk rating of the customer in its own source population.
+          Observed values are Low and Medium. No customer is rated High in this demo data.
+          The source does not record the rating scale or the policy behind it. The rating
+          is read from this column only. It is never derived from adverse media, news or
+          allegations in a document.
+        synonyms: [customer risk rating, risk grade, risk classification, risk category, risk level, risk profile]
+        role: dimension
+        concept: risk_rating
+        values:
+          Low: Recorded as Low. Scale definition not recorded in the source.
+          Medium: Recorded as Medium. Scale definition not recorded in the source.
+        examples: ["How many customers have a recorded risk rating of Medium?"]
+      CustomerSegment:
+        label: Customer segment
+        description: >-
+          Workbook customer segment, the bank's own grouping of the customer. Observed
+          values mix consumer and business tiers. The banking and Looker tiers require a
+          crosswalk before segments are compared across sources.
+        synonyms: [segment, client segment, banking segment, service tier, customer tier, coverage segment]
+        role: dimension
+        concept: customer_segment
+        values:
+          CBK: Observed code. Meaning not recorded in the source.
+          CMB: Observed code. Meaning not recorded in the source.
+          Corporate: Recorded as Corporate. Tier definition not recorded in the source.
+          Premier: Recorded as Premier. Tier definition not recorded in the source.
+          Priority: Recorded as Priority. Tier definition not recorded in the source.
+          Private: Recorded as Private. Tier definition not recorded in the source.
+          Retail: Recorded as Retail. Tier definition not recorded in the source.
+      CountryOfOperation:
+        label: Country of operation
+        description: >-
+          Country of operation as supplied for the customer, as a two-letter country code.
+          The only observed value is SG. It is not the country of residence or of tax
+          residence, which this projection excludes.
+        synonyms: [operating country, country, market, place of business, where the customer operates, jurisdiction]
+        role: dimension
+        values:
+          SG: Two-letter country code SG, as supplied.
+      BranchCode:
+        label: Customer branch code
+        description: >-
+          Source code of the branch recorded on the customer. Observed codes are BR001 to
+          BR005. The source has no certified reference mapping from a code to a branch
+          name or location.
+        synonyms: [branch, home branch, servicing branch, branch code, branch number]
+        role: dimension
+        concept: branch
+
+  Accounts:
+    label: Accounts
+    description: >-
+      One accepted account per workbook business snapshot. Each account belongs to one
+      customer and carries its product type, currency, opening date, booking country,
+      branch and status. No balance value and no maturity date are supplied. A deposit or
+      loan balance cannot be read from this table or built from transaction amounts.
+    synonyms: [account master, account list, product holdings, customer accounts, facilities, account static data]
+    fields:
+      SourceBatch: *SourceBatch
+      BusinessDate: *BusinessDate
+      AccountNumber:
+        <<: *TxnAccountNumber
+        description: >-
+          Restricted workbook-local account identifier. It is the key of the account and
+          the join key for all transaction tables. The format differs by product. Never
+          display the value.
+      CustomerID:
+        <<: *CustomerID
+      Currency:
+        label: Account currency
+        description: >-
+          Native currency code of the account, as an ISO code. Observed values are EUR,
+          HKD, JPY, SGD and USD. This projection performs no conversion.
+        synonyms: [currency code, CCY, account CCY, denomination, native currency]
+        role: dimension
+        concept: currency
+        values:
+          EUR: ISO currency code EUR.
+          HKD: ISO currency code HKD.
+          JPY: ISO currency code JPY.
+          SGD: ISO currency code SGD.
+          USD: ISO currency code USD.
+      ProductType:
+        label: Product type
+        description: >-
+          Source account product category. It names the business line of the account and
+          matches one transaction table each. Observed values are CASA, CreditCard,
+          Investment, Loan, Treasury_FX and Treasury_LC.
+        synonyms: [product, product category, product line, account type, facility type, type of account]
+        role: dimension
+        concept: product
+        values:
+          CASA: Current account or savings account. Transactions are in CASA_Txn.
+          CreditCard: Credit card account. Transactions are in CreditCard_Txn.
+          Investment: Investment account. Transactions are in Investment_Txn.
+          Loan: Loan account. Transactions are in Loan_Txn.
+          Treasury_FX: Treasury foreign exchange account. Transactions are in Treasury_FX_Txn.
+          Treasury_LC: Treasury letter of credit account. Transactions are in Treasury_LC_Txn.
+      ProductSubType:
+        label: Product subtype
+        description: >-
+          Source account product subcategory, one level below the product type. Observed
+          values are Current, Savings, Visa, Custody, Mortgage, FX and LC.
+        synonyms: [product subcategory, sub-product, product variant, account subtype, current or savings]
+        role: dimension
+        concept: product
+        values:
+          Current: Recorded as Current.
+          Savings: Recorded as Savings.
+          Visa: Recorded as Visa.
+          Custody: Recorded as Custody.
+          Mortgage: Recorded as Mortgage.
+          FX: Recorded as FX.
+          LC: Recorded as LC.
+      ProductCode:
+        label: Product code
+        description: >-
+          Source product code with no certified reference mapping. Observed codes run from
+          P000 to P019. The meaning of each code is not recorded in the source, so the code
+          must not be read as a product name.
+        synonyms: [product ID, product identifier, scheme code, internal product code]
+        role: dimension
+        concept: product
+      OpenDate:
+        label: Account open date
+        description: >-
+          Recorded account opening date. It dates the account, not the customer. It does
+          not establish when the customer was onboarded.
+        synonyms: [opening date, account opening date, date opened, account start date, opened on]
+        role: time
+      BookingCountry:
+        label: Booking country
+        description: >-
+          Source account booking country, the country where the account is booked, as a
+          two-letter code. The only observed value is SG.
+        synonyms: [booking location, booking centre, booking entity country, country of booking, booked in]
+        role: dimension
+        values:
+          SG: Two-letter country code SG, as supplied.
+      BranchCode:
+        label: Account branch code
+        description: >-
+          Source code of the branch that holds the account. Observed codes are BR001 to
+          BR005. The source has no certified reference mapping from a code to a branch.
+        synonyms: [branch, account branch, booking branch, branch code, branch number]
+        role: dimension
+        concept: branch
+      Status:
+        label: Account status
+        description: >-
+          Status of the account as recorded by this worksheet. Observed values are Active
+          and Inactive. The status is source-recorded only and is not inferred from
+          transactions. Code meanings can vary across worksheets.
+        synonyms: [status, account state, active or inactive, active account, inactive account, account standing]
+        role: dimension
+        concept: account_status
+        values:
+          Active: Recorded as Active.
+          Inactive: Recorded as Inactive. The reason is not recorded in the source.
+        examples: ["How many accounts were active on 6 November 2026?"]
+
+  RelationshipManagers:
+    label: Relationship managers
+    description: >-
+      One accepted relationship manager per workbook business snapshot. Holds the
+      manager's title, branch, region and status. Names, contact details, hire dates and
+      the reporting manager are excluded from this projection.
+    synonyms: [RM roster, RM list, banker list, relationship manager master, account officers, coverage team]
+    fields:
+      SourceBatch: *SourceBatch
+      BusinessDate: *BusinessDate
+      RMID: *RMID
+      Title:
+        label: Job title
+        description: >-
+          Source relationship manager title, the job title of the staff member. The only
+          observed value is Relationship Manager.
+        synonyms: [title, position, designation, role, rank, job role]
+        role: dimension
+        values:
+          Relationship Manager: Recorded job title.
+      BranchCode:
+        label: Relationship manager branch code
+        description: >-
+          Source code of the branch where the relationship manager is based. Observed
+          codes are BR001 to BR005. No certified reference maps a code to a branch.
+        synonyms: [branch, RM branch, home branch, branch code, office]
+        role: dimension
+        concept: branch
+      Region:
+        label: Region
+        description: >-
+          Regional assignment label of the relationship manager as supplied. The only
+          observed value is APAC.
+        synonyms: [coverage region, geography, territory, market region, regional team]
+        role: dimension
+        values:
+          APAC: Recorded as APAC.
+      Status:
+        label: Relationship manager status
+        description: >-
+          Status of the relationship manager as recorded by this worksheet. Observed
+          values are Active and Inactive. Code meanings can vary across worksheets.
+        synonyms: [status, employment status, active or inactive, RM status, staff status]
+        role: dimension
+        values:
+          Active: Recorded as Active.
+          Inactive: Recorded as Inactive. The reason is not recorded in the source.
+
+  Customer_RM_Relationship:
+    label: Customer coverage assignments
+    description: >-
+      One accepted customer and relationship manager link of a given type per workbook
+      business snapshot. It answers who covers a customer. Confirm the assignment is
+      active on the selected business date before using it.
+    synonyms: [RM assignment, customer coverage, RM portfolio, book of clients, coverage mapping, customer to RM mapping]
+    fields:
+      SourceBatch: *SourceBatch
+      BusinessDate: *BusinessDate
+      CustomerID:
+        <<: *CustomerID
+      RMID:
+        <<: *RMID
+        examples: ["Which relationship manager covers this customer?"]
+      RelationshipType:
+        label: Relationship type
+        description: >-
+          Source classification of the customer and relationship manager link. The only
+          observed value is Primary RM.
+        synonyms: [coverage role, RM role, assignment type, primary RM, coverage type]
+        role: dimension
+        concept: rm_assignment
+        values:
+          Primary RM: Recorded as Primary RM. Other roles are not present in the source.
+      StartDate:
+        label: Assignment start date
+        description: >-
+          Effective start of the source relationship record, the date from which the
+          manager covers the customer. It is not the customer onboarding date.
+        synonyms: [effective from, coverage start, assigned since, start of coverage, effective date]
+        role: time
+      EndDate:
+        label: Assignment end date
+        description: >-
+          Optional effective end of the source relationship record. It is blank on every
+          row in this demo data. The meaning of a blank end date is not recorded in the source.
+        synonyms: [effective to, coverage end, assigned until, end of coverage, expiry date]
+        role: time
+
+  RMHierarchy:
+    label: Relationship manager hierarchy
+    description: >-
+      One accepted hierarchy record per workbook business snapshot. It places a
+      relationship manager at a level in a region and a department. The reporting-line
+      columns are excluded, so it does not establish who reports to whom.
+    synonyms: [RM hierarchy, organisation structure, coverage team structure, org chart, reporting structure]
+    fields:
+      SourceBatch: *SourceBatch
+      BusinessDate: *BusinessDate
+      HierarchyID:
+        label: Hierarchy record ID
+        description: >-
+          Workbook-local hierarchy record identifier. It identifies the hierarchy row, not
+          the relationship manager. Never display the value.
+        synonyms: [hierarchy ID, hierarchy record number, org record ID]
+        role: identifier
+      RMID: *RMID
+      Level:
+        label: Hierarchy level
+        description: >-
+          Hierarchy level as supplied. This does not establish a manager-to-manager edge.
+          Observed codes are 1 and 3. The source does not record which level is senior.
+        synonyms: [organisation level, grade, tier, seniority level, reporting level, rank]
+        role: dimension
+        concept: rm_hierarchy
+        values:
+          "1": Observed code. Meaning not recorded in the source.
+          "3": Observed code. Meaning not recorded in the source.
+      Region:
+        label: Region
+        description: >-
+          Regional assignment label of the hierarchy record as supplied. The only observed
+          value is APAC.
+        synonyms: [coverage region, geography, territory, market region, regional team]
+        role: dimension
+        values:
+          APAC: Recorded as APAC.
+      Department:
+        label: Department
+        description: >-
+          Department label of the hierarchy record as supplied. The only observed value is
+          Wealth.
+        synonyms: [business unit, division, team, desk, line of business, function]
+        role: dimension
+        values:
+          Wealth: Recorded as Wealth.
+      StartDate:
+        label: Hierarchy start date
+        description: >-
+          Effective start of the source relationship record, here the date from which the
+          hierarchy placement applies. The end date is excluded from this projection.
+        synonyms: [effective from, effective date, placement start, in role since]
+        role: time
+      ActiveFlag:
+        label: Active flag
+        description: >-
+          Source hierarchy flag. Its codes remain in source form. The only observed code
+          is Y.
+        synonyms: [active indicator, is active, current flag, active or inactive, live record]
+        role: dimension
+        values:
+          Y: Observed code. Meaning not recorded in the source.
+
+  CASA_Txn:
+    label: CASA transactions
+    description: >-
+      One accepted CASA event row per workbook business snapshot. CASA means current
+      account and savings account. An event can recur across snapshots. Amounts are
+      unsigned and in source currency. They are transaction flows, not deposit balances,
+      and they cannot supply a deposit balance. The transaction description and reference
+      are excluded from this projection.
+    synonyms: [CASA, current account and savings account transactions, deposit account transactions, account statement lines, payments and transfers, CASA movements]
+    fields:
+      SourceBatch: *SourceBatch
+      BusinessDate: *BusinessDate
+      TransactionID:
+        <<: *TransactionID
+        description: >-
+          Workbook event identity within this transaction worksheet. It identifies one
+          CASA transaction. The same ID can appear in more than one snapshot. Never
+          display the value.
+        concept: casa_transaction
+      AccountNumber:
+        <<: *TxnAccountNumber
+        description: >-
+          Restricted workbook-local account identifier of the current or savings account
+          on which the transaction was recorded. Never display the value.
+      CustomerID: *TxnCustomerID
+      TransactionDate:
+        <<: *TransactionDate
+        description: >-
+          Recorded event date of the CASA transaction. It is distinct from the business
+          snapshot date.
+      Currency: *TxnCurrency
+      Amount:
+        <<: *Amount
+        label: CASA transaction amount
+        description: >-
+          Unsigned exact amount of one CASA transaction in the row currency. This amount
+          is not an account balance or a deposit balance. Do not add amounts across
+          currencies or across business dates.
+        synonyms: [transaction value, payment amount, transfer amount, deposit amount, withdrawal amount, remittance amount]
+        examples: ["What was the total CASA transaction value in SGD on 6 November 2026?"]
+      DebitCredit: *DebitCredit
+      Channel: *Channel
+      Status: *TxnStatus
+      BranchCode: *TxnBranchCode
+
+  CreditCard_Txn:
+    label: Credit card transactions
+    description: >-
+      One accepted credit card event row per workbook business snapshot. An event can
+      recur across snapshots. Amounts are unsigned and in source currency. They are not a
+      card balance or a credit limit. The merchant code, description and reference are
+      excluded from this projection.
+    synonyms: [card transactions, card spend, credit card activity, card purchases, card statement lines]
+    fields:
+      SourceBatch: *SourceBatch
+      BusinessDate: *BusinessDate
+      TransactionID:
+        <<: *TransactionID
+        description: >-
+          Workbook event identity within this transaction worksheet. It identifies one
+          credit card transaction. Never display the value.
+        concept: credit_card_transaction
+      AccountNumber:
+        <<: *TxnAccountNumber
+        label: Card account number
+        description: >-
+          Restricted workbook-local account identifier of the credit card account. It has
+          a card-number format in this worksheet. Never display the value.
+        synonyms: [card account, card number, credit card account number, account no]
+      CustomerID: *TxnCustomerID
+      TransactionDate:
+        <<: *TransactionDate
+        description: >-
+          Recorded event date of the credit card transaction. It is distinct from the
+          business snapshot date.
+      Currency: *TxnCurrency
+      Amount:
+        <<: *Amount
+        label: Card transaction amount
+        description: >-
+          Unsigned exact amount of one credit card transaction in the row currency. This
+          amount is not an account balance, an outstanding card balance or a fee.
+        synonyms: [card spend, purchase amount, charge amount, billed amount, card payment amount]
+      DebitCredit: *DebitCredit
+      Channel: *Channel
+      Status: *TxnStatus
+      BranchCode: *TxnBranchCode
+
+  Treasury_LC_Txn:
+    label: Letter of credit transactions
+    description: >-
+      One accepted treasury LC event row per workbook business snapshot. LC means letter
+      of credit. An event can recur across snapshots. The source does not record whether
+      an event is an issuance, an amendment or a settlement. A letter of credit event does
+      not establish a settled import payment.
+    synonyms: [LC transactions, letters of credit, L/C, documentary credits, trade finance transactions, import LC, export LC]
+    fields:
+      SourceBatch: *SourceBatch
+      BusinessDate: *BusinessDate
+      TransactionID:
+        <<: *TransactionID
+        description: >-
+          Workbook event identity within this transaction worksheet. It identifies one
+          letter of credit transaction. Never display the value.
+        concept: letter_of_credit_transaction
+      AccountNumber:
+        <<: *TxnAccountNumber
+        description: >-
+          Restricted workbook-local account identifier of the letter of credit account on
+          which the transaction was recorded. Never display the value.
+      CustomerID: *TxnCustomerID
+      TransactionDate:
+        <<: *TransactionDate
+        description: >-
+          Recorded event date of the letter of credit transaction. It is distinct from the
+          business snapshot date.
+      Currency: *TxnCurrency
+      Amount:
+        <<: *Amount
+        label: LC transaction amount
+        description: >-
+          Unsigned exact amount of one letter of credit transaction in the row currency.
+          This amount is not an account balance, an LC limit or an outstanding exposure.
+        synonyms: [LC amount, letter of credit value, documentary credit amount, trade finance amount, LC value]
+      DebitCredit: *DebitCredit
+      Channel: *Channel
+      Status: *TxnStatus
+      BranchCode: *TxnBranchCode
+
+  Treasury_FX_Txn:
+    label: Foreign exchange transactions
+    description: >-
+      One accepted treasury FX event row per workbook business snapshot. FX means foreign
+      exchange. An event can recur across snapshots. Each row holds one amount in one
+      currency. The source records no currency pair, rate or deal type. An FX event does
+      not establish an export receipt or a hedge.
+    synonyms: [FX transactions, forex trades, FX deals, currency exchange, treasury FX, foreign currency conversions]
+    fields:
+      SourceBatch: *SourceBatch
+      BusinessDate: *BusinessDate
+      TransactionID:
+        <<: *TransactionID
+        description: >-
+          Workbook event identity within this transaction worksheet. It identifies one
+          foreign exchange transaction. Never display the value.
+        concept: fx_transaction
+      AccountNumber:
+        <<: *TxnAccountNumber
+        description: >-
+          Restricted workbook-local account identifier of the treasury foreign exchange
+          account on which the transaction was recorded. Never display the value.
+      CustomerID: *TxnCustomerID
+      TransactionDate:
+        <<: *TransactionDate
+        description: >-
+          Recorded event date of the foreign exchange transaction. It is distinct from the
+          business snapshot date.
+      Currency: *TxnCurrency
+      Amount:
+        <<: *Amount
+        label: FX transaction amount
+        description: >-
+          Unsigned exact amount of one foreign exchange transaction in the row currency.
+          This amount is not an account balance. The other currency leg and the exchange
+          rate are not recorded.
+        synonyms: [FX amount, deal amount, notional, amount exchanged, FX deal size]
+      DebitCredit: *DebitCredit
+      Channel: *Channel
+      Status: *TxnStatus
+      BranchCode: *TxnBranchCode
+
+  Loan_Txn:
+    label: Loan transactions
+    description: >-
+      One accepted loan event row per workbook business snapshot. An event can recur
+      across snapshots. The source does not record whether an event is a drawdown, a
+      repayment, interest or a fee. Amounts are transaction flows. They are not the loan
+      outstanding, the loan limit or a late fee.
+    synonyms: [loan postings, loan account activity, lending transactions, mortgage transactions, loan movements]
+    fields:
+      SourceBatch: *SourceBatch
+      BusinessDate: *BusinessDate
+      TransactionID:
+        <<: *TransactionID
+        description: >-
+          Workbook event identity within this transaction worksheet. It identifies one
+          loan transaction. Never display the value.
+        concept: loan_transaction
+      AccountNumber:
+        <<: *TxnAccountNumber
+        label: Loan account number
+        description: >-
+          Restricted workbook-local account identifier of the loan account on which the
+          transaction was recorded. Never display the value.
+        synonyms: [loan account, loan number, facility number, account no]
+      CustomerID: *TxnCustomerID
+      TransactionDate:
+        <<: *TransactionDate
+        description: >-
+          Recorded event date of the loan transaction. It is distinct from the business
+          snapshot date.
+      Currency: *TxnCurrency
+      Amount:
+        <<: *Amount
+        label: Loan transaction amount
+        description: >-
+          Unsigned exact amount of one loan transaction in the row currency. This amount
+          is not an account balance, the outstanding principal or the facility limit.
+        synonyms: [loan posting amount, instalment amount, loan payment amount, drawdown amount, repayment amount]
+      DebitCredit: *DebitCredit
+      Channel: *Channel
+      Status: *TxnStatus
+      BranchCode: *TxnBranchCode
+
+  Investment_Txn:
+    label: Investment transactions
+    description: >-
+      One accepted investment event row per workbook business snapshot. An event can
+      recur across snapshots. The source records no security, trade side, quantity or
+      price. Amounts are transaction flows. They are not assets under management or a
+      portfolio value.
+    synonyms: [investment trades, custody transactions, securities transactions, wealth transactions, portfolio activity]
+    fields:
+      SourceBatch: *SourceBatch
+      BusinessDate: *BusinessDate
+      TransactionID:
+        <<: *TransactionID
+        description: >-
+          Workbook event identity within this transaction worksheet. It identifies one
+          investment transaction. Never display the value.
+        concept: investment_transaction
+      AccountNumber:
+        <<: *TxnAccountNumber
+        label: Investment account number
+        description: >-
+          Restricted workbook-local account identifier of the investment account on which
+          the transaction was recorded. Never display the value.
+        synonyms: [investment account, custody account, portfolio account, account no]
+      CustomerID: *TxnCustomerID
+      TransactionDate:
+        <<: *TransactionDate
+        description: >-
+          Recorded event date of the investment transaction. It is distinct from the
+          business snapshot date.
+      Currency: *TxnCurrency
+      Amount:
+        <<: *Amount
+        label: Investment transaction amount
+        description: >-
+          Unsigned exact amount of one investment transaction in the row currency. This
+          amount is not an account balance, a holding value or assets under management.
+        synonyms: [trade amount, investment amount, subscription amount, redemption amount, settlement amount]
+      DebitCredit: *DebitCredit
+      Channel: *Channel
+      Status: *TxnStatus
+      BranchCode: *TxnBranchCode
+
+  STR_Transaction:
+    label: Reported suspicious transactions
+    description: >-
+      One transaction per row, read from a suspicious transaction report form. Form field
+      names are the column names. The form states the values. The rows are written only
+      after an admin confirms a preview, and every cell keeps its source span. This table
+      holds forms, not workbook data. It is template-bound physical mapping that works only
+      for this form type.
+    synonyms: [suspicious transaction report, STR, reported suspicious transactions, STR transactions, suspicious activity report lines]
+    fields:
+      SourceRevision:
+        label: Source revision
+        description: >-
+          SHA-256 identity of the form file this row was read from. It is provenance,
+          not a business attribute. It is supplied by the system, not stated in the form. Never
+          display the value.
+        role: audit
+        concept: suspicious_transaction
+      TransactionSeq:
+        label: Transaction position
+        description: >-
+          Position of the transaction in the form's repeating Transaction group, counted from 1.
+          The system supplies it. It is not a transaction reference stated by the institution.
+        role: identifier
+        concept: suspicious_transaction
+      AccountNo:
+        label: Form account reference
+        description: >-
+          Account reference the form states for this transaction. It is valid only inside the
+          form. It does not link to a workbook account number. Never display the value.
+        role: identifier
+        concept: suspicious_transaction
+      IsActualTransaction:
+        label: Actual transaction flag
+        description: >-
+          The form's Y or N flag that states whether the reported transaction is an actual
+          transaction.
+        role: attribute
+        concept: suspicious_transaction
+      TransactionType:
+        label: Reported transaction type
+        description: >-
+          Transaction type code chosen on the form. The code list is not part of the supplied
+          material, so the meaning of a code is not stated.
+        role: dimension
+        concept: suspicious_transaction
+        synonyms: [transaction type code, STR transaction type, type of reported transaction]
+      InOutTrans:
+        label: Reported direction
+        description: >-
+          Direction of the reported transaction as the form states it, for example OUTWARD.
+        role: dimension
+        concept: suspicious_transaction
+        synonyms: [inward or outward, direction of transaction, in or out]
+      AmountOriginalCurrency:
+        label: Reported amount currency
+        description: >-
+          ISO currency code of the original amount the form states. No conversion is performed.
+        role: dimension
+        concept: suspicious_transaction_amount
+        synonyms: [reported currency, STR currency, original currency, currency of the reported amount]
+      AmountOriginal:
+        label: Reported original amount
+        description: >-
+          Exact amount the form states for the reported transaction, in the original currency
+          the form states. It is not a booked amount, a balance, or a converted amount. Do not
+          add amounts across currencies.
+        role: measure
+        concept: suspicious_transaction_amount
+        unit: original currency
+        synonyms: [reported amount, suspicious amount, amount reported, value of reported transaction]
+        examples: ["What is the total reported suspicious transaction value in SGD?"]
+      OverPeriodTime:
+        label: Over a period flag
+        description: >-
+          The form's Y or N flag that states whether the reported activity ran over a period of
+          time rather than on one date.
+        role: attribute
+        concept: suspicious_transaction
+      StartDate:
+        label: Reported start date
+        description: >-
+          Date the form states for the start of the reported transaction. It is the only date
+          held for the transaction. It is not a snapshot date.
+        role: time
+        concept: suspicious_transaction
+      SourceCountry:
+        label: Reported source country
+        description: >-
+          ISO country code the form states as the country the funds came from.
+        role: dimension
+        concept: suspicious_transaction
+        synonyms: [country of origin, originating country, country funds came from]
+      DestinationCountry:
+        label: Reported destination country
+        description: >-
+          ISO country code the form states as the country the funds went to.
+        role: dimension
+        concept: suspicious_transaction
+        synonyms: [destination, receiving country, country funds went to]
+      CounterpartyName:
+        label: Counterparty name
+        description: >-
+          Name of the counterparty exactly as the form states it. Names do not resolve to a
+          customer without a reviewed identity decision. Never display the value.
+        role: attribute
+        concept: suspicious_transaction
+      CounterpartyBankName:
+        label: Counterparty bank name
+        description: >-
+          Name of the counterparty's bank exactly as the form states it.
+        role: attribute
+        concept: suspicious_transaction
+      CounterpartyAccountNo:
+        label: Counterparty account number
+        description: >-
+          Account number of the counterparty as the form states it. It is valid only inside the
+          form. Never display the value.
+        role: identifier
+        concept: suspicious_transaction
+      IsCounterpartyAddressUnknown:
+        label: Counterparty address unknown flag
+        description: >-
+          The form's Y or N flag that states the counterparty address is unknown.
+        role: attribute
+        concept: suspicious_transaction
+      IsCounterpartyAddressPartial:
+        label: Counterparty address partial flag
+        description: >-
+          The form's Y or N flag that states the counterparty address is only partly known.
+        role: attribute
+        concept: suspicious_transaction
+
+  STR_AccountEntity:
+    label: Reported accounts and entities
+    description: >-
+      One row per group position, read from the Account group of AccountInformation and the
+      Entity group of EntityProfile on a suspicious transaction report form. Form field names
+      are the column names. The form states the values. Rows are written only after an admin
+      confirms a preview, and every cell keeps its source span. Names, birth date parts, sex,
+      email, address, contact details and identification numbers are not columns: they are
+      personal data and the identification subgroup can hold an NRIC. The Account and Entity
+      of one position share a row by position only. The form does not state that they belong
+      together. Join to STR_Transaction by SourceRevision to relate them to the reported
+      transactions of the same form. Template-bound physical mapping that works only for this
+      form type.
+    synonyms: [reported accounts, STR accounts, STR entity profile, suspicious transaction report account, reported entities, account and entity profile]
+    fields:
+      SourceRevision:
+        label: Source revision
+        description: >-
+          SHA-256 identity of the form file this row was read from. It is provenance, not a
+          business attribute. It is supplied by the system, not stated in the form. Never display
+          the value.
+        role: audit
+        concept: reported_account
+      GroupSeq:
+        label: Group position
+        description: >-
+          Position of the Account and Entity group rows in the form, counted from 1. The system
+          supplies it. It is not a reference stated by the institution.
+        role: identifier
+        concept: reported_account
+      IsAccMaintainedWithRI:
+        label: Account maintained with the reporting institution flag
+        description: >-
+          The form's Y or N flag that states whether the reported account is maintained with the
+          reporting institution. N means it is held elsewhere.
+        role: dimension
+        concept: reported_account
+        synonyms: [account held here, maintained with reporting institution, own bank account flag]
+      IsAccHeldBankOrNonBank:
+        label: Account held with bank or non-bank code
+        description: >-
+          Code the form uses to state whether the account is held with a bank or a non-bank. The
+          code list is not part of the supplied material.
+        role: dimension
+        concept: reported_account
+        synonyms: [bank or non-bank, account holder institution type]
+      BankName:
+        label: Account bank name
+        description: >-
+          Name of the institution holding the reported account, exactly as the form states it.
+        role: attribute
+        concept: reported_account
+      AccNum:
+        label: Reported account number
+        description: >-
+          Account number the form states for the reported account. It is valid only inside the
+          form and does not link to a workbook account. Never display the value. Never display the
+          value.
+        role: identifier
+        concept: reported_account
+      AccDate:
+        label: Account opening date
+        description: >-
+          Date the form states for the reported account (dd/mm/yyyy on the form). It is the only
+          date of the account held here.
+        role: time
+        concept: reported_account
+      AccBalDRCR:
+        label: Account balance debit or credit code
+        description: >-
+          Code the form uses to state whether the reported account balance is a debit or a credit.
+          The code list is not part of the supplied material.
+        role: dimension
+        concept: reported_account
+        synonyms: [balance debit credit, balance sign code]
+      AccBalCurr:
+        label: Account balance currency
+        description: >-
+          ISO currency code of the account balance the form states. No conversion is performed.
+        role: dimension
+        concept: reported_account
+        synonyms: [balance currency, currency of the reported account balance]
+      AccBalAmount:
+        label: Reported account balance
+        description: >-
+          Balance the form states for the reported account, in the balance currency the form
+          states. It is a form statement, not a workbook balance. Do not add balances across
+          currencies.
+        role: measure
+        concept: reported_account
+        unit: original currency
+        synonyms: [reported balance, account balance on the form, balance of the reported account]
+      AccOwnership:
+        label: Account ownership code
+        description: >-
+          Code the form uses for the ownership of the reported account, for example SING. The code
+          list is not part of the supplied material.
+        role: dimension
+        concept: reported_account
+        synonyms: [account ownership, ownership type of the reported account]
+      RowAccountStatus:
+        label: Reported account status code
+        description: >-
+          Code the form uses for the status of the reported account, for example A. The code list
+          is not part of the supplied material.
+        role: dimension
+        concept: reported_account
+        synonyms: [reported account status, status of the account on the form]
+      InfoAccurAsAT:
+        label: Account information accurate as at
+        description: >-
+          Date the form states that the account information was accurate (dd/mm/yyyy on the form).
+        role: time
+        concept: reported_account
+      IsAuthorisedSignatoryUnknown:
+        label: Authorised signatory unknown flag
+        description: >-
+          The form's Y or N flag that states the reporting institution does not know the
+          authorised signatory of the account.
+        role: attribute
+        concept: reported_account
+      IsBeneficialOwnerUnknown:
+        label: Beneficial owner unknown flag
+        description: >-
+          The form's Y or N flag that states the reporting institution does not know the
+          beneficial owner of the account.
+        role: attribute
+        concept: reported_account
+      IsRelatedAccount:
+        label: Entity related to an account flag
+        description: >-
+          The form's Y or N flag that states the profiled entity is related to an account.
+        role: attribute
+        concept: reported_entity
+      CheckEntity:
+        label: Entity kind code
+        description: >-
+          Code the form uses for the kind of entity profiled, for example P or B. The code list is
+          not part of the supplied material.
+        role: dimension
+        concept: reported_entity
+        synonyms: [entity kind, type of reported entity, entity check code]
+      LegalEntityType:
+        label: Legal entity type code
+        description: >-
+          Code the form uses for the legal form of an entity that is not a natural person, for
+          example LC. The code list is not part of the supplied material.
+        role: dimension
+        concept: reported_entity
+        synonyms: [legal form, company type code]
+      MainBusinessActivity:
+        label: Main business activity code
+        description: >-
+          Code the form uses for the main business activity of an entity, for example 94920. The
+          code list is not part of the supplied material.
+        role: dimension
+        concept: reported_entity
+        synonyms: [business activity, industry code of the reported entity]
+      Nationality:
+        label: Entity nationality
+        description: >-
+          ISO country code the form states as the nationality of the profiled entity.
+        role: dimension
+        concept: reported_entity
+        synonyms: [nationality of the reported entity, entity nationality country]
+      StatusOfRelationsip:
+        label: Status of relationship code
+        description: >-
+          Code the form uses for the status of the entity's relationship with the reporting
+          institution, for example AC. The field name is spelled as on the form.
+        role: dimension
+        concept: reported_entity
+        synonyms: [relationship status, status of relationship with the institution]
+      EntityAccurateAsAt:
+        label: Entity information accurate as at
+        description: >-
+          Date the form states that the entity information was accurate (dd/mm/yyyy on the form).
+        role: time
+        concept: reported_entity
+      TotalAssetsUnderMgtCurrency:
+        label: Assets under management currency
+        description: >-
+          ISO currency code of the total assets under management the form states for the entity.
+        role: dimension
+        concept: reported_entity
+        synonyms: [assets under management currency, AUM currency]
+      TotalAssetsUnderMgt:
+        label: Total assets under management
+        description: >-
+          Total assets under management the form states for the entity, in the currency the form
+          states. It is a form statement, not a workbook balance.
+        role: measure
+        concept: reported_entity
+        unit: original currency
+        synonyms: [assets under management, AUM, total assets managed]
+      OutstandingLoansCurrency:
+        label: Outstanding loans currency
+        description: >-
+          ISO currency code of the outstanding loans the form states for the entity.
+        role: dimension
+        concept: reported_entity
+        synonyms: [loans currency, outstanding loan currency]
+      OutstandingLoans:
+        label: Outstanding loans
+        description: >-
+          Outstanding loans the form states for the entity, in the currency the form states. It is
+          a form statement, not a workbook loan balance.
+        role: measure
+        concept: reported_entity
+        unit: original currency
+        synonyms: [loans outstanding, outstanding loan amount, entity loans]
+
+relationships:
+  - name: STR_Transaction_to_STR_AccountEntity_derived
+    from: STR_Transaction
+    to: STR_AccountEntity
+    from_columns: [SourceRevision]
+    to_columns: [SourceRevision]
+    derived: true
+    join_scope: source_revision
+    justification: >-
+      Both tables are read from the same suspicious transaction report form, and each row
+      carries the SHA-256 of that form as SourceRevision. The form does not state which
+      account or entity a transaction belongs to. The join relates rows of one form only. If
+      one form holds several account or entity rows, a total over the reported transactions
+      repeats for each of them.
+
+metrics:
+  customers_on_business_date:
+    label: Customers on business date
+    synonyms: [number of customers, customer count, customer base, total customers, clients on book, customer headcount]
+    examples:
+      - "How many customers were there on 6 November 2026?"
+      - "How many corporate customers were on book on 6 November 2026?"
+  distinct_customers_in_period:
+    label: Distinct customers in period
+    synonyms: [unique customers, unique clients over a period, customers seen in period, distinct client count]
+    examples:
+      - "How many distinct customers appeared between 4 and 6 November 2026?"
+  active_accounts:
+    label: Active accounts
+    synonyms: [number of active accounts, open accounts, live accounts, active account count, accounts in use]
+    examples:
+      - "How many active accounts were there on 6 November 2026?"
+      - "How many active accounts does each product type have on 6 November 2026?"
+  casa_transaction_value:
+    label: CASA transaction value
+    synonyms: [CASA turnover, CASA throughput, current and savings account transaction value, deposit account flows, total CASA transaction amount]
+    examples:
+      - "What was the total CASA transaction value in SGD on 6 November 2026?"
+      - "What was the CASA transaction value by branch for USD transactions on 6 November 2026?"
+  casa_transaction_count:
+    label: CASA transaction count
+    synonyms: [number of CASA transactions, CASA transaction volume, transaction frequency, number of transactions, account activity count]
+    examples:
+      - "How many CASA transactions were recorded on 6 November 2026?"
+      - "How many CASA transactions went through each channel on 5 November 2026?"
+  credit_card_transaction_value:
+    label: Credit card transaction value
+    synonyms: [card spend, credit card spend, card turnover, total card transaction amount, card billings]
+    examples:
+      - "What was the total credit card transaction value in SGD on 6 November 2026?"
+  large_casa_transaction_count:
+    label: Large CASA transaction count
+    synonyms: [large transactions, high-value CASA transactions, transactions above 50000, big-ticket transactions, large-value payments]
+    examples:
+      - "How many CASA transactions above 50000 were recorded on 6 November 2026?"
+  high_risk_customers:
+    label: High-risk customers
+    synonyms: [high risk clients, customers rated High, high-risk customer count, number of high-risk customers]
+    examples:
+      - "How many customers had a recorded risk rating of High on 6 November 2026?"
+      - "How many high-risk customers are there in each industry on 6 November 2026?"
+
+  reported_suspicious_transactions:
+    label: Reported suspicious transactions
+    synonyms: [number of suspicious transactions, STR lines, reported suspicious transactions]
+    examples:
+      - "Count the reported suspicious transactions."
+  reported_suspicious_transaction_value:
+    label: Reported suspicious transaction value
+    synonyms: [total suspicious transaction value, reported suspicious amount, STR amount total, total reported suspicious transaction value]
+    examples:
+      - "What is the total reported suspicious transaction value in SGD?"
+
+competency_questions:
+  - question: How many customers were on book on 6 November 2026, split by corporate and individual?
+    definitions: [customers_on_business_date, Customers.CustomerType, Customers.BusinessDate]
+    joins: []
+  - question: How many customers have a recorded risk rating of High on a business date, by industry?
+    definitions: [high_risk_customers, Customers.RiskRating, Customers.IndustryCode]
+    joins: []
+  - question: How many active accounts does each product type hold in each branch on a business date?
+    definitions: [active_accounts, Accounts.ProductType, Accounts.BranchCode, Accounts.Status]
+    joins: []
+  - question: What was the total CASA transaction value in one currency, by branch, on a business date?
+    definitions: [casa_transaction_value, CASA_Txn.Currency, CASA_Txn.BranchCode]
+    joins: []
+  - question: How many CASA transactions went through each channel on a business date?
+    definitions: [casa_transaction_count, CASA_Txn.Channel]
+    joins: []
+  - question: How many CASA transactions above 50000 were recorded per branch on a business date?
+    definitions: [large_casa_transaction_count, CASA_Txn.BranchCode]
+    joins: []
+  - question: Which relationship manager is the primary RM for customers with a Medium risk rating, and in which branch is the manager based?
+    definitions: [Customer_RM_Relationship.RMID, Customer_RM_Relationship.RelationshipType, Customers.RiskRating, RelationshipManagers.BranchCode]
+    joins: [Customer_RM_Relationship_to_Customers, Customer_RM_Relationship_to_RelationshipManagers]
+  - question: What CASA transaction amounts did customers in each customer segment record, per currency?
+    definitions: [CASA_Txn.Amount, CASA_Txn.Currency, Customers.CustomerSegment]
+    joins: [CASA_Txn_to_Customers]
+  - question: What letter of credit transaction amounts were recorded for corporate customers in the trading industry, per currency?
+    definitions: [Treasury_LC_Txn.Amount, Treasury_LC_Txn.Currency, Customers.CustomerType, Customers.IndustryCode]
+    joins: [Treasury_LC_Txn_to_Customers]
+  - question: What loan transaction amounts were posted on mortgage accounts, by debit or credit indicator and currency?
+    definitions: [Loan_Txn.Amount, Loan_Txn.DebitCredit, Loan_Txn.Currency, Accounts.ProductSubType]
+    joins: [Loan_Txn_to_Accounts]
+  - question: Which hierarchy level and department do the relationship managers of a branch belong to?
+    definitions: [RMHierarchy.Level, RMHierarchy.Department, RelationshipManagers.BranchCode]
+    joins: [RMHierarchy_to_RelationshipManagers]
+  - question: Which credit card transactions were made by customers of a given customer segment, and through which channel?
+    definitions: [CreditCard_Txn.Amount, CreditCard_Txn.Channel, Customers.CustomerSegment]
+    joins: [CreditCard_Txn_to_Customers]
+  - question: What is the total reported suspicious transaction value, for forms whose account is maintained with the reporting institution?
+    definitions: [reported_suspicious_transaction_value, STR_AccountEntity.IsAccMaintainedWithRI]
+    joins: [STR_Transaction_to_STR_AccountEntity_derived]

@@ -1,0 +1,7 @@
+{
+ "model": "mistral-small-latest",
+ "prompt_version": "interp-v3",
+ "recorded": "2026-11-24",
+ "count": 322,
+ "note": "Synthetic or public-licence demo text and Ossie definition text only."
+}

@@ -1,0 +1,4129 @@
+{
+  "generator": "demo_data/finance/documents/generate_pack.py",
+  "seed": 20261121,
+  "date": "2026-11-21",
+  "synthetic": true,
+  "note": "Planted truth from the generator, not an independent gold set. Every document is synthetic. Recorded values are read from the finance workbook CSV projections. Commitment truth is computed from the same rows. The workbook holds transactions dated 2026-11-04 to 2026-11-06 only, so every period is that window. No randomness is used.",
+  "model_definition_format": "financial-services:definition:finance_workbook_demo/{field|metric}/...",
+  "documents": [
+    {
+      "id": "FIN-001",
+      "title": "Banking facility letter",
+      "type": "facility letter",
+      "path": "markdown/FIN-001.md",
+      "sha256": "e7b794bde23868d6c92ea24f84c1c46546ef5b8086b64e9340410a1d40c28942",
+      "customer_keys": [
+        "CUST00004"
+      ],
+      "statements": [
+        {
+          "sentence": "The Customer is Customer ID CUST00004, recorded as a Corporate customer in the CBK segment.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Customers/CustomerType",
+          "stated": {
+            "value": "Corporate",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Customers",
+            "key": {
+              "CustomerID": "CUST00004"
+            },
+            "field": "CustomerType",
+            "value": "Corporate",
+            "surface": "Corporate"
+          }
+        },
+        {
+          "sentence": "The Customer is Customer ID CUST00004, recorded as a Corporate customer in the CBK segment.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Customers/CustomerSegment",
+          "stated": {
+            "value": "CBK",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Customers",
+            "key": {
+              "CustomerID": "CUST00004"
+            },
+            "field": "CustomerSegment",
+            "value": "CBK",
+            "surface": "CBK"
+          }
+        },
+        {
+          "sentence": "Its industry code is 6810-RealEstate and its country of operation is SG.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Customers/IndustryCode",
+          "stated": {
+            "value": "6810-RealEstate",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Customers",
+            "key": {
+              "CustomerID": "CUST00004"
+            },
+            "field": "IndustryCode",
+            "value": "6810-RealEstate",
+            "surface": "6810-RealEstate"
+          }
+        },
+        {
+          "sentence": "Its industry code is 6810-RealEstate and its country of operation is SG.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Customers/CountryOfOperation",
+          "stated": {
+            "value": "SG",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Customers",
+            "key": {
+              "CustomerID": "CUST00004"
+            },
+            "field": "CountryOfOperation",
+            "value": "SG",
+            "surface": "SG"
+          }
+        },
+        {
+          "sentence": "The Bank records the Customer's risk rating as Medium.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Customers/RiskRating",
+          "stated": {
+            "value": "Medium",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Customers",
+            "key": {
+              "CustomerID": "CUST00004"
+            },
+            "field": "RiskRating",
+            "value": "Medium",
+            "surface": "Medium"
+          }
+        },
+        {
+          "sentence": "Relationship manager RM005 covers the Customer as Primary RM.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Customer_RM_Relationship/RelationshipType",
+          "stated": {
+            "value": "Primary RM",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Customer_RM_Relationship",
+            "key": {
+              "CustomerID": "CUST00004"
+            },
+            "field": "RelationshipType",
+            "value": "Primary RM",
+            "surface": "Primary RM"
+          }
+        },
+        {
+          "sentence": "Relationship manager RM005 holds the title Relationship Manager.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/RelationshipManagers/Title",
+          "stated": {
+            "value": "Relationship Manager",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "RelationshipManagers",
+            "key": {
+              "RMID": "RM005"
+            },
+            "field": "Title",
+            "value": "Relationship Manager",
+            "surface": "Relationship Manager"
+          }
+        },
+        {
+          "sentence": "The operating account is MY-CA-00004-2, a CASA account of type Savings held in USD with status Active.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Accounts/ProductType",
+          "stated": {
+            "value": "CASA",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Accounts",
+            "key": {
+              "AccountNumber": "MY-CA-00004-2"
+            },
+            "field": "ProductType",
+            "value": "CASA",
+            "surface": "CASA"
+          }
+        },
+        {
+          "sentence": "The operating account is MY-CA-00004-2, a CASA account of type Savings held in USD with status Active.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Accounts/ProductSubType",
+          "stated": {
+            "value": "Savings",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Accounts",
+            "key": {
+              "AccountNumber": "MY-CA-00004-2"
+            },
+            "field": "ProductSubType",
+            "value": "Savings",
+            "surface": "Savings"
+          }
+        },
+        {
+          "sentence": "The operating account is MY-CA-00004-2, a CASA account of type Savings held in USD with status Active.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Accounts/Currency",
+          "stated": {
+            "value": "USD",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Accounts",
+            "key": {
+              "AccountNumber": "MY-CA-00004-2"
+            },
+            "field": "Currency",
+            "value": "USD",
+            "surface": "USD"
+          }
+        },
+        {
+          "sentence": "The operating account is MY-CA-00004-2, a CASA account of type Savings held in USD with status Active.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Accounts/Status",
+          "stated": {
+            "value": "Active",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Accounts",
+            "key": {
+              "AccountNumber": "MY-CA-00004-2"
+            },
+            "field": "Status",
+            "value": "Active",
+            "surface": "Active"
+          }
+        },
+        {
+          "sentence": "The facility limit is USD 2,500,000 and the tenor is 36 months.",
+          "kind": "no_counterpart",
+          "why": "The workbook records nothing like it."
+        },
+        {
+          "sentence": "The Bank will review the facility once every 12 months.",
+          "kind": "no_counterpart",
+          "why": "The workbook records nothing like it."
+        },
+        {
+          "sentence": "Facility reference FAC-2026-0417 identifies this letter.",
+          "kind": "trap",
+          "trap": {
+            "reason": "A document reference number from the bank's letter series, not a workbook customer ID or account number.",
+            "tempts": "financial-services:definition:finance_workbook_demo/field/Accounts/AccountNumber"
+          }
+        },
+        {
+          "sentence": "The Customer shall maintain credit turnover of at least USD 40,000 in account MY-CA-00004-2 during the first review period, 4 November 2026 to 6 November 2026.",
+          "kind": "commitment",
+          "definition": "financial-services:definition:finance_workbook_demo/field/CASA_Txn/Amount",
+          "stated": {
+            "value": 40000,
+            "unit": "USD",
+            "period": "2026-11-04/2026-11-06"
+          },
+          "commitment": {
+            "check": {
+              "op": "sum",
+              "table": "CASA_Txn",
+              "account": "MY-CA-00004-2",
+              "debit_credit": "CR",
+              "period": [
+                "2026-11-04",
+                "2026-11-06"
+              ]
+            },
+            "comparison": "ge",
+            "threshold": 40000,
+            "actual": 43094.9,
+            "met": true,
+            "logic": "Sum of Amount (native currency, no conversion) over CASA_Txn rows with AccountNumber MY-CA-00004-2, DebitCredit CR, TransactionDate from 2026-11-04 to 2026-11-06; compare at least 40,000.",
+            "note": ""
+          }
+        },
+        {
+          "sentence": "The Customer shall not make more than 2 transactions above 50,000 in account MY-CA-00004-2 during the first review period, 4 November 2026 to 6 November 2026.",
+          "kind": "commitment",
+          "definition": "financial-services:definition:finance_workbook_demo/metric/large_casa_transaction_count",
+          "stated": {
+            "value": 2,
+            "unit": "transactions",
+            "period": "2026-11-04/2026-11-06"
+          },
+          "commitment": {
+            "check": {
+              "op": "count",
+              "table": "CASA_Txn",
+              "account": "MY-CA-00004-2",
+              "over": 50000,
+              "period": [
+                "2026-11-04",
+                "2026-11-06"
+              ]
+            },
+            "comparison": "le",
+            "threshold": 2,
+            "actual": 0.0,
+            "met": true,
+            "logic": "Count of distinct TransactionID over CASA_Txn rows with AccountNumber MY-CA-00004-2, Amount above 50,000, TransactionDate from 2026-11-04 to 2026-11-06; compare at most 2.",
+            "note": "The model defines a large transaction as an Amount above 50000 in source currency."
+          }
+        },
+        {
+          "sentence": "The Customer expects typical monthly credit turnover of USD 180,000 across all its accounts.",
+          "kind": "trap",
+          "trap": {
+            "reason": "A monthly figure across accounts, where the workbook holds one amount per transaction.",
+            "tempts": "financial-services:definition:finance_workbook_demo/field/CASA_Txn/Amount"
+          }
+        },
+        {
+          "sentence": "This document is governed by the laws of the Republic of Singapore.",
+          "kind": "no_counterpart",
+          "why": "The workbook records nothing like it."
+        },
+        {
+          "sentence": "Signed for the Bank by an authorised signatory whose name is withheld in this synthetic pack.",
+          "kind": "no_counterpart",
+          "why": "The workbook records nothing like it."
+        }
+      ]
+    },
+    {
+      "id": "FIN-002",
+      "title": "Amendment to banking facility letter FIN-001",
+      "type": "facility letter amendment",
+      "path": "markdown/FIN-002.md",
+      "sha256": "ddd3fbe245c54165a72712d4a9eca6a01cf1e59cf89a4e0e451806c054fc16c0",
+      "customer_keys": [
+        "CUST00004"
+      ],
+      "amends": "FIN-001",
+      "statements": [
+        {
+          "sentence": "The Customer is Customer ID CUST00004, recorded as a Corporate customer in the CBK segment.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Customers/CustomerType",
+          "stated": {
+            "value": "Corporate",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Customers",
+            "key": {
+              "CustomerID": "CUST00004"
+            },
+            "field": "CustomerType",
+            "value": "Corporate",
+            "surface": "Corporate"
+          }
+        },
+        {
+          "sentence": "The Customer is Customer ID CUST00004, recorded as a Corporate customer in the CBK segment.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Customers/CustomerSegment",
+          "stated": {
+            "value": "CBK",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Customers",
+            "key": {
+              "CustomerID": "CUST00004"
+            },
+            "field": "CustomerSegment",
+            "value": "CBK",
+            "surface": "CBK"
+          }
+        },
+        {
+          "sentence": "Its industry code is 6810-RealEstate and its country of operation is SG.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Customers/IndustryCode",
+          "stated": {
+            "value": "6810-RealEstate",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Customers",
+            "key": {
+              "CustomerID": "CUST00004"
+            },
+            "field": "IndustryCode",
+            "value": "6810-RealEstate",
+            "surface": "6810-RealEstate"
+          }
+        },
+        {
+          "sentence": "Its industry code is 6810-RealEstate and its country of operation is SG.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Customers/CountryOfOperation",
+          "stated": {
+            "value": "SG",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Customers",
+            "key": {
+              "CustomerID": "CUST00004"
+            },
+            "field": "CountryOfOperation",
+            "value": "SG",
+            "surface": "SG"
+          }
+        },
+        {
+          "sentence": "The Bank records the Customer's risk rating as Medium.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Customers/RiskRating",
+          "stated": {
+            "value": "Medium",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Customers",
+            "key": {
+              "CustomerID": "CUST00004"
+            },
+            "field": "RiskRating",
+            "value": "Medium",
+            "surface": "Medium"
+          }
+        },
+        {
+          "sentence": "Relationship manager RM005 covers the Customer as Primary RM.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Customer_RM_Relationship/RelationshipType",
+          "stated": {
+            "value": "Primary RM",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Customer_RM_Relationship",
+            "key": {
+              "CustomerID": "CUST00004"
+            },
+            "field": "RelationshipType",
+            "value": "Primary RM",
+            "surface": "Primary RM"
+          }
+        },
+        {
+          "sentence": "Relationship manager RM005 holds the title Relationship Manager.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/RelationshipManagers/Title",
+          "stated": {
+            "value": "Relationship Manager",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "RelationshipManagers",
+            "key": {
+              "RMID": "RM005"
+            },
+            "field": "Title",
+            "value": "Relationship Manager",
+            "surface": "Relationship Manager"
+          }
+        },
+        {
+          "sentence": "The operating account remains MY-CA-00004-2, a CASA account of type Savings held in USD with status Active.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Accounts/ProductType",
+          "stated": {
+            "value": "CASA",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Accounts",
+            "key": {
+              "AccountNumber": "MY-CA-00004-2"
+            },
+            "field": "ProductType",
+            "value": "CASA",
+            "surface": "CASA"
+          }
+        },
+        {
+          "sentence": "The operating account remains MY-CA-00004-2, a CASA account of type Savings held in USD with status Active.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Accounts/ProductSubType",
+          "stated": {
+            "value": "Savings",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Accounts",
+            "key": {
+              "AccountNumber": "MY-CA-00004-2"
+            },
+            "field": "ProductSubType",
+            "value": "Savings",
+            "surface": "Savings"
+          }
+        },
+        {
+          "sentence": "The operating account remains MY-CA-00004-2, a CASA account of type Savings held in USD with status Active.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Accounts/Currency",
+          "stated": {
+            "value": "USD",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Accounts",
+            "key": {
+              "AccountNumber": "MY-CA-00004-2"
+            },
+            "field": "Currency",
+            "value": "USD",
+            "surface": "USD"
+          }
+        },
+        {
+          "sentence": "The operating account remains MY-CA-00004-2, a CASA account of type Savings held in USD with status Active.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Accounts/Status",
+          "stated": {
+            "value": "Active",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Accounts",
+            "key": {
+              "AccountNumber": "MY-CA-00004-2"
+            },
+            "field": "Status",
+            "value": "Active",
+            "surface": "Active"
+          }
+        },
+        {
+          "sentence": "Clause 4.1 of FIN-001 is replaced: the Customer shall maintain credit turnover of at least USD 45,000 in account MY-CA-00004-2 during the first review period, 4 November 2026 to 6 November 2026, in place of USD 40,000.",
+          "kind": "commitment",
+          "definition": "financial-services:definition:finance_workbook_demo/field/CASA_Txn/Amount",
+          "stated": {
+            "value": 45000,
+            "unit": "USD",
+            "period": "2026-11-04/2026-11-06"
+          },
+          "commitment": {
+            "check": {
+              "op": "sum",
+              "table": "CASA_Txn",
+              "account": "MY-CA-00004-2",
+              "debit_credit": "CR",
+              "period": [
+                "2026-11-04",
+                "2026-11-06"
+              ]
+            },
+            "comparison": "ge",
+            "threshold": 45000,
+            "actual": 43094.9,
+            "met": false,
+            "logic": "Sum of Amount (native currency, no conversion) over CASA_Txn rows with AccountNumber MY-CA-00004-2, DebitCredit CR, TransactionDate from 2026-11-04 to 2026-11-06; compare at least 45,000.",
+            "note": "Replaces the 40,000 threshold of FIN-001 clause 4.1. The amended threshold applies."
+          },
+          "supersedes": "The Customer shall maintain credit turnover of at least USD 40,000 in account MY-CA-00004-2 during the first review period, 4 November 2026 to 6 November 2026."
+        },
+        {
+          "sentence": "Amendment reference AMD-2026-0044 identifies this letter.",
+          "kind": "trap",
+          "trap": {
+            "reason": "A document reference number, not a workbook key.",
+            "tempts": "financial-services:definition:finance_workbook_demo/field/Accounts/AccountNumber"
+          }
+        },
+        {
+          "sentence": "The Customer must return a signed copy within 10 business days.",
+          "kind": "no_counterpart",
+          "why": "The workbook records nothing like it."
+        },
+        {
+          "sentence": "The Bank keeps this document for seven years after the relationship ends.",
+          "kind": "no_counterpart",
+          "why": "The workbook records nothing like it."
+        },
+        {
+          "sentence": "Signed for the Bank by an authorised signatory whose name is withheld in this synthetic pack.",
+          "kind": "no_counterpart",
+          "why": "The workbook records nothing like it."
+        }
+      ]
+    },
+    {
+      "id": "FIN-003",
+      "title": "Customer due-diligence review memo",
+      "type": "KYC review memo",
+      "path": "markdown/FIN-003.md",
+      "sha256": "e7f8427d074255c1b0583ec506c19a369fc5a22e1516305fa93609505e6c282e",
+      "customer_keys": [
+        "CUST00028"
+      ],
+      "statements": [
+        {
+          "sentence": "The Customer is Customer ID CUST00028, recorded as a Corporate customer in the CMB segment.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Customers/CustomerType",
+          "stated": {
+            "value": "Corporate",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Customers",
+            "key": {
+              "CustomerID": "CUST00028"
+            },
+            "field": "CustomerType",
+            "value": "Corporate",
+            "surface": "Corporate"
+          }
+        },
+        {
+          "sentence": "The Customer is Customer ID CUST00028, recorded as a Corporate customer in the CMB segment.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Customers/CustomerSegment",
+          "stated": {
+            "value": "CMB",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Customers",
+            "key": {
+              "CustomerID": "CUST00028"
+            },
+            "field": "CustomerSegment",
+            "value": "CMB",
+            "surface": "CMB"
+          }
+        },
+        {
+          "sentence": "Its industry code is 6810-RealEstate and its country of operation is SG.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Customers/IndustryCode",
+          "stated": {
+            "value": "6810-RealEstate",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Customers",
+            "key": {
+              "CustomerID": "CUST00028"
+            },
+            "field": "IndustryCode",
+            "value": "6810-RealEstate",
+            "surface": "6810-RealEstate"
+          }
+        },
+        {
+          "sentence": "Its industry code is 6810-RealEstate and its country of operation is SG.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Customers/CountryOfOperation",
+          "stated": {
+            "value": "SG",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Customers",
+            "key": {
+              "CustomerID": "CUST00028"
+            },
+            "field": "CountryOfOperation",
+            "value": "SG",
+            "surface": "SG"
+          }
+        },
+        {
+          "sentence": "The Bank records the Customer's risk rating as Medium.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Customers/RiskRating",
+          "stated": {
+            "value": "Medium",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Customers",
+            "key": {
+              "CustomerID": "CUST00028"
+            },
+            "field": "RiskRating",
+            "value": "Medium",
+            "surface": "Medium"
+          }
+        },
+        {
+          "sentence": "Relationship manager RM009 covers the Customer as Primary RM.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Customer_RM_Relationship/RelationshipType",
+          "stated": {
+            "value": "Primary RM",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Customer_RM_Relationship",
+            "key": {
+              "CustomerID": "CUST00028"
+            },
+            "field": "RelationshipType",
+            "value": "Primary RM",
+            "surface": "Primary RM"
+          }
+        },
+        {
+          "sentence": "Relationship manager RM009 holds the title Relationship Manager.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/RelationshipManagers/Title",
+          "stated": {
+            "value": "Relationship Manager",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "RelationshipManagers",
+            "key": {
+              "RMID": "RM009"
+            },
+            "field": "Title",
+            "value": "Relationship Manager",
+            "surface": "Relationship Manager"
+          }
+        },
+        {
+          "sentence": "Account MY-CA-00028-0 is a CASA account of type Savings held in HKD with status Active.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Accounts/ProductType",
+          "stated": {
+            "value": "CASA",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Accounts",
+            "key": {
+              "AccountNumber": "MY-CA-00028-0"
+            },
+            "field": "ProductType",
+            "value": "CASA",
+            "surface": "CASA"
+          }
+        },
+        {
+          "sentence": "Account MY-CA-00028-0 is a CASA account of type Savings held in HKD with status Active.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Accounts/ProductSubType",
+          "stated": {
+            "value": "Savings",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Accounts",
+            "key": {
+              "AccountNumber": "MY-CA-00028-0"
+            },
+            "field": "ProductSubType",
+            "value": "Savings",
+            "surface": "Savings"
+          }
+        },
+        {
+          "sentence": "Account MY-CA-00028-0 is a CASA account of type Savings held in HKD with status Active.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Accounts/Currency",
+          "stated": {
+            "value": "HKD",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Accounts",
+            "key": {
+              "AccountNumber": "MY-CA-00028-0"
+            },
+            "field": "Currency",
+            "value": "HKD",
+            "surface": "HKD"
+          }
+        },
+        {
+          "sentence": "Account MY-CA-00028-0 is a CASA account of type Savings held in HKD with status Active.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Accounts/Status",
+          "stated": {
+            "value": "Active",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Accounts",
+            "key": {
+              "AccountNumber": "MY-CA-00028-0"
+            },
+            "field": "Status",
+            "value": "Active",
+            "surface": "Active"
+          }
+        },
+        {
+          "sentence": "Account MY-CA-00028-2 is a CASA account of type Current held in SGD with status Active.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Accounts/ProductType",
+          "stated": {
+            "value": "CASA",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Accounts",
+            "key": {
+              "AccountNumber": "MY-CA-00028-2"
+            },
+            "field": "ProductType",
+            "value": "CASA",
+            "surface": "CASA"
+          }
+        },
+        {
+          "sentence": "Account MY-CA-00028-2 is a CASA account of type Current held in SGD with status Active.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Accounts/ProductSubType",
+          "stated": {
+            "value": "Current",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Accounts",
+            "key": {
+              "AccountNumber": "MY-CA-00028-2"
+            },
+            "field": "ProductSubType",
+            "value": "Current",
+            "surface": "Current"
+          }
+        },
+        {
+          "sentence": "Account MY-CA-00028-2 is a CASA account of type Current held in SGD with status Active.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Accounts/Currency",
+          "stated": {
+            "value": "SGD",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Accounts",
+            "key": {
+              "AccountNumber": "MY-CA-00028-2"
+            },
+            "field": "Currency",
+            "value": "SGD",
+            "surface": "SGD"
+          }
+        },
+        {
+          "sentence": "Account MY-CA-00028-2 is a CASA account of type Current held in SGD with status Active.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Accounts/Status",
+          "stated": {
+            "value": "Active",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Accounts",
+            "key": {
+              "AccountNumber": "MY-CA-00028-2"
+            },
+            "field": "Status",
+            "value": "Active",
+            "surface": "Active"
+          }
+        },
+        {
+          "sentence": "Expected activity in account MY-CA-00028-0 is no more than 5 transactions during the review period, 4 November 2026 to 6 November 2026.",
+          "kind": "commitment",
+          "definition": "financial-services:definition:finance_workbook_demo/metric/casa_transaction_count",
+          "stated": {
+            "value": 5,
+            "unit": "transactions",
+            "period": "2026-11-04/2026-11-06"
+          },
+          "commitment": {
+            "check": {
+              "op": "count",
+              "table": "CASA_Txn",
+              "account": "MY-CA-00028-0",
+              "period": [
+                "2026-11-04",
+                "2026-11-06"
+              ]
+            },
+            "comparison": "le",
+            "threshold": 5,
+            "actual": 6.0,
+            "met": false,
+            "logic": "Count of distinct TransactionID over CASA_Txn rows with AccountNumber MY-CA-00028-0, TransactionDate from 2026-11-04 to 2026-11-06; compare at most 5.",
+            "note": ""
+          }
+        },
+        {
+          "sentence": "Expected credit turnover in account MY-CA-00028-2 is at least SGD 80,000 during the review period, 4 November 2026 to 6 November 2026.",
+          "kind": "commitment",
+          "definition": "financial-services:definition:finance_workbook_demo/field/CASA_Txn/Amount",
+          "stated": {
+            "value": 80000,
+            "unit": "SGD",
+            "period": "2026-11-04/2026-11-06"
+          },
+          "commitment": {
+            "check": {
+              "op": "sum",
+              "table": "CASA_Txn",
+              "account": "MY-CA-00028-2",
+              "debit_credit": "CR",
+              "period": [
+                "2026-11-04",
+                "2026-11-06"
+              ]
+            },
+            "comparison": "ge",
+            "threshold": 80000,
+            "actual": 133998.75,
+            "met": true,
+            "logic": "Sum of Amount (native currency, no conversion) over CASA_Txn rows with AccountNumber MY-CA-00028-2, DebitCredit CR, TransactionDate from 2026-11-04 to 2026-11-06; compare at least 80,000.",
+            "note": ""
+          }
+        },
+        {
+          "sentence": "The analyst expects account MY-CA-00028-0 to stay Active through the review period.",
+          "kind": "commitment",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Accounts/Status",
+          "stated": {
+            "value": "Active",
+            "unit": "status",
+            "period": "2026-11-04/2026-11-06"
+          },
+          "commitment": {
+            "check": {
+              "op": "status_all_active",
+              "account": "MY-CA-00028-0"
+            },
+            "comparison": "ge",
+            "threshold": 1,
+            "actual": 1.0,
+            "met": true,
+            "logic": "Every Accounts row for AccountNumber MY-CA-00028-0 has Status Active.",
+            "note": ""
+          }
+        },
+        {
+          "sentence": "The next periodic review is due within 365 days of this memo.",
+          "kind": "no_counterpart",
+          "why": "The workbook records nothing like it."
+        },
+        {
+          "sentence": "The Customer stated an expected annual turnover of SGD 18,000,000.",
+          "kind": "trap",
+          "trap": {
+            "reason": "An annual figure across the relationship, where the workbook holds one amount per transaction.",
+            "tempts": "financial-services:definition:finance_workbook_demo/field/CASA_Txn/Amount"
+          }
+        },
+        {
+          "sentence": "A company registration reference ROC-5520-18 was sighted.",
+          "kind": "trap",
+          "trap": {
+            "reason": "A registration-style number from another namespace. It is not a workbook customer ID.",
+            "tempts": "financial-services:definition:finance_workbook_demo/field/Customers/CustomerID"
+          }
+        },
+        {
+          "sentence": "The Bank keeps this document for seven years after the relationship ends.",
+          "kind": "no_counterpart",
+          "why": "The workbook records nothing like it."
+        },
+        {
+          "sentence": "Signed for the Bank by an authorised signatory whose name is withheld in this synthetic pack.",
+          "kind": "no_counterpart",
+          "why": "The workbook records nothing like it."
+        }
+      ]
+    },
+    {
+      "id": "FIN-004",
+      "title": "Foreign exchange hedging term sheet",
+      "type": "FX hedging term sheet",
+      "path": "markdown/FIN-004.md",
+      "sha256": "2389e774d28436e851d8848c2528287476e48d996782248c51d71b84ab066214",
+      "customer_keys": [
+        "CUST00028"
+      ],
+      "statements": [
+        {
+          "sentence": "The Customer is Customer ID CUST00028, recorded as a Corporate customer in the CMB segment.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Customers/CustomerType",
+          "stated": {
+            "value": "Corporate",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Customers",
+            "key": {
+              "CustomerID": "CUST00028"
+            },
+            "field": "CustomerType",
+            "value": "Corporate",
+            "surface": "Corporate"
+          }
+        },
+        {
+          "sentence": "The Customer is Customer ID CUST00028, recorded as a Corporate customer in the CMB segment.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Customers/CustomerSegment",
+          "stated": {
+            "value": "CMB",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Customers",
+            "key": {
+              "CustomerID": "CUST00028"
+            },
+            "field": "CustomerSegment",
+            "value": "CMB",
+            "surface": "CMB"
+          }
+        },
+        {
+          "sentence": "Its industry code is 6810-RealEstate and its country of operation is SG.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Customers/IndustryCode",
+          "stated": {
+            "value": "6810-RealEstate",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Customers",
+            "key": {
+              "CustomerID": "CUST00028"
+            },
+            "field": "IndustryCode",
+            "value": "6810-RealEstate",
+            "surface": "6810-RealEstate"
+          }
+        },
+        {
+          "sentence": "Its industry code is 6810-RealEstate and its country of operation is SG.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Customers/CountryOfOperation",
+          "stated": {
+            "value": "SG",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Customers",
+            "key": {
+              "CustomerID": "CUST00028"
+            },
+            "field": "CountryOfOperation",
+            "value": "SG",
+            "surface": "SG"
+          }
+        },
+        {
+          "sentence": "The Bank records the Customer's risk rating as Medium.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Customers/RiskRating",
+          "stated": {
+            "value": "Medium",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Customers",
+            "key": {
+              "CustomerID": "CUST00028"
+            },
+            "field": "RiskRating",
+            "value": "Medium",
+            "surface": "Medium"
+          }
+        },
+        {
+          "sentence": "Relationship manager RM009 covers the Customer as Primary RM.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Customer_RM_Relationship/RelationshipType",
+          "stated": {
+            "value": "Primary RM",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Customer_RM_Relationship",
+            "key": {
+              "CustomerID": "CUST00028"
+            },
+            "field": "RelationshipType",
+            "value": "Primary RM",
+            "surface": "Primary RM"
+          }
+        },
+        {
+          "sentence": "Relationship manager RM009 holds the title Relationship Manager.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/RelationshipManagers/Title",
+          "stated": {
+            "value": "Relationship Manager",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "RelationshipManagers",
+            "key": {
+              "RMID": "RM009"
+            },
+            "field": "Title",
+            "value": "Relationship Manager",
+            "surface": "Relationship Manager"
+          }
+        },
+        {
+          "sentence": "The hedging account is MY-Tr-00028-3, a Treasury_FX account of type FX held in USD with status Active.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Accounts/ProductType",
+          "stated": {
+            "value": "Treasury_FX",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Accounts",
+            "key": {
+              "AccountNumber": "MY-Tr-00028-3"
+            },
+            "field": "ProductType",
+            "value": "Treasury_FX",
+            "surface": "Treasury_FX"
+          }
+        },
+        {
+          "sentence": "The hedging account is MY-Tr-00028-3, a Treasury_FX account of type FX held in USD with status Active.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Accounts/ProductSubType",
+          "stated": {
+            "value": "FX",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Accounts",
+            "key": {
+              "AccountNumber": "MY-Tr-00028-3"
+            },
+            "field": "ProductSubType",
+            "value": "FX",
+            "surface": "FX"
+          }
+        },
+        {
+          "sentence": "The hedging account is MY-Tr-00028-3, a Treasury_FX account of type FX held in USD with status Active.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Accounts/Currency",
+          "stated": {
+            "value": "USD",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Accounts",
+            "key": {
+              "AccountNumber": "MY-Tr-00028-3"
+            },
+            "field": "Currency",
+            "value": "USD",
+            "surface": "USD"
+          }
+        },
+        {
+          "sentence": "The hedging account is MY-Tr-00028-3, a Treasury_FX account of type FX held in USD with status Active.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Accounts/Status",
+          "stated": {
+            "value": "Active",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Accounts",
+            "key": {
+              "AccountNumber": "MY-Tr-00028-3"
+            },
+            "field": "Status",
+            "value": "Active",
+            "surface": "Active"
+          }
+        },
+        {
+          "sentence": "Deal Tre0000052, booked on 2026-11-04 for USD 44,848.89 on account MY-Tr-00028-3, is confirmed under this term sheet.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Treasury_FX_Txn/TransactionDate",
+          "stated": {
+            "value": "2026-11-04",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Treasury_FX_Txn",
+            "key": {
+              "TransactionID": "Tre0000052"
+            },
+            "field": "TransactionDate",
+            "value": "2026-11-04",
+            "surface": "2026-11-04"
+          }
+        },
+        {
+          "sentence": "Deal Tre0000052, booked on 2026-11-04 for USD 44,848.89 on account MY-Tr-00028-3, is confirmed under this term sheet.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Treasury_FX_Txn/Currency",
+          "stated": {
+            "value": "USD",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Treasury_FX_Txn",
+            "key": {
+              "TransactionID": "Tre0000052"
+            },
+            "field": "Currency",
+            "value": "USD",
+            "surface": "USD"
+          }
+        },
+        {
+          "sentence": "Deal Tre0000052, booked on 2026-11-04 for USD 44,848.89 on account MY-Tr-00028-3, is confirmed under this term sheet.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Treasury_FX_Txn/Amount",
+          "stated": {
+            "value": "44848.89",
+            "unit": "source currency",
+            "period": null
+          },
+          "recorded": {
+            "table": "Treasury_FX_Txn",
+            "key": {
+              "TransactionID": "Tre0000052"
+            },
+            "field": "Amount",
+            "value": "44848.89",
+            "surface": "44,848.89"
+          }
+        },
+        {
+          "sentence": "The hedge tenor is 6 months and the indicative forward rate is 1.3450.",
+          "kind": "no_counterpart",
+          "why": "The workbook records nothing like it."
+        },
+        {
+          "sentence": "The programme notional is USD 500,000 per quarter.",
+          "kind": "trap",
+          "trap": {
+            "reason": "A quarterly notional, where the workbook holds one amount per transaction.",
+            "tempts": "financial-services:definition:finance_workbook_demo/field/Treasury_FX_Txn/Amount"
+          }
+        },
+        {
+          "sentence": "The single-deal cap is EUR 40,000.",
+          "kind": "trap",
+          "trap": {
+            "reason": "A limit in euros, where the account and its deals are in USD.",
+            "tempts": "financial-services:definition:finance_workbook_demo/field/Treasury_FX_Txn/Amount"
+          }
+        },
+        {
+          "sentence": "The Customer shall book at least 5 foreign exchange transactions on account MY-Tr-00028-3 during 4 November 2026 to 6 November 2026.",
+          "kind": "commitment",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Treasury_FX_Txn/TransactionID",
+          "stated": {
+            "value": 5,
+            "unit": "transactions",
+            "period": "2026-11-04/2026-11-06"
+          },
+          "commitment": {
+            "check": {
+              "op": "count",
+              "table": "Treasury_FX_Txn",
+              "account": "MY-Tr-00028-3",
+              "period": [
+                "2026-11-04",
+                "2026-11-06"
+              ]
+            },
+            "comparison": "ge",
+            "threshold": 5,
+            "actual": 6.0,
+            "met": true,
+            "logic": "Count of distinct TransactionID over Treasury_FX_Txn rows with AccountNumber MY-Tr-00028-3, TransactionDate from 2026-11-04 to 2026-11-06; compare at least 5.",
+            "note": ""
+          }
+        },
+        {
+          "sentence": "The Customer shall not book more than 2 foreign exchange transactions above USD 40,000 on account MY-Tr-00028-3 during 4 November 2026 to 6 November 2026.",
+          "kind": "commitment",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Treasury_FX_Txn/Amount",
+          "stated": {
+            "value": 2,
+            "unit": "transactions above USD 40,000",
+            "period": "2026-11-04/2026-11-06"
+          },
+          "commitment": {
+            "check": {
+              "op": "count",
+              "table": "Treasury_FX_Txn",
+              "account": "MY-Tr-00028-3",
+              "over": 40000,
+              "period": [
+                "2026-11-04",
+                "2026-11-06"
+              ]
+            },
+            "comparison": "le",
+            "threshold": 2,
+            "actual": 3.0,
+            "met": false,
+            "logic": "Count of distinct TransactionID over Treasury_FX_Txn rows with AccountNumber MY-Tr-00028-3, Amount above 40,000, TransactionDate from 2026-11-04 to 2026-11-06; compare at most 2.",
+            "note": ""
+          }
+        },
+        {
+          "sentence": "This document is governed by the laws of the Republic of Singapore.",
+          "kind": "no_counterpart",
+          "why": "The workbook records nothing like it."
+        },
+        {
+          "sentence": "Signed for the Bank by an authorised signatory whose name is withheld in this synthetic pack.",
+          "kind": "no_counterpart",
+          "why": "The workbook records nothing like it."
+        }
+      ]
+    },
+    {
+      "id": "FIN-005",
+      "title": "Relationship manager call note",
+      "type": "RM call note",
+      "path": "markdown/FIN-005.md",
+      "sha256": "d1f5ba4984989ee4352d7d82b2b560303e0b76cace565f4500c5daa8096b15d2",
+      "customer_keys": [
+        "CUST00032"
+      ],
+      "statements": [
+        {
+          "sentence": "The Customer is Customer ID CUST00032, recorded as a Corporate customer in the CMB segment.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Customers/CustomerType",
+          "stated": {
+            "value": "Corporate",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Customers",
+            "key": {
+              "CustomerID": "CUST00032"
+            },
+            "field": "CustomerType",
+            "value": "Corporate",
+            "surface": "Corporate"
+          }
+        },
+        {
+          "sentence": "The Customer is Customer ID CUST00032, recorded as a Corporate customer in the CMB segment.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Customers/CustomerSegment",
+          "stated": {
+            "value": "CMB",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Customers",
+            "key": {
+              "CustomerID": "CUST00032"
+            },
+            "field": "CustomerSegment",
+            "value": "CMB",
+            "surface": "CMB"
+          }
+        },
+        {
+          "sentence": "Its industry code is 4641-Trading and its country of operation is SG.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Customers/IndustryCode",
+          "stated": {
+            "value": "4641-Trading",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Customers",
+            "key": {
+              "CustomerID": "CUST00032"
+            },
+            "field": "IndustryCode",
+            "value": "4641-Trading",
+            "surface": "4641-Trading"
+          }
+        },
+        {
+          "sentence": "Its industry code is 4641-Trading and its country of operation is SG.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Customers/CountryOfOperation",
+          "stated": {
+            "value": "SG",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Customers",
+            "key": {
+              "CustomerID": "CUST00032"
+            },
+            "field": "CountryOfOperation",
+            "value": "SG",
+            "surface": "SG"
+          }
+        },
+        {
+          "sentence": "The Bank records the Customer's risk rating as Medium.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Customers/RiskRating",
+          "stated": {
+            "value": "Medium",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Customers",
+            "key": {
+              "CustomerID": "CUST00032"
+            },
+            "field": "RiskRating",
+            "value": "Medium",
+            "surface": "Medium"
+          }
+        },
+        {
+          "sentence": "Relationship manager RM003 covers the Customer as Primary RM.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Customer_RM_Relationship/RelationshipType",
+          "stated": {
+            "value": "Primary RM",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Customer_RM_Relationship",
+            "key": {
+              "CustomerID": "CUST00032"
+            },
+            "field": "RelationshipType",
+            "value": "Primary RM",
+            "surface": "Primary RM"
+          }
+        },
+        {
+          "sentence": "Relationship manager RM003 holds the title Relationship Manager.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/RelationshipManagers/Title",
+          "stated": {
+            "value": "Relationship Manager",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "RelationshipManagers",
+            "key": {
+              "RMID": "RM003"
+            },
+            "field": "Title",
+            "value": "Relationship Manager",
+            "surface": "Relationship Manager"
+          }
+        },
+        {
+          "sentence": "The Customer's main account is HK-CA-00032-1, a CASA account of type Current held in HKD with status Active.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Accounts/ProductType",
+          "stated": {
+            "value": "CASA",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Accounts",
+            "key": {
+              "AccountNumber": "HK-CA-00032-1"
+            },
+            "field": "ProductType",
+            "value": "CASA",
+            "surface": "CASA"
+          }
+        },
+        {
+          "sentence": "The Customer's main account is HK-CA-00032-1, a CASA account of type Current held in HKD with status Active.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Accounts/ProductSubType",
+          "stated": {
+            "value": "Current",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Accounts",
+            "key": {
+              "AccountNumber": "HK-CA-00032-1"
+            },
+            "field": "ProductSubType",
+            "value": "Current",
+            "surface": "Current"
+          }
+        },
+        {
+          "sentence": "The Customer's main account is HK-CA-00032-1, a CASA account of type Current held in HKD with status Active.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Accounts/Currency",
+          "stated": {
+            "value": "HKD",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Accounts",
+            "key": {
+              "AccountNumber": "HK-CA-00032-1"
+            },
+            "field": "Currency",
+            "value": "HKD",
+            "surface": "HKD"
+          }
+        },
+        {
+          "sentence": "The Customer's main account is HK-CA-00032-1, a CASA account of type Current held in HKD with status Active.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Accounts/Status",
+          "stated": {
+            "value": "Active",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Accounts",
+            "key": {
+              "AccountNumber": "HK-CA-00032-1"
+            },
+            "field": "Status",
+            "value": "Active",
+            "surface": "Active"
+          }
+        },
+        {
+          "sentence": "The Customer promised to route at least HKD 60,000 of credits through account HK-CA-00032-1 during 4 November 2026 to 6 November 2026.",
+          "kind": "commitment",
+          "definition": "financial-services:definition:finance_workbook_demo/field/CASA_Txn/Amount",
+          "stated": {
+            "value": 60000,
+            "unit": "HKD",
+            "period": "2026-11-04/2026-11-06"
+          },
+          "commitment": {
+            "check": {
+              "op": "sum",
+              "table": "CASA_Txn",
+              "account": "HK-CA-00032-1",
+              "debit_credit": "CR",
+              "period": [
+                "2026-11-04",
+                "2026-11-06"
+              ]
+            },
+            "comparison": "ge",
+            "threshold": 60000,
+            "actual": 172673.39,
+            "met": true,
+            "logic": "Sum of Amount (native currency, no conversion) over CASA_Txn rows with AccountNumber HK-CA-00032-1, DebitCredit CR, TransactionDate from 2026-11-04 to 2026-11-06; compare at least 60,000.",
+            "note": ""
+          }
+        },
+        {
+          "sentence": "The Customer promised at least 8 credit transactions on account HK-CA-00032-1 during 4 November 2026 to 6 November 2026.",
+          "kind": "commitment",
+          "definition": "financial-services:definition:finance_workbook_demo/metric/casa_transaction_count",
+          "stated": {
+            "value": 8,
+            "unit": "credit transactions",
+            "period": "2026-11-04/2026-11-06"
+          },
+          "commitment": {
+            "check": {
+              "op": "count",
+              "table": "CASA_Txn",
+              "account": "HK-CA-00032-1",
+              "debit_credit": "CR",
+              "period": [
+                "2026-11-04",
+                "2026-11-06"
+              ]
+            },
+            "comparison": "ge",
+            "threshold": 8,
+            "actual": 5.0,
+            "met": false,
+            "logic": "Count of distinct TransactionID over CASA_Txn rows with AccountNumber HK-CA-00032-1, DebitCredit CR, TransactionDate from 2026-11-04 to 2026-11-06; compare at least 8.",
+            "note": "The model metric counts all transactions. The commitment counts credit transactions only."
+          }
+        },
+        {
+          "sentence": "The Customer will keep account HK-CA-00032-0 Active through 4 November 2026 to 6 November 2026.",
+          "kind": "commitment",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Accounts/Status",
+          "stated": {
+            "value": "Active",
+            "unit": "status",
+            "period": "2026-11-04/2026-11-06"
+          },
+          "commitment": {
+            "check": {
+              "op": "status_all_active",
+              "account": "HK-CA-00032-0"
+            },
+            "comparison": "ge",
+            "threshold": 1,
+            "actual": 1.0,
+            "met": true,
+            "logic": "Every Accounts row for AccountNumber HK-CA-00032-0 has Status Active.",
+            "note": ""
+          }
+        },
+        {
+          "sentence": "The finance contact quoted last month's turnover as about SGD 2,000,000.",
+          "kind": "trap",
+          "trap": {
+            "reason": "A figure in another currency, another period and another grain than any workbook field.",
+            "tempts": "financial-services:definition:finance_workbook_demo/field/CASA_Txn/Amount"
+          }
+        },
+        {
+          "sentence": "A third party told me the Customer is under investigation for sanctions evasion, which is unverified, and I have not changed the recorded risk rating.",
+          "kind": "trap",
+          "trap": {
+            "reason": "An allegation-style statement. It is not a recorded risk rating and must not map to the risk rating field.",
+            "tempts": "financial-services:definition:finance_workbook_demo/field/Customers/RiskRating"
+          }
+        },
+        {
+          "sentence": "The recorded risk rating stays Medium.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Customers/RiskRating",
+          "stated": {
+            "value": "Medium",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Customers",
+            "key": {
+              "CustomerID": "CUST00032"
+            },
+            "field": "RiskRating",
+            "value": "Medium",
+            "surface": "Medium"
+          }
+        },
+        {
+          "sentence": "I will call the Customer back next quarter.",
+          "kind": "no_counterpart",
+          "why": "The workbook records nothing like it."
+        },
+        {
+          "sentence": "The Bank keeps this document for seven years after the relationship ends.",
+          "kind": "no_counterpart",
+          "why": "The workbook records nothing like it."
+        }
+      ]
+    },
+    {
+      "id": "FIN-006",
+      "title": "Account-opening summary",
+      "type": "account-opening summary",
+      "path": "markdown/FIN-006.md",
+      "sha256": "3e5bab4d7fd3e9dc926e9851680afedf4a727d21fb765e3325d56015dd255700",
+      "customer_keys": [
+        "CUST00048"
+      ],
+      "statements": [
+        {
+          "sentence": "The Customer is Customer ID CUST00048, recorded as a Corporate customer in the CBK segment.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Customers/CustomerType",
+          "stated": {
+            "value": "Corporate",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Customers",
+            "key": {
+              "CustomerID": "CUST00048"
+            },
+            "field": "CustomerType",
+            "value": "Corporate",
+            "surface": "Corporate"
+          }
+        },
+        {
+          "sentence": "The Customer is Customer ID CUST00048, recorded as a Corporate customer in the CBK segment.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Customers/CustomerSegment",
+          "stated": {
+            "value": "CBK",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Customers",
+            "key": {
+              "CustomerID": "CUST00048"
+            },
+            "field": "CustomerSegment",
+            "value": "CBK",
+            "surface": "CBK"
+          }
+        },
+        {
+          "sentence": "Its industry code is 6419-Banking and its country of operation is SG.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Customers/IndustryCode",
+          "stated": {
+            "value": "6419-Banking",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Customers",
+            "key": {
+              "CustomerID": "CUST00048"
+            },
+            "field": "IndustryCode",
+            "value": "6419-Banking",
+            "surface": "6419-Banking"
+          }
+        },
+        {
+          "sentence": "Its industry code is 6419-Banking and its country of operation is SG.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Customers/CountryOfOperation",
+          "stated": {
+            "value": "SG",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Customers",
+            "key": {
+              "CustomerID": "CUST00048"
+            },
+            "field": "CountryOfOperation",
+            "value": "SG",
+            "surface": "SG"
+          }
+        },
+        {
+          "sentence": "The Bank records the Customer's risk rating as Medium.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Customers/RiskRating",
+          "stated": {
+            "value": "Medium",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Customers",
+            "key": {
+              "CustomerID": "CUST00048"
+            },
+            "field": "RiskRating",
+            "value": "Medium",
+            "surface": "Medium"
+          }
+        },
+        {
+          "sentence": "Relationship manager RM009 covers the Customer as Primary RM.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Customer_RM_Relationship/RelationshipType",
+          "stated": {
+            "value": "Primary RM",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Customer_RM_Relationship",
+            "key": {
+              "CustomerID": "CUST00048"
+            },
+            "field": "RelationshipType",
+            "value": "Primary RM",
+            "surface": "Primary RM"
+          }
+        },
+        {
+          "sentence": "Relationship manager RM009 holds the title Relationship Manager.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/RelationshipManagers/Title",
+          "stated": {
+            "value": "Relationship Manager",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "RelationshipManagers",
+            "key": {
+              "RMID": "RM009"
+            },
+            "field": "Title",
+            "value": "Relationship Manager",
+            "surface": "Relationship Manager"
+          }
+        },
+        {
+          "sentence": "Account SG-CA-00048-2 is a CASA account of type Current held in SGD with status Active.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Accounts/ProductType",
+          "stated": {
+            "value": "CASA",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Accounts",
+            "key": {
+              "AccountNumber": "SG-CA-00048-2"
+            },
+            "field": "ProductType",
+            "value": "CASA",
+            "surface": "CASA"
+          }
+        },
+        {
+          "sentence": "Account SG-CA-00048-2 is a CASA account of type Current held in SGD with status Active.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Accounts/ProductSubType",
+          "stated": {
+            "value": "Current",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Accounts",
+            "key": {
+              "AccountNumber": "SG-CA-00048-2"
+            },
+            "field": "ProductSubType",
+            "value": "Current",
+            "surface": "Current"
+          }
+        },
+        {
+          "sentence": "Account SG-CA-00048-2 is a CASA account of type Current held in SGD with status Active.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Accounts/Currency",
+          "stated": {
+            "value": "SGD",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Accounts",
+            "key": {
+              "AccountNumber": "SG-CA-00048-2"
+            },
+            "field": "Currency",
+            "value": "SGD",
+            "surface": "SGD"
+          }
+        },
+        {
+          "sentence": "Account SG-CA-00048-2 is a CASA account of type Current held in SGD with status Active.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Accounts/Status",
+          "stated": {
+            "value": "Active",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Accounts",
+            "key": {
+              "AccountNumber": "SG-CA-00048-2"
+            },
+            "field": "Status",
+            "value": "Active",
+            "surface": "Active"
+          }
+        },
+        {
+          "sentence": "It was opened on 2024-01-01 and is booked in SG at branch BR004.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Accounts/OpenDate",
+          "stated": {
+            "value": "2024-01-01",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Accounts",
+            "key": {
+              "AccountNumber": "SG-CA-00048-2"
+            },
+            "field": "OpenDate",
+            "value": "2024-01-01",
+            "surface": "2024-01-01"
+          }
+        },
+        {
+          "sentence": "It was opened on 2024-01-01 and is booked in SG at branch BR004.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Accounts/BookingCountry",
+          "stated": {
+            "value": "SG",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Accounts",
+            "key": {
+              "AccountNumber": "SG-CA-00048-2"
+            },
+            "field": "BookingCountry",
+            "value": "SG",
+            "surface": "SG"
+          }
+        },
+        {
+          "sentence": "It was opened on 2024-01-01 and is booked in SG at branch BR004.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Accounts/BranchCode",
+          "stated": {
+            "value": "BR004",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Accounts",
+            "key": {
+              "AccountNumber": "SG-CA-00048-2"
+            },
+            "field": "BranchCode",
+            "value": "BR004",
+            "surface": "BR004"
+          }
+        },
+        {
+          "sentence": "The Customer shall credit at least SGD 30,000 to account SG-CA-00048-2 during the first review period, 4 November 2026 to 6 November 2026.",
+          "kind": "commitment",
+          "definition": "financial-services:definition:finance_workbook_demo/field/CASA_Txn/Amount",
+          "stated": {
+            "value": 30000,
+            "unit": "SGD",
+            "period": "2026-11-04/2026-11-06"
+          },
+          "commitment": {
+            "check": {
+              "op": "sum",
+              "table": "CASA_Txn",
+              "account": "SG-CA-00048-2",
+              "debit_credit": "CR",
+              "period": [
+                "2026-11-04",
+                "2026-11-06"
+              ]
+            },
+            "comparison": "ge",
+            "threshold": 30000,
+            "actual": 56228.53,
+            "met": true,
+            "logic": "Sum of Amount (native currency, no conversion) over CASA_Txn rows with AccountNumber SG-CA-00048-2, DebitCredit CR, TransactionDate from 2026-11-04 to 2026-11-06; compare at least 30,000.",
+            "note": ""
+          }
+        },
+        {
+          "sentence": "The Customer shall make at least 4 credit transactions on account SG-CA-00048-2 during the first review period, 4 November 2026 to 6 November 2026.",
+          "kind": "commitment",
+          "definition": "financial-services:definition:finance_workbook_demo/metric/casa_transaction_count",
+          "stated": {
+            "value": 4,
+            "unit": "credit transactions",
+            "period": "2026-11-04/2026-11-06"
+          },
+          "commitment": {
+            "check": {
+              "op": "count",
+              "table": "CASA_Txn",
+              "account": "SG-CA-00048-2",
+              "debit_credit": "CR",
+              "period": [
+                "2026-11-04",
+                "2026-11-06"
+              ]
+            },
+            "comparison": "ge",
+            "threshold": 4,
+            "actual": 3.0,
+            "met": false,
+            "logic": "Count of distinct TransactionID over CASA_Txn rows with AccountNumber SG-CA-00048-2, DebitCredit CR, TransactionDate from 2026-11-04 to 2026-11-06; compare at least 4.",
+            "note": "The model metric counts all transactions. The commitment counts credit transactions only."
+          }
+        },
+        {
+          "sentence": "The Customer's initial deposit of USD 10,000 was received on the account.",
+          "kind": "trap",
+          "trap": {
+            "reason": "A figure in USD, where the account and its transactions are in SGD.",
+            "tempts": "financial-services:definition:finance_workbook_demo/field/CASA_Txn/Amount"
+          }
+        },
+        {
+          "sentence": "A welcome pack is posted within 7 days of account opening.",
+          "kind": "no_counterpart",
+          "why": "The workbook records nothing like it."
+        },
+        {
+          "sentence": "The Bank marks the account dormant after 12 months without activity.",
+          "kind": "no_counterpart",
+          "why": "The workbook records nothing like it."
+        },
+        {
+          "sentence": "This document is governed by the laws of the Republic of Singapore.",
+          "kind": "no_counterpart",
+          "why": "The workbook records nothing like it."
+        },
+        {
+          "sentence": "Notices to the Bank go to the Corporate Banking notices desk at the branch address held on the customer file.",
+          "kind": "no_counterpart",
+          "why": "The workbook records nothing like it."
+        }
+      ]
+    },
+    {
+      "id": "FIN-007",
+      "title": "Corporate credit card programme agreement",
+      "type": "credit card programme agreement",
+      "path": "markdown/FIN-007.md",
+      "sha256": "38abc6b01c8758f00fcd5cc5b4b771eff34f5f74cebbab4af18cd227aec9d174",
+      "customer_keys": [
+        "CUST00032"
+      ],
+      "statements": [
+        {
+          "sentence": "The Customer is Customer ID CUST00032, recorded as a Corporate customer in the CMB segment.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Customers/CustomerType",
+          "stated": {
+            "value": "Corporate",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Customers",
+            "key": {
+              "CustomerID": "CUST00032"
+            },
+            "field": "CustomerType",
+            "value": "Corporate",
+            "surface": "Corporate"
+          }
+        },
+        {
+          "sentence": "The Customer is Customer ID CUST00032, recorded as a Corporate customer in the CMB segment.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Customers/CustomerSegment",
+          "stated": {
+            "value": "CMB",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Customers",
+            "key": {
+              "CustomerID": "CUST00032"
+            },
+            "field": "CustomerSegment",
+            "value": "CMB",
+            "surface": "CMB"
+          }
+        },
+        {
+          "sentence": "Its industry code is 4641-Trading and its country of operation is SG.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Customers/IndustryCode",
+          "stated": {
+            "value": "4641-Trading",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Customers",
+            "key": {
+              "CustomerID": "CUST00032"
+            },
+            "field": "IndustryCode",
+            "value": "4641-Trading",
+            "surface": "4641-Trading"
+          }
+        },
+        {
+          "sentence": "Its industry code is 4641-Trading and its country of operation is SG.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Customers/CountryOfOperation",
+          "stated": {
+            "value": "SG",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Customers",
+            "key": {
+              "CustomerID": "CUST00032"
+            },
+            "field": "CountryOfOperation",
+            "value": "SG",
+            "surface": "SG"
+          }
+        },
+        {
+          "sentence": "The Bank records the Customer's risk rating as Medium.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Customers/RiskRating",
+          "stated": {
+            "value": "Medium",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Customers",
+            "key": {
+              "CustomerID": "CUST00032"
+            },
+            "field": "RiskRating",
+            "value": "Medium",
+            "surface": "Medium"
+          }
+        },
+        {
+          "sentence": "Relationship manager RM003 covers the Customer as Primary RM.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Customer_RM_Relationship/RelationshipType",
+          "stated": {
+            "value": "Primary RM",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Customer_RM_Relationship",
+            "key": {
+              "CustomerID": "CUST00032"
+            },
+            "field": "RelationshipType",
+            "value": "Primary RM",
+            "surface": "Primary RM"
+          }
+        },
+        {
+          "sentence": "Relationship manager RM003 holds the title Relationship Manager.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/RelationshipManagers/Title",
+          "stated": {
+            "value": "Relationship Manager",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "RelationshipManagers",
+            "key": {
+              "RMID": "RM003"
+            },
+            "field": "Title",
+            "value": "Relationship Manager",
+            "surface": "Relationship Manager"
+          }
+        },
+        {
+          "sentence": "The card account is 1234567833450073, a CreditCard account of type Visa held in SGD with status Active.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Accounts/ProductType",
+          "stated": {
+            "value": "CreditCard",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Accounts",
+            "key": {
+              "AccountNumber": "1234567833450073"
+            },
+            "field": "ProductType",
+            "value": "CreditCard",
+            "surface": "CreditCard"
+          }
+        },
+        {
+          "sentence": "The card account is 1234567833450073, a CreditCard account of type Visa held in SGD with status Active.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Accounts/ProductSubType",
+          "stated": {
+            "value": "Visa",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Accounts",
+            "key": {
+              "AccountNumber": "1234567833450073"
+            },
+            "field": "ProductSubType",
+            "value": "Visa",
+            "surface": "Visa"
+          }
+        },
+        {
+          "sentence": "The card account is 1234567833450073, a CreditCard account of type Visa held in SGD with status Active.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Accounts/Currency",
+          "stated": {
+            "value": "SGD",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Accounts",
+            "key": {
+              "AccountNumber": "1234567833450073"
+            },
+            "field": "Currency",
+            "value": "SGD",
+            "surface": "SGD"
+          }
+        },
+        {
+          "sentence": "The card account is 1234567833450073, a CreditCard account of type Visa held in SGD with status Active.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Accounts/Status",
+          "stated": {
+            "value": "Active",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Accounts",
+            "key": {
+              "AccountNumber": "1234567833450073"
+            },
+            "field": "Status",
+            "value": "Active",
+            "surface": "Active"
+          }
+        },
+        {
+          "sentence": "The Customer shall keep card spending on account 1234567833450073 within SGD 20,000 during the first review period, 4 November 2026 to 6 November 2026.",
+          "kind": "commitment",
+          "definition": "financial-services:definition:finance_workbook_demo/metric/credit_card_transaction_value",
+          "stated": {
+            "value": 20000,
+            "unit": "SGD",
+            "period": "2026-11-04/2026-11-06"
+          },
+          "commitment": {
+            "check": {
+              "op": "sum",
+              "table": "CreditCard_Txn",
+              "account": "1234567833450073",
+              "debit_credit": "DR",
+              "period": [
+                "2026-11-04",
+                "2026-11-06"
+              ]
+            },
+            "comparison": "le",
+            "threshold": 20000,
+            "actual": 15154.75,
+            "met": true,
+            "logic": "Sum of Amount (native currency, no conversion) over CreditCard_Txn rows with AccountNumber 1234567833450073, DebitCredit DR, TransactionDate from 2026-11-04 to 2026-11-06; compare at most 20,000.",
+            "note": "Spending is read as debit postings. The model metric sums all card amounts without a direction."
+          }
+        },
+        {
+          "sentence": "The Customer shall make at least 2 card transactions on account 1234567833450073 during the first review period, 4 November 2026 to 6 November 2026.",
+          "kind": "commitment",
+          "definition": "financial-services:definition:finance_workbook_demo/metric/credit_card_transaction_value",
+          "stated": {
+            "value": 2,
+            "unit": "transactions",
+            "period": "2026-11-04/2026-11-06"
+          },
+          "commitment": {
+            "check": {
+              "op": "count",
+              "table": "CreditCard_Txn",
+              "account": "1234567833450073",
+              "period": [
+                "2026-11-04",
+                "2026-11-06"
+              ]
+            },
+            "comparison": "ge",
+            "threshold": 2,
+            "actual": 1.0,
+            "met": false,
+            "logic": "Count of distinct TransactionID over CreditCard_Txn rows with AccountNumber 1234567833450073, TransactionDate from 2026-11-04 to 2026-11-06; compare at least 2.",
+            "note": "The model has no card transaction count metric. The count uses the CreditCard_Txn rows."
+          }
+        },
+        {
+          "sentence": "The cash advance limit is USD 5,000 per transaction.",
+          "kind": "trap",
+          "trap": {
+            "reason": "A limit in USD per transaction, where the card account is held in SGD.",
+            "tempts": "financial-services:definition:finance_workbook_demo/field/CreditCard_Txn/Amount"
+          }
+        },
+        {
+          "sentence": "Card programme reference CPA-2026-118 identifies this agreement.",
+          "kind": "trap",
+          "trap": {
+            "reason": "A document reference number, not a workbook account number.",
+            "tempts": "financial-services:definition:finance_workbook_demo/field/Accounts/AccountNumber"
+          }
+        },
+        {
+          "sentence": "The interest rate on unpaid card balances is 1.8 percent per month.",
+          "kind": "no_counterpart",
+          "why": "The workbook records nothing like it."
+        },
+        {
+          "sentence": "Each statement is payable within 25 days of the statement date.",
+          "kind": "no_counterpart",
+          "why": "The workbook records nothing like it."
+        },
+        {
+          "sentence": "This document is governed by the laws of the Republic of Singapore.",
+          "kind": "no_counterpart",
+          "why": "The workbook records nothing like it."
+        },
+        {
+          "sentence": "Signed for the Bank by an authorised signatory whose name is withheld in this synthetic pack.",
+          "kind": "no_counterpart",
+          "why": "The workbook records nothing like it."
+        }
+      ]
+    },
+    {
+      "id": "FIN-008",
+      "title": "Customer due-diligence review memo",
+      "type": "KYC review memo",
+      "path": "markdown/FIN-008.md",
+      "sha256": "7a6ba883a9488bc2e463a6ed2432c454c93f83dd2a73bfbd3d218a43538a30fe",
+      "customer_keys": [
+        "CUST00040"
+      ],
+      "statements": [
+        {
+          "sentence": "The Customer is Customer ID CUST00040, recorded as a Corporate customer in the CMB segment.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Customers/CustomerType",
+          "stated": {
+            "value": "Corporate",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Customers",
+            "key": {
+              "CustomerID": "CUST00040"
+            },
+            "field": "CustomerType",
+            "value": "Corporate",
+            "surface": "Corporate"
+          }
+        },
+        {
+          "sentence": "The Customer is Customer ID CUST00040, recorded as a Corporate customer in the CMB segment.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Customers/CustomerSegment",
+          "stated": {
+            "value": "CMB",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Customers",
+            "key": {
+              "CustomerID": "CUST00040"
+            },
+            "field": "CustomerSegment",
+            "value": "CMB",
+            "surface": "CMB"
+          }
+        },
+        {
+          "sentence": "Its industry code is 6810-RealEstate and its country of operation is SG.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Customers/IndustryCode",
+          "stated": {
+            "value": "6810-RealEstate",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Customers",
+            "key": {
+              "CustomerID": "CUST00040"
+            },
+            "field": "IndustryCode",
+            "value": "6810-RealEstate",
+            "surface": "6810-RealEstate"
+          }
+        },
+        {
+          "sentence": "Its industry code is 6810-RealEstate and its country of operation is SG.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Customers/CountryOfOperation",
+          "stated": {
+            "value": "SG",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Customers",
+            "key": {
+              "CustomerID": "CUST00040"
+            },
+            "field": "CountryOfOperation",
+            "value": "SG",
+            "surface": "SG"
+          }
+        },
+        {
+          "sentence": "The Bank records the Customer's risk rating as Medium.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Customers/RiskRating",
+          "stated": {
+            "value": "Medium",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Customers",
+            "key": {
+              "CustomerID": "CUST00040"
+            },
+            "field": "RiskRating",
+            "value": "Medium",
+            "surface": "Medium"
+          }
+        },
+        {
+          "sentence": "Relationship manager RM001 covers the Customer as Primary RM.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Customer_RM_Relationship/RelationshipType",
+          "stated": {
+            "value": "Primary RM",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Customer_RM_Relationship",
+            "key": {
+              "CustomerID": "CUST00040"
+            },
+            "field": "RelationshipType",
+            "value": "Primary RM",
+            "surface": "Primary RM"
+          }
+        },
+        {
+          "sentence": "Relationship manager RM001 holds the title Relationship Manager.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/RelationshipManagers/Title",
+          "stated": {
+            "value": "Relationship Manager",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "RelationshipManagers",
+            "key": {
+              "RMID": "RM001"
+            },
+            "field": "Title",
+            "value": "Relationship Manager",
+            "surface": "Relationship Manager"
+          }
+        },
+        {
+          "sentence": "Account MY-CA-00040-3 is a CASA account of type Savings held in HKD with status Active.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Accounts/ProductType",
+          "stated": {
+            "value": "CASA",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Accounts",
+            "key": {
+              "AccountNumber": "MY-CA-00040-3"
+            },
+            "field": "ProductType",
+            "value": "CASA",
+            "surface": "CASA"
+          }
+        },
+        {
+          "sentence": "Account MY-CA-00040-3 is a CASA account of type Savings held in HKD with status Active.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Accounts/ProductSubType",
+          "stated": {
+            "value": "Savings",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Accounts",
+            "key": {
+              "AccountNumber": "MY-CA-00040-3"
+            },
+            "field": "ProductSubType",
+            "value": "Savings",
+            "surface": "Savings"
+          }
+        },
+        {
+          "sentence": "Account MY-CA-00040-3 is a CASA account of type Savings held in HKD with status Active.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Accounts/Currency",
+          "stated": {
+            "value": "HKD",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Accounts",
+            "key": {
+              "AccountNumber": "MY-CA-00040-3"
+            },
+            "field": "Currency",
+            "value": "HKD",
+            "surface": "HKD"
+          }
+        },
+        {
+          "sentence": "Account MY-CA-00040-3 is a CASA account of type Savings held in HKD with status Active.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Accounts/Status",
+          "stated": {
+            "value": "Active",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Accounts",
+            "key": {
+              "AccountNumber": "MY-CA-00040-3"
+            },
+            "field": "Status",
+            "value": "Active",
+            "surface": "Active"
+          }
+        },
+        {
+          "sentence": "Account MY-CA-00040-3 is a CASA account of type Savings held in HKD with status Active.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Accounts/ProductType",
+          "stated": {
+            "value": "CASA",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Accounts",
+            "key": {
+              "AccountNumber": "MY-CA-00040-3"
+            },
+            "field": "ProductType",
+            "value": "CASA",
+            "surface": "CASA"
+          }
+        },
+        {
+          "sentence": "Account MY-CA-00040-3 is a CASA account of type Savings held in HKD with status Active.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Accounts/ProductSubType",
+          "stated": {
+            "value": "Savings",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Accounts",
+            "key": {
+              "AccountNumber": "MY-CA-00040-3"
+            },
+            "field": "ProductSubType",
+            "value": "Savings",
+            "surface": "Savings"
+          }
+        },
+        {
+          "sentence": "Account MY-CA-00040-3 is a CASA account of type Savings held in HKD with status Active.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Accounts/Currency",
+          "stated": {
+            "value": "HKD",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Accounts",
+            "key": {
+              "AccountNumber": "MY-CA-00040-3"
+            },
+            "field": "Currency",
+            "value": "HKD",
+            "surface": "HKD"
+          }
+        },
+        {
+          "sentence": "Account MY-CA-00040-3 is a CASA account of type Savings held in HKD with status Active.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Accounts/Status",
+          "stated": {
+            "value": "Active",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Accounts",
+            "key": {
+              "AccountNumber": "MY-CA-00040-3"
+            },
+            "field": "Status",
+            "value": "Active",
+            "surface": "Active"
+          }
+        },
+        {
+          "sentence": "Expected activity in account MY-CA-00040-3 is no more than 4 transactions during the review period, 4 November 2026 to 6 November 2026.",
+          "kind": "commitment",
+          "definition": "financial-services:definition:finance_workbook_demo/metric/casa_transaction_count",
+          "stated": {
+            "value": 4,
+            "unit": "transactions",
+            "period": "2026-11-04/2026-11-06"
+          },
+          "commitment": {
+            "check": {
+              "op": "count",
+              "table": "CASA_Txn",
+              "account": "MY-CA-00040-3",
+              "period": [
+                "2026-11-04",
+                "2026-11-06"
+              ]
+            },
+            "comparison": "le",
+            "threshold": 4,
+            "actual": 6.0,
+            "met": false,
+            "logic": "Count of distinct TransactionID over CASA_Txn rows with AccountNumber MY-CA-00040-3, TransactionDate from 2026-11-04 to 2026-11-06; compare at most 4.",
+            "note": ""
+          }
+        },
+        {
+          "sentence": "Expected credit turnover in account MY-CA-00040-3 is at least HKD 100,000 during the review period, 4 November 2026 to 6 November 2026.",
+          "kind": "commitment",
+          "definition": "financial-services:definition:finance_workbook_demo/field/CASA_Txn/Amount",
+          "stated": {
+            "value": 100000,
+            "unit": "HKD",
+            "period": "2026-11-04/2026-11-06"
+          },
+          "commitment": {
+            "check": {
+              "op": "sum",
+              "table": "CASA_Txn",
+              "account": "MY-CA-00040-3",
+              "debit_credit": "CR",
+              "period": [
+                "2026-11-04",
+                "2026-11-06"
+              ]
+            },
+            "comparison": "ge",
+            "threshold": 100000,
+            "actual": 138430.58,
+            "met": true,
+            "logic": "Sum of Amount (native currency, no conversion) over CASA_Txn rows with AccountNumber MY-CA-00040-3, DebitCredit CR, TransactionDate from 2026-11-04 to 2026-11-06; compare at least 100,000.",
+            "note": ""
+          }
+        },
+        {
+          "sentence": "The analyst expects account MY-CA-00040-3 to stay Active through the review period.",
+          "kind": "commitment",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Accounts/Status",
+          "stated": {
+            "value": "Active",
+            "unit": "status",
+            "period": "2026-11-04/2026-11-06"
+          },
+          "commitment": {
+            "check": {
+              "op": "status_all_active",
+              "account": "MY-CA-00040-3"
+            },
+            "comparison": "ge",
+            "threshold": 1,
+            "actual": 1.0,
+            "met": true,
+            "logic": "Every Accounts row for AccountNumber MY-CA-00040-3 has Status Active.",
+            "note": ""
+          }
+        },
+        {
+          "sentence": "The next periodic review is due within 365 days of this memo.",
+          "kind": "no_counterpart",
+          "why": "The workbook records nothing like it."
+        },
+        {
+          "sentence": "The Customer stated an expected annual turnover of HKD 18,000,000.",
+          "kind": "trap",
+          "trap": {
+            "reason": "An annual figure across the relationship, where the workbook holds one amount per transaction.",
+            "tempts": "financial-services:definition:finance_workbook_demo/field/CASA_Txn/Amount"
+          }
+        },
+        {
+          "sentence": "A company registration reference ROC-5520-18 was sighted.",
+          "kind": "trap",
+          "trap": {
+            "reason": "A registration-style number from another namespace. It is not a workbook customer ID.",
+            "tempts": "financial-services:definition:finance_workbook_demo/field/Customers/CustomerID"
+          }
+        },
+        {
+          "sentence": "The Bank keeps this document for seven years after the relationship ends.",
+          "kind": "no_counterpart",
+          "why": "The workbook records nothing like it."
+        },
+        {
+          "sentence": "Signed for the Bank by an authorised signatory whose name is withheld in this synthetic pack.",
+          "kind": "no_counterpart",
+          "why": "The workbook records nothing like it."
+        }
+      ]
+    },
+    {
+      "id": "FIN-009",
+      "title": "Transaction-monitoring alert review memo",
+      "type": "alert review memo",
+      "path": "markdown/FIN-009.md",
+      "sha256": "f335cf2eb7c45d7faca62e4864f1d3516eb6973ffcf65de561034ca5dddf978a",
+      "customer_keys": [
+        "CUST00024"
+      ],
+      "statements": [
+        {
+          "sentence": "The Customer is Customer ID CUST00024, recorded as a Corporate customer in the CMB segment.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Customers/CustomerType",
+          "stated": {
+            "value": "Corporate",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Customers",
+            "key": {
+              "CustomerID": "CUST00024"
+            },
+            "field": "CustomerType",
+            "value": "Corporate",
+            "surface": "Corporate"
+          }
+        },
+        {
+          "sentence": "The Customer is Customer ID CUST00024, recorded as a Corporate customer in the CMB segment.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Customers/CustomerSegment",
+          "stated": {
+            "value": "CMB",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Customers",
+            "key": {
+              "CustomerID": "CUST00024"
+            },
+            "field": "CustomerSegment",
+            "value": "CMB",
+            "surface": "CMB"
+          }
+        },
+        {
+          "sentence": "Its industry code is 6419-Banking and its country of operation is SG.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Customers/IndustryCode",
+          "stated": {
+            "value": "6419-Banking",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Customers",
+            "key": {
+              "CustomerID": "CUST00024"
+            },
+            "field": "IndustryCode",
+            "value": "6419-Banking",
+            "surface": "6419-Banking"
+          }
+        },
+        {
+          "sentence": "Its industry code is 6419-Banking and its country of operation is SG.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Customers/CountryOfOperation",
+          "stated": {
+            "value": "SG",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Customers",
+            "key": {
+              "CustomerID": "CUST00024"
+            },
+            "field": "CountryOfOperation",
+            "value": "SG",
+            "surface": "SG"
+          }
+        },
+        {
+          "sentence": "The Bank records the Customer's risk rating as Medium.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Customers/RiskRating",
+          "stated": {
+            "value": "Medium",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Customers",
+            "key": {
+              "CustomerID": "CUST00024"
+            },
+            "field": "RiskRating",
+            "value": "Medium",
+            "surface": "Medium"
+          }
+        },
+        {
+          "sentence": "Relationship manager RM005 covers the Customer as Primary RM.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Customer_RM_Relationship/RelationshipType",
+          "stated": {
+            "value": "Primary RM",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Customer_RM_Relationship",
+            "key": {
+              "CustomerID": "CUST00024"
+            },
+            "field": "RelationshipType",
+            "value": "Primary RM",
+            "surface": "Primary RM"
+          }
+        },
+        {
+          "sentence": "Relationship manager RM005 holds the title Relationship Manager.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/RelationshipManagers/Title",
+          "stated": {
+            "value": "Relationship Manager",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "RelationshipManagers",
+            "key": {
+              "RMID": "RM005"
+            },
+            "field": "Title",
+            "value": "Relationship Manager",
+            "surface": "Relationship Manager"
+          }
+        },
+        {
+          "sentence": "The alerted account is SG-Tr-00024-1, a Treasury_LC account of type LC held in SGD with status Active.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Accounts/ProductType",
+          "stated": {
+            "value": "Treasury_LC",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Accounts",
+            "key": {
+              "AccountNumber": "SG-Tr-00024-1"
+            },
+            "field": "ProductType",
+            "value": "Treasury_LC",
+            "surface": "Treasury_LC"
+          }
+        },
+        {
+          "sentence": "The alerted account is SG-Tr-00024-1, a Treasury_LC account of type LC held in SGD with status Active.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Accounts/ProductSubType",
+          "stated": {
+            "value": "LC",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Accounts",
+            "key": {
+              "AccountNumber": "SG-Tr-00024-1"
+            },
+            "field": "ProductSubType",
+            "value": "LC",
+            "surface": "LC"
+          }
+        },
+        {
+          "sentence": "The alerted account is SG-Tr-00024-1, a Treasury_LC account of type LC held in SGD with status Active.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Accounts/Currency",
+          "stated": {
+            "value": "SGD",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Accounts",
+            "key": {
+              "AccountNumber": "SG-Tr-00024-1"
+            },
+            "field": "Currency",
+            "value": "SGD",
+            "surface": "SGD"
+          }
+        },
+        {
+          "sentence": "The alerted account is SG-Tr-00024-1, a Treasury_LC account of type LC held in SGD with status Active.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Accounts/Status",
+          "stated": {
+            "value": "Active",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Accounts",
+            "key": {
+              "AccountNumber": "SG-Tr-00024-1"
+            },
+            "field": "Status",
+            "value": "Active",
+            "surface": "Active"
+          }
+        },
+        {
+          "sentence": "The alert cites transaction Tre0000040, dated 2026-11-04, for SGD 44,394.27 through the SWIFT channel.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Treasury_LC_Txn/TransactionDate",
+          "stated": {
+            "value": "2026-11-04",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Treasury_LC_Txn",
+            "key": {
+              "TransactionID": "Tre0000040"
+            },
+            "field": "TransactionDate",
+            "value": "2026-11-04",
+            "surface": "2026-11-04"
+          }
+        },
+        {
+          "sentence": "The alert cites transaction Tre0000040, dated 2026-11-04, for SGD 44,394.27 through the SWIFT channel.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Treasury_LC_Txn/Currency",
+          "stated": {
+            "value": "SGD",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Treasury_LC_Txn",
+            "key": {
+              "TransactionID": "Tre0000040"
+            },
+            "field": "Currency",
+            "value": "SGD",
+            "surface": "SGD"
+          }
+        },
+        {
+          "sentence": "The alert cites transaction Tre0000040, dated 2026-11-04, for SGD 44,394.27 through the SWIFT channel.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Treasury_LC_Txn/Amount",
+          "stated": {
+            "value": "44394.27",
+            "unit": "source currency",
+            "period": null
+          },
+          "recorded": {
+            "table": "Treasury_LC_Txn",
+            "key": {
+              "TransactionID": "Tre0000040"
+            },
+            "field": "Amount",
+            "value": "44394.27",
+            "surface": "44,394.27"
+          }
+        },
+        {
+          "sentence": "The alert cites transaction Tre0000040, dated 2026-11-04, for SGD 44,394.27 through the SWIFT channel.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Treasury_LC_Txn/Channel",
+          "stated": {
+            "value": "SWIFT",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Treasury_LC_Txn",
+            "key": {
+              "TransactionID": "Tre0000040"
+            },
+            "field": "Channel",
+            "value": "SWIFT",
+            "surface": "SWIFT"
+          }
+        },
+        {
+          "sentence": "Alert reference TM-2026-0113 identifies this review.",
+          "kind": "trap",
+          "trap": {
+            "reason": "An alert reference from the monitoring system, not a workbook transaction ID.",
+            "tempts": "financial-services:definition:finance_workbook_demo/field/Treasury_LC_Txn/TransactionID"
+          }
+        },
+        {
+          "sentence": "The pattern could indicate trade-based layering, but this is a hypothesis and not a finding.",
+          "kind": "trap",
+          "trap": {
+            "reason": "An unverified hypothesis. It is not a suspicious transaction report and not a recorded risk rating.",
+            "tempts": "financial-services:definition:finance_workbook_demo/concept/suspicious_transaction"
+          }
+        },
+        {
+          "sentence": "The Customer undertakes not to make more than 2 transactions above SGD 40,000 on account SG-Tr-00024-1 during 4 November 2026 to 6 November 2026.",
+          "kind": "commitment",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Treasury_LC_Txn/Amount",
+          "stated": {
+            "value": 2,
+            "unit": "transactions above SGD 40,000",
+            "period": "2026-11-04/2026-11-06"
+          },
+          "commitment": {
+            "check": {
+              "op": "count",
+              "table": "Treasury_LC_Txn",
+              "account": "SG-Tr-00024-1",
+              "over": 40000,
+              "period": [
+                "2026-11-04",
+                "2026-11-06"
+              ]
+            },
+            "comparison": "le",
+            "threshold": 2,
+            "actual": 3.0,
+            "met": false,
+            "logic": "Count of distinct TransactionID over Treasury_LC_Txn rows with AccountNumber SG-Tr-00024-1, Amount above 40,000, TransactionDate from 2026-11-04 to 2026-11-06; compare at most 2.",
+            "note": ""
+          }
+        },
+        {
+          "sentence": "The analyst will close the alert within 5 business days.",
+          "kind": "no_counterpart",
+          "why": "The workbook records nothing like it."
+        },
+        {
+          "sentence": "The Bank keeps this document for seven years after the relationship ends.",
+          "kind": "no_counterpart",
+          "why": "The workbook records nothing like it."
+        },
+        {
+          "sentence": "Signed for the Bank by an authorised signatory whose name is withheld in this synthetic pack.",
+          "kind": "no_counterpart",
+          "why": "The workbook records nothing like it."
+        }
+      ]
+    },
+    {
+      "id": "FIN-010",
+      "title": "Covenant compliance certificate",
+      "type": "covenant compliance certificate",
+      "path": "markdown/FIN-010.md",
+      "sha256": "fb6b3ee24d8bafc7b84d6e07028d5413c38c5710788ca5eb4f04a9b45ce21290",
+      "customer_keys": [
+        "CUST00004"
+      ],
+      "statements": [
+        {
+          "sentence": "The Customer is Customer ID CUST00004, recorded as a Corporate customer in the CBK segment.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Customers/CustomerType",
+          "stated": {
+            "value": "Corporate",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Customers",
+            "key": {
+              "CustomerID": "CUST00004"
+            },
+            "field": "CustomerType",
+            "value": "Corporate",
+            "surface": "Corporate"
+          }
+        },
+        {
+          "sentence": "The Customer is Customer ID CUST00004, recorded as a Corporate customer in the CBK segment.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Customers/CustomerSegment",
+          "stated": {
+            "value": "CBK",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Customers",
+            "key": {
+              "CustomerID": "CUST00004"
+            },
+            "field": "CustomerSegment",
+            "value": "CBK",
+            "surface": "CBK"
+          }
+        },
+        {
+          "sentence": "Its industry code is 6810-RealEstate and its country of operation is SG.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Customers/IndustryCode",
+          "stated": {
+            "value": "6810-RealEstate",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Customers",
+            "key": {
+              "CustomerID": "CUST00004"
+            },
+            "field": "IndustryCode",
+            "value": "6810-RealEstate",
+            "surface": "6810-RealEstate"
+          }
+        },
+        {
+          "sentence": "Its industry code is 6810-RealEstate and its country of operation is SG.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Customers/CountryOfOperation",
+          "stated": {
+            "value": "SG",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Customers",
+            "key": {
+              "CustomerID": "CUST00004"
+            },
+            "field": "CountryOfOperation",
+            "value": "SG",
+            "surface": "SG"
+          }
+        },
+        {
+          "sentence": "The Bank records the Customer's risk rating as Medium.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Customers/RiskRating",
+          "stated": {
+            "value": "Medium",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Customers",
+            "key": {
+              "CustomerID": "CUST00004"
+            },
+            "field": "RiskRating",
+            "value": "Medium",
+            "surface": "Medium"
+          }
+        },
+        {
+          "sentence": "Relationship manager RM005 covers the Customer as Primary RM.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Customer_RM_Relationship/RelationshipType",
+          "stated": {
+            "value": "Primary RM",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Customer_RM_Relationship",
+            "key": {
+              "CustomerID": "CUST00004"
+            },
+            "field": "RelationshipType",
+            "value": "Primary RM",
+            "surface": "Primary RM"
+          }
+        },
+        {
+          "sentence": "Relationship manager RM005 holds the title Relationship Manager.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/RelationshipManagers/Title",
+          "stated": {
+            "value": "Relationship Manager",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "RelationshipManagers",
+            "key": {
+              "RMID": "RM005"
+            },
+            "field": "Title",
+            "value": "Relationship Manager",
+            "surface": "Relationship Manager"
+          }
+        },
+        {
+          "sentence": "Account MY-CA-00004-0 is a CASA account of type Current held in JPY with status Active.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Accounts/ProductType",
+          "stated": {
+            "value": "CASA",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Accounts",
+            "key": {
+              "AccountNumber": "MY-CA-00004-0"
+            },
+            "field": "ProductType",
+            "value": "CASA",
+            "surface": "CASA"
+          }
+        },
+        {
+          "sentence": "Account MY-CA-00004-0 is a CASA account of type Current held in JPY with status Active.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Accounts/ProductSubType",
+          "stated": {
+            "value": "Current",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Accounts",
+            "key": {
+              "AccountNumber": "MY-CA-00004-0"
+            },
+            "field": "ProductSubType",
+            "value": "Current",
+            "surface": "Current"
+          }
+        },
+        {
+          "sentence": "Account MY-CA-00004-0 is a CASA account of type Current held in JPY with status Active.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Accounts/Currency",
+          "stated": {
+            "value": "JPY",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Accounts",
+            "key": {
+              "AccountNumber": "MY-CA-00004-0"
+            },
+            "field": "Currency",
+            "value": "JPY",
+            "surface": "JPY"
+          }
+        },
+        {
+          "sentence": "Account MY-CA-00004-0 is a CASA account of type Current held in JPY with status Active.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Accounts/Status",
+          "stated": {
+            "value": "Active",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Accounts",
+            "key": {
+              "AccountNumber": "MY-CA-00004-0"
+            },
+            "field": "Status",
+            "value": "Active",
+            "surface": "Active"
+          }
+        },
+        {
+          "sentence": "The Customer certifies that credit turnover in account MY-CA-00004-2 for 4 November 2026 to 6 November 2026 was at least USD 45,000.",
+          "kind": "commitment",
+          "definition": "financial-services:definition:finance_workbook_demo/field/CASA_Txn/Amount",
+          "stated": {
+            "value": 45000,
+            "unit": "USD",
+            "period": "2026-11-04/2026-11-06"
+          },
+          "commitment": {
+            "check": {
+              "op": "sum",
+              "table": "CASA_Txn",
+              "account": "MY-CA-00004-2",
+              "debit_credit": "CR",
+              "period": [
+                "2026-11-04",
+                "2026-11-06"
+              ]
+            },
+            "comparison": "ge",
+            "threshold": 45000,
+            "actual": 43094.9,
+            "met": false,
+            "logic": "Sum of Amount (native currency, no conversion) over CASA_Txn rows with AccountNumber MY-CA-00004-2, DebitCredit CR, TransactionDate from 2026-11-04 to 2026-11-06; compare at least 45,000.",
+            "note": "A certified claim by the customer. The rows show the actual credit turnover."
+          }
+        },
+        {
+          "sentence": "The Customer certifies that account MY-CA-00004-0 stayed Active throughout 4 November 2026 to 6 November 2026.",
+          "kind": "commitment",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Accounts/Status",
+          "stated": {
+            "value": "Active",
+            "unit": "status",
+            "period": "2026-11-04/2026-11-06"
+          },
+          "commitment": {
+            "check": {
+              "op": "status_all_active",
+              "account": "MY-CA-00004-0"
+            },
+            "comparison": "ge",
+            "threshold": 1,
+            "actual": 1.0,
+            "met": true,
+            "logic": "Every Accounts row for AccountNumber MY-CA-00004-0 has Status Active.",
+            "note": ""
+          }
+        },
+        {
+          "sentence": "The Customer certifies that it made no more than 2 transactions above 50,000 in account MY-CA-00004-2 during 4 November 2026 to 6 November 2026.",
+          "kind": "commitment",
+          "definition": "financial-services:definition:finance_workbook_demo/metric/large_casa_transaction_count",
+          "stated": {
+            "value": 2,
+            "unit": "transactions",
+            "period": "2026-11-04/2026-11-06"
+          },
+          "commitment": {
+            "check": {
+              "op": "count",
+              "table": "CASA_Txn",
+              "account": "MY-CA-00004-2",
+              "over": 50000,
+              "period": [
+                "2026-11-04",
+                "2026-11-06"
+              ]
+            },
+            "comparison": "le",
+            "threshold": 2,
+            "actual": 0.0,
+            "met": true,
+            "logic": "Count of distinct TransactionID over CASA_Txn rows with AccountNumber MY-CA-00004-2, Amount above 50,000, TransactionDate from 2026-11-04 to 2026-11-06; compare at most 2.",
+            "note": ""
+          }
+        },
+        {
+          "sentence": "The Customer must also keep audited net worth of at least USD 3,000,000.",
+          "kind": "no_counterpart",
+          "why": "The workbook records nothing like it."
+        },
+        {
+          "sentence": "Certificate number CC-2026-0007 identifies this certificate.",
+          "kind": "trap",
+          "trap": {
+            "reason": "A document reference number, not a workbook key.",
+            "tempts": "financial-services:definition:finance_workbook_demo/field/Accounts/AccountNumber"
+          }
+        },
+        {
+          "sentence": "Notices to the Bank go to the Corporate Banking notices desk at the branch address held on the customer file.",
+          "kind": "no_counterpart",
+          "why": "The workbook records nothing like it."
+        },
+        {
+          "sentence": "Signed for the Bank by an authorised signatory whose name is withheld in this synthetic pack.",
+          "kind": "no_counterpart",
+          "why": "The workbook records nothing like it."
+        }
+      ]
+    },
+    {
+      "id": "FIN-011",
+      "title": "Fee schedule letter",
+      "type": "fee schedule letter",
+      "path": "markdown/FIN-011.md",
+      "sha256": "aa4b5cccd70340f767779164ce1aa124f130eb8cb1eb586027c510e8d15de728",
+      "customer_keys": [
+        "CUST00048"
+      ],
+      "statements": [
+        {
+          "sentence": "The Customer is Customer ID CUST00048, recorded as a Corporate customer in the CBK segment.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Customers/CustomerType",
+          "stated": {
+            "value": "Corporate",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Customers",
+            "key": {
+              "CustomerID": "CUST00048"
+            },
+            "field": "CustomerType",
+            "value": "Corporate",
+            "surface": "Corporate"
+          }
+        },
+        {
+          "sentence": "The Customer is Customer ID CUST00048, recorded as a Corporate customer in the CBK segment.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Customers/CustomerSegment",
+          "stated": {
+            "value": "CBK",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Customers",
+            "key": {
+              "CustomerID": "CUST00048"
+            },
+            "field": "CustomerSegment",
+            "value": "CBK",
+            "surface": "CBK"
+          }
+        },
+        {
+          "sentence": "Its industry code is 6419-Banking and its country of operation is SG.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Customers/IndustryCode",
+          "stated": {
+            "value": "6419-Banking",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Customers",
+            "key": {
+              "CustomerID": "CUST00048"
+            },
+            "field": "IndustryCode",
+            "value": "6419-Banking",
+            "surface": "6419-Banking"
+          }
+        },
+        {
+          "sentence": "Its industry code is 6419-Banking and its country of operation is SG.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Customers/CountryOfOperation",
+          "stated": {
+            "value": "SG",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Customers",
+            "key": {
+              "CustomerID": "CUST00048"
+            },
+            "field": "CountryOfOperation",
+            "value": "SG",
+            "surface": "SG"
+          }
+        },
+        {
+          "sentence": "The Bank records the Customer's risk rating as Medium.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Customers/RiskRating",
+          "stated": {
+            "value": "Medium",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Customers",
+            "key": {
+              "CustomerID": "CUST00048"
+            },
+            "field": "RiskRating",
+            "value": "Medium",
+            "surface": "Medium"
+          }
+        },
+        {
+          "sentence": "Relationship manager RM009 covers the Customer as Primary RM.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Customer_RM_Relationship/RelationshipType",
+          "stated": {
+            "value": "Primary RM",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Customer_RM_Relationship",
+            "key": {
+              "CustomerID": "CUST00048"
+            },
+            "field": "RelationshipType",
+            "value": "Primary RM",
+            "surface": "Primary RM"
+          }
+        },
+        {
+          "sentence": "Relationship manager RM009 holds the title Relationship Manager.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/RelationshipManagers/Title",
+          "stated": {
+            "value": "Relationship Manager",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "RelationshipManagers",
+            "key": {
+              "RMID": "RM009"
+            },
+            "field": "Title",
+            "value": "Relationship Manager",
+            "surface": "Relationship Manager"
+          }
+        },
+        {
+          "sentence": "The fees apply to account SG-CA-00048-2, a CASA account of type Current held in SGD with status Active.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Accounts/ProductType",
+          "stated": {
+            "value": "CASA",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Accounts",
+            "key": {
+              "AccountNumber": "SG-CA-00048-2"
+            },
+            "field": "ProductType",
+            "value": "CASA",
+            "surface": "CASA"
+          }
+        },
+        {
+          "sentence": "The fees apply to account SG-CA-00048-2, a CASA account of type Current held in SGD with status Active.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Accounts/ProductSubType",
+          "stated": {
+            "value": "Current",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Accounts",
+            "key": {
+              "AccountNumber": "SG-CA-00048-2"
+            },
+            "field": "ProductSubType",
+            "value": "Current",
+            "surface": "Current"
+          }
+        },
+        {
+          "sentence": "The fees apply to account SG-CA-00048-2, a CASA account of type Current held in SGD with status Active.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Accounts/Currency",
+          "stated": {
+            "value": "SGD",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Accounts",
+            "key": {
+              "AccountNumber": "SG-CA-00048-2"
+            },
+            "field": "Currency",
+            "value": "SGD",
+            "surface": "SGD"
+          }
+        },
+        {
+          "sentence": "The fees apply to account SG-CA-00048-2, a CASA account of type Current held in SGD with status Active.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Accounts/Status",
+          "stated": {
+            "value": "Active",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Accounts",
+            "key": {
+              "AccountNumber": "SG-CA-00048-2"
+            },
+            "field": "Status",
+            "value": "Active",
+            "surface": "Active"
+          }
+        },
+        {
+          "sentence": "The account is held at branch BR004.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Accounts/BranchCode",
+          "stated": {
+            "value": "BR004",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Accounts",
+            "key": {
+              "AccountNumber": "SG-CA-00048-2"
+            },
+            "field": "BranchCode",
+            "value": "BR004",
+            "surface": "BR004"
+          }
+        },
+        {
+          "sentence": "The monthly account fee is SGD 20 and each outgoing SWIFT payment costs SGD 35.",
+          "kind": "no_counterpart",
+          "why": "The workbook records nothing like it."
+        },
+        {
+          "sentence": "The monthly account fee is waived if account SG-CA-00048-2 records at least 5 transactions during 4 November 2026 to 6 November 2026.",
+          "kind": "commitment",
+          "definition": "financial-services:definition:finance_workbook_demo/metric/casa_transaction_count",
+          "stated": {
+            "value": 5,
+            "unit": "transactions",
+            "period": "2026-11-04/2026-11-06"
+          },
+          "commitment": {
+            "check": {
+              "op": "count",
+              "table": "CASA_Txn",
+              "account": "SG-CA-00048-2",
+              "period": [
+                "2026-11-04",
+                "2026-11-06"
+              ]
+            },
+            "comparison": "ge",
+            "threshold": 5,
+            "actual": 6.0,
+            "met": true,
+            "logic": "Count of distinct TransactionID over CASA_Txn rows with AccountNumber SG-CA-00048-2, TransactionDate from 2026-11-04 to 2026-11-06; compare at least 5.",
+            "note": ""
+          }
+        },
+        {
+          "sentence": "A fee of 0.15 percent applies to each SWIFT transaction.",
+          "kind": "trap",
+          "trap": {
+            "reason": "A percentage rate, where the workbook holds an amount per transaction.",
+            "tempts": "financial-services:definition:finance_workbook_demo/field/CASA_Txn/Amount"
+          }
+        },
+        {
+          "sentence": "Fee invoice INV-2026-3321 lists these fees.",
+          "kind": "trap",
+          "trap": {
+            "reason": "An invoice number, not a workbook key.",
+            "tempts": "financial-services:definition:finance_workbook_demo/field/CASA_Txn/TransactionID"
+          }
+        },
+        {
+          "sentence": "This document is governed by the laws of the Republic of Singapore.",
+          "kind": "no_counterpart",
+          "why": "The workbook records nothing like it."
+        },
+        {
+          "sentence": "Notices to the Bank go to the Corporate Banking notices desk at the branch address held on the customer file.",
+          "kind": "no_counterpart",
+          "why": "The workbook records nothing like it."
+        }
+      ]
+    },
+    {
+      "id": "FIN-012",
+      "title": "Loan repayment schedule notice",
+      "type": "loan repayment notice",
+      "path": "markdown/FIN-012.md",
+      "sha256": "ba7ad5ba760b7c8909794d13fb248320b76d1830d94648f7a2a56631d36134e2",
+      "customer_keys": [
+        "CUST00040"
+      ],
+      "statements": [
+        {
+          "sentence": "The Customer is Customer ID CUST00040, recorded as a Corporate customer in the CMB segment.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Customers/CustomerType",
+          "stated": {
+            "value": "Corporate",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Customers",
+            "key": {
+              "CustomerID": "CUST00040"
+            },
+            "field": "CustomerType",
+            "value": "Corporate",
+            "surface": "Corporate"
+          }
+        },
+        {
+          "sentence": "The Customer is Customer ID CUST00040, recorded as a Corporate customer in the CMB segment.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Customers/CustomerSegment",
+          "stated": {
+            "value": "CMB",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Customers",
+            "key": {
+              "CustomerID": "CUST00040"
+            },
+            "field": "CustomerSegment",
+            "value": "CMB",
+            "surface": "CMB"
+          }
+        },
+        {
+          "sentence": "Its industry code is 6810-RealEstate and its country of operation is SG.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Customers/IndustryCode",
+          "stated": {
+            "value": "6810-RealEstate",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Customers",
+            "key": {
+              "CustomerID": "CUST00040"
+            },
+            "field": "IndustryCode",
+            "value": "6810-RealEstate",
+            "surface": "6810-RealEstate"
+          }
+        },
+        {
+          "sentence": "Its industry code is 6810-RealEstate and its country of operation is SG.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Customers/CountryOfOperation",
+          "stated": {
+            "value": "SG",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Customers",
+            "key": {
+              "CustomerID": "CUST00040"
+            },
+            "field": "CountryOfOperation",
+            "value": "SG",
+            "surface": "SG"
+          }
+        },
+        {
+          "sentence": "The Bank records the Customer's risk rating as Medium.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Customers/RiskRating",
+          "stated": {
+            "value": "Medium",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Customers",
+            "key": {
+              "CustomerID": "CUST00040"
+            },
+            "field": "RiskRating",
+            "value": "Medium",
+            "surface": "Medium"
+          }
+        },
+        {
+          "sentence": "Relationship manager RM001 covers the Customer as Primary RM.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Customer_RM_Relationship/RelationshipType",
+          "stated": {
+            "value": "Primary RM",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Customer_RM_Relationship",
+            "key": {
+              "CustomerID": "CUST00040"
+            },
+            "field": "RelationshipType",
+            "value": "Primary RM",
+            "surface": "Primary RM"
+          }
+        },
+        {
+          "sentence": "Relationship manager RM001 holds the title Relationship Manager.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/RelationshipManagers/Title",
+          "stated": {
+            "value": "Relationship Manager",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "RelationshipManagers",
+            "key": {
+              "RMID": "RM001"
+            },
+            "field": "Title",
+            "value": "Relationship Manager",
+            "surface": "Relationship Manager"
+          }
+        },
+        {
+          "sentence": "The loan account is MY-Lo-00040-2, a Loan account of type Mortgage held in EUR with status Active.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Accounts/ProductType",
+          "stated": {
+            "value": "Loan",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Accounts",
+            "key": {
+              "AccountNumber": "MY-Lo-00040-2"
+            },
+            "field": "ProductType",
+            "value": "Loan",
+            "surface": "Loan"
+          }
+        },
+        {
+          "sentence": "The loan account is MY-Lo-00040-2, a Loan account of type Mortgage held in EUR with status Active.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Accounts/ProductSubType",
+          "stated": {
+            "value": "Mortgage",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Accounts",
+            "key": {
+              "AccountNumber": "MY-Lo-00040-2"
+            },
+            "field": "ProductSubType",
+            "value": "Mortgage",
+            "surface": "Mortgage"
+          }
+        },
+        {
+          "sentence": "The loan account is MY-Lo-00040-2, a Loan account of type Mortgage held in EUR with status Active.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Accounts/Currency",
+          "stated": {
+            "value": "EUR",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Accounts",
+            "key": {
+              "AccountNumber": "MY-Lo-00040-2"
+            },
+            "field": "Currency",
+            "value": "EUR",
+            "surface": "EUR"
+          }
+        },
+        {
+          "sentence": "The loan account is MY-Lo-00040-2, a Loan account of type Mortgage held in EUR with status Active.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Accounts/Status",
+          "stated": {
+            "value": "Active",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Accounts",
+            "key": {
+              "AccountNumber": "MY-Lo-00040-2"
+            },
+            "field": "Status",
+            "value": "Active",
+            "surface": "Active"
+          }
+        },
+        {
+          "sentence": "Posting Loa0000247, dated 2026-11-04, shows EUR 22,116.43.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Loan_Txn/TransactionDate",
+          "stated": {
+            "value": "2026-11-04",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Loan_Txn",
+            "key": {
+              "TransactionID": "Loa0000247"
+            },
+            "field": "TransactionDate",
+            "value": "2026-11-04",
+            "surface": "2026-11-04"
+          }
+        },
+        {
+          "sentence": "Posting Loa0000247, dated 2026-11-04, shows EUR 22,116.43.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Loan_Txn/Currency",
+          "stated": {
+            "value": "EUR",
+            "unit": null,
+            "period": null
+          },
+          "recorded": {
+            "table": "Loan_Txn",
+            "key": {
+              "TransactionID": "Loa0000247"
+            },
+            "field": "Currency",
+            "value": "EUR",
+            "surface": "EUR"
+          }
+        },
+        {
+          "sentence": "Posting Loa0000247, dated 2026-11-04, shows EUR 22,116.43.",
+          "kind": "recorded_value",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Loan_Txn/Amount",
+          "stated": {
+            "value": "22116.43",
+            "unit": "source currency",
+            "period": null
+          },
+          "recorded": {
+            "table": "Loan_Txn",
+            "key": {
+              "TransactionID": "Loa0000247"
+            },
+            "field": "Amount",
+            "value": "22116.43",
+            "surface": "22,116.43"
+          }
+        },
+        {
+          "sentence": "The Customer shall post at least EUR 60,000 of debits to loan account MY-Lo-00040-2 during 4 November 2026 to 6 November 2026.",
+          "kind": "commitment",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Loan_Txn/Amount",
+          "stated": {
+            "value": 60000,
+            "unit": "EUR",
+            "period": "2026-11-04/2026-11-06"
+          },
+          "commitment": {
+            "check": {
+              "op": "sum",
+              "table": "Loan_Txn",
+              "account": "MY-Lo-00040-2",
+              "debit_credit": "DR",
+              "period": [
+                "2026-11-04",
+                "2026-11-06"
+              ]
+            },
+            "comparison": "ge",
+            "threshold": 60000,
+            "actual": 56732.77,
+            "met": false,
+            "logic": "Sum of Amount (native currency, no conversion) over Loan_Txn rows with AccountNumber MY-Lo-00040-2, DebitCredit DR, TransactionDate from 2026-11-04 to 2026-11-06; compare at least 60,000.",
+            "note": "The source does not record whether a posting is a repayment. Debit postings are the closest proxy."
+          }
+        },
+        {
+          "sentence": "The Customer shall have at least 6 postings on loan account MY-Lo-00040-2 during 4 November 2026 to 6 November 2026.",
+          "kind": "commitment",
+          "definition": "financial-services:definition:finance_workbook_demo/field/Loan_Txn/TransactionID",
+          "stated": {
+            "value": 6,
+            "unit": "postings",
+            "period": "2026-11-04/2026-11-06"
+          },
+          "commitment": {
+            "check": {
+              "op": "count",
+              "table": "Loan_Txn",
+              "account": "MY-Lo-00040-2",
+              "period": [
+                "2026-11-04",
+                "2026-11-06"
+              ]
+            },
+            "comparison": "ge",
+            "threshold": 6,
+            "actual": 6.0,
+            "met": true,
+            "logic": "Count of distinct TransactionID over Loan_Txn rows with AccountNumber MY-Lo-00040-2, TransactionDate from 2026-11-04 to 2026-11-06; compare at least 6.",
+            "note": ""
+          }
+        },
+        {
+          "sentence": "The scheduled monthly instalment is EUR 12,000.",
+          "kind": "trap",
+          "trap": {
+            "reason": "A monthly scheduled figure, where the workbook holds one posting amount per transaction.",
+            "tempts": "financial-services:definition:finance_workbook_demo/field/Loan_Txn/Amount"
+          }
+        },
+        {
+          "sentence": "Loan reference LN-2021-5589 identifies this loan.",
+          "kind": "trap",
+          "trap": {
+            "reason": "A loan reference from the bank's letter series, not a workbook account number.",
+            "tempts": "financial-services:definition:finance_workbook_demo/field/Accounts/AccountNumber"
+          }
+        },
+        {
+          "sentence": "Final maturity is 15 March 2036 and prepayment needs 30 days of notice.",
+          "kind": "no_counterpart",
+          "why": "The workbook records nothing like it."
+        },
+        {
+          "sentence": "This document is governed by the laws of the Republic of Singapore.",
+          "kind": "no_counterpart",
+          "why": "The workbook records nothing like it."
+        },
+        {
+          "sentence": "Signed for the Bank by an authorised signatory whose name is withheld in this synthetic pack.",
+          "kind": "no_counterpart",
+          "why": "The workbook records nothing like it."
+        }
+      ]
+    }
+  ]
+}

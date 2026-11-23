@@ -1,0 +1,112 @@
+{
+  "model": "bank_trino",
+  "ossie_namespace": "finance_workbook_demo",
+  "review_state": "unpublished",
+  "source_map_sha256": "029cfbda4c6a96ad5a8b476cbfe8da3e068b0d8a22863a1009ec3afdce8bc711",
+  "mappings": [
+    {
+      "key": "industry",
+      "looker_field": "corporate_customer.industry",
+      "v1_mapping": "exact",
+      "workbook_field": "Customers/IndustryCode",
+      "decision": "candidate",
+      "review_note": "Decode and compare the industry code system for corporate customers before mapping to a sector label."
+    },
+    {
+      "key": "segment",
+      "looker_field": "corporate_customer.segment",
+      "v1_mapping": "similar",
+      "workbook_field": "Customers/CustomerSegment",
+      "decision": "candidate",
+      "review_note": "Compare corporate segment vocabularies and snapshot dates before aligning segment tiers."
+    },
+    {
+      "key": "risk_rating",
+      "looker_field": "corporate_customer.customer_risk_rating",
+      "v1_mapping": "exact",
+      "workbook_field": "Customers/RiskRating",
+      "decision": "candidate",
+      "review_note": "Confirm the corporate population, rating scale and AML policy before equating ratings. Document allegations cannot set this field."
+    },
+    {
+      "key": "rm",
+      "looker_field": "corporate_customer.rm_id",
+      "v1_mapping": "similar",
+      "workbook_field": "Customer_RM_Relationship/RMID",
+      "decision": "candidate",
+      "review_note": "Confirm RM identifier namespace and active assignment at the selected business date. A display name alone cannot establish identity."
+    },
+    {
+      "key": "relationship",
+      "looker_field": "corporate_customer.onboard_date",
+      "v1_mapping": "similar",
+      "workbook_field": null,
+      "decision": "unmapped",
+      "review_note": "Account opening, incorporation and RM assignment dates do not establish customer onboarding."
+    },
+    {
+      "key": "deposits",
+      "looker_field": "enterprise_customer_risk.deposits_sgd",
+      "v1_mapping": "similar",
+      "workbook_field": null,
+      "decision": "unmapped",
+      "review_note": "The workbook has transaction amounts in source currency and no deposit balance at the snapshot date."
+    },
+    {
+      "key": "inflow",
+      "looker_field": null,
+      "v1_mapping": "none",
+      "workbook_field": null,
+      "decision": "unmapped",
+      "review_note": "Product transaction snapshots require deduplication, direction, currency and a defined observation window."
+    },
+    {
+      "key": "outflow",
+      "looker_field": null,
+      "v1_mapping": "none",
+      "workbook_field": null,
+      "decision": "unmapped",
+      "review_note": "Product transaction snapshots require deduplication, direction, currency and a defined observation window."
+    },
+    {
+      "key": "fx",
+      "looker_field": null,
+      "v1_mapping": "none",
+      "workbook_field": null,
+      "decision": "unmapped",
+      "review_note": "An FX desk event or a reference to FX hedging does not establish an export receipt."
+    },
+    {
+      "key": "late_fee",
+      "looker_field": null,
+      "v1_mapping": "none",
+      "workbook_field": null,
+      "decision": "unmapped",
+      "review_note": "A payment concern or a transaction description does not establish a booked late fee."
+    },
+    {
+      "key": "trade",
+      "looker_field": null,
+      "v1_mapping": "none",
+      "workbook_field": null,
+      "decision": "unmapped",
+      "review_note": "A letter of credit issuance does not establish a settled import payment."
+    },
+    {
+      "key": "payroll",
+      "looker_field": null,
+      "v1_mapping": "none",
+      "workbook_field": null,
+      "decision": "unmapped",
+      "review_note": "No governed company payroll measure is available from these sources."
+    },
+    {
+      "key": "treasury",
+      "looker_field": null,
+      "v1_mapping": "none",
+      "workbook_field": null,
+      "decision": "unmapped",
+      "review_note": "No governed high-balance measure or eligible deposit balance is present."
+    }
+  ]
+}

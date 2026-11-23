@@ -1,0 +1,15 @@
+Semantic Workspace
+Licensed under the Apache License, Version 2.0 (LICENSE), except the third-party material listed below.
+
+Third-party material shipped in this repository
+- Microsoft AdventureWorks sample data (demo_data/manufacturing): MIT licence, Copyright (c) Microsoft Corporation.
+  Licence text: demo_data/manufacturing/LICENSE-MICROSOFT.txt. Source pin: demo_data/manufacturing/SOURCES.md.
+- UI bundle docs/design/v2-workspace/pipeline.js and pipeline.css: bundled npm packages and their licences
+  are listed in docs/design/v2-workspace/pipeline.NOTICE.txt.
+- The registry entry for the Singapore exports chart (demo_data/extra_sources.json) cites Wikimedia Commons,
+  CC BY-SA 4.0. The chart image itself is not shipped.
+
+Open licence notes
+- docs/design/v2-workspace/helios-canvas.js and helios-canvas.css carry no licence note.
+- The Ossie JSON schema is not shipped; demo_data/enrich_ossie.py and the build scripts read it from a local
+  Helios checkout when given. Its licence is not recorded.

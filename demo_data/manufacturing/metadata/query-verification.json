@@ -1,0 +1,17 @@
+{
+  "date": "2026-11-16",
+  "integrity_check": "ok",
+  "sales_line_exact_formula_checks": 121317,
+  "formula_mismatches": 0,
+  "exploratory_candidate_customer_id": 29705,
+  "exploratory_candidate_quantity": 113,
+  "exploratory_candidate_order_lines": 12,
+  "typed_date_due_order_checks": "all sales order headers pass",
+  "decimal_storage": "TEXT exact; decimal.Decimal arithmetic; SQLite SUM on decimal TEXT is approximate and unsupported for exact metrics",
+  "negative_checks": [
+    "duplicate key rejected in isolated memory fixture",
+    "orphan foreign key rejected in isolated memory fixture"
+  ],
+  "external_dependency_count": 10,
+  "application_or_live_checks": "not_run; local data preparation only"
+}

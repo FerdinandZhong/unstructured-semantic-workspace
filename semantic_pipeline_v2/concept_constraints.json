@@ -1,0 +1,16 @@
+{
+  "_note": "Domain constraints for concept-layer mapping. Used when the model has no HELIOS concepts block. Synthetic placeholder for demonstration. Edit this file to add domain-specific rules; do not edit the .ossie.yaml files.",
+  "source_kind_rejects": {
+    "adverse-media": {
+      "reject_field_names": ["RiskRating", "CustomerID", "DepositLimit"],
+      "reject_constraints": ["no_adverse_media"],
+      "note": "An allegation in adverse media is not a recorded risk rating, customer identity, or deposit limit. evidence_labeler.py uses this table. reject_constraints matches concept-level constraints from the HELIOS model."
+    }
+  },
+  "column_terms": [
+    "account", "amount", "balance", "category", "code", "column", "count",
+    "currency", "customer", "date", "debit", "credit", "description", "field",
+    "id", "key", "label", "name", "number", "period", "product", "quantity",
+    "rate", "reference", "status", "total", "transaction", "type", "unit", "value"
+  ]
+}

@@ -1,0 +1,174 @@
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix v: <urn:demo:manufacturing:vocab:> .
+
+<urn:demo:manufacturing:concept:contract_effective_date> a skos:Concept ;
+    skos:definition "Date from which a specified contract version applies." ;
+    skos:inScheme <urn:demo:manufacturing:catalog:0.1.0> ;
+    skos:prefLabel "Contract effective date" ;
+    v:status "authored_demo_candidate" .
+
+<urn:demo:manufacturing:concept:governing_law> a skos:Concept ;
+    skos:definition "The legal jurisdiction named by a contract clause." ;
+    skos:inScheme <urn:demo:manufacturing:catalog:0.1.0> ;
+    skos:prefLabel "Governing law" ;
+    v:status "authored_demo_candidate" .
+
+<urn:demo:manufacturing:concept:inspection_acceptance> a skos:Concept ;
+    skos:definition "Conditions and evidence required for accepting supplied goods." ;
+    skos:inScheme <urn:demo:manufacturing:catalog:0.1.0> ;
+    skos:prefLabel "Inspection and acceptance condition" ;
+    v:status "authored_demo_candidate" .
+
+<urn:demo:manufacturing:concept:warranty_duration> a skos:Concept ;
+    skos:definition "A promised warranty interval with a specified start event and exclusions." ;
+    skos:inScheme <urn:demo:manufacturing:catalog:0.1.0> ;
+    skos:prefLabel "Warranty duration" ;
+    v:status "authored_demo_candidate" .
+
+<urn:demo:manufacturing:proposal:customer_identifier> a v:MappingProposal ;
+    v:relation "identifier_binding" ;
+    v:rule "An organization name alone does not prove an account match." ;
+    v:sourceConcept <urn:demo:manufacturing:concept:customer_identifier> ;
+    v:status "authored_demo_candidate" ;
+    v:targetDefinition <urn:demo:manufacturing:definition:Sales.Customer.CustomerID> .
+
+<urn:demo:manufacturing:proposal:delivery_promise> a v:MappingProposal ;
+    v:relation "related_context" ;
+    v:rule "An operational due date may differ; shipment does not establish delivery." ;
+    v:sourceConcept <urn:demo:manufacturing:concept:delivery_promise> ;
+    v:status "authored_demo_candidate" ;
+    v:targetDefinition <urn:demo:manufacturing:definition:Sales.SalesOrderHeader.DueDate> .
+
+<urn:demo:manufacturing:proposal:inventory_position> a v:MappingProposal ;
+    v:relation "related_context" ;
+    v:rule "Confirm the same snapshot and location; do not equate with available-to-promise." ;
+    v:sourceConcept <urn:demo:manufacturing:concept:inventory_position> ;
+    v:status "authored_demo_candidate" ;
+    v:targetDefinition <urn:demo:manufacturing:definition:Production.ProductInventory.Quantity> .
+
+<urn:demo:manufacturing:proposal:product_identifier> a v:MappingProposal ;
+    v:relation "identifier_binding" ;
+    v:rule "Match the namespace and verified key, never name similarity alone." ;
+    v:sourceConcept <urn:demo:manufacturing:concept:product_identifier> ;
+    v:status "authored_demo_candidate" ;
+    v:targetDefinition <urn:demo:manufacturing:definition:Production.Product.ProductNumber> .
+
+<urn:demo:manufacturing:proposal:purchase_commitment> a v:MappingProposal ;
+    v:relation "related_context" ;
+    v:rule "An obligation is compared with actual ordered quantity; it is never an equivalent field." ;
+    v:sourceConcept <urn:demo:manufacturing:concept:purchase_commitment> ;
+    v:status "authored_demo_candidate" ;
+    v:targetDefinition <urn:demo:manufacturing:definition:Sales.SalesOrderDetail.OrderQty> .
+
+<urn:demo:manufacturing:proposal:scrap_quality_context> a v:MappingProposal ;
+    v:relation "related_context" ;
+    v:rule "No inference of defect rate, root cause or contractual acceptance without evidence." ;
+    v:sourceConcept <urn:demo:manufacturing:concept:scrap_quality_context> ;
+    v:status "authored_demo_candidate" ;
+    v:targetDefinition <urn:demo:manufacturing:definition:Production.WorkOrder.ScrappedQty> .
+
+<urn:demo:manufacturing:proposal:supplier_identifier> a v:MappingProposal ;
+    v:relation "identifier_binding" ;
+    v:rule "Supplier and customer roles stay distinct even when labels match." ;
+    v:sourceConcept <urn:demo:manufacturing:concept:supplier_identifier> ;
+    v:status "authored_demo_candidate" ;
+    v:targetDefinition <urn:demo:manufacturing:definition:Purchasing.Vendor.BusinessEntityID> .
+
+<urn:demo:manufacturing:proposal:supplier_lead_time_promise> a v:MappingProposal ;
+    v:relation "related_context" ;
+    v:rule "Promised duration is not the source historical average. Start/end events and calendar matter." ;
+    v:sourceConcept <urn:demo:manufacturing:concept:supplier_lead_time_promise> ;
+    v:status "authored_demo_candidate" ;
+    v:targetDefinition <urn:demo:manufacturing:definition:Purchasing.ProductVendor.AverageLeadTime> .
+
+<urn:demo:manufacturing:concept:customer_identifier> a skos:Concept ;
+    skos:definition "A customer account key interpreted within the source system." ;
+    skos:inScheme <urn:demo:manufacturing:catalog:0.1.0> ;
+    skos:prefLabel "Customer account identifier" ;
+    v:status "authored_demo_candidate" .
+
+<urn:demo:manufacturing:concept:delivery_promise> a skos:Concept ;
+    skos:definition "A date promised by a contract or amendment for delivery of a scoped order." ;
+    skos:inScheme <urn:demo:manufacturing:catalog:0.1.0> ;
+    skos:prefLabel "Promised delivery date" ;
+    v:status "authored_demo_candidate" .
+
+<urn:demo:manufacturing:concept:inventory_position> a skos:Concept ;
+    skos:definition "A source reports quantity at a product/location snapshot." ;
+    skos:inScheme <urn:demo:manufacturing:catalog:0.1.0> ;
+    skos:prefLabel "Reported inventory quantity" ;
+    v:status "authored_demo_candidate" .
+
+<urn:demo:manufacturing:concept:product_identifier> a skos:Concept ;
+    skos:definition "A product key interpreted within its source namespace." ;
+    skos:inScheme <urn:demo:manufacturing:catalog:0.1.0> ;
+    skos:prefLabel "Product identifier" ;
+    v:status "authored_demo_candidate" .
+
+<urn:demo:manufacturing:concept:purchase_commitment> a skos:Concept ;
+    skos:definition "A contract obligation to order at least a stated quantity of a specified product during a defined period." ;
+    skos:inScheme <urn:demo:manufacturing:catalog:0.1.0> ;
+    skos:prefLabel "Minimum purchase commitment" ;
+    v:status "authored_demo_candidate" .
+
+<urn:demo:manufacturing:concept:scrap_quality_context> a skos:Concept ;
+    skos:definition "A source reports scrapped quantity for a product/work order." ;
+    skos:inScheme <urn:demo:manufacturing:catalog:0.1.0> ;
+    skos:prefLabel "Reported production scrap" ;
+    v:status "authored_demo_candidate" .
+
+<urn:demo:manufacturing:concept:supplier_identifier> a skos:Concept ;
+    skos:definition "An AdventureWorks vendor business-entity key in its declared source namespace." ;
+    skos:inScheme <urn:demo:manufacturing:catalog:0.1.0> ;
+    skos:prefLabel "Supplier identifier" ;
+    v:status "authored_demo_candidate" .
+
+<urn:demo:manufacturing:concept:supplier_lead_time_promise> a skos:Concept ;
+    skos:definition "Contractually promised elapsed days from the stated start event to receipt for a scoped supplier/product." ;
+    skos:inScheme <urn:demo:manufacturing:catalog:0.1.0> ;
+    skos:prefLabel "Promised supplier lead time" ;
+    v:status "authored_demo_candidate" .
+
+<urn:demo:manufacturing:definition:Production.Product.ProductNumber> a skos:Concept ;
+    skos:definition "Product identifier in the AdventureWorks namespace. The same text in another supplier namespace does not establish identity." ;
+    skos:prefLabel "Product number" ;
+    v:sourceColumn "Production.Product.ProductNumber" .
+
+<urn:demo:manufacturing:definition:Production.ProductInventory.Quantity> a skos:Concept ;
+    skos:definition "Quantity held for one product and location at the source snapshot; shelf and bin describe its position. It is not available-to-promise inventory." ;
+    skos:prefLabel "Inventory quantity" ;
+    v:sourceColumn "Production.ProductInventory.Quantity" .
+
+<urn:demo:manufacturing:definition:Production.WorkOrder.ScrappedQty> a skos:Concept ;
+    skos:definition "Quantity scrapped on one work order. A nonzero quantity does not by itself establish a contract-quality breach." ;
+    skos:prefLabel "Scrapped quantity" ;
+    v:sourceColumn "Production.WorkOrder.ScrappedQty" .
+
+<urn:demo:manufacturing:definition:Purchasing.ProductVendor.AverageLeadTime> a skos:Concept ;
+    skos:definition "Source-described average time in days between placing a purchase order and receiving the purchased product. It is not a contract promise." ;
+    skos:prefLabel "Average supplier lead time" ;
+    v:sourceColumn "Purchasing.ProductVendor.AverageLeadTime" .
+
+<urn:demo:manufacturing:definition:Purchasing.Vendor.BusinessEntityID> a skos:Concept ;
+    skos:definition "Primary key for Vendor records.  Foreign key to BusinessEntity.BusinessEntityID" ;
+    skos:prefLabel "Business Entity ID" ;
+    v:sourceColumn "Purchasing.Vendor.BusinessEntityID" .
+
+<urn:demo:manufacturing:definition:Sales.Customer.CustomerID> a skos:Concept ;
+    skos:definition "Identifier of one AdventureWorks customer account; StoreID links a business customer to its store." ;
+    skos:prefLabel "Customer identifier" ;
+    v:sourceColumn "Sales.Customer.CustomerID" .
+
+<urn:demo:manufacturing:definition:Sales.SalesOrderDetail.OrderQty> a skos:Concept ;
+    skos:definition "Count of product units on one sales-order line. This is an order quantity, not a contractual minimum or proof of delivery." ;
+    skos:prefLabel "Sales ordered quantity" ;
+    v:sourceColumn "Sales.SalesOrderDetail.OrderQty" .
+
+<urn:demo:manufacturing:definition:Sales.SalesOrderHeader.DueDate> a skos:Concept ;
+    skos:definition "Due date recorded on a sales order. This does not establish a negotiated delivery promise or actual receipt date." ;
+    skos:prefLabel "Order due date" ;
+    v:sourceColumn "Sales.SalesOrderHeader.DueDate" .
+
+<urn:demo:manufacturing:catalog:0.1.0> a skos:ConceptScheme ;
+    skos:prefLabel "Manufacturing demonstration concept catalog" .
+
