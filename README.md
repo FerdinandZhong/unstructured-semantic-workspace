@@ -1,2 +1,3 @@
-# unstructured-data-ai-ready-v2
+# Unstructured Semantic Workspace
+
 A semantic workspace for mapping document and media evidence to business definitions.
