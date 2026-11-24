@@ -1,69 +1,121 @@
 # Semantic Workspace
 
-The Semantic Workspace maps unstructured sources onto a semantic layer that is given and never edited.
-The sources are documents, fill-in forms and recorded calls.
-The results are evidence links and an anchored concept catalog.
-The workspace can also write table rows as a system feature, which the paper does not cover.
-A question-answering workspace reads those results and cites the passages behind each answer.
+**Bring documents, forms and recorded calls into the semantic layer your tables already have.**
 
-This site describes the design and the details.
-It is written from the working paper and from the code.
-It holds no lab exercises.
+The Semantic Workspace links unstructured sources to a governed semantic model.
+It then answers questions across tables and documents, with a citation behind every answer.
+It is packaged as an Applied ML Prototype (AMP) for Cloudera AI.
+
+<div class="grid cards" markdown>
+
+-   **Link**
+
+    Each passage of a document is linked to the field or metric it is about, with the value it states.
+
+-   **Organise**
+
+    The linked evidence is grouped into a catalog of business concepts that a person reviews and publishes.
+
+-   **Ask**
+
+    People ask in plain language. Numbers come from SQL, wording comes from the cited passage.
+
+-   **Write**
+
+    Values stated in forms, reports and calls become rows of Iceberg tables, after a preview and a confirm.
+
+</div>
+
+## The background
+
+Enterprises govern their tables well.
+A semantic layer names each field and metric, defines it and declares how tables join.
+Text-to-SQL tools and dashboards work on that layer.
+
+Most business knowledge sits outside the tables.
+Contracts hold limits and commitments. Forms hold reported transactions. Recorded calls hold what a customer said.
+None of this has a semantic layer.
+
+Retrieval alone does not close the gap.
+It returns passages, not meaning.
+It does not record which field a clause gives a value for, which customer or order it concerns, or whether it states the value or only discusses it.
+So a delivery date in a contract cannot be compared with the order table, and the access rules of the tables do not reach the documents.
+
+## The approach
+
+The Semantic Workspace takes the existing semantic layer as the target.
+It does not build a second model beside it, and it never edits it.
+
+- **Documents join the model you already govern.** Evidence links attach passages to its fields and metrics.
+- **Business vocabulary grows from evidence.** Concepts are anchored on the model first. Only what the model cannot explain is proposed as new.
+- **People stay in control.** A person approves, corrects or rejects. Only a published release reaches answers.
+- **One access policy.** A source a reader may not see is never read, cited or summarised for that reader.
+
+## How it works
 
 ![Overview of the system: build time, question time and one question](assets/overview.png)
 
-*Figure 1 of the paper.
-(a) At build time, Pipeline A links passages to the given semantic model (Output A).
-Pipeline B groups that evidence into concepts (Output B).
-A person approves and publishes a release.
-(b) At question time, a rules-first router sends each request to one of four fixed tools; a model helps only with a request to act that the rules do not complete.*
+*The system at a glance. (a) Build time turns sources into evidence links and a concept catalog. (b) Question time routes each request to one of four fixed tools. The right column follows one question to its cited answer.*
 
-## Why it exists
+### Build time
 
-Structured data has a semantic layer.
-The layer names each field and metric, defines it and declares how tables join.
-Contracts, forms and recorded calls have no such layer.
-The limits, dates and commitments they hold cannot be joined to the tables or governed with them.
+1. **Ingest.** PDFs, fill-in forms, audio and text become passages. Each passage is pinned to its source by hash.
+2. **Link (Pipeline A).** A small language model chooses among retrieved definitions. Code then checks the stated value, settles the relation and attaches entity keys.
+3. **Organise (Pipeline B).** Concepts of the model collect their evidence by aggregation. A model proposes concepts only for the remainder.
+4. **Review and release.** A reviewer approves, corrects or rejects. A release fixes the result as a versioned file for Semantic Hub.
 
-The paper frames this gap as a mapping task.
-For each passage, decide which definitions it states a value of or is about, or abstain.
-Then group that evidence into business concepts linked to the layer.
-The layer is the target. The system never edits it.
+### Question time
 
-## The rule
+A request goes to one of four tools: answer a question, explain a term, write a table, or list the connections.
+Code rules choose the tool. A model helps only when a request to act is worded in a way the rules do not complete.
 
-One rule runs through the design: the model chooses, code decides.
+- **Answers are computed, not generated.** A guarded SQL compiler computes every number. The model plans the query and reads clause values.
+- **Every answer shows its proof.** The reply names the definitions used, the facts with their filters, and up to four cited passages.
+- **The app asks instead of guessing.** An ambiguous request gets a clarification with real choices from the semantic layer.
+- **Follow-ups keep their context.** A chat session carries the earlier turns, so "and for 2022?" works.
 
-- A small language model picks among retrieved definitions.
-- Deterministic guards check the stated value, settle the relation and attach entity keys.
-- Concepts of the layer collect their evidence by aggregation, with no model call.
-- Only passages the layer cannot explain reach an induction model.
-- At question time, code computes every number. The model writes a plan and reads clause values.
+## The design rule
 
-## Headline results and limits
+One rule runs through the design: **the model chooses, code decides.**
 
-The paper reports these results. The scope of each is part of the claim.
+Language models are used where language must be read: choosing a definition, proposing a concept, planning a question.
+Deterministic code makes every decision that must be exact and repeatable: values, numbers, status, citations and access.
+This keeps results explainable and auditable.
 
-| Result | Value | Scope |
+## What you get
+
+| Result | What it is | Who uses it |
 | --- | --- | --- |
-| Link precision, model decision step | 0.70 | Held-out gold set A2, run once, 82 anchors |
-| Link precision, thresholds and rules | 0.29 | Same set |
-| Precision on unseen packs, two-step | 0.73 (finance), 0.90 (manufacturing) | Generator-made synthetic packs, run once |
-| False-link rate on unseen packs, two-step | 0.03 (finance), 0.01 (manufacturing) | Same packs |
-| Question answering, unseen exams | 11, 14, 18 and 17 of 30 | Four exams; none meets the pass bar |
+| **Evidence links** | Passage to definition, with relation, value, unit, period and entity key | Reviewers, the answer path |
+| **Concept catalog** | Business concepts linked to the model, versioned and published as a release | Data stewards, Semantic Hub |
+| **Table rows** | Stated values written to declared Iceberg tables through Cloudera Lakehouse Engine (Trino) | Data engineers, analysts |
+| **Cited answers** | One reply per question, with facts, citations and the path taken | Business users |
 
-!!! warning "Limits stated by the paper"
-    Recall on commitments is the main limit.
-    The evaluation sets are small, and one AI annotator wrote each set.
-    The sets cover two demo datasets.
-    The question-answering path does not meet its pass bar on any unseen exam.
-    The paper does not claim state-of-the-art results.
+## Built for governance
 
-See [Evaluation](evaluation.md) for every table and its scope.
+- **Synthetic and public sample data** ship with the AMP. The model provider you configure receives only the content it is asked to process.
+- **Identifier masking** hides account numbers and customer IDs from readers who may not see them.
+- **Writes need a person.** Every write shows a preview and needs a separate confirm.
+- **English and Simplified Chinese** are supported in the interface, and questions can be asked in either language.
 
-## Reading guide
+## On the Cloudera platform
 
-Read in this order for the design.
+- **Cloudera AI** hosts the application and its jobs as an AMP.
+- **Cloudera Lakehouse Engine (Trino)** is the direct write path for table rows to Iceberg.
+- **Semantic Hub** is the target of the release export: an Ossie file that passes its schema check and lint.
+
+## Two ready-made examples
+
+| Dataset | Structured data | Unstructured sources |
+| --- | --- | --- |
+| Financial Services | A mock-up banking workbook, 11 tables, 143 definitions | Synthetic banking documents, fill-in forms and one recorded call |
+| Manufacturing | AdventureWorks sample data, 25 tables, 240 definitions | Synthetic contracts and AdventureWorks sample documents |
+
+See [Data](data.md) for what is synthetic, what is public and the attribution.
+
+## Where to go next
+
+**Understand the design**
 
 1. [Concepts](concepts.md): the task, the terms and a glossary.
 2. [Architecture](architecture.md): build time, question time, components and data stores.
@@ -72,37 +124,16 @@ Read in this order for the design.
 5. [Pipeline B](pipeline-b.md): evidence links to a concept catalog.
 6. [Review and release](review-and-release.md): human decisions and what reaches answers.
 
-Read these for use and operation.
+**Use and operate**
 
-- [Ask](ask.md): the question path, the router, refusals and citations.
-- [Table rows](output-c.md): table rows from forms, printed reports, calls and documents, and the two write paths.
+- [Ask](ask.md): the router, chat sessions, clarifications, answers and citations.
+- [Table rows](output-c.md): writing stated values to Iceberg.
 - [Access and masking](access-and-masking.md): accounts, withheld sources and identifier masking.
 - [Localization](localization.md): the English and Chinese language switch.
 - [Deployment](deployment.md): the AMP on Cloudera AI.
-- [Data](data.md): the two sample datasets and their licences.
 
-## The paper
+**Go deeper**
 
-*Mapping Unstructured Documents onto a Governed Semantic Layer: Evidence Links and an Anchored Concept Catalog.*
-Working draft, 23 November 2026, not reviewed.
-The PDF is in the repository at
-[`docs/paper/main.pdf`](https://github.com/FerdinandZhong/unstructured-semantic-workspace/blob/main/docs/paper/main.pdf).
-
-## Two datasets
-
-The workspace ships with two demo datasets.
-
-| Dataset | Structured data | Unstructured sources |
-| --- | --- | --- |
-| Financial Services | A mock-up banking workbook, 11 tables, three days of transactions | Synthetic banking documents, fill-in forms, one recorded call |
-| Manufacturing | AdventureWorks sample data, 25 tables | Synthetic contracts and AdventureWorks sample documents |
-
-The finance model has 143 definitions.
-The manufacturing model has 240 definitions.
-See [Data](data.md) for what is synthetic, what is public and the attribution.
-
-## Terms used on this site
-
-- **Cloudera AI** hosts the application and its jobs as an AMP.
-- **Cloudera Lakehouse Engine (Trino)** is the direct write path for table rows to Iceberg.
-- **Semantic Hub** is the target of the release export. A release is an Ossie file that passes the Semantic Hub schema check and lint.
+- [Evaluation](evaluation.md): the measured results and the scope of each.
+- The working paper, *Mapping Unstructured Documents onto a Governed Semantic Layer: Evidence Links and an Anchored Concept Catalog*:
+  [`docs/paper/main.pdf`](https://github.com/FerdinandZhong/unstructured-semantic-workspace/blob/main/docs/paper/main.pdf).
