@@ -340,16 +340,18 @@ function Suggestions({ctx, model, answer, onAsk, onWrite}) {
 }
 
 // A clarification's hints (built by the server from the semantic layer and the data, not by a model): a click sends
-// the hint's full text as the next turn of this session. A stored session shows them as plain text and sends nothing.
+// the hint's full text as the next turn of this session, with the definition the hint chose. In Chinese the new turn
+// shows the hint's label, and the English it sent as "Understood as". A stored session shows them as plain text.
+// The server sends several notes one per line: each line is translated alone.
 function Hints({answer, past, onAsk}) {
   const hints = answer.hints || [];
   if (!hints.length && !answer.hintNote) return null;
   return <section className="pf-hints" aria-label={t('Clarification hints')} data-hints>
-    {answer.hintNote && <p className="pf-muted" data-hint-note>{serverText(answer.hintNote)}</p>}
+    {answer.hintNote && <p className="pf-muted" data-hint-note>{answer.hintNote.split('\n').map(serverText).join(' ')}</p>}
     {hints.length > 0 && <><h3>{answer.hintKind === 'choice' ? t('Did you mean one of these?') : t('You can ask:')}</h3>
       {past ? <ul className="pf-hint-list">{hints.map(hint => <li key={hint.text} data-hint data-data>{hint.text}</li>)}</ul>
         : <div className="pf-chips">{hints.map(hint => <button type="button" key={hint.text} className="pf-chip pf-hint" title={hint.text}
-          data-hint data-hint-button data-data onClick={() => onAsk(hint.text, {hint: true})}>{serverText(hint.label)}
+          data-hint data-hint-button data-data onClick={() => onAsk(hint.text, {hint: true, definition: hint.definition, label: hint.label})}>{serverText(hint.label)}
           {hint.detail && <span className="pf-muted pf-hint-detail">{serverText(hint.detail)}</span>}</button>)}</div>}</>}
   </section>;
 }
@@ -391,6 +393,7 @@ function AnswerCard({ctx, model, text, answer, trace, onAsk, icebergReady, onOpe
             {concluded && <p className="pf-conclusion"><span className="pf-eyebrow">{t('Conclusion')}</span>
               <strong>{currencyOf(answer) ? currencyOf(answer) + ' ' : ''}{fmtValue(answer.conclusion)}</strong></p>}
             {answer.summary && <p className="pf-prose">{summaryText(answer)}</p>}</div>}
+        {(answer.caveats || []).map(caveat => <p key={caveat} className="pf-muted" data-caveat>{serverText(caveat)}</p>)}
         {answer.status !== 'answered' && <Hints answer={answer} past={past} onAsk={onAsk} />}
         <Comparison value={answer.comparison} model={model} answer={answer} />
         {(answer.status === 'answered' || answer.facts?.length > 0 || answer.citations?.length > 0) && <div className="pf-two">
@@ -577,13 +580,15 @@ export default function Ask({ctx}) {
   async function ask(text, options) {
     if (!text || pending) return;
     const id = requestId(), history = historyOf(turns);
-    setQuestion(''); setPending({text, since: Date.now()}); setError(''); setLive([]);
+    // a clicked choice in Chinese: its translated label is the bubble; the reply says the English it asked
+    const shown = options?.label && window.V2I18n?.lang && window.V2I18n.lang !== 'en' ? serverText(options.label) : text;
+    setQuestion(''); setPending({text: shown, since: Date.now()}); setError(''); setLive([]);
     if (!current) setCurrent(requestId());
     stopPolling.current = pollProgress(ctx, id, setLive);
     try {
       const response = await fetch('/api/ask', withLang({method: 'POST', headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({dataset: ctx.dataset, text, context, requestId: id, ...(history.length ? {history} : {}),
-          ...(options?.hint ? {hint: true} : {})})}));
+          ...(options?.hint ? {hint: true} : {}), ...(options?.hint && options.definition ? {definition: options.definition} : {})})}));
       let reply = await response.json().catch(() => ({}));
       if (response.status === 404 && !reply.tool) {     // a server without the router: the answer route alone
         const result = await ctx.request('/api/answer', {method: 'POST', headers: {'Content-Type': 'application/json'},
@@ -592,7 +597,7 @@ export default function Ask({ctx}) {
       } else if (!response.ok && !reply.tool) throw new Error(reply.error || t('The question could not be sent.'));
       if (reply.tool === 'connections') { setPanel(true); connections.reload(); }
       if (reply.tool === 'write' && !response.ok) reply = {tool: 'write', result: {error: reply.result?.error || t('The write preview failed.')}, trace: reply.trace};
-      setTurns(previous => [...previous, {text, reply, id: Date.now(), at: new Date().toISOString()}]);
+      setTurns(previous => [...previous, {text: shown, reply, id: Date.now(), at: new Date().toISOString()}]);
     } catch (failure) { setError(failure.message); setQuestion(text); }
     stopPolling.current(); setLive(null);
     setPending(null);

@@ -6,7 +6,8 @@ import json
 import re
 from pathlib import Path
 
-from semantic_pipeline_v2 import ask_trace, connections, trino_target, ui_lang
+import semantic_pipeline_v2.answer_path as ap
+from semantic_pipeline_v2 import ask_actions, ask_router, ask_trace, connections, trino_target, ui_lang
 from semantic_pipeline_v2.ask_actions import HINT_LABEL, JOB_MESSAGES, NOT_CHOSEN, NOT_SUBMITTED, SPARK_DOWNLOAD
 from semantic_pipeline_v2.ask_router import WHY
 
@@ -22,8 +23,9 @@ def dictionary():
 
 
 def shape(text):
-    """A sentence with its interpolated parts as `{}`, so a key `{title} is not a recording` matches an f-string."""
-    return re.sub(r"\{\w+\}", "{}", text)
+    """A sentence with its interpolated parts as `{}`, so a key `{title} is not a recording` matches an f-string.
+    Adjacent parts count as one (`{known}{more}` is one value in the sent sentence)."""
+    return re.sub(r"(\{\})+", "{}", re.sub(r"\{\w*\}", "{}", text))
 
 
 def literal(node):
@@ -165,3 +167,62 @@ def test_i18n_files_are_served_and_loaded_before_the_pages():
     names = ["i18n.js"] + sorted(p.relative_to(DICT.parents[1]).as_posix() for p in DICT.parent.glob("*.js"))
     assert scripts[:len(names)] == names, scripts
     assert set(names) <= ASSETS
+
+
+# ---------------------------------------------------------------- clarifications (24 November 2026)
+# Every clarification reason, note and fixed hint label the answer and write paths can send has a Chinese entry, and a
+# sentence that starts with a value is matchable: its key must hold LEAD literal characters (the i18n.js rule).
+LEAD = 24
+
+
+def module_constants(name):
+    tree = ast.parse((PKG / name).read_text())
+    return {t.id: n.value.value for n in tree.body if isinstance(n, ast.Assign) and isinstance(n.value, ast.Constant)
+            and isinstance(n.value.value, str) for t in n.targets if isinstance(t, ast.Name)}
+
+
+def resolved(node, constants):
+    """Literal text of a hint value: a string, an f-string, a module constant, or a constant's `.format(...)`."""
+    if isinstance(node, ast.Name):
+        return [constants[node.id]] if node.id in constants else []
+    if isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute) and node.func.attr == "format":
+        return resolved(node.func.value, constants)
+    return literal(node)
+
+
+def clarification_texts():
+    out = []
+    for name in ("answer_path.py", "metric_sql.py"):
+        for node in ast.walk(ast.parse((PKG / name).read_text())):
+            if isinstance(node, ast.Call) and getattr(node.func, "id", None) == "ClarificationNeeded":
+                out += [s for k in node.keywords if k.arg == "message" for s in literal(k.value)]
+    constants = module_constants("answer_path.py")
+    out += [s for node in ast.walk(ast.parse((PKG / "answer_path.py").read_text())) if isinstance(node, ast.Call)
+            and getattr(node.func, "id", None) == "_refusal" and len(node.args) > 2 for s in resolved(node.args[2], constants)]
+    out.append("{value} is not a known value for {field}. Known values: {known}.")      # ClarificationNeeded's own text
+    for name in ("answer_path.py", "ask_actions.py"):
+        constants = module_constants(name)
+        out += [v for k, v in constants.items() if k.startswith("NOTE_")]
+        for node in ast.walk(ast.parse((PKG / name).read_text())):
+            if isinstance(node, ast.Dict):
+                out += [s for k, v in zip(node.keys, node.values) if isinstance(k, ast.Constant)
+                        and k.value in ("label", "detail", "hintNote", "reason") for s in resolved(v, constants)]
+            if isinstance(node, ast.Call) and getattr(node.func, "attr", None) == "append" and node.args \
+                    and getattr(node.func.value, "attr", None) in ("caveats",):
+                out += resolved(node.args[0], constants)
+    router = module_constants("ask_router.py")
+    out += [router[k] for k in ("CHOICES", "NAMED_TABLE")] + [ask_router.WITH_ROWS, ask_router.NO_ROWS]
+    # text made only of values ("{name} ({table})", "{word} {value}") holds nothing to translate
+    return sorted({s for s in out if re.search(r"[A-Za-z]{3}", re.sub(r"\{\w*\}", "", s))})
+
+
+def test_every_clarification_reason_note_and_hint_label_has_a_chinese_entry():
+    texts = clarification_texts()
+    assert len(texts) >= 60, len(texts)
+    for must in (ap.ONE_TOTAL, ap.NOTE_RANGE, ap.NOTE_EXAMPLES, ask_actions.ALL_FILES, ask_actions.ROWS_FOR, ap.NOT_PLANNED):
+        assert must in texts, must
+    by_shape = {shape(k): k for k in dictionary()}
+    missing = [t for t in texts if shape(t) not in by_shape]
+    assert not missing, "\n".join(missing)
+    short = [by_shape[shape(t)] for t in texts if t.startswith("{") and len(re.sub(r"\{\w*\}", "", by_shape[shape(t)]).strip()) < LEAD]
+    assert not short, short

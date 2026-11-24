@@ -175,6 +175,8 @@ class _Ctx:
         self.names = {}          # short definition id -> reviewed catalog names the question states (V2_ASK_CATALOG)
         self.matched = []        # the approved published concepts the question states
         self.offers = self.choice = None     # what a clarification's hints are built from
+        self.fixed = None        # the definition the person chose on a clarification (a clicked choice)
+        self.caveats = []        # conditions a chosen definition could not take, said on the card
 
     def column(self, table, column):
         d = self.fields.get((table.lower(), column.lower()))
@@ -1000,9 +1002,11 @@ def _link_value(ctx, field, stated):
         raise UnknownRecord(f"The data holds no record of {(owners or [table])[0]} whose {label} is {stated!r}, so no "
                             "recorded value can be given for it.")
     if len(match) != 1:
+        listed = ", ".join(sorted(known)[:10])
         raise ClarificationNeeded(column, stated, known, message=(
-            f"{stated!r} is {'not a known' if not match else 'more than one'} value of {label}. "
-            f"Known values include: {', '.join(sorted(known)[:10])}." if known else f"{label} holds no values to match {stated!r}."))
+            f"{label} holds no values to match {stated!r}." if not known else
+            f"{stated!r} is not a known value of {label}. Known values include: {listed}." if not match else
+            f"{stated!r} is more than one value of {label}. Known values include: {listed}."))
     value = match[0]
     if column in ctx.ek.keys.get(table, ()) or ctx.ek.single_key.get(table) == column:
         return {"table": table, "column": column, "value": value, "how": "stated", "text": f"{label} {value}"}, value
@@ -1057,7 +1061,8 @@ def _time_filters(metric, periods, label, field_override=None):
     if kind == "single_value":
         if len(periods) != 1 or len(days) != 1:
             raise ClarificationNeeded("date", "", set(), message=(
-                f"{label} needs one business date{', not a range' if periods else ''}. Give it as YYYY-MM-DD."))
+                f"{label} needs one business date, not a range. Give it as YYYY-MM-DD." if periods else
+                f"{label} needs one business date. Give it as YYYY-MM-DD."))
         return [Filter(field="BusinessDate", op="=", value=days[0]["from"])]
     if kind:
         if not periods or len(periods) > 2 or (len(periods) == 2 and len(days) != 2):
@@ -1331,6 +1336,11 @@ def _facts(ctx, plan, offers):
                 entity, value = _link_value(ctx, field, f["value"])
             except (ClarificationNeeded, UnknownRecord):    # a value of another field first; unknown only when none holds it
                 moved = _relocate(ctx, d, f["value"])
+                if moved is None and ctx.fixed is not None:
+                    # a chosen definition: a condition no value of the data matches is said on the card, not asked again
+                    ctx.caveats.append(NOTE_DROPPED.format(what=field.get("label") or _short(field["id"]), value=repr(str(f["value"]))))
+                    plan["filters"] = [x for x in plan["filters"] if x is not f]     # the loop reads the list it began with
+                    continue
                 if moved is None:
                     raise
                 field = moved
@@ -1381,9 +1391,10 @@ def _facts(ctx, plan, offers):
             return _facts(ctx, {**plan, "measure": field_form[0], "aggregate": field_form[1],
                                 "_uniform": [k for k in keep if k]}, offers)
         if missing:
+            needs = " and ".join(missing)
             raise ClarificationNeeded("required", ", ".join(missing), set(), message=(
-                f"{label} needs {' and '.join(missing)}, and the question does not give "
-                f"{'it' if len(missing) == 1 else 'them'}. Name {'it' if len(missing) == 1 else 'them'}."))
+                f"{label} needs {needs}, and the question does not give it. Name it." if len(missing) == 1 else
+                f"{label} needs {needs}, and the question does not give them. Name them."))
         h = _helios(d.get("source_metadata") or {})
         override = None
         if plan["time_field"]:
@@ -1422,10 +1433,10 @@ def _facts(ctx, plan, offers):
         if tcolumn and (ttable.lower() == table.lower() or _reaches(ctx, table, ttable)):
             _check_period(ctx, ttable, tcolumn, periods, label)
     if plan["aggregate"] == "value" and not filters:
-        named = any(t == table and k == ctx.ek.single_key.get(table) for t, k, _ in _name_columns(ctx))
+        kind = _record_kind(table) if _record_key(ctx, table) else None
         raise ClarificationNeeded("record", "", set(), message=(
-            f"{label} is recorded per row. " + (f"Name the {' '.join(_split_name(table.rsplit('_', 1)[-1]))} you mean."
-                                                 if named else "Name the record the question means (its identifier).")))
+            f"{label} is recorded per row. Name the {kind} you mean." if kind else
+            f"{label} is recorded per row. Name the record the question means (its identifier)."))
     if len(periods) > 1:
         raise ClarificationNeeded("date", "", set(), message=f"{label} takes one period as a filter.")
     period = (periods[0]["from"], periods[0]["to"]) if periods else None
@@ -2209,8 +2220,10 @@ NOTE_VALUES = "Values of {label} in the data: {values}."
 NOTE_RANGE = "Dates in the data run from {low} to {high}."
 NOTE_EXAMPLES = "Name one {thing}, for example: {examples}. The data holds {count} of them."
 NOTE_OTHER_DATES = "Other business dates: {values}; type one to use it."
+NOTE_DROPPED = "The data holds no {what} named {value}, so the answer is not limited to it."
 NOT_PLANNED = ("The question could not be planned as a query this time. Name what to measure and one condition, such as "
                "a date or a product.")
+NOT_PLANNED_CHOSEN = "The question could not be planned with {label} this time, so no answer is given."
 _MONTHS = ("January", "February", "March", "April", "May", "June", "July", "August", "September", "October",
            "November", "December")
 
@@ -2249,9 +2262,26 @@ def _ranked(ctx, table, column):
     return sorted(values, key=lambda v: (-counts.get(v, 0), v))
 
 
+def _record_key(ctx, table):
+    """The one column that identifies a record of `table`: its one-column key, else its one identifier key column."""
+    keys = ctx.ek.keys.get(table) or []
+    return ctx.ek.single_key.get(table) or (keys[0] if len(keys) == 1 else None)
+
+
+def _record_kind(table):
+    """What one record of `table` is called: "product" for Production_Product, "customer" for Customers."""
+    words = " ".join(_split_name(table.rsplit("_", 1)[-1]))
+    # ponytail: an English plural by its last letter; a table named like "Address" or "Status" keeps its "s"
+    return words[:-3] + "y" if words.endswith("ies") else words[:-1] if re.search(r"[^su]s$", words) else words
+
+
 def _examples(ctx, table, key, thing, phrase):
-    """(hints, note) for one record of `table` named by its name column: hints when the table is small, else a note."""
-    names = sorted(ctx.ek.values(table, next((c for t, k, c in _name_columns(ctx) if t == table and k == key), key)))
+    """(hints, note) for one record of `table` named by its name column: hints when the table is small, else a note.
+    Without a name column of its own, the names of a table that a declared relationship reaches by the same key; else
+    the identifiers themselves (masked for an account that may not read them, so that account gets no note)."""
+    named = [(t, c) for t, k, c in _name_columns(ctx) if k == key and (t == table or _reaches(ctx, table, t))]
+    source, column = next(((t, c) for t, c in named if t == table), named[0] if named else (table, key))
+    names = sorted(ctx.ek.values(source, column))
     if not names:
         return [], None
     if len(names) <= MAX_HINTS:
@@ -2259,17 +2289,45 @@ def _examples(ctx, table, key, thing, phrase):
     return [], NOTE_EXAMPLES.format(thing=thing, examples=_and(names[:3]), count=len(names))
 
 
-def _completed(ctx, slots):
+def _conditions(ctx, plan, skip=None):
+    """The plan's conditions as words: its periods ("on 5 November 2026", "in 2023"), its records and its "=" filters.
+    `skip`: a column (the grouping field) whose records and filters are left out."""
+    dates = (ctx.offers or {}).get("dates") or {}
+    parts = [f"{'on' if dates[t]['from'] == dates[t]['to'] else 'in'} {dates[t]['text']}" for t in plan.get("time") or () if t in dates]
+    parts += [f"for {e['text']}" if e["how"] == "named" else f"for {_record_kind(e['table'])} {e['value']}"
+              for e in (ctx.offers or {}).get("entities") or ()
+              if e["id"] in (plan.get("entities") or ()) and not e.get("ambiguous") and e["column"] != skip]
+    parts += [f"for {' '.join(_split_name(str(f['field']).rsplit('/', 1)[-1]))} {f['value']}"
+              for f in plan.get("filters") or () if isinstance(f, dict) and f.get("op", "=") == "=" and f.get("field")
+              and str(f["field"]).rsplit("/", 1)[-1] != skip]
+    return parts
+
+
+def _what(ctx, d):
+    name = _name(ctx, d)
+    return f"What {'were' if re.search(r'[^s]s$', name) else 'was'} the {name}"
+
+
+def _asked(ctx, d, plan):
+    """The question a clarification's hints complete, without its end mark. After a chosen definition it is built
+    fresh from the definition's name and the plan's conditions, so a choice never appends to an earlier choice's text."""
+    if ctx.fixed is None or d is None:
+        return ctx.question.strip().rstrip("?.! ")
+    return f"{_what(ctx, d)}{''.join(' ' + p for p in _conditions(ctx, plan))}"
+
+
+def _completed(ctx, slots, asked):
     """Questions completed with one value of each slot [(phrase, label)], at most MAX_HINTS."""
-    asked = ctx.question.strip().rstrip("?.! ")
     out = [[]]
     for slot in slots:
         out = [o + [s] for o in out for s in slot[:max(1, MAX_HINTS // len(out))]][:MAX_HINTS]
     return [{"label": " · ".join(lab for _, lab in combo), "text": f"{asked} {' '.join(p for p, _ in combo)}?"} for combo in out]
 
 
-def _required_hints(ctx, d, missing):
-    """Hints for the parameters a metric needs and the question does not give (the words `_required_missing` says)."""
+def _required_hints(ctx, d, missing, plan=None):
+    """Hints for the parameters a metric needs and the question does not give (the words `_required_missing` says).
+    Several notes are sent one per line, so the page can translate each one alone."""
+    asked = _asked(ctx, d, plan or {})
     h = _helios(d.get("source_metadata") or {})
     base = _metric_base(d, ctx.defs) if d["kind"] == "metric" else d["source_id"].split("/")[-2]
     slots, notes = [], []
@@ -2293,7 +2351,7 @@ def _required_hints(ctx, d, missing):
             column = next(c for c in h["required_filters"] if " ".join(_split_name(c)) == word)
             values = _ranked(ctx, base, column)
             if not values:
-                return {"hintNote": " ".join(notes)} if notes else {}
+                return {"hintNote": "\n".join(notes)} if notes else {}
             notes.append(NOTE_VALUES.format(label=word, values=_and(values)))
             slots.append([(f"for {word} {v}", v) for v in values])
         else:          # a record the metric is scoped to (a product): its table by the key column
@@ -2301,7 +2359,7 @@ def _required_hints(ctx, d, missing):
             owner = next((t for t, k in ctx.ek.single_key.items() if k == column), None) if column else None
             if owner is None:
                 return {}
-            found, note = _examples(ctx, owner, column, word, lambda n, w=word: f"{ctx.question.strip().rstrip('?.! ')} for {n}?")
+            found, note = _examples(ctx, owner, column, word, lambda n: f"{asked} for {n}?")
             if note:
                 notes.append(note)
             slots.append([(f"for {f['label']}", f["label"]) for f in found] if found else None)
@@ -2309,37 +2367,36 @@ def _required_hints(ctx, d, missing):
         # the latest date with every value of the other slot (the main currency stays clickable); other dates are named
         notes.append(NOTE_OTHER_DATES.format(values=_and(lab for _, lab in slots[0][1:])))
         slots[0] = slots[0][:1]
-    out = {"hintNote": " ".join(notes)} if notes else {}
+    out = {"hintNote": "\n".join(notes)} if notes else {}
     if slots and all(slots):
-        out.update(hints=_completed(ctx, slots), hintKind="question")
+        out.update(hints=_completed(ctx, slots, asked), hintKind="question")
     return out
 
 
 def _record_hints(ctx, d, plan):
     """An attribute recorded per row: the records of its table by name (a note with examples for a large table)."""
     table = d["source_id"].split("/")[-2]
-    key = ctx.ek.single_key.get(table)
+    key = _record_key(ctx, table)
     if not key:
         return {}
-    asked = ctx.question.strip().rstrip("?.! ")
-    found, note = _examples(ctx, table, key, " ".join(_split_name(table.rsplit("_", 1)[-1])), lambda n: f"{asked} of {n}?")
+    asked = _asked(ctx, d, plan)
+    found, note = _examples(ctx, table, key, _record_kind(table), lambda n: f"{asked} of {n}?")
     return {"hints": found, "hintKind": "choice"} if found else {"hintNote": note} if note else {}
 
 
 def _group_hints(ctx, d, plan):
     """A value per group: the same question as one total, and as that total for each value of a short group."""
-    parts = [f"for {ctx.offers['dates'][t]['text']}" for t in plan.get("time") or () if ctx.offers and t in ctx.offers["dates"]]
-    parts += [f"for {' '.join(_split_name(str(f['field']).rsplit('/', 1)[-1]))} {f['value']}"
-              for f in plan.get("filters") or () if isinstance(f, dict) and f.get("op", "=") == "=" and f.get("field")]
-    total = f"What was the {_name(ctx, d)}{''.join(' ' + p for p in parts)}?"
-    hints, note = [{"label": ONE_TOTAL, "text": total}], None
     group = ctx.by_short.get(plan.get("group_by") or "")
+    table, column = group["source_id"].split("/")[-2:] if group else (None, None)
+    # the one total keeps every condition except the grouping field (a filter per group value would select nothing)
+    total = f"{_what(ctx, d)}{''.join(' ' + p for p in _conditions(ctx, plan, skip=column))}?"
+    hints, note = [{"label": ONE_TOTAL, "text": total}], None
     if group:
-        table, column = group["source_id"].split("/")[-2:]
         word = " ".join(_split_name(column))
         values = _ranked(ctx, table, column)
         if values:
-            hints += [{"label": f"{word} {v}", "text": f"{total[:-1]} for {word} {v}?"} for v in values[:MAX_HINTS - 1]]
+            hints += [{"label": f"{group.get('label') or word} {v}", "text": f"{total[:-1]} for {word} {v}?"}
+                      for v in values[:MAX_HINTS - 1]]
         elif values is None:
             some = sorted(ctx.ek.values(table, column))
             note = NOTE_EXAMPLES.format(thing=word, examples=_and(some[:3]), count=len(some))
@@ -2382,7 +2439,7 @@ def _definition_hints(ctx, m):
             label = said = name
         meaning = " ".join(str(d.get("definition") or d.get("description") or _short(d["id"])).split())
         hints.append({"label": label, "detail": meaning if len(meaning) <= 90 else meaning[:89] + "…",
-                      "text": re.sub(span, said, ctx.question, count=1, flags=re.I)})
+                      "text": re.sub(span, said, ctx.question, count=1, flags=re.I), "definition": d["id"]})
     return {"hints": hints, "hintKind": "choice"} if hints else {}
 
 
@@ -2396,13 +2453,17 @@ def _tried_hints(ctx, tried, asked):
             continue
         name = _name(ctx, d)
         meaning = " ".join(str(d.get("definition") or _short(d["id"])).split())
-        hints.append({"label": name, "detail": meaning if len(meaning) <= 90 else meaning[:89] + "…", "text": f"{asked} Use {name}."})
+        # built fresh from the definition (the words that failed planning are not sent again); the click fixes it
+        hints.append({"label": name, "detail": meaning if len(meaning) <= 90 else meaning[:89] + "…", "text": f"{_what(ctx, d)}?",
+                      "definition": d["id"]})
     return {"hints": hints, "hintKind": "choice"} if hints else {}
 
 
 def _hints(ctx, cause, plan):
     """{hints, hintKind, hintNote} for a clarification; {} when the semantic layer offers no real choice."""
-    asked = ctx.question.strip()
+    d = ctx.by_short.get(plan.get("measure")) if isinstance(plan.get("measure"), str) else None
+    fixed = getattr(ctx, "fixed", None)      # a test's stand-in context may hold only the question
+    asked = ctx.question.strip() if fixed is None else _asked(ctx, d or fixed, plan)
     asked = asked if asked[-1:] in ".?!" else asked + "?"
     if cause == "figures":
         return {"hints": [{"label": RECORDED, "text": f"{asked} Give the recorded figure."},
@@ -2411,11 +2472,13 @@ def _hints(ctx, cause, plan):
         return _definition_hints(ctx, cause[1])
     if isinstance(cause, tuple) and cause[0] == "tried":
         return _tried_hints(ctx, cause[1], asked)
+    if cause == "chosen":       # a chosen definition that still could not be planned: its required slots, never itself
+        missing = _required_missing(fixed, {"time": []}, []) if fixed["kind"] == "metric" else []
+        return _required_hints(ctx, fixed, missing, {}) if missing else {}
     if not isinstance(cause, ClarificationNeeded) or isinstance(cause, SourceWithheld):
         return {}
-    d = ctx.by_short.get(plan.get("measure")) if isinstance(plan.get("measure"), str) else None
     if cause.field == "required" and d is not None:
-        return _required_hints(ctx, d, str(cause.value).split(", "))
+        return _required_hints(ctx, d, str(cause.value).split(", "), plan)
     if cause.field == "record" and d is not None and d["kind"] == "field":
         return _record_hints(ctx, d, plan)
     if cause.field == "dimension" and d is not None:
@@ -2431,7 +2494,7 @@ def _hints(ctx, cause, plan):
 
 
 def answer(question, workspace, principal, *, database=None, chunks=None, links=None, entity_keys=None, chat=None,
-           embedder=None, catalog=None):
+           embedder=None, catalog=None, definition=None):
     """The structured answer. `workspace` is the principal's projection; `links` is a callable that returns the
     stored, corrected Output A links the principal may read. `catalog` is `published_catalog(...)` (already scoped to
     the principal); it is used only when V2_ASK_CATALOG is "published". The reply carries `semantics` (contract C1)."""
@@ -2439,6 +2502,9 @@ def answer(question, workspace, principal, *, database=None, chunks=None, links=
     mode = catalog_mode()
     ctx = _Ctx(question, workspace, principal, database, chunks, links, entity_keys, chat, embedder,
                catalog if mode == "published" else None)
+    # `definition`: the id a clicked choice carries (from the browser). Only a measure the planner may choose itself
+    # (`by_short`) is fixed, so it grants nothing a plan could not; any other id is ignored. Source gates apply as before.
+    ctx.fixed = ctx.by_short.get(_short(definition)) if isinstance(definition, str) else None
     reply = _answer(ctx, question, workspace, principal, chat)
     cause = reply.pop("_cause", None)
     if reply["status"] == "clarify" or cause is not None:
@@ -2446,6 +2512,11 @@ def answer(question, workspace, principal, *, database=None, chunks=None, links=
             reply.update(_hints(ctx, cause, reply.get("plan") or {}))
         except Exception:      # hints help; a failure to build them never costs the clarification
             pass
+    if ctx.fixed is not None:  # the next choice keeps the chosen definition (a choice of another one names its own)
+        for hint in reply.get("hints") or ():
+            hint.setdefault("definition", ctx.fixed["id"])
+    if ctx.caveats:
+        reply["caveats"] = list(dict.fromkeys(ctx.caveats))
     reply["semantics"] = _semantics(ctx, mode, ctx.catalog, reply)
     return reply
 
@@ -2475,6 +2546,11 @@ def _answer(ctx, question, workspace, principal, chat):
                 tried.append((json.loads(raw) if isinstance(raw, str) else raw)["measure"])
             except Exception:
                 pass
+            if ctx.fixed is not None:      # the person chose this definition: the plan measures it, whatever the model tried
+                try:
+                    raw = json.dumps({**(json.loads(raw) if isinstance(raw, str) else raw), "measure": _short(ctx.fixed["id"])})
+                except (ValueError, TypeError):
+                    pass                   # not a JSON object: validate_plan sends it back as it would any other
             checked = validate_plan(raw, ctx, offers)
             advice = _lint(ctx, checked, offers) if not advised else None
             if advice:         # asked once; a plan that keeps the choice is used as it is
@@ -2493,6 +2569,9 @@ def _answer(ctx, question, workspace, principal, chat):
     except PlanError as error:   # two invalid plans: this says nothing about the data
         # the technical text goes to the trace and to `plannerError` (a reviewer's field the card does not show)
         _note(error=f"The model's plan was invalid twice ({error})")
+        if ctx.fixed is not None:
+            return _refusal(ctx, "refused", NOT_PLANNED_CHOSEN.format(label=_name(ctx, ctx.fixed)), refusalReason="not planned",
+                            entities=shown, plannerError=str(error), _cause="chosen")
         return _refusal(ctx, "refused", NOT_PLANNED, refusalReason="not planned", entities=shown, plannerError=str(error),
                         _cause=("tried", tried))
     asked = _SENTENCE.split(question.strip())[-1]     # the sentence that asks; earlier ones set the context
@@ -2534,9 +2613,11 @@ def _answer(ctx, question, workspace, principal, chat):
     # stage 4-5: bind and compute
     _mark("query")
     if measure is not None:
-        unresolved = [p for p in plan["parties"] if _qwords(p) and not any(
+        unresolved = [p for p in dict.fromkeys(plan["parties"]) if _qwords(p) and not any(
             set(_qwords(p)) <= set(_qwords(e["text"])) or set(_qwords(e["text"])) <= set(_qwords(p)) for e in offers["entities"])]
-        if unresolved and not plan["entities"]:
+        if unresolved and not plan["entities"] and ctx.fixed is not None:
+            ctx.caveats += [NOTE_DROPPED.format(what="record", value=repr(p)) for p in unresolved]
+        elif unresolved and not plan["entities"]:
             return _refusal(ctx, "refused", f"The data holds no record identified as {', '.join(repr(p) for p in unresolved)}, "
                             "so no recorded value can be given for it.", refusalReason="unknown party", entities=shown, plan=plan)
         if offers["unresolved"] and not plan["time"] and _dated(ctx, measure):

@@ -1124,8 +1124,9 @@ def _connections(req, principal, store, target, action, body):
 
 
 def _ask(req, principal, writer, store, body):
-    if (not isinstance(body, dict) or not {"dataset", "text"} <= set(body) <= {"dataset", "text", "context", "requestId", "history", "hint"}
+    if (not isinstance(body, dict) or not {"dataset", "text"} <= set(body) <= {"dataset", "text", "context", "requestId", "history", "hint", "definition"}
             or not isinstance(body["dataset"], str) or not isinstance(body["text"], str) or len(body["text"]) > 2000
+            or not isinstance(body.get("definition") or "", str) or len(body.get("definition") or "") > 300
             or not isinstance(body.get("context") or {}, dict) or not isinstance(body.get("history") or [], list)):
         raise _Refusal(400, "Require a dataset and a text of up to 2,000 characters")
     dataset = body["dataset"]
@@ -1151,6 +1152,11 @@ def _ask(req, principal, writer, store, body):
         req.send_json(200, {"tool": "answer", "result": result, "trace": mask_extracted(ask_trace.answer_steps(trace, result))})
         return
     shown = {"question": body["text"], "questionEnglish": english} if english else {}
+    if body.get("hint") is True and ui_lang.current() == ui_lang.ZH:
+        # a clicked choice shows its Chinese label as the question; the English it sent is what was asked
+        shown = {"question": body["text"], "questionEnglish": body["text"]}
+    # the definition a clicked choice carries (plan fixed to it); a typed question never fixes one
+    chosen_definition = body.get("definition") if body.get("hint") is True else None
     if standalone:
         shown = {**shown, "question": body["text"], "questionStandalone": standalone}
     if chat is not None:       # the declared tables, for a model-routed action only (the rules never need them)
@@ -1202,7 +1208,7 @@ def _ask(req, principal, writer, store, body):
             # a clarification names what the semantic layer finds for the request's words, else every readable file
             found = _candidates(req, principal, raw, args["question"], forms) if "clarify" in args else None
             asked = clarification(found) if found else args.get("clarify")
-            result = _answer(req, principal, writer, dataset, args["question"]) if "clarify" not in args \
+            result = _answer(req, principal, writer, dataset, args["question"], chosen_definition) if "clarify" not in args \
                 else {"status": "clarify", "reason": asked, "summary": asked, "question": args["question"],
                       "dataset": dataset, "definitions": [], "facts": [], "citations": [], "conclusion": None,
                       "entities": [], "notes": [],         # the answer path's clarification shape: an action to name
@@ -1269,7 +1275,7 @@ def _follow_up(chat, text, history, routing):
     return english, (None if found == (english or text) else found), None
 
 
-def _answer(req, principal, writer, dataset, question):
+def _answer(req, principal, writer, dataset, question, definition=None):
     """The `/api/answer` logic for one question; each fact handle remembers the question for a later write."""
     from . import answer_path                      # looked up at call time, so the route and its tests share one name
     from .workspace_server import entity_keys_of
@@ -1284,7 +1290,7 @@ def _answer(req, principal, writer, dataset, question):
         reply = answer_path.answer(question, workspace, principal, database=server.review_store, chunks=server.chunk_index,
                        links=(lambda: req.visible_links(workspace, principal)) if server.evidence_links is not None else None,
                        entity_keys=entity_keys_of(server, workspace), chat=getattr(server.interpreter, "chat", None),
-                       embedder=server.chunk_embedder,
+                       embedder=server.chunk_embedder, definition=definition,
                        # C1/D3, as in `/api/answer`: approved concepts of the latest release, scoped to this reader
                        catalog=answer_path.published_catalog(getattr(server, "releases", None), workspace["id"],
                                                              lambda source: chunk_visible(workspace, principal, source)))

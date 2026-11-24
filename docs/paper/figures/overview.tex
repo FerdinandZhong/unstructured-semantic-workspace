@@ -15,11 +15,11 @@
 \fill[pa,rounded corners=5pt] (0,4.75) rectangle (11.7,9.25);
 \draw[pad!50,rounded corners=5pt] (0,4.75) rectangle (11.7,9.25);
 \node[anchor=west,font=\sffamily\footnotesize\bfseries] at (0.2,8.95) {a. Build time: from sources to a published vocabulary};
-\fill[pb,rounded corners=5pt] (0,0) rectangle (11.7,4.35);
-\draw[pbd!50,rounded corners=5pt] (0,0) rectangle (11.7,4.35);
+\fill[pb,rounded corners=5pt] (0,-0.9) rectangle (11.7,4.35);
+\draw[pbd!50,rounded corners=5pt] (0,-0.9) rectangle (11.7,4.35);
 \node[anchor=west,font=\sffamily\footnotesize\bfseries] at (0.2,4.05) {b. Question time: the harness};
-\fill[pc,rounded corners=5pt] (12.1,0) rectangle (16.0,9.25);
-\draw[pcd!50,rounded corners=5pt] (12.1,0) rectangle (16.0,9.25);
+\fill[pc,rounded corners=5pt] (12.1,-0.9) rectangle (16.0,9.25);
+\draw[pcd!50,rounded corners=5pt] (12.1,-0.9) rectangle (16.0,9.25);
 \node[anchor=west,font=\sffamily\footnotesize\bfseries] at (12.25,8.95) {One question};
 % a: row 1
 \node[box] (src) at (1.45,7.85) {\textbf{Sources}\\letters, forms, calls};
@@ -38,18 +38,29 @@
 \draw[arr] (giv)--(pB);
 \node[font=\sffamily\tiny,text=black!65,anchor=south west] at (6.9,6.5) {links become evidence for concepts};
 % a -> b
-\draw[arr,dashed] (pub.south) -- (9.95,4.35);
 \node[font=\sffamily\tiny,text=black!65,anchor=west] at (10.0,4.55) {approved only};
 \draw[arr,dashed] (2.6,4.75) -- (2.6,4.35);
 \node[font=\sffamily\tiny,text=black!65,anchor=west] at (2.65,4.55) {tables, passages, links};
 % b
-\node[box=pbd,text width=1.55cm] (rt) at (1.2,2.25) {\textbf{Router}\\rules first};
-\node[tool] (t1) at (3.75,2.75) {\textbf{Answer}};
-\node[tool] (t2) at (3.75,1.75) {\textbf{Explain a term}};
+\node[box=humd,fill=hum,text width=1.6cm] (req) at (1.05,3.0) {\textbf{Request}\\and its last turns};
+\node[box=pbd,text width=1.7cm] (rw) at (3.15,3.0) {\textbf{Follow-up}\\rewrite, checked};
+\node[box=pbd,text width=1.7cm] (rt) at (5.25,3.0) {\textbf{Router}\\rules first, checked fallback};
+\node[tool,text width=1.45cm] (t1) at (7.4,3.45) {\textbf{Answer}};
+\node[tool,text width=1.45cm] (t2) at (7.4,2.45) {\textbf{Explain a term}};
+\node[box=pbd,text width=2.25cm] (ap) at (9.95,3.0) {\textbf{Answer path}\\gate, offer, plan, bind, SQL facts, evidence, decide};
+\node[box=pbd,text width=2.25cm] (cl) at (9.95,0.75) {\textbf{Clarify}\\choices from the semantic layer, built by code};
+\draw[arr] (req)--(rw); \draw[arr] (rw)--(rt);
 \foreach \t in {t1,t2} \draw[arr] (rt.east) -- (\t.west);
-\node[note,anchor=west,text width=6.3cm] at (5.0,2.75) {plan $\to$ bind $\to$ SQL facts, passages $\to$ read $\to$ decide by code};
-\node[note,anchor=west,text width=6.3cm] at (5.0,1.75) {concept, definition and passages (Output B)};
-\node[font=\sffamily\tiny,text=black!70,anchor=west] at (0.2,0.5) {The access policy is checked on every request. A withheld source is never read, cited or summarised.};
+\draw[arr] (t1.east)--(ap.west|-t1.east);
+\draw[arr] (ap)--(cl);
+\draw[arr,dashed] (pub.south) -- (ap.north);
+\draw[arr] (cl.west) -- (1.05,0.75) -- (req.south);
+\node[font=\sffamily\tiny,text=black!65,anchor=south] at (4.9,0.78) {a click on a choice, or typed text, is the next turn};
+\node[font=\sffamily\tiny,text=black!65,anchor=west] at (10.0,1.83) {ambiguous};
+\node[font=\sffamily\tiny,text=black!65,align=center,text width=1.95cm] at (3.15,1.75) {one model call, only when the text may lean on earlier turns};
+\node[font=\sffamily\tiny,text=black!65,align=center,text width=1.95cm] at (5.25,1.75) {one model call, only for an incomplete request to act};
+\node[font=\sffamily\tiny,text=black!65,align=center,text width=1.9cm] at (7.4,1.68) {concepts, definitions and passages};
+\node[font=\sffamily\tiny,text=black!70,anchor=west,align=left] at (0.2,-0.45) {The access policy is checked on every request. A withheld source is never read, cited or summarised,\\and a value the account may not read is never offered as a choice.};
 % right column
 \node[box=pcd,text width=3.2cm] (q) at (14.05,7.85) {\textbf{Question}\\``What minimum credit turnover must the customer now keep?''};
 \node[box=pbd,fill=pb,text width=3.2cm,minimum height=0.6cm] (h) at (14.05,6.35) {\textbf{Harness} (b)};

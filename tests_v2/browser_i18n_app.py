@@ -105,7 +105,7 @@ class Checker:
 
     def load_data(self):
         found = self.page.evaluate(DATA_STRINGS)
-        self.data = sorted({s for s in [*found, *MOCK_DATA, *SERVER_GAPS] if len(s) >= 3}, key=len, reverse=True)
+        self.data = sorted({s for s in [*found, *MOCK_DATA, *SERVER_GAPS, *ZH_DATA] if len(s) >= 3}, key=len, reverse=True)
 
     def snap(self, label):
         texts = self.page.evaluate(COLLECT)
@@ -130,6 +130,28 @@ class Checker:
 
 def reply_with(question, **extra):
     return A.reply(question, **extra)
+
+
+# A clarification as the manufacturing data source sends it (24 November 2026): a reason that starts with a value, two
+# notes (one per line), question hints that carry the chosen definition, and a choice card with details.
+SOLD = "manufacturing:definition:demo/metric/sales_ordered_units"
+ZH_CLARIFY = {
+    "Q9 period": reply_with("Q9 period", status="clarify", reason="Sales ordered units needs period, and the question does not give it. Name it.",
+                            hintKind="question", hintNote="Dates in the data run from 30 May 2022 to 29 June 2025.\nName one product, for example: "
+                            "AWC Logo Cap, Adjustable Race and All-Purpose Bike Stand. The data holds 504 of them.",
+                            caveats=["The data holds no Product name named 'bike', so the answer is not limited to it."],
+                            hints=[{"label": y, "text": f"What were the Sales ordered units in {y}?", "definition": SOLD} for y in ("2025", "2024")]),
+    "Q10 choice": reply_with("Q10 choice", status="clarify", reason="2 records of Sales_Store are named 'Friendly Bike Shop'. Give the "
+                             "BusinessEntityID of the one you mean.", hintKind="choice",
+                             hints=[{"label": "All of these (2 files)", "text": "Write a.pdf and b.pdf to the STR_Transaction table"},
+                                    {"label": "a.pdf", "detail": "Rows for STR_Transaction", "text": "Write a.pdf to the STR_Transaction table"},
+                                    {"label": "The recorded figure", "text": "What was the limit? Give the recorded figure."},
+                                    {"label": "One total, not per group", "text": "What was the value?"}])}
+ZH_DATA = ["Sales ordered units", "30 May 2022", "29 June 2025", "AWC Logo Cap", "Adjustable Race", "All-Purpose Bike Stand", "product",
+           "Product name", "Sales_Store", "Friendly Bike Shop", "BusinessEntityID", "a.pdf", "STR_Transaction",
+           "What were the Sales ordered units in 2025?"]          # the English a clicked choice sent: shown as asked
+CARD_TEXT = """card => [...card.querySelectorAll('[data-refusal], [data-caveat], [data-hint-note], [data-hints] h3, [data-hint-button]')]
+  .map(el => el.innerText.replace(/\\s+/g, ' ').trim())"""
 
 
 def run(base):
@@ -175,6 +197,12 @@ def run(base):
         if text == "Q8 refused":
             return route.fulfill(json={"tool": "answer", "result": reply_with(text, status="refused", reason="The question could not be planned.",
                                                                               refusalReason="not planned"), "trace": A.REFUSED})
+        if body.get("hint"):         # a clicked choice: the server reads the English it sent and says so (Chinese mode)
+            state.setdefault("clicked", []).append(body)
+            result = {**A.Q["Q1 date"], "question": text, "questionEnglish": text}
+            return route.fulfill(json={"tool": "answer", "result": result, "trace": A.TRACE, "question": text, "questionEnglish": text})
+        if text in ZH_CLARIFY:
+            return route.fulfill(json={"tool": "answer", "result": ZH_CLARIFY[text], "trace": A.TRACE})
         if text == "Q5 clarify":
             return route.fulfill(json={"tool": "answer", "result": A.Q[text], "trace": A.TRACE})
         route.fulfill(json={"tool": "answer", "result": A.Q.get(text, A.Q["Q1 date"]), "trace": A.TRACE})
@@ -296,6 +324,27 @@ def run(base):
             if question == "Q8 refused":
                 card.locator("[data-steps] .pf-linkish").first.click()
             check.snap("ask " + question)
+
+        # clarifications in Chinese: no fixed English on the card (reason, caveat, notes, heading, labels, details)
+        for question in ZH_CLARIFY:
+            card = ask(question)
+            shown = page.evaluate(f"({CARD_TEXT})(document.querySelectorAll('[data-answer]')[document.querySelectorAll('[data-answer]').length - 1])")
+            assert len(shown) >= 4, shown
+            left = []
+            for text in shown:
+                rest = text
+                for item in sorted(ZH_DATA, key=len, reverse=True):
+                    rest = rest.replace(item, " ")
+                left += RUN.findall(rest)
+            assert not left, (question, left, shown)
+            check.snap("ask " + question)
+        # a click on a choice: the new turn shows the choice's label and what was asked, as "理解为"
+        card = page.locator("[data-answer]", has=page.locator("h2", has_text="Q9 period"))
+        card.locator("[data-hint-button]").first.click()
+        turn = page.locator("[data-answer]").last
+        expect(turn.locator("h2")).to_have_text("2025", timeout=20000)
+        expect(turn.locator("[data-understood]")).to_have_text("理解为：What were the Sales ordered units in 2025?")
+        assert state["clicked"][-1]["definition"] == SOLD and state["clicked"][-1]["hint"] is True, state["clicked"]
 
         # the term tool, connections, the write card
         ask("what does turnover mean")

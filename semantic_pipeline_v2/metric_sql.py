@@ -417,7 +417,8 @@ def _period_filters(text: str, helios: dict, label: str, metric_defs: list) -> l
         if required == "single_value":
             if len(periods) != 1 or len(days) != 1:
                 raise ClarificationNeeded("date", "", set(), message=(
-                    f"{label} takes one date{', not a range or a year' if periods else ''}. Give it as YYYY-MM-DD."))
+                    f"{label} takes one date, not a range or a year. Give it as YYYY-MM-DD." if periods else
+                    f"{label} takes one date. Give it as YYYY-MM-DD."))
             return [Filter(field="BusinessDate", op="=", value=days[0]["from"])]
         ends = sorted({p["from"] for p in periods} | {p["to"] for p in periods})
         if not periods or len(periods) > 2 or (len(periods) == 2 and len(days) != 2):
@@ -445,10 +446,13 @@ def _refuse_breakdown(text: str, dimensions=(), allowed=()) -> None:
     if not cue and not dimensions:
         return
     asked = ", ".join(dimensions) if dimensions else repr(cue.group(0).strip())
-    hint = f" This metric can be grouped by {', '.join(sorted(allowed))} in the model." if allowed else ""
+    groups = ", ".join(sorted(allowed))
     raise ClarificationNeeded("dimension", asked, set(), message=(
-        f"The question asks for a breakdown ({asked}). This compiler answers one total per question "
-        f"and does not group, so I did not answer.{hint} Ask for the total, or filter to one value."))
+        f"The question asks for a breakdown ({asked}). This compiler answers one total per question and does not "
+        f"group, so I did not answer. This metric can be grouped by {groups} in the model. Ask for the total, or "
+        "filter to one value." if allowed else
+        f"The question asks for a breakdown ({asked}). This compiler answers one total per question and does not "
+        "group, so I did not answer. Ask for the total, or filter to one value."))
 
 
 def _stem(word: str) -> str:

@@ -23,7 +23,10 @@ The switch in the top bar stores the choice and reloads the page. The server kee
   Prefer plural-free wording for new text, for example `Rows: {n}`.
 - Server text is keyed by the code or sentence the server sends. Exact keys match first. A key with `{name}` is
   also a pattern when it starts with literal text and holds at least 8 literal characters; it matches a sentence with
-  any text in each placeholder. A sentence that starts with a value (`{n} rows failed ...`) stays English.
+  any text in each placeholder. A key that starts with a value (`{label} needs period, ...`) is a pattern only with at
+  least 24 literal characters, so `{count} rows` never is. The key with the most literal text is tried first.
+  A placeholder never matches empty text: send optional words as two whole sentences, not as an empty value.
+  The server sends several notes as one text with one note per line; the page translates each line.
 - Model-written text and questions: every `callLocal` request (and the React `/api/ask` and write preview calls) carries
   `X-V2-Lang: zh-CN` in Chinese (`V2I18n.withLang(options)`); English sends no header. The server then asks for the
   answer summary and the grouping hint in Chinese and rewrites a Chinese question to English (`semantic_pipeline_v2/ui_lang.py`).

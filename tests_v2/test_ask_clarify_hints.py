@@ -32,7 +32,7 @@ def shape_ok(result, kind):
     assert result["status"] == "clarify", result.get("reason")
     assert 0 < len(result["hints"]) <= ap.MAX_HINTS and result["hintKind"] == kind
     for hint in result["hints"]:
-        assert set(hint) <= {"label", "text", "detail"} and hint["label"] and hint["text"]
+        assert set(hint) <= {"label", "text", "detail", "definition"} and hint["label"] and hint["text"]
 
 
 # ---------------------------------------------------------------- a required slot with a short set of values
@@ -145,7 +145,7 @@ def test_a_value_per_group_offers_one_total_and_the_values_of_a_short_group(answ
     shape_ok(result, "question")
     total = result["hints"][0]
     assert total["label"] == ap.ONE_TOTAL
-    assert total["text"] == "What was the CASA transaction value for 5 November 2026 for currency SGD?"
+    assert total["text"] == "What was the CASA transaction value on 5 November 2026 for currency SGD?"
     assert all(h["text"].startswith(total["text"][:-1] + " for channel ") for h in result["hints"][1:])
     assert len(result["hints"]) >= 2
     again = run(answer_pg, FIN, total["text"], Script([plan(measure=CASA, time=["D1"],

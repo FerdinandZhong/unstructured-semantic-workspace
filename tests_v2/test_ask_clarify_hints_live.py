@@ -94,7 +94,8 @@ def test_a_plan_invalid_twice_shows_a_plain_reason_and_the_measure_tried_as_a_ch
     assert result["reason"] == ap.NOT_PLANNED and "filters[0]" in result["plannerError"]       # shown: the plain reason only
     assert result["hintKind"] == "choice"
     assert result["hints"] == [{"label": "Active accounts", "detail": result["hints"][0]["detail"],
-                                "text": f"{asked} Use Active accounts."}]
+                                "text": "What were the Active accounts?", "definition": result["hints"][0]["definition"]}]
+    assert result["hints"][0]["definition"].endswith("metric/active_accounts")       # the choice carries its definition
 
 
 def test_the_technical_planner_text_stays_in_the_trace(served):  # noqa: F811

@@ -25,10 +25,14 @@ const V2I18n = (() => {
     const exact = entry(text);
     if (exact) return exact;
     if (!patterns) {
-      // A key is a pattern only when it starts with literal text and holds at least 8 literal characters: a short key
-      // such as "{count} rows" or "{label} by {axis}" would otherwise rewrite any sentence that ends the same way.
-      const pattern = key => /\{\w+\}/.test(key) && !key.startsWith('{') && key.replace(/\{\w+\}/g, '').trim().length >= 8;
-      patterns = Object.entries(dicts[lang] || {}).filter(([key]) => pattern(key)).map(([key, value]) => {
+      // A key is a pattern only when it holds enough literal text: at least 8 characters when it starts with literal
+      // text, at least 24 when it starts with a value ("{label} needs period, and the question does not give it.").
+      // A short key such as "{count} rows" or "{label} by {axis}" would otherwise rewrite any sentence that ends the
+      // same way; a pattern is anchored at both ends, so 24 fixed characters must all appear, in order, to the end.
+      // The pattern with the most literal text is tried first, so a specific key wins over a general one.
+      const literal = key => key.replace(/\{\w+\}/g, '').trim().length;
+      const pattern = key => /\{\w+\}/.test(key) && literal(key) >= (key.startsWith('{') ? 24 : 8);
+      patterns = Object.entries(dicts[lang] || {}).filter(([key]) => pattern(key)).sort(([a], [b]) => literal(b) - literal(a)).map(([key, value]) => {
         const names = [];
         const source = key.split(/(\{\w+\})/).map(part => /^\{\w+\}$/.test(part)
           ? (names.push(part.slice(1, -1)), '(.+?)') : part.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('');
@@ -37,7 +41,9 @@ const V2I18n = (() => {
     }
     for (const [regex, names, value] of patterns) {
       const match = regex.exec(text);
-      if (match) return fill(value, Object.fromEntries(names.map((name, i) => [name, match[i + 1]])));
+      // a value that is a whole sentence (a reason quoted inside a reason) is looked up too; it is shorter, so this ends
+      const part = found => / /.test(found) && /[.?!]$/.test(found) ? server(found) : found;
+      if (match) return fill(value, Object.fromEntries(names.map((name, i) => [name, part(match[i + 1])])));
     }
     return text;
   }
