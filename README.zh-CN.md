@@ -127,7 +127,7 @@ AMP 创建两个作业和一个应用。它尚未在真实的 Cloudera AI 工作
 启动脚本把 `V2_ALLOWED_HOSTS` 设置为 `semantic-workspace.<CDSW_DOMAIN>`，使服务器接受应用代理的主机。
 如果公共主机不同，请自行设置。
 演示账户是模拟的，没有密码。请让应用只对项目私有。
-文件夹、调优变量和未经测试的内容见 `docs/zh/deployment.md`。
+文件夹、调优变量和未经测试的内容见 `docs/deployment.zh.md`。
 
 ## 在本地运行
 
@@ -171,7 +171,7 @@ STATE="$HOME/.semantic-workspace-state"
 
 公开文件的范围是 `extraction_only`。它们从不被归纳为概念，也从不与实体关联。
 用于构建写表功能的清理后的客户表单和通话录音不在本仓库中。
-见 `docs/zh/data.md`。
+见 `docs/data.zh.md`。
 
 ## 限制
 

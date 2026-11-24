@@ -50,16 +50,42 @@ plugins:
       lang:
         - en
         - zh
-
-extra:
-  # Language selector. English sits at the site root, Chinese under /zh/. It links to each home page.
-  alternate:
-    - name: English
-      link: ./
-      lang: en
-    - name: 简体中文
-      link: zh/
-      lang: zh
+  # One site, two languages. A page is `name.md` (English) or `name.zh.md` (Chinese).
+  # The language button in the header switches the same page; Chinese is served under /zh/.
+  - i18n:
+      docs_structure: suffix
+      fallback_to_default: true
+      reconfigure_material: true
+      reconfigure_search: true
+      languages:
+        - locale: en
+          default: true
+          name: English
+          build: true
+        - locale: zh
+          name: 简体中文
+          build: true
+          site_name: 语义工作区
+          site_description: 把非结构化文档、表单和通话录音映射到给定的语义层。
+          nav_translations:
+            Home: 首页
+            Design: 设计
+            Concepts: 概念
+            Architecture: 架构
+            Ingestion: 摄取
+            "Pipeline A: evidence links": "管线 A：证据链接"
+            "Pipeline B: concept catalog": "管线 B：概念目录"
+            Review and release: 审核与发布
+            Use: 使用
+            Ask: 提问
+            Table rows: 表行
+            Access and masking: 访问与掩码
+            Localization: 本地化
+            Results: 结果
+            Evaluation: 评估
+            Data: 数据
+            Deploy: 部署
+            Deployment: 部署
 
 markdown_extensions:
   - admonition
@@ -102,22 +128,3 @@ nav:
       - Data: data.md
   - Deploy:
       - Deployment: deployment.md
-  - 中文:
-      - 首页: zh/index.md
-      - 设计:
-          - 概念: zh/concepts.md
-          - 架构: zh/architecture.md
-          - 摄取: zh/ingestion.md
-          - "管线 A：证据链接": zh/pipeline-a.md
-          - "管线 B：概念目录": zh/pipeline-b.md
-          - 审核与发布: zh/review-and-release.md
-      - 使用:
-          - 提问: zh/ask.md
-          - "表行": zh/output-c.md
-          - 访问与掩码: zh/access-and-masking.md
-          - 本地化: zh/localization.md
-      - 结果:
-          - 评估: zh/evaluation.md
-          - 数据: zh/data.md
-      - 部署:
-          - 部署: zh/deployment.md
