@@ -1,115 +1,199 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
     <url>
-         <loc>https://ferdinandzhong.github.io/unstructured-semantic-workspace/</loc>
-         <lastmod>2026-11-24</lastmod>
+        <loc>https://ferdinandzhong.github.io/unstructured-semantic-workspace/</loc>
+        <lastmod>2026-11-24</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://ferdinandzhong.github.io/unstructured-semantic-workspace/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://ferdinandzhong.github.io/unstructured-semantic-workspace/zh/"/>
     </url>
     <url>
-         <loc>https://ferdinandzhong.github.io/unstructured-semantic-workspace/access-and-masking/</loc>
-         <lastmod>2026-11-24</lastmod>
+        <loc>https://ferdinandzhong.github.io/unstructured-semantic-workspace/access-and-masking/</loc>
+        <lastmod>2026-11-24</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://ferdinandzhong.github.io/unstructured-semantic-workspace/access-and-masking/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://ferdinandzhong.github.io/unstructured-semantic-workspace/zh/access-and-masking/"/>
     </url>
     <url>
-         <loc>https://ferdinandzhong.github.io/unstructured-semantic-workspace/architecture/</loc>
-         <lastmod>2026-11-24</lastmod>
+        <loc>https://ferdinandzhong.github.io/unstructured-semantic-workspace/architecture/</loc>
+        <lastmod>2026-11-24</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://ferdinandzhong.github.io/unstructured-semantic-workspace/architecture/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://ferdinandzhong.github.io/unstructured-semantic-workspace/zh/architecture/"/>
     </url>
     <url>
-         <loc>https://ferdinandzhong.github.io/unstructured-semantic-workspace/ask/</loc>
-         <lastmod>2026-11-24</lastmod>
+        <loc>https://ferdinandzhong.github.io/unstructured-semantic-workspace/ask/</loc>
+        <lastmod>2026-11-24</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://ferdinandzhong.github.io/unstructured-semantic-workspace/ask/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://ferdinandzhong.github.io/unstructured-semantic-workspace/zh/ask/"/>
     </url>
     <url>
-         <loc>https://ferdinandzhong.github.io/unstructured-semantic-workspace/concepts/</loc>
-         <lastmod>2026-11-24</lastmod>
+        <loc>https://ferdinandzhong.github.io/unstructured-semantic-workspace/concepts/</loc>
+        <lastmod>2026-11-24</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://ferdinandzhong.github.io/unstructured-semantic-workspace/concepts/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://ferdinandzhong.github.io/unstructured-semantic-workspace/zh/concepts/"/>
     </url>
     <url>
-         <loc>https://ferdinandzhong.github.io/unstructured-semantic-workspace/data/</loc>
-         <lastmod>2026-11-24</lastmod>
+        <loc>https://ferdinandzhong.github.io/unstructured-semantic-workspace/data/</loc>
+        <lastmod>2026-11-24</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://ferdinandzhong.github.io/unstructured-semantic-workspace/data/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://ferdinandzhong.github.io/unstructured-semantic-workspace/zh/data/"/>
     </url>
     <url>
-         <loc>https://ferdinandzhong.github.io/unstructured-semantic-workspace/deployment/</loc>
-         <lastmod>2026-11-24</lastmod>
+        <loc>https://ferdinandzhong.github.io/unstructured-semantic-workspace/deployment/</loc>
+        <lastmod>2026-11-24</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://ferdinandzhong.github.io/unstructured-semantic-workspace/deployment/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://ferdinandzhong.github.io/unstructured-semantic-workspace/zh/deployment/"/>
     </url>
     <url>
-         <loc>https://ferdinandzhong.github.io/unstructured-semantic-workspace/evaluation/</loc>
-         <lastmod>2026-11-24</lastmod>
+        <loc>https://ferdinandzhong.github.io/unstructured-semantic-workspace/evaluation/</loc>
+        <lastmod>2026-11-24</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://ferdinandzhong.github.io/unstructured-semantic-workspace/evaluation/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://ferdinandzhong.github.io/unstructured-semantic-workspace/zh/evaluation/"/>
     </url>
     <url>
-         <loc>https://ferdinandzhong.github.io/unstructured-semantic-workspace/ingestion/</loc>
-         <lastmod>2026-11-24</lastmod>
+        <loc>https://ferdinandzhong.github.io/unstructured-semantic-workspace/ingestion/</loc>
+        <lastmod>2026-11-24</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://ferdinandzhong.github.io/unstructured-semantic-workspace/ingestion/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://ferdinandzhong.github.io/unstructured-semantic-workspace/zh/ingestion/"/>
     </url>
     <url>
-         <loc>https://ferdinandzhong.github.io/unstructured-semantic-workspace/localization/</loc>
-         <lastmod>2026-11-24</lastmod>
+        <loc>https://ferdinandzhong.github.io/unstructured-semantic-workspace/localization/</loc>
+        <lastmod>2026-11-24</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://ferdinandzhong.github.io/unstructured-semantic-workspace/localization/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://ferdinandzhong.github.io/unstructured-semantic-workspace/zh/localization/"/>
     </url>
     <url>
-         <loc>https://ferdinandzhong.github.io/unstructured-semantic-workspace/output-c/</loc>
-         <lastmod>2026-11-24</lastmod>
+        <loc>https://ferdinandzhong.github.io/unstructured-semantic-workspace/output-c/</loc>
+        <lastmod>2026-11-24</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://ferdinandzhong.github.io/unstructured-semantic-workspace/output-c/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://ferdinandzhong.github.io/unstructured-semantic-workspace/zh/output-c/"/>
     </url>
     <url>
-         <loc>https://ferdinandzhong.github.io/unstructured-semantic-workspace/pipeline-a/</loc>
-         <lastmod>2026-11-24</lastmod>
+        <loc>https://ferdinandzhong.github.io/unstructured-semantic-workspace/pipeline-a/</loc>
+        <lastmod>2026-11-24</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://ferdinandzhong.github.io/unstructured-semantic-workspace/pipeline-a/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://ferdinandzhong.github.io/unstructured-semantic-workspace/zh/pipeline-a/"/>
     </url>
     <url>
-         <loc>https://ferdinandzhong.github.io/unstructured-semantic-workspace/pipeline-b/</loc>
-         <lastmod>2026-11-24</lastmod>
+        <loc>https://ferdinandzhong.github.io/unstructured-semantic-workspace/pipeline-b/</loc>
+        <lastmod>2026-11-24</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://ferdinandzhong.github.io/unstructured-semantic-workspace/pipeline-b/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://ferdinandzhong.github.io/unstructured-semantic-workspace/zh/pipeline-b/"/>
     </url>
     <url>
-         <loc>https://ferdinandzhong.github.io/unstructured-semantic-workspace/review-and-release/</loc>
-         <lastmod>2026-11-24</lastmod>
+        <loc>https://ferdinandzhong.github.io/unstructured-semantic-workspace/review-and-release/</loc>
+        <lastmod>2026-11-24</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="en" href="https://ferdinandzhong.github.io/unstructured-semantic-workspace/review-and-release/"/>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://ferdinandzhong.github.io/unstructured-semantic-workspace/zh/review-and-release/"/>
     </url>
     <url>
-         <loc>https://ferdinandzhong.github.io/unstructured-semantic-workspace/zh/</loc>
-         <lastmod>2026-11-24</lastmod>
+        <loc>https://ferdinandzhong.github.io/unstructured-semantic-workspace/zh/</loc>
+        <lastmod>2026-11-24</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://ferdinandzhong.github.io/unstructured-semantic-workspace/zh/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://ferdinandzhong.github.io/unstructured-semantic-workspace/"/>
     </url>
     <url>
-         <loc>https://ferdinandzhong.github.io/unstructured-semantic-workspace/zh/access-and-masking/</loc>
-         <lastmod>2026-11-24</lastmod>
+        <loc>https://ferdinandzhong.github.io/unstructured-semantic-workspace/zh/access-and-masking/</loc>
+        <lastmod>2026-11-24</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://ferdinandzhong.github.io/unstructured-semantic-workspace/zh/access-and-masking/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://ferdinandzhong.github.io/unstructured-semantic-workspace/access-and-masking/"/>
     </url>
     <url>
-         <loc>https://ferdinandzhong.github.io/unstructured-semantic-workspace/zh/architecture/</loc>
-         <lastmod>2026-11-24</lastmod>
+        <loc>https://ferdinandzhong.github.io/unstructured-semantic-workspace/zh/architecture/</loc>
+        <lastmod>2026-11-24</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://ferdinandzhong.github.io/unstructured-semantic-workspace/zh/architecture/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://ferdinandzhong.github.io/unstructured-semantic-workspace/architecture/"/>
     </url>
     <url>
-         <loc>https://ferdinandzhong.github.io/unstructured-semantic-workspace/zh/ask/</loc>
-         <lastmod>2026-11-24</lastmod>
+        <loc>https://ferdinandzhong.github.io/unstructured-semantic-workspace/zh/ask/</loc>
+        <lastmod>2026-11-24</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://ferdinandzhong.github.io/unstructured-semantic-workspace/zh/ask/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://ferdinandzhong.github.io/unstructured-semantic-workspace/ask/"/>
     </url>
     <url>
-         <loc>https://ferdinandzhong.github.io/unstructured-semantic-workspace/zh/concepts/</loc>
-         <lastmod>2026-11-24</lastmod>
+        <loc>https://ferdinandzhong.github.io/unstructured-semantic-workspace/zh/concepts/</loc>
+        <lastmod>2026-11-24</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://ferdinandzhong.github.io/unstructured-semantic-workspace/zh/concepts/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://ferdinandzhong.github.io/unstructured-semantic-workspace/concepts/"/>
     </url>
     <url>
-         <loc>https://ferdinandzhong.github.io/unstructured-semantic-workspace/zh/data/</loc>
-         <lastmod>2026-11-24</lastmod>
+        <loc>https://ferdinandzhong.github.io/unstructured-semantic-workspace/zh/data/</loc>
+        <lastmod>2026-11-24</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://ferdinandzhong.github.io/unstructured-semantic-workspace/zh/data/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://ferdinandzhong.github.io/unstructured-semantic-workspace/data/"/>
     </url>
     <url>
-         <loc>https://ferdinandzhong.github.io/unstructured-semantic-workspace/zh/deployment/</loc>
-         <lastmod>2026-11-24</lastmod>
+        <loc>https://ferdinandzhong.github.io/unstructured-semantic-workspace/zh/deployment/</loc>
+        <lastmod>2026-11-24</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://ferdinandzhong.github.io/unstructured-semantic-workspace/zh/deployment/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://ferdinandzhong.github.io/unstructured-semantic-workspace/deployment/"/>
     </url>
     <url>
-         <loc>https://ferdinandzhong.github.io/unstructured-semantic-workspace/zh/evaluation/</loc>
-         <lastmod>2026-11-24</lastmod>
+        <loc>https://ferdinandzhong.github.io/unstructured-semantic-workspace/zh/evaluation/</loc>
+        <lastmod>2026-11-24</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://ferdinandzhong.github.io/unstructured-semantic-workspace/zh/evaluation/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://ferdinandzhong.github.io/unstructured-semantic-workspace/evaluation/"/>
     </url>
     <url>
-         <loc>https://ferdinandzhong.github.io/unstructured-semantic-workspace/zh/ingestion/</loc>
-         <lastmod>2026-11-24</lastmod>
+        <loc>https://ferdinandzhong.github.io/unstructured-semantic-workspace/zh/ingestion/</loc>
+        <lastmod>2026-11-24</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://ferdinandzhong.github.io/unstructured-semantic-workspace/zh/ingestion/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://ferdinandzhong.github.io/unstructured-semantic-workspace/ingestion/"/>
     </url>
     <url>
-         <loc>https://ferdinandzhong.github.io/unstructured-semantic-workspace/zh/localization/</loc>
-         <lastmod>2026-11-24</lastmod>
+        <loc>https://ferdinandzhong.github.io/unstructured-semantic-workspace/zh/localization/</loc>
+        <lastmod>2026-11-24</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://ferdinandzhong.github.io/unstructured-semantic-workspace/zh/localization/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://ferdinandzhong.github.io/unstructured-semantic-workspace/localization/"/>
     </url>
     <url>
-         <loc>https://ferdinandzhong.github.io/unstructured-semantic-workspace/zh/output-c/</loc>
-         <lastmod>2026-11-24</lastmod>
+        <loc>https://ferdinandzhong.github.io/unstructured-semantic-workspace/zh/output-c/</loc>
+        <lastmod>2026-11-24</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://ferdinandzhong.github.io/unstructured-semantic-workspace/zh/output-c/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://ferdinandzhong.github.io/unstructured-semantic-workspace/output-c/"/>
     </url>
     <url>
-         <loc>https://ferdinandzhong.github.io/unstructured-semantic-workspace/zh/pipeline-a/</loc>
-         <lastmod>2026-11-24</lastmod>
+        <loc>https://ferdinandzhong.github.io/unstructured-semantic-workspace/zh/pipeline-a/</loc>
+        <lastmod>2026-11-24</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://ferdinandzhong.github.io/unstructured-semantic-workspace/zh/pipeline-a/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://ferdinandzhong.github.io/unstructured-semantic-workspace/pipeline-a/"/>
     </url>
     <url>
-         <loc>https://ferdinandzhong.github.io/unstructured-semantic-workspace/zh/pipeline-b/</loc>
-         <lastmod>2026-11-24</lastmod>
+        <loc>https://ferdinandzhong.github.io/unstructured-semantic-workspace/zh/pipeline-b/</loc>
+        <lastmod>2026-11-24</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://ferdinandzhong.github.io/unstructured-semantic-workspace/zh/pipeline-b/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://ferdinandzhong.github.io/unstructured-semantic-workspace/pipeline-b/"/>
     </url>
     <url>
-         <loc>https://ferdinandzhong.github.io/unstructured-semantic-workspace/zh/review-and-release/</loc>
-         <lastmod>2026-11-24</lastmod>
+        <loc>https://ferdinandzhong.github.io/unstructured-semantic-workspace/zh/review-and-release/</loc>
+        <lastmod>2026-11-24</lastmod>
+        <changefreq>daily</changefreq>
+        <xhtml:link rel="alternate" hreflang="zh" href="https://ferdinandzhong.github.io/unstructured-semantic-workspace/zh/review-and-release/"/>
+        <xhtml:link rel="alternate" hreflang="en" href="https://ferdinandzhong.github.io/unstructured-semantic-workspace/review-and-release/"/>
     </url>
 </urlset>
