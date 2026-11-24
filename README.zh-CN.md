@@ -25,18 +25,14 @@ AI 助手和智能体现在处理企业数据。
 ## 论文
 
 **Mapping Unstructured Documents onto a Governed Semantic Layer: Evidence Links and an Anchored Concept Catalog.**
-工作草稿，2026 年 11 月 23 日，未经评审。PDF：[`docs/paper/main.pdf`](docs/paper/main.pdf)。
+工作草稿，2026 年 11 月 24 日。PDF：[`docs/paper/main.pdf`](docs/paper/main.pdf)。
 
 该算法让小型语言模型在检索到的定义中做选择。
 关系、值和实体键由代码决定。
 语义层的概念通过聚合收集证据；只有无法解释的段落才会进入归纳模型。
 
-- 在留出数据上（金标准集 A2，82 个锚点，运行一次），链接精确率为 0.70，而阈值和规则为 0.29。
-- 在未见的合成文档包上，链接精确率最高达到 0.90，误链接率为 0.01。
-- 对承诺的召回率仍然是主要限制。
-- 建立在这些输出之上的问答路径，在四场未见考试中的任何一场都没有达到通过线（30 题中的 11、14、18 和 17）。
-
-评估集很小，每个集由一位 AI 标注员编写，这些集合覆盖两个演示数据集。
+论文给出了方法、评估方案，以及每一项实测结果和它的适用范围。
+文档站点的[评估](https://ferdinandzhong.github.io/unstructured-semantic-workspace/zh/evaluation/)页面给出同样的结果。
 
 ### 如何引用
 
@@ -47,7 +43,7 @@ AI 助手和智能体现在处理企业数据。
   author = {Zhong, Qishuai},
   title  = {Mapping Unstructured Documents onto a Governed Semantic Layer:
             Evidence Links and an Anchored Concept Catalog},
-  note   = {Working paper, draft of 23 November 2026, not reviewed.},
+  note   = {Working paper, draft of 24 November 2026.},
   year   = {2026},
   url    = {https://github.com/FerdinandZhong/unstructured-semantic-workspace}
 }
@@ -66,7 +62,7 @@ AI 助手和智能体现在处理企业数据。
 
 论文定义了两个输出，A 和 B。
 工作区还把写出表行作为一项系统功能，只在预览和确认之后写入。
-见 `docs/output-c.md`。这项功能没有实测的准确率结果。
+见 `docs/output-c.zh.md`。
 
 ## 架构
 
@@ -173,15 +169,12 @@ STATE="$HOME/.semantic-workspace-state"
 用于构建写表功能的清理后的客户表单和通话录音不在本仓库中。
 见 `docs/data.zh.md`。
 
-## 限制
+## 结果与范围
 
-- 对承诺的召回率是主要限制。候选清单步骤为许多承诺段落丢掉了正确的定义。
-- 在更宽的语料上，目录链接召回率为 0.29。管线 B 只能锚定管线 A 链接的内容。
-- 没有任何未见的问答考试达到通过线。
-- 评估集很小，且只有一位标注员。对金标准集 A2 和概念集，只有第一次运行是留出的；之后各行是开发数据。
-- 写表功能只读取 `docs/output-c.md` 中描述的表单、打印报告、通话和带标签文档的版式。它没有模式编辑器，不给已有的表添加列，也没有准确率测量。
-- 批准是已批准的概念影响回答之前的唯一关口。
-- AMP 和 Linux 安装未经测试。
+- **实测结果。** 每一项结果及其适用范围，见[评估](https://ferdinandzhong.github.io/unstructured-semantic-workspace/zh/evaluation/)页面和论文。
+- **写表。** 写表功能读取 `docs/output-c.zh.md` 中描述的表单、打印报告、通话和带标签文档的版式，并写入已声明的表。
+- **由人掌控。** 批准是概念影响回答之前的关口。每次写入都需要预览和确认。
+- **部署。** 已测试的环境和调优变量见 `docs/deployment.zh.md`。
 
 ## 仓库布局
 

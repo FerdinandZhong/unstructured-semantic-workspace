@@ -25,18 +25,14 @@ The outputs give documents the same governed vocabulary as tables.
 ## The paper
 
 **Mapping Unstructured Documents onto a Governed Semantic Layer: Evidence Links and an Anchored Concept Catalog.**
-Working draft, 23 November 2026, not reviewed. PDF: [`docs/paper/main.pdf`](docs/paper/main.pdf).
+Working draft, 24 November 2026. PDF: [`docs/paper/main.pdf`](docs/paper/main.pdf).
 
 The algorithm lets a small language model choose among retrieved definitions.
 Code decides the relation, the value and the entity keys.
 Concepts of the layer collect their evidence by aggregation; only unexplained passages reach an induction model.
 
-- On held-out data (gold set A2, 82 anchors, run once), link precision is 0.70, against 0.29 for thresholds and rules.
-- On unseen synthetic document packs, link precision reaches up to 0.90, at a false-link rate of 0.01.
-- Recall on commitments remains the main limit.
-- A question-answering path built on the outputs does not meet its pass bar on any of four unseen exams (11, 14, 18 and 17 of 30).
-
-The evaluation sets are small, one AI annotator wrote each set, and the sets cover two demo datasets.
+The paper reports the method, the evaluation protocol and every measured result with its scope.
+The documentation site gives the same results on its [Evaluation](https://ferdinandzhong.github.io/unstructured-semantic-workspace/evaluation/) page.
 
 ### How to cite
 
@@ -47,7 +43,7 @@ The paper is a working paper with no venue. Author: Qishuai Zhong (Cloudera).
   author = {Zhong, Qishuai},
   title  = {Mapping Unstructured Documents onto a Governed Semantic Layer:
             Evidence Links and an Anchored Concept Catalog},
-  note   = {Working paper, draft of 23 November 2026, not reviewed.},
+  note   = {Working paper, draft of 24 November 2026.},
   year   = {2026},
   url    = {https://github.com/FerdinandZhong/unstructured-semantic-workspace}
 }
@@ -66,7 +62,7 @@ The paper is a working paper with no venue. Author: Qishuai Zhong (Cloudera).
 
 The paper defines two outputs, A and B.
 The workspace additionally writes table rows as a system feature, written only after a preview and a confirm.
-See `docs/output-c.md`. The feature has no measured accuracy result.
+See `docs/output-c.md`.
 
 ## Architecture
 
@@ -173,15 +169,12 @@ Public files have scope `extraction_only`. They are never induced into concepts 
 The cleaned customer forms and the recorded call used to build the table-write feature are not in this repository.
 See `docs/data.md`.
 
-## Limits
+## Results and scope
 
-- Recall on commitments is the main limit. The shortlist step drops the right definition for many commitment passages.
-- Catalog link recall is 0.29 on the wider corpus. Pipeline B can only anchor what Pipeline A links.
-- No unseen question-answering exam met its pass bar.
-- Evaluation sets are small and single-annotator. For gold set A2 and the concept set, only the first run is held-out; later rows are development data.
-- The table-write feature reads only the form, printed-report, call and labelled-document layouts described in `docs/output-c.md`. It has no schema editor, adds no columns to an existing table, and has no accuracy measurement.
-- Approval is the only gate before an approved concept shapes answers.
-- The AMP and Linux installation are untested.
+- **Measured results.** Every result and the scope of each is on the [Evaluation](https://ferdinandzhong.github.io/unstructured-semantic-workspace/evaluation/) page and in the paper.
+- **Table writes.** The table-write feature reads the form, printed-report, call and labelled-document layouts described in `docs/output-c.md`, and writes to declared tables.
+- **Human control.** Approval is the gate before a concept shapes answers. Every write needs a preview and a confirm.
+- **Deployment.** See `docs/deployment.md` for the tested setups and the tuning variables.
 
 ## Repository layout
 
